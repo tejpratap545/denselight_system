@@ -1,0 +1,7 @@
+set -o errexit
+set -o pipefail
+set -o nounset
+
+export DJANGO_SETTINGS_MODULE=config.settings.development
+python manage.py migrate
+python manage.py runserver_plus --cert-file certificate.crt --key-file private.key
