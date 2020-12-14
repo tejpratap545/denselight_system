@@ -4,4 +4,5 @@ set -o pipefail
 set -o nounset
 
 yarn
-yarn dev
+yarn build
+yarn start

@@ -15,9 +15,6 @@ services:
       - rabbitmqmain:/etc/rabbitmq/
       - rabbitmqdata:/var/lib/rabbitmq/
       - rabbitmqlogs:/var/log/rabbitmq/
-    environment:
-      RABBITMQ_DEFAULT_USER: denselight
-      RABBITMQ_DEFAULT_PASS: denselight
     ports:
       - 5672:5672
       - 15672:15672
@@ -27,10 +24,6 @@ services:
     container_name: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: denselight
-      POSTGRES_DB: denselight_db
-      POSTGRES_USER: denselight
     ports:
       - 5432:5432
 
@@ -44,8 +37,8 @@ services:
   denselightdjango: &denselightdjango
     build:
       context: .
-      dockerfile: ./compose/development/django/Dockerfile
-    image: denselight_dev_django_image
+      dockerfile: ./compose/production/django/Dockerfile
+    image: denselight_django_image
     container_name: denselight_django
     depends_on:
       - postgres
@@ -53,9 +46,9 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - ./src/Server:/app
+      - denselightdjangoapp:/app
     env_file:
-      - ./.env/.development/.django
+      - ./env/production/.django
     ports:
       - 9001:8001
     command: /start
@@ -63,14 +56,11 @@ services:
   denselightnuxt:
     build:
       context: .
-      dockerfile: ./compose/development/nuxt/Dockerfile
-    image: denselight_dev_nuxt_image
+      dockerfile: ./compose/production/nuxt/Dockerfile
+    image: denselight_nuxt_image
     container_name: denselight_nuxt
     volumes:
-      - ./src/Client:/app
-
-    env_file:
-      - ./.env/.development/.nuxt
+      - denselightnuxt:/app
     ports:
       - 3005:3000
     command: /start
@@ -78,9 +68,9 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: ./compose/development/nginx/Dockerfile
-    image: denselight_nginx_image
-    container_name: denselight_nginx
+      dockerfile: ./compose/production/nginx/Dockerfile
+    image: shopit_nginx_image
+    container_name: shopit_nginx
     ports:
       - 80:80
       - 443:443
@@ -98,7 +88,7 @@ services:
     command: /start-celeryworker
 
     env_file:
-      - ./.env/development/.celeryworker
+      - ./env/production/.celeryworker
 
     depends_on:
       - denselightdjango
@@ -109,7 +99,7 @@ services:
     command: /start-celerybeat
 
     env_file:
-      - ./.env/development/.celerybeat
+      - ./env/production/.celerybeat
 
     depends_on:
       - denselightdjango
@@ -120,8 +110,7 @@ services:
     command: /start-flower
 
     env_file:
-      - ./.env/development/.celeryflower
+      - ./env/production/.celeryflower
 
     depends_on:
       - denselightdjango
-

@@ -1,6 +1,6 @@
 
 ## Run development server
-python manage.py runserver_plus --cert-file certificate.crt
+python manage.py runserver_plus --cert-file certificate.crt --key-file private.key
 
 ## Run production server
 

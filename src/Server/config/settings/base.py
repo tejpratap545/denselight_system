@@ -8,7 +8,7 @@ import os
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 
-APPS_DIR = ROOT_DIR / "backend"
+APPS_DIR = ROOT_DIR / "Server"
 
 
 # GENERAL
@@ -75,7 +75,9 @@ DATABASES = {"default": {
     'NAME': os.environ.get("DB_NAME"),
     'ENGINE': 'django.db.backends.postgresql',
     'USER': os.environ.get("DB_USER"),
-    'PASSWORD': os.environ.get("DB_PASSWORD")
+    'PASSWORD': os.environ.get("DB_PASSWORD"),
+    'HOST': os.environ.get("DB_HOST",default='localhost'),
+    'PORT': os.environ.get("DB_PORT",default=5432)
 }}
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
