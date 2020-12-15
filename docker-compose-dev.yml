@@ -55,24 +55,22 @@ services:
     volumes:
       - ./src/Server:/app
     env_file:
-      - ./.env/.development/.django
+      - ./.env/development/.django
     ports:
-      - 9001:8001
+      - 8000:8000
     command: /start
 
   denselightnuxt:
     build:
       context: .
       dockerfile: ./compose/development/nuxt/Dockerfile
-    image: denselight_dev_nuxt_image
     container_name: denselight_nuxt
     volumes:
       - ./src/Client:/app
-
     env_file:
-      - ./.env/.development/.nuxt
+      - ./.env/development/.nuxt
     ports:
-      - 3005:3000
+      - 3000:3000
     command: /start
 
   nginx:
@@ -84,6 +82,7 @@ services:
     ports:
       - 80:80
       - 443:443
+      - 8001:8001
 
     depends_on:
       - denselightdjango
@@ -93,35 +92,29 @@ services:
     image: redis:5.0
 
   celeryworker:
-    <<: *denselightdjango
-    image: denselightdjango_celeryworker
+    image: denselight_dev_django_image
     command: /start-celeryworker
-
+    container_name: denselight_django_celery_worker
+    volumes:
+      - ./src/Server:/app
     env_file:
       - ./.env/development/.celeryworker
+      - ./.env/development/.django
 
     depends_on:
       - denselightdjango
 
   celerybeat:
-    <<: *denselightdjango
-    image: denselightdjango_celerybeat
+    image: denselight_dev_django_image
     command: /start-celerybeat
-
+    container_name: denselight_django_celery_beat
+    volumes:
+      - ./src/Server:/app
     env_file:
       - ./.env/development/.celerybeat
+      - ./.env/development/.django
 
     depends_on:
       - denselightdjango
 
-  flower:
-    <<: *denselightdjango
-    image: denselightdjango_flower
-    command: /start-flower
-
-    env_file:
-      - ./.env/development/.celeryflower
-
-    depends_on:
-      - denselightdjango
 

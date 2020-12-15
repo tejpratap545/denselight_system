@@ -1,4 +1,5 @@
 asgiref==3.3.1
+pika
 attrs==20.3.0
 autobahn==20.12.1
 Automat==20.2.0
@@ -60,6 +61,6 @@ hpack==3.0.0
 hyperframe==5.2.0
 priority==1.3.0
 
-certifi-2020.12.5
-sentry-sdk-0.19.5
-urllib3-1.26.2
+certifi==2020.12.5
+sentry-sdk==0.19.5
+urllib3==1.26.2

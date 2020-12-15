@@ -3,10 +3,11 @@
     <v-col cols="12" sm="8" md="6">
       <div class="text-center">
         <logo />
+
         <vuetify-logo />
       </div>
       <v-card>
-        <v-card-title class="headline">
+      <v-card-title class="headline">
           Welcome to the Vuetify + Nuxt.js template
         </v-card-title>
         <v-card-text>

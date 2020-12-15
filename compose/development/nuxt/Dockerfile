@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:12.18.3-alpine
+FROM node:12
 
 
 COPY ./compose/development/nuxt/start /start
