@@ -6,15 +6,16 @@ from pathlib import Path
 
 import os
 
+
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 
-APPS_DIR = ROOT_DIR / "Server"
+APPS_DIR = ROOT_DIR / "backend"
 
 
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG =  os.environ.get("DEBUG",False)
+DEBUG = os.environ.get("DEBUG", False)
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -57,11 +58,9 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "channels",
     "drf_spectacular",
-
-
 ]
 LOCAL_APPS = [
-
+    "backend.users.apps.UsersConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -70,14 +69,16 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {"default": {
-    'NAME': os.environ.get("DB_NAME"),
-    'ENGINE': 'django.db.backends.postgresql',
-    'USER': os.environ.get("DB_USER"),
-    'PASSWORD': os.environ.get("DB_PASSWORD"),
-    'HOST': os.environ.get("DB_HOST",default='localhost'),
-    'PORT': os.environ.get("DB_PORT",default=5432)
-}}
+DATABASES = {
+    "default": {
+        "NAME": os.environ.get("DB_NAME"),
+        "ENGINE": "django.db.backends.postgresql",
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST", default="localhost"),
+        "PORT": os.environ.get("DB_PORT", default=5432),
+    }
+}
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
@@ -134,7 +135,6 @@ MIDDLEWARE = [
 # -----------------------------------------------------------------------------
 
 
-
 STATIC_URL = "/static/"
 
 
@@ -166,7 +166,6 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-
             ],
         },
     }
@@ -209,7 +208,7 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": "%(levelname)s %(asctime)s %(module)s "
-                      "%(process)d %(thread)d %(message)s"
+            "%(process)d %(thread)d %(message)s"
         }
     },
     "handlers": {
@@ -228,7 +227,9 @@ CHANNEL_LAYERS = {  # https://pypi.org/project/channels-rabbitmq/#Usage
     "default": {
         "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
         "CONFIG": {
-            "host": os.environ.get("RABBITMQ_URL", default="amqp://guest:guest@127.0.0.1/asgi"),
+            "host": os.environ.get(
+                "RABBITMQ_URL", default="amqp://guest:guest@127.0.0.1/asgi"
+            ),
             # "ssl_context": ... (optional)
         },
     },
@@ -238,9 +239,7 @@ CHANNEL_LAYERS = {  # https://pypi.org/project/channels-rabbitmq/#Usage
 # -------------------------------------------------------------------------------
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-
-    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [],
     "DEFAULT_PERMISSION_CLASSES": [],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
@@ -275,7 +274,10 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Denselight API",
     "DESCRIPTION": "Api for an Denselight Application build with django and  django rest framework",
     # Optional: MAY contain "name", "url", "email"
-    "CONTACT": {"name": "Denselight developers", "email": "tejpratapsingh545@outlook.com"},
+    "CONTACT": {
+        "name": "Denselight developers",
+        "email": "tejpratapsingh545@outlook.com",
+    },
     # Optional: MUST contain "name", MAY contain URL
     "VERSION": "1.0.0",
     # available SwaggerUI versions: https://github.com/swagger-api/swagger-ui/releases
@@ -290,6 +292,7 @@ SPECTACULAR_SETTINGS = {
     # "OAUTH2_SCOPES": None,
 }
 
+
 # Celery
 # ------------------------------------------------------------------------------
 # http://docs.celeryproject.org/en/latest/userguide/configuration
@@ -297,7 +300,9 @@ CELERY_TIMEZONE = TIME_ZONE
 CELERY_BROKER_URL = os.environ.get(
     "CELERY_BROKER_URL", default="amqp://guest:guest@localhost:5672//"
 )
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", default="db+sqlite:///results.db")
+CELERY_RESULT_BACKEND = os.environ.get(
+    "CELERY_RESULT_BACKEND", default="db+sqlite:///results.db"
+)
 CELERY_CACHE_BACKEND = "django-cache"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"

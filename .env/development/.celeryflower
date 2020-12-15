@@ -1,2 +1,4 @@
-RABBITMQ_URL=amqp://denselight:denselight@127.0.0.1/asgi
-CELERY_BROKER_URL=amqp://denselight:denselight@127.0.0.1/asgi
+RABBITMQ_URL=amqp://denselight:denselight@localhost/asgi
+CELERY_BROKER_URL=amqp://denselight:denselight@localhost/asgi
+CELERY_FLOWER_USER=denselight
+CELERY_FLOWER_PASSWORD=denselight

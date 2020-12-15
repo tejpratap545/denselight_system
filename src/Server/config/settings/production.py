@@ -8,6 +8,7 @@ import sentry_sdk
 
 DEBUG = False
 
+
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
@@ -18,7 +19,9 @@ ALLOWED_HOSTS = ["*"]
 # DATABASES
 # ------------------------------------------------------------------------------
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405 pylint: disable-all
-DATABASES["default"]["CONN_MAX_AGE"] = os.environ.get("CONN_MAX_AGE", default=60)  # noqa F405
+DATABASES["default"]["CONN_MAX_AGE"] = os.environ.get(
+    "CONN_MAX_AGE", default=60
+)  # noqa F405
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -56,7 +59,7 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": "%(levelname)s %(asctime)s %(module)s "
-                      "%(process)d %(thread)d %(message)s"
+            "%(process)d %(thread)d %(message)s"
         }
     },
     "handlers": {

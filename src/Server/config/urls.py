@@ -17,10 +17,14 @@ from django.conf import settings
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
-from drf_spectacular.views import SpectacularRedocView, SpectacularAPIView, SpectacularSwaggerView
+from drf_spectacular.views import (
+    SpectacularRedocView,
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path(
         "",
         SpectacularRedocView.as_view(url_name="schema"),
@@ -33,7 +37,6 @@ urlpatterns = [
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),
-
     path("api/", include("config.api_routers")),
     path("api/", include("config.api_urls")),
 ]
@@ -43,5 +46,5 @@ if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns += [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        url(r"^__debug__/", include(debug_toolbar.urls)),
     ]

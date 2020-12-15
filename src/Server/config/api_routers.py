@@ -7,6 +7,6 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
-# router.register("user/me", UserViewSet)
+
 app_name = "denselight"
 urlpatterns = router.urls
