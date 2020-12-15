@@ -16,15 +16,14 @@ export default {
         link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
     server: {
-           host: '0.0.0.0',
-           port: 3000,
- 
-    https: {
-   
-      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
-    }
-  },
+        host: '0.0.0.0',
+        port: 3000,
+
+        https: {
+            key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+            cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
+        },
+    },
 
     // Global CSS (https://go.nuxtjs.dev/config-css)
     css: [],
@@ -47,6 +46,8 @@ export default {
         '@nuxtjs/axios',
         // https://go.nuxtjs.dev/pwa
         '@nuxtjs/pwa',
+        '@nuxtjs/axios',
+        '@nuxtjs/auth-next',
     ],
 
     // Axios module configuration (https://go.nuxtjs.dev/config-axios)

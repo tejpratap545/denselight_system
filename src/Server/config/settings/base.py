@@ -49,7 +49,6 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
-    "django.forms",
 ]
 THIRD_PARTY_APPS = [
     "django_celery_beat",
@@ -273,26 +272,22 @@ SPECTACULAR_SETTINGS = {
     },
     # General schema metadata. Refer to spec for valid inputs
     # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#openapi-object
-    "TITLE": "shopIt API",
-    "DESCRIPTION": "Api for an E Commerce Web Application build with django and  django rest framework",
+    "TITLE": "Denselight API",
+    "DESCRIPTION": "Api for an Denselight Application build with django and  django rest framework",
     # Optional: MAY contain "name", "url", "email"
-    "CONTACT": {"name": "ShoIt developers", "email": "tejpratapsingh545@outlook.com"},
+    "CONTACT": {"name": "Denselight developers", "email": "tejpratapsingh545@outlook.com"},
     # Optional: MUST contain "name", MAY contain URL
-    "LICENSE": {
-        "name": "MIT",
-        "url": "https://github.com/tejpratap545/E-Commerce-Application/blob/main/LICENSE",
-    },
     "VERSION": "1.0.0",
     # available SwaggerUI versions: https://github.com/swagger-api/swagger-ui/releases
     "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@3.36.0",  # default
-    "SWAGGER_UI_FAVICON_HREF": STATIC_URL + "shopit.png",  # default is swagger favicon
+    # "SWAGGER_UI_FAVICON_HREF": STATIC_URL + "shopit.png",  # default is swagger favicon
     # Oauth2 related settings. used for example by django-oauth2-toolkit.
     # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#oauth-flows-object
-    "OAUTH2_FLOWS": [],
-    "OAUTH2_AUTHORIZATION_URL": None,
-    "OAUTH2_TOKEN_URL": "http://127.0.0.1:8000/api/auth/token/",
-    "OAUTH2_REFRESH_URL": "http://127.0.0.1:8000/api/auth/token/",
-    "OAUTH2_SCOPES": None,
+    # "OAUTH2_FLOWS": [],
+    # "OAUTH2_AUTHORIZATION_URL": None,
+    # "OAUTH2_TOKEN_URL": "http://127.0.0.1:8000/api/auth/token/",
+    # "OAUTH2_REFRESH_URL": "http://127.0.0.1:8000/api/auth/token/",
+    # "OAUTH2_SCOPES": None,
 }
 
 # Celery
