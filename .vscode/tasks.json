@@ -1,0 +1,64 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "env": {
+            "PYTHONPATH": "${workspaceFolder}/src/server",
+            "PYTHONUNBUFFERED": "1"
+        }
+    },
+    "tasks": [
+        {
+            "options": {
+                "cwd": "${workspaceFolder}/src/Client"
+            },
+            "label": "start nuxt server",
+            "type": "shell",
+            "command": ["yarn", "dev"]
+        },
+        {
+            "label": "start django server",
+            "options": {
+                "cwd": "${workspaceFolder}/src/Server"
+            },
+            "type": "shell",
+            "command": ["$python", "manage.py", "runserver_plus"]
+        },
+        {
+            "label": "start the project",
+            "dependsOn": ["start nuxt server", "start django server"],
+
+            "type": "shell"
+        },
+        {
+            "label": "python migrations",
+            "type": "shell",
+            "command": ["$python", "${workspaceFolder}/src/Server/manage.py", "makemigrations"]
+        },
+        {
+            "label": "python migrate",
+            "type": "shell",
+            "command": ["$python", "${workspaceFolder}/src/Server/manage.py", "migrate"]
+        },
+        {
+            "label": "python makemigrations+migrate",
+            "type": "shell",
+            "dependsOn": ["python migrations"],
+            "command": ["$python", "${workspaceFolder}/src/Server/manage.py", "migrate"]
+        },
+        {
+            "label": "python showmigratations",
+            "type": "shell",
+            "command": ["$python", "${workspaceFolder}/src/Server/manage.py", "showmigrations"]
+        },
+        {
+            "label": "django shell_plus",
+            "type": "shell",
+            "command": ["$python", "${workspaceFolder}/src/Server/manage.py", "shell_plus"]
+        },
+        {
+            "label": "django shell",
+            "type": "shell",
+            "command": ["$python", "${workspaceFolder}/src/Server/manage.py", "shell"]
+        }
+    ]
+}
