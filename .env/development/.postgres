@@ -1,0 +1,3 @@
+POSTGRES_PASSWORD=denselight
+POSTGRES_DB=denselight
+POSTGRES_USER=denselight
