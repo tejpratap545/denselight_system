@@ -1,16 +1,27 @@
-from Appraisals.models import Overall_Appraisal, User_Appraisal_List
+from backend.Appraisals.models import Overall_Appraisal, User_Appraisal_List
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from Profile.models import discard_Skills, Profile
+from backend.Profile.models import DiscardSkills, Profile
 
 
 # Create your models here.
+
+
+class SkillCategory(models.Model):
+    name = models.CharField(max_length=50, blank=False, null=False)
+
+    def __str__(self):
+        return self.name
+
 
 # Currently useless
 class Trainings(models.Model):
     name = models.CharField(max_length=150, blank=False, null=False)
     skill_category = models.ForeignKey(
-        "skill_category", blank=False, null=True, on_delete=models.SET_NULL
+        SkillCategory,
+        blank=False,
+        null=True,
+        on_delete=models.SET_NULL,
     )
     provider = models.CharField(max_length=150, blank=True, null=True)
     cost = models.FloatField(max_length=150, blank=True, null=True)
@@ -20,10 +31,13 @@ class Trainings(models.Model):
         return self.name
 
 
-class Training_Courses(models.Model):
+class TrainingCourses(models.Model):
     name = models.CharField(max_length=150, blank=False, null=False)
     skill_category = models.ForeignKey(
-        "skill_category", blank=False, null=True, on_delete=models.SET_NULL
+        SkillCategory,
+        blank=False,
+        null=True,
+        on_delete=models.SET_NULL,
     )
     provider = models.CharField(max_length=150, blank=True, null=True)
     cost = models.FloatField(max_length=150, blank=True, null=True)
@@ -33,7 +47,7 @@ class Training_Courses(models.Model):
         return self.name
 
 
-class Apply_Trainings(models.Model):
+class ApplyTrainings(models.Model):
     STATUS_CHOICE = (
         ("Rejected", "REJECTED"),
         ("Pending", "PENDING"),
@@ -57,7 +71,7 @@ class Apply_Trainings(models.Model):
         return self.employee + ":" + self.training
 
 
-class Survey_Trainings(models.Model):
+class SurveyTrainings(models.Model):
     RATING_CHOICE = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5))
     training = models.ForeignKey(Trainings, null=True, on_delete=models.SET_NULL)
     objectives_met = models.IntegerField(blank=False, null=False, choices=RATING_CHOICE)
@@ -92,7 +106,10 @@ class Skills(models.Model):
         Profile, blank=False, null=True, on_delete=models.SET_NULL
     )
     skill_category = models.ForeignKey(
-        "skill_category", blank=False, null=True, on_delete=models.CASCADE
+        SkillCategory,
+        blank=False,
+        null=True,
+        on_delete=models.CASCADE,
     )
     description = models.CharField(max_length=1000, blank=True, null=True)
     weightage = models.IntegerField(
@@ -135,14 +152,7 @@ class Skills(models.Model):
         return self.description
 
 
-class skill_category(models.Model):
-    name = models.CharField(max_length=50, blank=False, null=False)
-
-    def __str__(self):
-        return self.name
-
-
-class Career_Discussion(models.Model):
+class CareerDiscussion(models.Model):
     employee = models.ForeignKey(
         Profile, blank=False, null=False, on_delete=models.CASCADE
     )

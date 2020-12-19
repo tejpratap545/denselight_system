@@ -1,21 +1,46 @@
+import secrets
+import uuid
+from typing import Optional
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
 # Create your models here.
+from backend.Profile.backend import check_password_strength
+
+
+class PasswordTooWeakError(Exception):
+    pass
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+
+    ROLE_TYPE = (
+        ("HRManager", "HRManager"),
+        ("HR", "HR"),
+        ("Manager", "Manager"),
+        ("Employee", "Employee"),
+    )
     first_name = models.CharField(max_length=50, blank=True, null=True)
+    username = models.CharField(max_length=50, unique=True, null=False)
     last_name = models.CharField(max_length=50, blank=True, null=True)
-    email = models.EmailField(blank=False, null=False, unique=True)
+    email = models.EmailField(
+        blank=False,
+        null=False,
+    )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    is_email_verified = models.BooleanField(default=False)
+    is_email_verified = models.BooleanField(default=False, null=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     dummy_password = models.CharField(max_length=10, blank=True, null=True)
+    role = models.CharField(
+        max_length=20, blank=True, null=True, choices=ROLE_TYPE, default="Employee"
+    )
+
+    USERNAME_FIELD = "username"
 
     @property
     def is_staff(self):
@@ -32,8 +57,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         if password is None:
             self.set_unusable_password()
             return
-
-        from backend.utils.backend import check_password_strength
 
         if not check_password_strength(password):
             raise PasswordTooWeakError
@@ -57,7 +80,7 @@ class Qualifications(models.Model):
         return self.name
 
 
-class discard_Skills(models.Model):
+class DiscardSkills(models.Model):
     name = models.CharField(max_length=150, blank=False, null=False)
     course_Attended = models.CharField(max_length=150, blank=True, null=True)
 
@@ -97,7 +120,10 @@ class Profile(models.Model):
         ("Widowed", "WIDOWED"),
     )
 
-    DIRECT_CHOICES = (("DIRECT", "DIRECT"), ("INDIRECT", "INDIRECT"))
+    DIRECT_CHOICES = (
+        ("DIRECT", "DIRECT"),
+        ("INDIRECT", "INDIRECT"),
+    )
 
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
@@ -124,8 +150,8 @@ class Profile(models.Model):
         max_length=6, choices=GENDER_CHOICE, blank=False, null=False
     )
 
-    address_1 = models.CharField(("address"), max_length=250)
-    address_2 = models.CharField(("address2"), max_length=250, blank=True)
+    address_1 = models.CharField(max_length=250, blank=True, null=True)
+    address_2 = models.CharField(max_length=250, blank=True, null=True)
 
     date_Of_Passport_Expiry = models.DateField(blank=True, null=True)
 
@@ -149,9 +175,7 @@ class Profile(models.Model):
         "self", blank=True, null=True, on_delete=models.SET_NULL
     )
 
-    second_Reporting_Manager = models.ForeignKey(
-        "self", blank=True, null=True, on_delete=models.SET_NULL
-    )
+    second_Reporting_Manager = models.CharField(max_length=200, blank=True, null=True)
 
     division_Centre = models.CharField(max_length=150, blank=True, null=True)
 
@@ -159,3 +183,30 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class EmailConfirmation(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    token = models.CharField(
+        max_length=250, default=secrets.token_urlsafe(), editable=False
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email
+
+
+class PasswordReset(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    url_token = models.CharField(
+        max_length=250, default=secrets.token_urlsafe(), editable=False
+    )
+    success_token = models.CharField(
+        max_length=250, blank=True, null=True, editable=False
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email

@@ -55,7 +55,11 @@ THIRD_PARTY_APPS = [
     "channels",
 ]
 LOCAL_APPS = [
-    "backend.users.apps.UsersConfig",
+    "backend.Profile.apps.ProfilesConfig",
+    "backend.Appraisals.apps.AppraisalsConfig",
+    "backend.GnC.apps.GncConfig",
+    "backend.Ticketing.apps.TicketingConfig",
+    "backend.Trainings.apps.TrainingsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -85,7 +89,7 @@ PASSWORD_MIN_GUESSES = 1000
 
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
-# AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "Profile.User"
 
 
 # PASSWORDS

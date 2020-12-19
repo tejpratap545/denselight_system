@@ -1,8 +1,8 @@
 from django.db import models
-from Profile.models import Profile
+from backend.Profile.models import Profile
 
 
-class Ticket_Comments(models.Model):
+class TicketComments(models.Model):
     ticket = models.ForeignKey(
         "Ticket", null=True, blank=False, on_delete=models.CASCADE
     )
