@@ -6,9 +6,9 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-
 # Create your models here.
 from backend.Profile.backend import check_password_strength
+from backend.Profile.manager import UserManager
 
 
 class PasswordTooWeakError(Exception):
@@ -41,6 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     USERNAME_FIELD = "username"
+    objects = UserManager()
 
     @property
     def is_staff(self):
