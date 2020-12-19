@@ -5,7 +5,7 @@ pika==1.1.0 #https://github.com/pika/pika
 Pillow==8.0.1 #https://github.com/python-pillow/Pillow
 argon2-cffi==20.1.0 #https://github.com/hynek/argon2-cffi
 zxcvbn~=4.4.28  #https://github.com/dwolfhub/zxcvbn-python
-
+pyjwt==1.7.1  #https://pyjwt.readthedocs.io/en/stable/
 # Django
 # ------------------------------------------------------------------------------
 Django==3.1.2 #https://www.djangoproject.com/

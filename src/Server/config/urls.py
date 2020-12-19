@@ -34,6 +34,7 @@ urlpatterns = [
 
 if settings.DEBUG:
     import debug_toolbar
+    from django.contrib import admin
 
     urlpatterns += [
         url(r"^__debug__/", include(debug_toolbar.urls)),
@@ -49,4 +50,5 @@ if settings.DEBUG:
             SpectacularSwaggerView.as_view(url_name="schema"),
             name="swagger-ui",
         ),
+        path("admin/", admin.site.urls),
     ]

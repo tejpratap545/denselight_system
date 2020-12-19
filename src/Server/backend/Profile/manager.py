@@ -16,25 +16,23 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, contact_number, password=None, *args, **kwargs):
-        user = self.create_user(email, contact_number, password, *args, **kwargs)
+    def create_superuser(self, email, username, password=None, *args, **kwargs):
+        user = self.create_user(email, username, password, *args, **kwargs)
         user.is_admin = True
         user.is_superuser = True
         user.save(using=self._db)
         return user
 
-    def create_admin_user(self, email, contact_number, password=None, *args, **kwargs):
-        user = self.create_user(email, contact_number, password, *args, **kwargs)
+    def create_admin_user(self, email, username, password=None, *args, **kwargs):
+        user = self.create_user(email, username, password, *args, **kwargs)
         user.is_admin = True
         user.is_superuser = False
         user.save(using=self._db)
         return user
 
-    def create_employee_user(
-        self, email, contact_number, password=None, *args, **kwargs
-    ):
+    def create_employee_user(self, email, username, password=None, *args, **kwargs):
         user = self.create_user(
-            email, contact_number, password, is_customer=True, *args, **kwargs
+            email, username, password, is_customer=True, *args, **kwargs
         )
         user.is_seller = False
         user.is_admin = False
@@ -43,11 +41,9 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_manager_user(
-        self, email, contact_number, password=None, *args, **kwargs
-    ):
+    def create_manager_user(self, email, username, password=None, *args, **kwargs):
         user = self.create_user(
-            email, contact_number, password, is_seller=True, *args, **kwargs
+            email, username, password, is_seller=True, *args, **kwargs
         )
 
         user.is_admin = False
@@ -56,9 +52,9 @@ class UserManager(BaseUserManager):
         user.role = "Manager"
         return user
 
-    def create_hr_user(self, email, contact_number, password=None, *args, **kwargs):
+    def create_hr_user(self, email, username, password=None, *args, **kwargs):
         user = self.create_user(
-            email, contact_number, password, is_seller=True, *args, **kwargs
+            email, username, password, is_seller=True, *args, **kwargs
         )
 
         user.is_admin = False
@@ -67,11 +63,9 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_hr_manager_user(
-        self, email, contact_number, password=None, *args, **kwargs
-    ):
+    def create_hr_manager_user(self, email, username, password=None, *args, **kwargs):
         user = self.create_user(
-            email, contact_number, password, is_seller=True, *args, **kwargs
+            email, username, password, is_seller=True, *args, **kwargs
         )
 
         user.is_admin = True
