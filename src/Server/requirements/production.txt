@@ -1,6 +1,7 @@
 #production dependencies
 # ------------------------------------------------------------------------------
 
+psycopg2==2.8.6  # https://github.com/psycopg/psycopg2
 sentry-sdk==0.19.1 #https://docs.sentry.io/platforms/python/
 django-redis==4.12.1  #https://github.com/jazzband/django-redis
 redis==3.5.3 #https://redis.io/topics/quickstart

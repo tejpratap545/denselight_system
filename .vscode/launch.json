@@ -11,7 +11,12 @@
             "program": "${workspaceFolder}/src/Server/manage.py",
             "cwd": "${workspaceFolder}/src/Server",
             "args": [
-              "runserver_plus","--cert-file", "certificate.crt", "--key-file" ,"private.key"
+                "runserver_plus",
+                "0.0.0.0:8005",
+                "--cert-file",
+                "certificate.crt",
+                "--key-file",
+                "private.key"
             ],
             "envFile": "${workspaceFolder}/src/Server/.env",
             "django": true

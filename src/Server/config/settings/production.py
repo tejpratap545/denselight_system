@@ -6,6 +6,7 @@ from sentry_sdk.integrations.logging import LoggingIntegration
 import logging
 import sentry_sdk
 
+
 DEBUG = False
 
 
@@ -90,6 +91,22 @@ LOGGING = {
 # ------------------------------------------------------------------------------
 # https://docs.sentry.io/platforms/python/guides/django/#Configure
 
+# SECURITY
+# ------------------------------------------------------------------------------
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", default=True)
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 60
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get(
+    "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True
+)
+SECURE_HSTS_PRELOAD = os.environ.get("DJANGO_SECURE_HSTS_PRELOAD", default=True)
+SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get(
+    "DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", default=True
+)
+
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
 SENTRY_LOG_LEVEL = os.environ.get("DJANGO_SENTRY_LOG_LEVEL", logging.INFO)
 
@@ -101,5 +118,6 @@ sentry_sdk.init(
     dsn=SENTRY_DSN,
     integrations=[sentry_logging, DjangoIntegration(), CeleryIntegration()],
 )
+
 
 CORS_ALLOW_ALL_ORIGINS = True
