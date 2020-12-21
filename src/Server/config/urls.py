@@ -24,11 +24,13 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
+from backend.Profile.views import TokenView
 
 urlpatterns = [
     # path("admin/", admin.site.urls),
     path("api/", include("config.api_routers")),
     path("api/", include("config.api_urls")),
+    path("auth/token/", TokenView.as_view()),
 ]
 
 

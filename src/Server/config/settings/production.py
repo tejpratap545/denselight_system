@@ -87,6 +87,25 @@ LOGGING = {
     },
 }
 
+
+# -------------------------------------------------------------------------------
+# django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "backend.Profile.authentication.JWTAuthentication"
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [],
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.MultiPartParser",
+        "rest_framework.parsers.FileUploadParser",
+    ],
+    "DEFAULT_FILTER_BACKENDS": (
+        "drf_spectacular.contrib.django_filters.DjangoFilterBackend",
+    ),
+}
 # Sentry
 # ------------------------------------------------------------------------------
 # https://docs.sentry.io/platforms/python/guides/django/#Configure

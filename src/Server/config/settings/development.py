@@ -103,7 +103,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 # -------------------------------------------------------------------------------
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "backend.Profile.authentication.JWTAuthentication"
+    ],
     "DEFAULT_PERMISSION_CLASSES": [],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
@@ -120,7 +122,6 @@ REST_FRAMEWORK = {
         "drf_spectacular.contrib.django_filters.DjangoFilterBackend",
     ),
 }
-
 
 
 SPECTACULAR_SETTINGS = {
@@ -161,4 +162,3 @@ SPECTACULAR_SETTINGS = {
     # "OAUTH2_REFRESH_URL": "http://127.0.0.1:8000/api/auth/token/",
     # "OAUTH2_SCOPES": None,
 }
-

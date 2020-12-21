@@ -16,6 +16,11 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/Appraisals/migrations" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/GnC/migrations" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/Profile/migrations" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/Ticketing/migrations" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/Trainings/migrations" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

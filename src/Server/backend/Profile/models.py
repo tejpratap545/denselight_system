@@ -1,10 +1,11 @@
 import secrets
 import uuid
+from django.utils import timezone
 from typing import Optional
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models
+from django.db import models, transaction
 
 # Create your models here.
 from backend.Profile.backend import check_password_strength
@@ -211,3 +212,66 @@ class PasswordReset(models.Model):
 
     def __str__(self):
         return self.user.email
+
+
+class AccessToken(models.Model):
+    token = models.CharField(max_length=128, blank=True, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    expires = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def is_valid(self):
+        return not self.is_expired()
+
+    def is_expired(self):
+        if not self.expires:
+            return True
+
+        return timezone.now() >= self.expires
+
+    def revoke(self):
+        self.delete()
+
+    class Meta:
+        db_table = '"auth_access_token"'
+
+
+class RefreshToken(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user_refresh_token", null=True
+    )
+    token = models.CharField(max_length=255)
+
+    access_token = models.OneToOneField(
+        AccessToken,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="refresh_token",
+    )
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    revoked = models.DateTimeField(null=True)
+
+    def revoke(self):
+
+        with transaction.atomic():
+            try:
+                AccessToken.objects.get(id=self.access_token_id).revoke()
+            except AccessToken.DoesNotExist:
+                pass
+            self.access_token = None
+            self.revoked = timezone.now()
+            self.save()
+
+    def __str__(self):
+        return self.token
+
+    class Meta:
+        db_table = '"auth_refresh_token"'
+        unique_together = (
+            "token",
+            "revoked",
+        )

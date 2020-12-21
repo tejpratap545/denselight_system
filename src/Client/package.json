@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@ava/babel": "^1.0.1",
+    "@nuxt/types": "^2.14.12",
     "@nuxtjs/vuetify": "^1.11.2",
     "@vue/test-utils": "^1.1.0",
     "ava": "^3.13.0",
