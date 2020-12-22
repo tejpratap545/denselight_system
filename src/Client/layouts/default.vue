@@ -1,10 +1,10 @@
 <template>
-  <v-app dark>
+  <v-app light>
     <nuxt />
 
-    <v-footer :absolute="!fixed" app>
+    <!-- <v-footer fixed app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
