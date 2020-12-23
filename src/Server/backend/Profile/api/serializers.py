@@ -37,6 +37,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     department = DepartmentSerializer()
     first_Reporting_Manager = ShortProfileSerializer()
+    second_Reporting_Manager = ShortProfileSerializer()
 
     class Meta:
         model = Profile
@@ -45,6 +46,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class EmployeeSerializer(serializers.ModelSerializer):
     first_Reporting_Manager = ShortProfileSerializer()
+    second_Reporting_Manager = ShortProfileSerializer()
     department = DepartmentSerializer()
 
     class Meta:

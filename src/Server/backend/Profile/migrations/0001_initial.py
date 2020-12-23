@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
                 ('phone', models.CharField(blank=True, max_length=50, null=True)),
                 ('department', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='Profile.departments')),
                 ('first_Reporting_Manager', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='Profile.profile')),
-                ('second_Reporting_Manager', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='second_reporting_manager', to='Profile.profile')),
+                ('second_Reporting_Manager', models.CharField(blank=True, null=True)),
             ],
         ),
         migrations.CreateModel(

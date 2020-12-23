@@ -177,7 +177,14 @@ class Profile(models.Model):
         "self", blank=True, null=True, on_delete=models.SET_NULL
     )
 
-    second_Reporting_Manager = models.CharField(max_length=200, blank=True, null=True)
+    # second_Reporting_Manager = models.CharField(max_length=200, blank=True, null=True)
+    second_Reporting_Manager = models.ForeignKey(
+        "self",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="second_reporting_manager",
+    )
 
     division_Centre = models.CharField(max_length=150, blank=True, null=True)
 
