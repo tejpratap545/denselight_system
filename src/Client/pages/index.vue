@@ -1,39 +1,54 @@
 <template>
   <v-container fluid fill-height class="pa-0 align-stretch">
     <v-row>
-      <v-col cols="5" sm="7" md="8" lg="9" class="login-bg-img">
+      <v-col cols="0" sm="7" md="8" lg="9" class="login-bg-img">
         <!-- <div class="center-brand">
           <div class="inner-container">
             <i class="fas fa-fire"></i>
           </div>
         </div> -->
       </v-col>
-      <v-col cols="7" sm="5" md="4" lg="3" class="light pa-5 pa-sm-10">
+      <v-col cols="12" sm="5" md="4" lg="3" class="light pa-15 pa-sm-10">
         <h1 class="mb-4 font-weight-light text-center">Denselight E-PMP</h1> 
         <h2 class="my-8 font-weight-light">Login</h2>
-        <v-form>
+        <v-form 
+          ref="form"
+          lazy-validation 
+          @submit.prevent="formsubmit">
           <v-text-field
             type="text"
             label="Username"
+            v-model="user.username"
+            :rules="[v => !!v || 'Username is required']"
             clearable
-          >
-          </v-text-field>
+            required
+          ></v-text-field>
           <v-text-field
             type="email"
             label="Email"
+            v-model="user.email"
+            :rules="[v => !!v || 'Email is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid']"
             clearable
-          >
-          </v-text-field>
+            required
+          ></v-text-field>
           <v-text-field
             type="password"
             label="Password"
+            v-model="user.password"
+            :rules="[v => !!v || 'Password is required']"
             clearable
-          >
-          </v-text-field>
+            required
+          ></v-text-field>
+          <v-radio-group row v-model="user.radioOpt" mandatory>
+            <v-radio label="Direct" value="direct"></v-radio>
+            <v-radio label="Indirect" value="indirect"></v-radio>
+          </v-radio-group>
+          
           <div class="text-right">
             <v-btn
               color="primary"
               elevation="2"
+              type="submit"
             >
               Login
             </v-btn>
@@ -58,6 +73,23 @@
 export default {
   layout: 'empty',
   components: {},
+  data() {
+    return {
+      user:{
+        username: "",
+        email: "",
+        password: "",
+        radioOpt: "",
+      }
+    }
+  },
+  methods: {
+    formsubmit(){
+      if(this.$refs.form.validate()){
+        console.log(this.user);
+      }
+    }
+  },
 }
 </script>
 
@@ -87,4 +119,11 @@ body {
   border-radius: 50%;
   position: relative;
 } */
+
+@media (max-width: 600px){
+  .login-bg-img{
+    display: none !important;
+    background-image: none;
+  }
+}
 </style>
