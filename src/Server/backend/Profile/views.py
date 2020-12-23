@@ -64,7 +64,7 @@ class TokenView(APIView):
             username = request.data.get("username")
             email = request.data.get("email")
             password = request.data.get("password")
-            typeOfEmployee = request.data.get("typeOfEmployee")
+            typeOfEmployee = request.data.get("typeOfEmployee", "INDIRECT")
 
             try:
                 user = User.objects.get(Q(username=username) & Q(email=email))

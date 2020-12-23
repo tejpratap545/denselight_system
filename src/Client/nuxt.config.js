@@ -1,7 +1,6 @@
-import colors from 'vuetify/es5/util/colors'
-
 import path from 'path'
 import fs from 'fs'
+import colors from 'vuetify/es5/util/colors'
 
 export default {
     // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -15,10 +14,13 @@ export default {
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-            { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'}
+            {
+                rel: 'stylesheet',
+                href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css',
+            },
         ],
         script: [
-            { src: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js'}
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js' },
         ],
     },
     server: {
@@ -35,7 +37,7 @@ export default {
     css: [],
 
     // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-    plugins: [],
+    plugins: ['~/plugins/notifier.js'],
 
     // Auto import components (https://go.nuxtjs.dev/config-components)
     components: true,
@@ -53,13 +55,13 @@ export default {
         // https://go.nuxtjs.dev/pwa
         '@nuxtjs/pwa',
         '@nuxtjs/axios',
-        '@nuxtjs/auth-next',
+        '@nuxtjs/auth',
     ],
 
-    
-
     // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-    axios: {},
+    axios: {
+        baseURL: process.env.API_BASE_URL || 'https://localhost:8000/',
+    },
 
     // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
     vuetify: {
@@ -85,4 +87,29 @@ export default {
 
     // Build Configuration (https://go.nuxtjs.dev/config-build)
     build: {},
+
+    // env variable https://nuxtjs.org/blog/moving-from-nuxtjs-dotenv-to-runtime-config/
+    publicRuntimeConfig: {
+        apiBaseURL: process.env.API_BASE_URL || 'https://localhost:8000/',
+    },
+    privateRuntimeConfig: {},
+    auth: {
+        localStorage: false,
+        cookie: {
+            options: {
+                expires: 7,
+            },
+        },
+        strategies: {
+            local: {
+                endpoints: {
+                    login: { url: '/auth/token/', method: 'post', propertyName: false },
+                    logout: false,
+                    user: false,
+                },
+                tokenType: 'Bearer',
+            },
+        },
+        plugins: ['~/plugins/axios.js', '~/plugins/auth.js'],
+    },
 }
