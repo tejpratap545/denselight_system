@@ -1,5 +1,6 @@
 <template>
   <v-app light>
+    <Snackbar />
     <nuxt />
 
     <!-- <v-footer fixed app>
