@@ -8,78 +8,49 @@
           </div>
         </div> -->
       </v-col>
- 
+
       <v-col cols="12" sm="5" md="4" lg="3" class="light pa-15 pa-sm-10">
-        <h1 class="mb-4 font-weight-light text-center">Denselight E-PMP</h1> 
- 
+        <h1 class="mb-4 font-weight-light text-center">Denselight E-PMP</h1>
+      </v-col>
+
       <v-col cols="7" sm="5" md="4" lg="3" class="light pa-5 pa-sm-10">
         <h1 class="mb-4 font-weight-light text-center">Denselight E-PMP</h1>
-    
- 
+
         <h2 class="my-8 font-weight-light">Login</h2>
-        <v-form 
-          ref="form"
-          lazy-validation 
-          @submit.prevent="formsubmit">
+        <v-form ref="form" lazy-validation @submit.prevent="formsubmit">
           <v-text-field
-            v-model="username"
+            v-model="user.username"
             type="text"
             label="Username"
-            v-model="user.username"
-            :rules="[v => !!v || 'Username is required']"
+            :rules="[(v) => !!v || 'Username is required']"
             clearable
- 
             required
           ></v-text-field>
           <v-text-field
+            v-model="user.email"
             type="email"
             label="Email"
-            v-model="user.email"
-            :rules="[v => !!v || 'Email is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid']"
+            :rules="[
+              (v) => !!v || 'Email is required',
+              (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            ]"
             clearable
             required
-          ></v-text-field>
- 
           >
           </v-text-field>
-          <v-text-field v-model="email" type="email" label="Email" clearable>
-          </v-text-field>
- 
+
           <v-text-field
-            v-model="password"
-            label="Password"
- 
             v-model="user.password"
-            :rules="[v => !!v || 'Password is required']"
+            label="Password"
+            :rules="[(v) => !!v || 'Password is required']"
             clearable
-            required
           ></v-text-field>
-          <v-radio-group row v-model="user.radioOpt" mandatory>
+          <v-radio-group v-model="user.typeOfEmployee" row mandatory>
             <v-radio label="Direct" value="direct"></v-radio>
             <v-radio label="Indirect" value="indirect"></v-radio>
           </v-radio-group>
-          
-          <div class="text-right">
-            <v-btn
-              color="primary"
-              elevation="2"
-              type="submit"
-            >
-              Login
-            </v-btn>
- 
-            :append-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="show_password ? 'text' : 'password'"
-            @click:append="show_password = !show_password"
-          >
-          </v-text-field>
-          <v-radio-group v-model="typeOfEmployee" row>
-            <v-radio label="Indirect" value="INDIRECT"></v-radio>
-            <v-radio label="Direct" value="DIRECT"></v-radio>
-          </v-radio-group>
           <div class="text-right" @click="logIn">
             <v-btn color="primary" elevation="2"> Login </v-btn>
- 
           </div>
           <div class="my-4">
             <p class="font-weight-light">
@@ -105,29 +76,15 @@ export default {
   components: {},
   data() {
     return {
- 
-      user:{
-        username: "",
-        email: "",
-        password: "",
-        radioOpt: "",
-      }
+      user: {
+        username: '',
+        email: '',
+        password: '',
+        typeOfEmployee: '',
+      },
     }
   },
-  methods: {
-    formsubmit(){
-      if(this.$refs.form.validate()){
-        console.log(this.user);
-      }
-    }
- 
-      username: '',
-      show_password: false,
-      password: '',
-      email: '',
-      typeOfEmployee: 'INDIRECT',
-    }
-  },
+
   methods: {
     logIn() {
       logout(this.$auth, this.$axios)
@@ -138,20 +95,9 @@ export default {
         this.$store,
         this.$router,
         this.$route.query.redirect || '/',
-        {
-          username: this.username,
-          password: this.password,
-          email: this.email,
-          typeOfEmployee: this.typeOfEmployee,
-        }
-      ).catch((err) => {
-        this.$notifier.showMessage({
-          content: `Sorry something went wrong please check your login information`,
-          color: 'info',
-        })
-      })
+        this.user
+      )
     },
- 
   },
 }
 </script>
@@ -183,15 +129,11 @@ body {
   border-radius: 50%;
   position: relative;
 } */
- 
 
-@media (max-width: 600px){
-  .login-bg-img{
+@media (max-width: 600px) {
+  .login-bg-img {
     display: none !important;
     background-image: none;
   }
 }
 </style>
- 
-</style>
- 
