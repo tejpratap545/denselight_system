@@ -100,7 +100,7 @@ body {
   margin: 0;
 }
 .login-bg-img {
-  background-image: url('https://colorlib.com/polygon/adminator/assets/static/images/bg.jpg');
+  background-image: url('~assets/login_bg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
