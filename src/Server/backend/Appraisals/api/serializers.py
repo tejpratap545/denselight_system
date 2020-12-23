@@ -12,6 +12,7 @@ class AppraisalCategorySerializer(serializers.ModelSerializer):
 
 class OverallAppraisalSerializer(serializers.ModelSerializer):
     appraisal_category = AppraisalCategorySerializer()
+    employee_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Overall_Appraisal
