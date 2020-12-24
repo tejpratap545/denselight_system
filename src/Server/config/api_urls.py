@@ -9,7 +9,11 @@ from backend.GnC.api.views import (
     CompetenciesAPIView,
 )
 from backend.Profile.api.views import ProfileView, ListEmployees
-from backend.Appraisals.api.views import ManagerAppraisal, UserAppraisal
+from backend.Appraisals.api.views import (
+    ManagerAppraisal,
+    UserAppraisal,
+    DetailAppraisal,
+)
 
 urlpatterns = [
     path("user/me/", ProfileView.as_view(), name="get_user_info"),
@@ -32,4 +36,5 @@ urlpatterns = [
     path("goal/<int:pk>", GoalApiView.as_view()),
     path("kpi/<int:pk>", KPIApiView.as_view()),
     path("competencies/<int:pk>", CompetenciesAPIView.as_view()),
+    path("appraisals/detail/<int:pk>", DetailAppraisal.as_view()),
 ]

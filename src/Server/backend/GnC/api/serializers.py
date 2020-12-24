@@ -4,6 +4,18 @@ from ..models import *
 from django.db.models import Sum
 
 
+class GoalCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoalCategory
+        fields = "__all__"
+
+
+class CompetencyCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompetencyCategory
+        fields = "__all__"
+
+
 class CreateGoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Goals
@@ -39,3 +51,50 @@ class CreateKPISerializer(serializers.ModelSerializer):
             "due",
             "goal",
         ]
+
+
+class GoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goals
+        fields = "__all__"
+
+
+class CompetenciesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Competencies
+        fields = "__all__"
+
+
+class KPISerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KPI
+        fields = "__all__"
+
+
+class GoalCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoalComment
+        fields = "__all__"
+
+
+class CompetencyCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompetencyComment
+        fields = "__all__"
+
+
+class DetailCompetenciesSerializer(serializers.ModelSerializer):
+    competencycomment_set = CompetencyCommentSerializer(many=True)
+
+    class Meta:
+        model = Competencies
+        fields = "__all__"
+
+
+class DetailGoalSerializer(serializers.ModelSerializer):
+    kpi_set = KPISerializer(many=True)
+    goalcomment_set = GoalCommentSerializer(many=True)
+
+    class Meta:
+        model = Goals
+        fields = "__all__"

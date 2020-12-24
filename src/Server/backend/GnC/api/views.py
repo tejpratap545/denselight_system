@@ -1,4 +1,7 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 from ..models import *
 from .serializers import *
@@ -49,6 +52,7 @@ class CreateCompetenciesView(generics.CreateAPIView):
 
 
 class CreateKPI(generics.CreateAPIView):
+
     serializer_class = CreateKPISerializer
 
     def post(self, request, *args, **kwargs):
@@ -60,15 +64,47 @@ class CreateKPI(generics.CreateAPIView):
 
 
 class GoalApiView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = CreateGoalSerializer
+
     queryset = Goals.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return CreateGoalSerializer
+        return GoalSerializer
 
 
 class KPIApiView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = CreateKPISerializer
+
     queryset = KPI.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return CreateKPISerializer
+        return KPISerializer
 
 
 class CompetenciesAPIView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = CreateCompetenciesSerializer
     queryset = Competencies.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return CompetenciesSerializer
+        return CreateCompetenciesSerializer
+
+
+class GoalCategoryViewSet(ModelViewSet):
+    serializer_class = GoalCategorySerializer
+    queryset = GoalCategory.objects.all()
+
+    @method_decorator(cache_page(60 * 2))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
+class CompetencyCategoryViewSet(ModelViewSet):
+    serializer_class = CompetencyCategorySerializer
+    queryset = CompetencyCategory.objects.all()
+
+    @method_decorator(cache_page(60 * 2))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)

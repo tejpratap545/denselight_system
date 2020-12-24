@@ -5,6 +5,7 @@ from backend.Appraisals.api.views import (
     AppraisalCategoryViewSet,
     OverallAppraisalViewSet,
 )
+from backend.GnC.api.views import GoalCategoryViewSet, CompetencyCategoryViewSet
 from backend.Profile.api.views import DepartmentViewSet
 
 if settings.DEBUG:
@@ -14,7 +15,9 @@ else:
 
 
 router.register(r"department", DepartmentViewSet)
-router.register(r"appraisal/category", AppraisalCategoryViewSet)
+router.register(r"category/appraisal", AppraisalCategoryViewSet)
+router.register(r"category/goal", GoalCategoryViewSet)
+router.register(r"category/competency", CompetencyCategoryViewSet)
 router.register(r"overallAppraisal", OverallAppraisalViewSet)
 
 app_name = "denselight"

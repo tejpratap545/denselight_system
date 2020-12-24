@@ -1,6 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
+from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from django.db.models import Window, Count
 from ..models import *
@@ -67,3 +68,24 @@ class OverallAppraisalViewSet(ModelViewSet):
     @method_decorator(cache_page(60 * 3))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+
+class DetailAppraisal(generics.RetrieveAPIView):
+    serializer_class = DetailAppraisalSerializer
+
+    def get_object(self):
+        queryset = User_Appraisal_List.objects.prefetch_related(
+            "manager",
+            "employee",
+            "manager__department",
+            "employee__department",
+            "overall_appraisal",
+            "overall_appraisal__appraisal_category",
+            "appraisal_category",
+            "goals_set",
+            "competencies_set",
+            "goals_set__kpi_set",
+            "goals_set__goalcomment_set",
+            "competencies_set__competencycomment_set",
+        )
+        return get_object_or_404(queryset, id=self.kwargs["pk"])
