@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import generics
@@ -13,7 +14,11 @@ class ProfileView(generics.RetrieveAPIView):
     serializer_class = ProfileSerializer
 
     def get_object(self):
-        return get_object_or_404(Profile, user=self.request.user)
+        return cache.get_or_set(
+            self.request.user.email,
+            get_object_or_404(Profile, user=self.request.user),
+            100,
+        )
 
 
 class DepartmentViewSet(ModelViewSet):
