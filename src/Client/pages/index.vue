@@ -82,7 +82,7 @@ export default {
           this.$auth,
           this.$store,
           this.$router,
-          this.$route.query.redirect || '/',
+          this.$route.query.redirect || '/home/hr',
           this.user
         )
       }
