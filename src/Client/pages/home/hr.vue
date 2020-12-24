@@ -13,19 +13,14 @@
             </v-btn>
           </template>
             <v-list>
-              <v-list-item link>
-                <v-list-item-title>
-                  2020 Performance Based Appraisal
-                </v-list-item-title>
-              </v-list-item>
-              <v-list-item link>
-                <v-list-item-title>
-                  2020 Performance Based Appraisal - Annual Report
+              <v-list-item link v-for="(x,y) in appraisalData" :key="y">
+                <v-list-item-title @click="appraisalSelected = x">
+                  {{x.appraisal_name}}
                 </v-list-item-title>
               </v-list-item>
             </v-list>
         </v-menu>
-        <h3 class="text-center font-weight-medium">2020 Performance Based Appraisal</h3>
+        <h3 class="text-center font-weight-medium">{{appraisalSelected.appraisal_name}} - {{appraisalSelected.appraisal_category}}</h3>
         <p class="ma-0">Status: Mid Year Review</p>
       </div>
       <div class="px-10 my-5">
@@ -81,6 +76,7 @@
 </template>
 
 <script>
+// import * as auth from "../../plugins/axios";
 export default {
   name: 'HrVue',
   layout: 'hrDashboard',
@@ -118,10 +114,24 @@ export default {
           sortable: false,
           value: 'name'
         }
-      ]
+      ],
+      appraisalData: "",
+      appraisalSelected: "",
 
     }
   },
+  async fetch(){
+    try {
+      let response = await this.$axios.$get("api/appraisals/list/me");
+      this.appraisalData = response;
+      this.appraisalSelected = response[0];
+      console.log(this.appraisalData);
+    } catch (error) {
+      console.log(error)
+    }
+    
+  },
+  fetchOnServer: false
 }
 </script>
 
