@@ -67,7 +67,7 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
-          
+
           <v-tab-item>
             <v-card flat>
               <v-card-text>
@@ -75,7 +75,6 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
-
         </v-tabs-items>
       </div>
     </div>
@@ -126,6 +125,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

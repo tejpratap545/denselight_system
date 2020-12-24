@@ -40,7 +40,7 @@ class UserAppraisal(generics.ListAPIView):
             "manager",
             "overall_appraisal__appraisal_category",
             "appraisal_category",
-        ).filter(manager=self.request.user.profile)
+        ).filter(employee=self.request.user.profile)
 
     @method_decorator(cache_page(60 * 2))
     @method_decorator(vary_on_cookie)
