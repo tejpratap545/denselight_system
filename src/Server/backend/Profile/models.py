@@ -20,7 +20,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     ROLE_TYPE = (
         ("HRManager", "HRManager"),
-        ("HR", "HR"),
+        ("Hr", "Hr"),
         ("Manager", "Manager"),
         ("Employee", "Employee"),
     )

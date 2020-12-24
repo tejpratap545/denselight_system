@@ -89,3 +89,7 @@ class DetailAppraisal(generics.RetrieveAPIView):
             "competencies_set__competencycomment_set",
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
+
+    @method_decorator(cache_page(60 * 3))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
