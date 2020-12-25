@@ -15,13 +15,21 @@ class ManagerAppraisal(generics.ListAPIView):
     serializer_class = UserAppraisalListSerializer
 
     def get_queryset(self):
-        return User_Appraisal_List.objects.prefetch_related(
-            "overall_appraisal",
-            "employee",
-            "manager",
-            "overall_appraisal__appraisal_category",
-            "appraisal_category",
-        ).filter(manager=self.request.user.profile)
+        return (
+            User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "manager",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            )
+            .filter(manager=self.request.user.profile)
+            .annotate(
+                goals_count=Count("goals"),
+                core_values_competencies_count=Count("competencies"),
+                skills_count=Count("skills"),
+            )
+        )
 
     @method_decorator(cache_page(60 * 2))
     @method_decorator(vary_on_cookie)
@@ -34,13 +42,21 @@ class UserAppraisal(generics.ListAPIView):
     serializer_class = UserAppraisalListSerializer
 
     def get_queryset(self):
-        return User_Appraisal_List.objects.prefetch_related(
-            "overall_appraisal",
-            "employee",
-            "manager",
-            "overall_appraisal__appraisal_category",
-            "appraisal_category",
-        ).filter(employee=self.request.user.profile)
+        return (
+            User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "manager",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            )
+            .filter(employee=self.request.user.profile)
+            .annotate(
+                goals_count=Count("goals"),
+                core_values_competencies_count=Count("competencies"),
+                skills_count=Count("skills"),
+            )
+        )
 
     @method_decorator(cache_page(60 * 2))
     @method_decorator(vary_on_cookie)

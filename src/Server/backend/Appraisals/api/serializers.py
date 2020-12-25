@@ -85,6 +85,9 @@ class UserAppraisalListSerializer(serializers.ModelSerializer):
     employee = ShortProfileSerializer()
     overall_appraisal = OverallAppraisalSerializer()
     appraisal_category = AppraisalCategorySerializer()
+    goals_count = serializers.IntegerField(read_only=True, default=0)
+    core_values_competencies_count = serializers.IntegerField(read_only=True, default=0)
+    skills_count = serializers.IntegerField(read_only=True, default=0)
 
     class Meta:
         model = User_Appraisal_List
