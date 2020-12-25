@@ -13,6 +13,7 @@ from backend.Appraisals.api.views import (
     ManagerAppraisal,
     UserAppraisal,
     DetailAppraisal,
+    DetailUserAppraisal,
 )
 
 urlpatterns = [
@@ -29,6 +30,11 @@ urlpatterns = [
         "appraisals/list/me",
         UserAppraisal.as_view(),
         name="retrieve_employee_appraisals",
+    ),
+    path(
+        "appraisals/list/detail/me",
+        DetailUserAppraisal.as_view(),
+        name="detail_employee_appraisals",
     ),
     path("create/goal", CreateGoalView.as_view(), name="create_goal"),
     path("create/KPI", CreateKPI.as_view(), name="create_KPI"),

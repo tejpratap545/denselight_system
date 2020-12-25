@@ -1,8 +1,7 @@
 <template>
   <v-container fluid fill-height class="pa-0 align-stretch">
     <v-row>
-      <v-col cols="0" sm="7" md="8" lg="9" class="login-bg-img">
-      </v-col>
+      <v-col cols="0" sm="7" md="8" lg="9" class="login-bg-img"> </v-col>
 
       <v-col cols="12" sm="5" md="4" lg="3" class="light pa-5 pa-sm-10">
         <h1 class="mb-4 font-weight-light text-center">Denselight E-PMP</h1>
@@ -74,8 +73,8 @@ export default {
 
   methods: {
     logIn() {
-      if(this.$refs.form.validate()){
-        console.log(this.user);
+      if (this.$refs.form.validate()) {
+        console.log(this.user)
         logout(this.$auth, this.$axios)
         signIn(
           this.$axios,
@@ -86,7 +85,6 @@ export default {
           this.user
         )
       }
-
     },
   },
 }
