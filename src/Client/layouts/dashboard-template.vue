@@ -46,13 +46,19 @@
 
 <script>
 export default {
+  mounted() {
+    if(!this.$auth.loggedIn) {
+      return redirect('/')
+    }
+  },
+
   data() {
     return {
-      name: this.$auth.user.name,
+      name: (this.$auth.loggedIn) ? this.$auth.user.name : 'John Doe',
       items: [
         {
           link: '/dashboard',
-          title: this.$auth.user.name,
+          title: 'Dashboard',
           icon: 'mdi-view-dashboard-outline',
         },
         {
