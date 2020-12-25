@@ -14,3 +14,14 @@ class SkillsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skills
         fields = "__all__"
+
+
+class CreateSkillsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skills
+        fields = (
+            "skill_category",
+            "weightage",
+            "description",
+            "appraisal",
+        )
