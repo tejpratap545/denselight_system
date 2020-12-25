@@ -141,6 +141,48 @@ export default {
   title: 'Department',
   name: 'Department',
   layout: 'dashboard-template',
+  async fetch() {
+    try {
+      const response = await this.$axios.$get('api/appraisals/list/manager')
+
+      response.forEach(async (appraisal) => {
+        const goalCountResponse = await this.$axios.$get(
+          'api/appraisals/detail/' + appraisal.id
+        )
+
+        const tableData = {
+          appraisal_name: appraisal.appraisal_name,
+          employee: appraisal.employee.name,
+
+          goals_count: goalCountResponse.goals_set.length,
+          core_values_count: goalCountResponse.competencies_set.length,
+
+          skills_count: 0,
+          end_date: appraisal.overall_appraisal.goals_setting_end_date,
+          status: appraisal.status,
+        }
+
+        switch (appraisal.overall_appraisal.status) {
+          case 'Stage 1':
+            this.goalsLaunchingTableItems.push(tableData)
+            break
+
+          case 'Stage 1B':
+            this.midYearTableItems.push(tableData)
+            break
+
+          case 'Stage 2':
+            this.endYearTableItems.push(tableData)
+            break
+
+          default:
+            break
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  },
   data() {
     return {
       tabData: null,
@@ -170,7 +212,7 @@ export default {
           align: 'center',
           sortable: true,
           value: 'stage',
-        }
+        },
       ],
       departmentTableItems: [],
       goalsLaunchingTableHeader: [
@@ -302,48 +344,6 @@ export default {
         },
       ],
       endYearTableItems: [],
-    }
-  },
-  async fetch() {
-    try {
-      let response = await this.$axios.$get('api/appraisals/list/manager')
-
-      response.forEach(async (appraisal) => {
-        let goalCountResponse = await this.$axios.$get(
-          'api/appraisals/detail/' + appraisal.id
-        )
-
-        var tableData = {
-          appraisal_name: appraisal.appraisal_name,
-          employee: appraisal.employee.name,
-
-          goals_count: goalCountResponse.goals_set.length,
-          core_values_count: goalCountResponse.competencies_set.length,
-
-          skills_count: 0,
-          end_date: appraisal.overall_appraisal.goals_setting_end_date,
-          status: appraisal.status,
-        }
-
-        switch (appraisal.overall_appraisal.status) {
-          case 'Stage 1':
-            this.goalsLaunchingTableItems.push(tableData)
-            break
-
-          case 'Stage 1B':
-            this.midYearTableItems.push(tableData)
-            break
-
-          case 'Stage 2':
-            this.endYearTableItems.push(tableData)
-            break
-
-          default:
-            break
-        }
-      })
-    } catch (error) {
-      console.log(error)
     }
   },
 }

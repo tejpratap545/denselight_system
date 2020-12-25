@@ -7,6 +7,7 @@ from ...GnC.api.serializers import (
     CompetenciesSerializer,
     DetailCompetenciesSerializer,
 )
+from backend.Trainings.api.serializers import SkillsSerializer
 
 
 class AppraisalCategorySerializer(serializers.ModelSerializer):
@@ -101,6 +102,7 @@ class DetailAppraisalSerializer(serializers.ModelSerializer):
     appraisal_category = AppraisalCategorySerializer()
     goals_set = DetailGoalSerializer(many=True)
     competencies_set = DetailCompetenciesSerializer(many=True)
+    skills_set = SkillsSerializer(many=True)
 
     class Meta:
         model = User_Appraisal_List
