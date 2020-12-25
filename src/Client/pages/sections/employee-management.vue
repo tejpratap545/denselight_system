@@ -41,7 +41,7 @@ export default {
         this.employees.push({
           name: employee.name,
           department: employee.department.name,
-          position: employee.job_title,
+          position: employee.job_Title,
           supervisor: employee.first_Reporting_Manager.name,
         })
       })

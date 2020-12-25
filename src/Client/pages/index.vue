@@ -72,8 +72,8 @@ export default {
   },
 
   mounted() {
-    if(this.$auth.loggedIn) {
-      location.replace('/dashboard')
+    if (this.$auth.loggedIn) {
+      return redirect('/dashboard')
     }
   },
 
