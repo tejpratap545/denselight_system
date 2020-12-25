@@ -178,12 +178,15 @@ export default {
         var x=0;
         for(x=0; x<response.length; ++x){
           // arr.appraisal_name = response[x].appraisal_name;
+          let goalCountResponse = await this.$axios.$get("api/appraisals/detail/"+response[x].id);
+          // console.log(goalCountResponse);
+          // console.log(goalCountResponse.competencies_set.length);
           this.goalsLaunchingTableItems.push(
             {
               "appraisal_name": response[x].appraisal_name,
               "employee" : response[x].employee.name,
-              "goals_count" : 0,
-              "core_values_count" : 0,
+              "goals_count" : goalCountResponse.goals_set.length,
+              "core_values_count" : goalCountResponse.competencies_set.length,
               "skills_count" : 0,
               "end_date" : response[x].overall_appraisal.goals_setting_end_date,
               "status" : "NIL"
