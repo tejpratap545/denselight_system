@@ -3,7 +3,7 @@
     <v-app-bar class="header" color="#fff" app >
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
     </v-app-bar>
-    <v-navigation-drawer permanent app>
+    <v-navigation-drawer permanent app expand-on-hover>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>
