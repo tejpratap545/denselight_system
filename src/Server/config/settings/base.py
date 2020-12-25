@@ -52,7 +52,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "django_filters",
     "corsheaders",
-    "channels",
+    #"channels",
 ]
 LOCAL_APPS = [
     "backend.Profile.apps.ProfilesConfig",
