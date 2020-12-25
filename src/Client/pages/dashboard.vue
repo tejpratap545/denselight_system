@@ -43,14 +43,13 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              <h3>Departmental Goals</h3>
-              <!-- <v-data-table
-                  :headers="departmentTableHeader"
-                  :items="departmentTableItems"
-                  :items-per-page="5"
-                >
-
-                </v-data-table> -->
+              <h3 class="my-5 text-center">Departmental Goals</h3>
+              <v-data-table
+                :headers="departmentTableHeader"
+                :items="departmentTableItems"
+                :items-per-page="5"
+              ></v-data-table>
+              <h3 class="my-5 text-center">My Goals</h3>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -126,11 +125,11 @@ export default {
           value: 'name',
         },
       ],
+      departmentTableItems: [],
       appraisalData: '',
       appraisalSelected: null,
     }
   },
-  fetchOnServer: false,
 }
 </script>
 

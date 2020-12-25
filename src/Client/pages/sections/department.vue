@@ -14,10 +14,11 @@
       </v-tabs>
       <v-tabs-items v-model="tabData">
         <v-tab-item>
-          <v-card flat>
+          <v-card class="my-5" flat>
+            <h3 class="my-5 text-center">Employee Details</h3>
             <v-data-table
-              :headers="departmentTableHeader"
-              :items="departmentTableItems"
+              :headers="employeesTableHeader"
+              :items="employeesTableItems"
               :items-per-page="10"
             >
             </v-data-table>
@@ -27,7 +28,9 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              <p>Departmental Goals and Core Values will be shown here</p>
+              <p class="text-center">
+                Departmental Goals and Core Values will be shown here
+              </p>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -72,7 +75,7 @@
                     <v-card flat>
                       <v-card-text>
                         <v-data-table
-                          :headers="midYearTableHeader"
+                          :headers="goalsLaunchingTableHeader"
                           :items="midYearTableItems"
                           :items-per-page="10"
                         >
@@ -94,7 +97,7 @@
                     <v-card flat>
                       <v-card-text>
                         <v-data-table
-                          :headers="endYearTableHeader"
+                          :headers="goalsLaunchingTableHeader"
                           :items="endYearTableItems"
                           :items-per-page="10"
                         >
@@ -146,7 +149,8 @@ export default {
       tabData: null,
       tabData2: null,
       departmentData: '',
-      departmentTableHeader: [
+      employees: [],
+      employeesTableHeader: [
         {
           text: 'Name',
           align: 'center',
@@ -163,16 +167,16 @@ export default {
           text: 'Date of hire',
           align: 'center',
           sortable: true,
-          value: 'date of hire',
+          value: 'date_of_hire',
         },
         {
           text: 'Appraisal Stage',
           align: 'center',
           sortable: true,
           value: 'stage',
-        }
+        },
       ],
-      departmentTableItems: [],
+      employeesTableItems: [],
       goalsLaunchingTableHeader: [
         {
           text: 'Appraisal Name',
@@ -224,127 +228,55 @@ export default {
         },
       ],
       goalsLaunchingTableItems: [],
-      midYearTableHeader: [
-        {
-          text: 'Appraisal Name',
-          align: 'center',
-          sortable: true,
-          value: 'appraisal_name',
-        },
-        {
-          text: 'Employee',
-          align: 'center',
-          sortable: true,
-          value: 'employee',
-        },
-        {
-          text: 'Start Date',
-          align: 'center',
-          sortable: true,
-          value: 'start_date',
-        },
-        {
-          text: 'End Date',
-          align: 'center',
-          sortable: true,
-          value: 'end_date',
-        },
-        {
-          text: 'Status',
-          align: 'center',
-          sortable: true,
-          value: 'status',
-        },
-        {
-          text: 'Actions',
-          align: 'center',
-          sortable: false,
-          value: 'action',
-        },
-      ],
       midYearTableItems: [],
-      endYearTableHeader: [
-        {
-          text: 'Appraisal Name',
-          align: 'center',
-          sortable: true,
-          value: 'appraisal_name',
-        },
-        {
-          text: 'Employee',
-          align: 'center',
-          sortable: true,
-          value: 'employee',
-        },
-        {
-          text: 'Start Date',
-          align: 'center',
-          sortable: true,
-          value: 'start_date',
-        },
-        {
-          text: 'End Date',
-          align: 'center',
-          sortable: true,
-          value: 'end_date',
-        },
-        {
-          text: 'Status',
-          align: 'center',
-          sortable: true,
-          value: 'status',
-        },
-        {
-          text: 'Actions',
-          align: 'center',
-          sortable: false,
-          value: 'action',
-        },
-      ],
       endYearTableItems: [],
     }
   },
-  async fetch() {
-    try {
-      let response = await this.$axios.$get('api/appraisals/list/manager')
+  fetch() {
+    this.$axios
+      .$get('api/appraisals/list/manager')
+      .then((response) => {
+        response.forEach(async (appraisal) => {
+          if (this.employees.indexOf(appraisal.employee.name) == -1) {
+            this.employeesTableItems.push({
+              department: appraisal.employee.department.name,
+              stage: appraisal.overall_appraisal.status,
+              name: appraisal.employee.name,
+              date_of_hire: appraisal.employee.date_Of_Hire,
+            })
+          }
 
-      response.forEach(async (appraisal) => {
-        let goalCountResponse = await this.$axios.$get(
-          'api/appraisals/detail/' + appraisal.id
-        )
+          var tableData = {
+            appraisal_name: appraisal.appraisal_name,
+            employee: appraisal.employee.name,
 
-        var tableData = {
-          appraisal_name: appraisal.appraisal_name,
-          employee: appraisal.employee.name,
+            goals_count: appraisal.goals_count,
+            core_values_count: appraisal.core_values_competencies_count,
 
-          goals_count: goalCountResponse.goals_set.length,
-          core_values_count: goalCountResponse.competencies_set.length,
+            skills_count: 0,
+            end_date: appraisal.overall_appraisal.goals_setting_end_date,
+            status: appraisal.status,
+          }
 
-          skills_count: 0,
-          end_date: appraisal.overall_appraisal.goals_setting_end_date,
-          status: appraisal.status,
-        }
+          switch (appraisal.overall_appraisal.status) {
+            case 'Stage 1':
+              this.goalsLaunchingTableItems.push(tableData)
+              break
 
-        switch (appraisal.overall_appraisal.status) {
-          case 'Stage 1':
-            this.goalsLaunchingTableItems.push(tableData)
-            break
+            case 'Stage 1B':
+              this.midYearTableItems.push(tableData)
+              break
 
-          case 'Stage 1B':
-            this.midYearTableItems.push(tableData)
-            break
+            case 'Stage 2':
+              this.endYearTableItems.push(tableData)
+              break
 
-          case 'Stage 2':
-            this.endYearTableItems.push(tableData)
-            break
-
-          default:
-            break
-        }
+            default:
+              break
+          }
+        })
       })
-    } catch (error) {
-      console.log(error)
-    }
+      .catch((error) => console.log(error))
   },
 }
 </script>
