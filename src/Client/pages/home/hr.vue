@@ -20,7 +20,7 @@
               </v-list-item>
             </v-list>
         </v-menu>
-        <h3 class="text-center font-weight-medium">{{appraisalSelected.appraisal_name}} - {{appraisalSelected.appraisal_category}}</h3>
+        <h3 class="text-center font-weight-medium" v-if="appraisalSelected!=null">{{appraisalSelected.appraisal_name}} - {{appraisalSelected.appraisal_category.name}}</h3>
         <p class="ma-0">Status: Mid Year Review</p>
       </div>
       <div class="px-10 my-5">
@@ -116,7 +116,7 @@ export default {
         }
       ],
       appraisalData: "",
-      appraisalSelected: "",
+      appraisalSelected: null,
 
     }
   },

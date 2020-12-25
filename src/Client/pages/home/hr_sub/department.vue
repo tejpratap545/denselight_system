@@ -43,6 +43,11 @@
                             :items="goalsLaunchingTableItems"
                             :items-per-page="5"
                           >
+                            <template v-slot:[`item.action`]="{ item }">
+                              <v-btn v-model="item.action" color="transparent" elevation="0">
+                                <i class="fas fa-ellipsis-h"></i>
+                              </v-btn>
+                            </template>
 
                           </v-data-table>
                         </v-card-text>
@@ -103,6 +108,7 @@ export default {
         return{
             tabData: null,
             tabData2: null,
+            departmentData: "",
             goalsLaunchingTableHeader: [
               {
                 text: 'Appraisal Name',
@@ -150,21 +156,43 @@ export default {
                 text: 'Actions',
                 align: 'center',
                 sortable: false,
-                value: 'actions'
+                value: 'action'
               },
             ],
-            goalsLaunchingTableItems: [
-              {
-                appraisal_name: '2020 Performance Appraisal',
-                employee: 'ROBIAH BTE MOHAMED TAHIR',
-                goals_count: '0',
-                core_values_count: '0',
-                skills_count: '0',
-                end_date: '30 Sep 2020',
-                status: "Pending Employee's Input",  
-              }
-            ]
+            goalsLaunchingTableItems: [ ]
         }
+    },
+    async fetch(){
+      try {
+        let response = await this.$axios.$get("api/appraisals/list/manager");
+        console.log(response);
+        // var arr = [{
+        //   "appraisal_name" : "",
+        //   "employee" : '',
+        //   "goals_count" : '',
+        //   "core_values_count" : '',
+        //   "skills_count" : '',
+        //   "end_date" : '',
+        //   "status" : "",
+        // }]
+        var x=0;
+        for(x=0; x<response.length; ++x){
+          // arr.appraisal_name = response[x].appraisal_name;
+          this.goalsLaunchingTableItems.push(
+            {
+              "appraisal_name": response[x].appraisal_name,
+              "employee" : response[x].employee.name,
+              "goals_count" : 0,
+              "core_values_count" : 0,
+              "skills_count" : 0,
+              "end_date" : response[x].overall_appraisal.goals_setting_end_date,
+              "status" : "NIL"
+            }
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
 }
 </script>
