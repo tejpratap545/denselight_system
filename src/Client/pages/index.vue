@@ -71,6 +71,12 @@ export default {
     }
   },
 
+  mounted() {
+    if(this.$auth.loggedIn) {
+      location.replace('/dashboard')
+    }
+  },
+
   methods: {
     logIn() {
       if (this.$refs.form.validate()) {
@@ -81,7 +87,7 @@ export default {
           this.$auth,
           this.$store,
           this.$router,
-          this.$route.query.redirect || '/home/hr',
+          this.$route.query.redirect || '/dashboard',
           this.user
         )
       }

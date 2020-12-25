@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pa-5">
       <div class="d-flex justify-lg-space-between align-center">
         <v-menu rounded="lg">
           <template v-slot:activator="{ on, attrs }">
@@ -9,7 +9,7 @@
               v-on="on"
               elevation="0"
             >
-              <i class="fas fa-caret-down"></i>
+              <i class="fas fa-sync"></i>
             </v-btn>
           </template>
             <v-list>
@@ -78,8 +78,8 @@
 <script>
 // import * as auth from "../../plugins/axios";
 export default {
-  name: 'HrVue',
-  layout: 'hrDashboard',
+  title: 'Dashboard',
+  layout: 'dashboard-template',
   data(){
     return{
       tabData: null,
@@ -129,7 +129,7 @@ export default {
     } catch (error) {
       console.log(error)
     }
-    
+
   },
   fetchOnServer: false
 }
