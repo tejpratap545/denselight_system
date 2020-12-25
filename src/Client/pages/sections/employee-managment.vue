@@ -32,6 +32,25 @@ export default {
   name: 'EmployeeManagment',
   layout: 'dashboard-template',
 
+  async fetch() {
+    try {
+      const response = await this.$axios.$get('api/employee/list/')
+      this.loading = false
+
+      response.forEach((employee) => {
+        this.employees.push({
+          name: employee.name,
+          department: employee.department.name,
+          position: employee.job_title,
+          supervisor: employee.first_Reporting_Manager.name,
+        })
+      })
+    } catch (error) {
+      this.loading = false
+      console.log(error)
+    }
+  },
+
   data() {
     return {
       search: '',
@@ -47,25 +66,6 @@ export default {
         { text: 'Supervisor', value: 'supervisor' },
       ],
       employees: [],
-    }
-  },
-
-  async fetch() {
-    try {
-      let response = await this.$axios.$get('api/employee/list')
-      this.loading = false
-
-      response.forEach((employee) => {
-        this.employees.push({
-          name: employee.name,
-          department: employee.department.name,
-          position: employee.job_title,
-          supervisor: employee.first_Reporting_Manager.name,
-        })
-      })
-    } catch (error) {
-      this.loading = false
-      console.log(error)
     }
   },
 }
