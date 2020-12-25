@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card class="ma-5">
       <v-card-title>
         <v-text-field
           v-model="search"
@@ -17,7 +17,7 @@
         :search="search"
       >
         <template v-slot:[`item.action`]="{ item }">
-          <v-btn v-model="item.action" color="transparent" elevation="0">
+          <v-btn v-model="item.action" color="transparent" elevation="3">
             <v-icon>mdi-dots-horizontal</v-icon>
           </v-btn>
         </template>

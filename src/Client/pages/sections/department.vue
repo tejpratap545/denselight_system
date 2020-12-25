@@ -2,11 +2,11 @@
   <div>
     <div class="px-10 my-5">
       <v-tabs
+        v-model="tabData"
         background-color="transparent"
         color="#2952A4"
         centered
         grow
-        v-model="tabData"
       >
         <v-tab>Department Details</v-tab>
         <v-tab>Department Goals and Core Values</v-tab>
@@ -138,6 +138,57 @@ export default {
   title: 'Department',
   name: 'Department',
   layout: 'dashboard-template',
+  async fetch() {
+    try {
+      const response = await this.$axios.$get('api/appraisals/list/manager')
+
+      let x = 0
+      for (x = 0; x < response.length; ++x) {
+        const goalCountResponse = await this.$axios.$get(
+          'api/appraisals/detail/' + response[x].id
+        )
+        if (response[x].overall_appraisal.status == 'Stage 1') {
+          this.goalsLaunchingTableItems.push({
+            appraisal_name: response[x].appraisal_name,
+            employee: response[x].employee.name,
+            goals_count: goalCountResponse.goals_set.length,
+            core_values_count: goalCountResponse.competencies_set.length,
+            skills_count: 0,
+            end_date: response[x].overall_appraisal.goals_setting_end_date,
+            status: 'NIL',
+          })
+        }
+        if (response[x].overall_appraisal.status == 'Stage 1B') {
+          this.midYearTableItems.push({
+            appraisal_name: response[x].appraisal_name,
+            employee: response[x].employee.name,
+            goals_count: goalCountResponse.goals_set.length,
+            core_values_count: goalCountResponse.competencies_set.length,
+            skills_count: 0,
+            end_date: response[x].overall_appraisal.goals_setting_end_date,
+            status: 'NIL',
+          })
+        }
+        if (response[x].overall_appraisal.status == 'Stage 2') {
+          this.endYearTableItems.push({
+            appraisal_name: response[x].appraisal_name,
+            employee: response[x].employee.name,
+            goals_count: goalCountResponse.goals_set.length,
+            core_values_count: goalCountResponse.competencies_set.length,
+            skills_count: 0,
+            end_date: response[x].overall_appraisal.goals_setting_end_date,
+            status: 'NIL',
+          })
+        }
+        if (response[x].overall_appraisal.status == 'Stage 3') {
+        }
+        if (response[x].overall_appraisal.status == 'Stage 4') {
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  },
   data() {
     return {
       tabData: null,
@@ -272,57 +323,6 @@ export default {
         },
       ],
       endYearTableItems: [],
-    }
-  },
-  async fetch() {
-    try {
-      let response = await this.$axios.$get('api/appraisals/list/manager')
-
-      var x = 0
-      for (x = 0; x < response.length; ++x) {
-        let goalCountResponse = await this.$axios.$get(
-          'api/appraisals/detail/' + response[x].id
-        )
-        if (response[x].overall_appraisal.status == 'Stage 1') {
-          this.goalsLaunchingTableItems.push({
-            appraisal_name: response[x].appraisal_name,
-            employee: response[x].employee.name,
-            goals_count: goalCountResponse.goals_set.length,
-            core_values_count: goalCountResponse.competencies_set.length,
-            skills_count: 0,
-            end_date: response[x].overall_appraisal.goals_setting_end_date,
-            status: 'NIL',
-          })
-        }
-        if (response[x].overall_appraisal.status == 'Stage 1B') {
-          this.midYearTableItems.push({
-            appraisal_name: response[x].appraisal_name,
-            employee: response[x].employee.name,
-            goals_count: goalCountResponse.goals_set.length,
-            core_values_count: goalCountResponse.competencies_set.length,
-            skills_count: 0,
-            end_date: response[x].overall_appraisal.goals_setting_end_date,
-            status: 'NIL',
-          })
-        }
-        if (response[x].overall_appraisal.status == 'Stage 2') {
-          this.endYearTableItems.push({
-            appraisal_name: response[x].appraisal_name,
-            employee: response[x].employee.name,
-            goals_count: goalCountResponse.goals_set.length,
-            core_values_count: goalCountResponse.competencies_set.length,
-            skills_count: 0,
-            end_date: response[x].overall_appraisal.goals_setting_end_date,
-            status: 'NIL',
-          })
-        }
-        if (response[x].overall_appraisal.status == 'Stage 3') {
-        }
-        if (response[x].overall_appraisal.status == 'Stage 4') {
-        }
-      }
-    } catch (error) {
-      console.log(error)
     }
   },
 }
