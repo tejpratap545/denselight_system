@@ -30,6 +30,7 @@ class ShortProfileSerializer(serializers.ModelSerializer):
             "name",
             "email",
             "department",
+            "date_Of_Hire",
         )
 
 

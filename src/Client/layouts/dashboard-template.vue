@@ -13,7 +13,7 @@
           <v-list-item-content>
             <v-list-item-title>{{ name }}</v-list-item-title>
             <v-list-item-subtitle>
-              <a href="/" class="danger">Logout</a>
+              <a class="danger" @click="logout">Logout</a>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -23,13 +23,13 @@
 
       <v-list dense rounded>
         <v-list-item v-for="item in items" :key="item.title" :to="item.link">
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+// import logout from '~/plugins/auth'
 export default {
   mounted() {
     if(!this.$auth.loggedIn) {
@@ -72,13 +74,13 @@ export default {
           icon: 'mdi-account-group-outline',
         },
         {
-          link: '/sections/apraisal-status',
-          title: 'Apraisal Status',
+          link: '/sections/appraisal-status',
+          title: 'Appraisal Status',
           icon: 'mdi-list-status',
         },
         {
-          link: '/sections/employee-managment',
-          title: 'Employee Managment',
+          link: '/sections/employee-management',
+          title: 'Employee Management',
           icon: 'mdi-account-supervisor-outline',
         },
         {
@@ -88,6 +90,14 @@ export default {
         },
       ],
     }
+  },
+  methods: {
+    logout() {
+      this.$auth.setToken(false)
+      this.$auth.setRefreshToken(false)
+      this.$axios.setHeader('Authorization', false)
+      this.$auth.logout()
+    },
   },
 }
 </script>
