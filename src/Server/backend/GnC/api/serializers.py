@@ -91,9 +91,30 @@ class DetailCompetenciesSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class MidYrCommentBoxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MidYrCommentBox
+        fields = "__all__"
+
+
+class EndYrCommentBoxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EndYrCommentBox
+        fields = "__all__"
+
+
+class CommentBoxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommentBox
+        fields = "__all__"
+
+
 class DetailGoalSerializer(serializers.ModelSerializer):
     kpi_set = KPISerializer(many=True)
     goalcomment_set = GoalCommentSerializer(many=True)
+    commentbox_set = CommentBoxSerializer(many=True)
+    midyrcommentbox_set = MidYrCommentBoxSerializer(many=True)
+    endyrcommentbox_set = EndYrCommentBoxSerializer(many=True)
 
     class Meta:
         model = Goals

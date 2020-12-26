@@ -5,7 +5,13 @@ from backend.Appraisals.api.views import (
     AppraisalCategoryViewSet,
     OverallAppraisalViewSet,
 )
-from backend.GnC.api.views import GoalCategoryViewSet, CompetencyCategoryViewSet
+from backend.GnC.api.views import (
+    GoalCategoryViewSet,
+    CompetencyCategoryViewSet,
+    GoalCommentViewSet,
+    MidYrCommentBoxViewSet,
+    EndYrCommentBoxViewSet,
+)
 from backend.Profile.api.views import DepartmentViewSet
 from backend.Trainings.api.views import SkillsCategoryViewSet
 
@@ -21,6 +27,9 @@ router.register(r"category/goal", GoalCategoryViewSet)
 router.register(r"category/skill", SkillsCategoryViewSet)
 router.register(r"category/competency", CompetencyCategoryViewSet)
 router.register(r"overallAppraisal", OverallAppraisalViewSet)
+router.register(r"comment/goals", GoalCommentViewSet)
+router.register(r"comment/goals/midyear", MidYrCommentBoxViewSet)
+router.register(r"comment/goals/endyear", EndYrCommentBoxViewSet)
 
 app_name = "denselight"
 urlpatterns = router.urls

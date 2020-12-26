@@ -45,18 +45,10 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-// import logout from '~/plugins/auth'
 export default {
-  mounted() {
-    if(!this.$auth.loggedIn) {
-      return redirect('/')
-    }
-  },
-
   data() {
     return {
-      name: (this.$auth.loggedIn) ? this.$auth.user.name : 'John Doe',
+      name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
       items: [
         {
           link: '/dashboard',
@@ -89,6 +81,11 @@ export default {
           icon: 'mdi-book-open-outline',
         },
       ],
+    }
+  },
+  mounted() {
+    if (!this.$auth.loggedIn) {
+      return redirect('/')
     }
   },
   methods: {
