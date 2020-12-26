@@ -48,9 +48,9 @@
 // eslint-disable-next-line no-unused-vars
 // import logout from '~/plugins/auth'
 export default {
-  mounted() {
-    if(!this.$auth.loggedIn) {
-      return redirect('/')
+    fetch({redirect}) {
+    if (this.$auth) {
+      redirect('/')
     }
   },
 

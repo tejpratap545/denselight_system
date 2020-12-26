@@ -71,9 +71,9 @@ export default {
     }
   },
 
-  mounted() {
-    if (this.$auth.loggedIn) {
-      return redirect('/dashboard')
+  fetch({redirect}) {
+    if (this.$auth) {
+      redirect('/dashboard')
     }
   },
 
