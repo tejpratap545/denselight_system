@@ -66,6 +66,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 4,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:28:01.824780+05:30",
+              "goal": 105,
+              "created_by": 534558467
+            },
+            {
+              "id": 10,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:39:05.828944+05:30",
+              "goal": 105,
+              "created_by": 1813823810
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Improve Company's Branding",
           "description": "Improve company’s image for better hiring sourcing and overall reputation of Denselight",
           "due": "2020-09-30",
@@ -114,6 +132,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 5,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:30:27.560337+05:30",
+              "goal": 102,
+              "created_by": 534558467
+            },
+            {
+              "id": 8,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:35:27.920524+05:30",
+              "goal": 102,
+              "created_by": 1813823810
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Develop & Improve standard Recruitment Process to Reduce Attrition",
           "description": "1.  Set up a more robust KFA no.1 teams to lead by new energized leaders\r\n2. Look at Selection Assesmen tool to check for culture fit and commitment from final 2 candidates to 'Hire Right'.",
           "due": "2020-12-31",
@@ -170,6 +206,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 6,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:31:17.046723+05:30",
+              "goal": 103,
+              "created_by": 534558467
+            },
+            {
+              "id": 7,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:34:25.031260+05:30",
+              "goal": 103,
+              "created_by": 1813823810
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Reduce Turnover",
           "description": "Retain effective employees and motivate them to higher productivity",
           "due": "2020-12-31",
@@ -202,6 +256,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 9,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:37:05.565377+05:30",
+              "goal": 104,
+              "created_by": 1813823810
+            },
+            {
+              "id": 3,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:26:56.955841+05:30",
+              "goal": 104,
+              "created_by": 534558467
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Benefit Reviews",
           "description": "To continue ensure the benefits for the employees are competitive with the market for retention and motivation",
           "due": "2020-12-31",
@@ -242,6 +314,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 1,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:22:11.277441+05:30",
+              "goal": 106,
+              "created_by": 534558467
+            },
+            {
+              "id": 2,
+              "comment": "NIL",
+              "created_on": "2020-11-26T09:23:51.369742+05:30",
+              "goal": 106,
+              "created_by": 1813823810
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Talent Succession Planning via Functional Reviews",
           "description": "Ensure sufficient Benchstrength",
           "due": "2020-09-30",
@@ -418,6 +508,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 116,
+              "comment": "Need to do annual talent ranking excercise",
+              "created_on": "2020-11-29T22:54:10.549907+05:30",
+              "goal": 364,
+              "created_by": 1813823810
+            },
+            {
+              "id": 111,
+              "comment": "We have finished the Functional Reviews for Operations, Process/Prod Engr, Supply Chain, Sales and we have identified 2 additional section managers - Aaron, Chuan Ye in Subbu's team.  We have also conducted 3 out of 6 leadership training to help the new leaders/supervisor improve their managerial knowledge.",
+              "created_on": "2020-11-29T22:26:31.932722+05:30",
+              "goal": 364,
+              "created_by": 534558467
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Talent Succession Planning via Functional Reviews",
           "description": "Ensure sufficient Benchstrength",
           "due": "2020-09-30",
@@ -474,6 +582,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 115,
+              "comment": "To date, we have implemented the salary increment and market adjustment was executed on 01.07.2020. In Oct 2020, the proposal for the operators in-hire rate adjustment that required a compression exercise was discussed and, which will be implemented in Nov 2021.",
+              "created_on": "2020-11-29T22:28:44.906837+05:30",
+              "goal": 363,
+              "created_by": 534558467
+            },
+            {
+              "id": 120,
+              "comment": "NIL",
+              "created_on": "2020-11-29T22:56:56.504539+05:30",
+              "goal": 363,
+              "created_by": 1813823810
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Benefit Reviews",
           "description": "To continue ensure the benefits for the employees are competitive with the market for retention and motivation",
           "due": "2020-12-31",
@@ -514,6 +640,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 112,
+              "comment": "Participated a total of 4 Job fairs: a. 20/1/2020 NTU Job Fairs (F2F); NTU Virtual Job Fair 13 - 17.07.20; USPUR 1 - 31.08.20 (Virtual); SG Enable Virtual Training & Career Fair 5 19.09.20 (Virtual)",
+              "created_on": "2020-11-29T22:27:05.379979+05:30",
+              "goal": 360,
+              "created_by": 534558467
+            },
+            {
+              "id": 117,
+              "comment": "Hiring process still needs to be fine tuned. Need to get out of watch list of TAFEP.",
+              "created_on": "2020-11-29T22:55:16.960723+05:30",
+              "goal": 360,
+              "created_by": 1813823810
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Improve Company's Branding",
           "description": "Improve company’s image for better hiring sourcing and overall reputation of Denselight",
           "due": "2020-09-30",
@@ -562,6 +706,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 113,
+              "comment": "Revamped the entire KFA no.1 team leaders. Tirso has completed KFA no.1.1; remaining KFA 1.2 to KFA 1.5 still on-going.  For the Selection Assessment Tool - we will review if we can afford such a system to maintain cost expenditure. This may move to year 2021 for review.",
+              "created_on": "2020-11-29T22:27:39.811200+05:30",
+              "goal": 361,
+              "created_by": 534558467
+            },
+            {
+              "id": 118,
+              "comment": "Recruitment process, in particular interview process, needs to be looked at in 2021",
+              "created_on": "2020-11-29T22:55:57.596154+05:30",
+              "goal": 361,
+              "created_by": 1813823810
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Develop & Improve standard Recruitment Process to Reduce Attrition",
           "description": "1. Set up a more robust KFA no.1 teams to lead by new energized leaders \r\n2. Look at Selection Assesmen tool to check for culture fit and commitment from final 2 candidates to 'Hire Right'.",
           "due": "2020-12-31",
@@ -618,6 +780,24 @@
             }
           ],
           "goalcomment_set": [],
+          "commentbox_set": [],
+          "midyrcommentbox_set": [
+            {
+              "id": 114,
+              "comment": "To date the Voluntary average monthly Turnover for Indirects is at 0.9% (August 2020).  Target for voluntary average monthly indirects Turnover is 1.5%.   We have commenced on different programs e.g. Touch Points survey, HR Chit-chats with employees and Buddy System for new hires.",
+              "created_on": "2020-11-29T22:28:12.142209+05:30",
+              "goal": 362,
+              "created_by": 534558467
+            },
+            {
+              "id": 119,
+              "comment": "Attrition has dropped slightly but still above market standard",
+              "created_on": "2020-11-29T22:56:28.168184+05:30",
+              "goal": 362,
+              "created_by": 1813823810
+            }
+          ],
+          "endyrcommentbox_set": [],
           "summary": "Reduce Turnover",
           "description": "Retain effective employees and motivate them to higher productivity",
           "due": "2020-12-31",

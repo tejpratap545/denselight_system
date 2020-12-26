@@ -46,18 +46,12 @@
 
 <script>
 export default {
-  fetch({redirect}) {
-    if (this.$auth) {
-      redirect('/')
-    }
-  },
-
   data() {
     return {
       name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
       items: [
         {
-          link: '/dashboard',
+          link: '/',
           title: 'Dashboard',
           icon: 'mdi-view-dashboard-outline',
         },

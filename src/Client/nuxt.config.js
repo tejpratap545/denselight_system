@@ -110,6 +110,15 @@ export default {
                 tokenType: 'Bearer',
             },
         },
+        redirect: {
+            login: '/login',
+            logout: '/login',
+            callback: '/login',
+            home: '/'
+        },
         plugins: ['~/plugins/axios.js', '~/plugins/auth.js'],
     },
+    router: {
+        middleware: ['auth']
+    }
 }
