@@ -108,3 +108,30 @@ class CompetencyCategoryViewSet(ModelViewSet):
     @method_decorator(cache_page(60 * 2))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+
+class GoalCommentViewSet(ModelViewSet):
+    serializer_class = CommentBoxSerializer
+    queryset = CommentBox.objects.all()
+
+    @method_decorator(cache_page(60 * 2))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
+class MidYrCommentBoxViewSet(ModelViewSet):
+    serializer_class = MidYrCommentBoxSerializer
+    queryset = MidYrCommentBox.objects.all()
+
+    @method_decorator(cache_page(60 * 2))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
+class EndYrCommentBoxViewSet(ModelViewSet):
+    serializer_class = EndYrCommentBoxSerializer
+    queryset = EndYrCommentBox.objects.all()
+
+    @method_decorator(cache_page(60 * 2))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)

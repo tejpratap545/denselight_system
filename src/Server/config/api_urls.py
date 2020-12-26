@@ -14,6 +14,9 @@ from backend.Appraisals.api.views import (
     UserAppraisal,
     DetailAppraisal,
     DetailUserAppraisal,
+    approve_goal,
+    submit_goals,
+    RejectGoals,
 )
 from backend.Trainings.api.views import SkillsApiView, CreateSkillsApiView
 
@@ -46,4 +49,18 @@ urlpatterns = [
     path("competencies/<int:pk>", CompetenciesAPIView.as_view()),
     path("skill/<int:pk>", SkillsApiView.as_view()),
     path("appraisals/detail/<int:pk>", DetailAppraisal.as_view()),
+    path("submit/employee/goal/<int:pk>", submit_goals),
+    path("approve/manager/goal/<int:pk>", approve_goal),
+    path("reject/manager/goal/<int:pk>", RejectGoals.as_view())
+    #
+    # path("submit/employee/midyear/<int:pk>",)
+    # path("submit/manager/midyear/<int:pk>",)
+    # path("approve/manager/midyear/<int:pk>",)
+    # path("reject/manager/midyear/<int:pk>",)
+    #
+    #
+    # path("submit/employee/endyear",)
+    # path("submit/manager/endyear",)
+    # path("approve/manager/endyear",)
+    # path("reject/manager/endyear",)
 ]

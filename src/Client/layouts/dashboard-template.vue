@@ -45,10 +45,8 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-// import logout from '~/plugins/auth'
 export default {
-    fetch({redirect}) {
+  fetch({redirect}) {
     if (this.$auth) {
       redirect('/')
     }
@@ -56,7 +54,7 @@ export default {
 
   data() {
     return {
-      name: (this.$auth.loggedIn) ? this.$auth.user.name : 'John Doe',
+      name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
       items: [
         {
           link: '/dashboard',

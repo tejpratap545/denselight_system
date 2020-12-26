@@ -108,28 +108,35 @@ class DetailAppraisalSerializer(serializers.ModelSerializer):
         model = User_Appraisal_List
         fields = "__all__"
 
-        #
-        # (
-        #     "employee",
-        #     "manager",
-        #     "overall_appraisal",
-        #     "status",
-        #     "appraisal_name",
-        #     "appraisal_category",
-        #     "overall_board_comments",
-        #     "start_date",
-        #     "end_date",
-        #     "completion",
-        #     "goals_settingM_rejection",
-        #     "mid_yearM_rejection",
-        #     "appraisalHR_rejection",
-        #     "mid_year_completion",
-        #     "incrementRecommendation",
-        #     "bonusRecommendation",
-        #     "recommendationComments",
-        #     "final_employee_rating",
-        #     "final_manager_rating",
-        #     "final_board_rating",
-        #     "goals_set",
-        #     "competencies_set",
-        # )
+
+class GoalsSettingRejectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Appraisal_List
+        fields = ("goals_settingM_rejection",)
+
+    def update(self, instance, validated_data):
+        super(GoalsSettingRejectionSerializer, self).update()
+        instance.status = "Employee"
+        instance.save()
+
+
+class MidYearRejectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Appraisal_List
+        fields = ("mid_yearM_rejection",)
+
+    def update(self, instance, validated_data):
+        super(MidYearRejectionSerializer, self).update()
+        instance.status = "S1BReview"
+        instance.save()
+
+
+class AppraisalRejectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Appraisal_List
+        fields = ("appraisalHR_rejection",)
+
+    def update(self, instance, validated_data):
+        super(AppraisalRejectionSerializer, self).update()
+        instance.status = "Employee"
+        instance.save()
