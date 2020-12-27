@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div class="pa-5">
+    <div class="d-flex justify-lg-space-between align-center">
+      <AppraisalCreate />
+
+      <h3 class="font-weight-medium">Appraisal Status</h3>
+    </div>
+
     <div class="px-10 my-5">
       <v-tabs
         v-model="tabData"
@@ -196,6 +202,7 @@
 </template>
 
 <script>
+import { AppraisalCreate } from '~/components/AppraisalCreate'
 import { AppraisalDetails } from '~/components/AppraisalDetails'
 
 export default {

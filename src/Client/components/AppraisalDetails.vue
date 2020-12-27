@@ -26,7 +26,7 @@
             >
               <template v-slot:[`item.actions`]="{ item }">
                 <div>
-                  <v-dialog v-model="item.dialog" max-width="800">
+                  <v-dialog v-model="item.dialog" scrollable max-width="800">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn color="primary" icon v-bind="attrs" v-on="on">
                         <v-icon>mdi-chat-outline</v-icon>
@@ -54,8 +54,8 @@
                               v-for="comment in item.comments"
                               :key="comment.id"
                             >
-                              <div class="chat-ui">
-                                <div class="chat-container">
+                              <v-card flat class="chat-ui">
+                                <v-card-text class="chat-container">
                                   <p
                                     class="text-center"
                                     v-if="comment.data == null"
@@ -84,23 +84,23 @@
                                       ~Manager's Comment
                                     </v-card-text>
                                   </v-card>
-                                </div>
-                                <div>
+                                </v-card-text>
+                                <v-card-actions>
                                   <v-textarea
-                                    solo
                                     name="input-7-4"
                                     label="Write your comment here"
+                                    flat
                                   ></v-textarea>
-                                  <v-card-actions class="justify-end">
+                                  <div class="justify-end">
                                     <v-btn
                                       @click="item.dialog = false"
                                       color="primary"
                                       fab
                                       ><v-icon>mdi-send-outline</v-icon>
                                     </v-btn>
-                                  </v-card-actions>
-                                </div>
-                              </div>
+                                  </div>
+                                </v-card-actions>
+                              </v-card>
                             </v-tab-item>
                           </v-tabs-items>
                         </v-tabs>
@@ -170,6 +170,7 @@
 </template>
 
 <script>
+
 export default {
   props: ['appraisalID'],
   watch: {
@@ -328,12 +329,11 @@ export default {
   float: right;
   border-radius: 20px !important;
 }
-
 .chat-container {
-  min-height: 300px;
+  height: 350px;
+  overflow-y: scroll;
   padding: 0 10px;
   margin-bottom: 10px;
-  overflow-y: scroll;
 }
 .manager-chat {
   background: #00ca48 !important;

@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <div class="pa-5">
+    <div class="d-flex justify-lg-space-between align-center">
+      <v-btn color="success"> Create Department goal </v-btn>
+
+      <h3 class="font-weight-medium">Department</h3>
+    </div>
     <div class="px-10 my-5">
       <v-tabs
         v-model="tabData"
