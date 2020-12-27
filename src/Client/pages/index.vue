@@ -55,14 +55,99 @@
                 :items="myGoalsTableItems"
                 :items-per-page="10"
               >
-                <template v-slot:[`item.actions`]="{}">
+                <template v-slot:[`item.actions`]="{ item }">
                   <div>
-                    <v-btn color="success" icon
-                      ><v-icon>mdi-circle-edit-outline</v-icon></v-btn
-                    >
-                    <v-btn color="error" icon
-                      ><v-icon>mdi-delete-outline</v-icon></v-btn
-                    >
+                    <v-dialog v-model="item.dialog" max-width="800">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn color="primary" icon v-bind="attrs" v-on="on">
+                          <v-icon>mdi-chat-outline</v-icon>
+                        </v-btn>
+                      </template>
+
+                      <v-card>
+
+                        <v-toolbar color="primary" dark>
+                          <b>{{ item.goal_title }}</b> : Comments
+                          <v-spacer></v-spacer>
+                            <v-btn @click="item.dialog = false" flat icon>
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </v-toolbar>
+
+                        <v-card-text>
+                          <v-tabs v-model="item.tabs" vertical class="mt-5">
+                            <v-tab>GOAL SETTING</v-tab>
+                            <v-tab>MID YEAR</v-tab>
+                            <v-tab>END YEAR</v-tab>
+
+                            <v-tabs-items v-model="item.tabs">
+                              <v-tab-item
+                                class="pa-5"
+                                v-for="comment in item.comments"
+                                :key="comment.id"
+                              >
+                                <div class="chat-ui">
+                                  <div class="chat-container">
+                                    <p
+                                      class="text-center"
+                                      v-if="comment.data == null"
+                                    >
+                                      No comments yet
+                                    </p>
+                                    <v-card
+                                      flat
+                                      :class="
+                                        c.created_by == $auth.user.id
+                                          ? 'my-4 my-chat'
+                                          : 'my-4 manager-chat'
+                                      "
+                                      raised
+                                      v-for="c in comment.data"
+                                      :key="c.id"
+                                    >
+                                      <v-card-title>{{
+                                        c.comment
+                                      }}</v-card-title>
+                                      <v-card-text
+                                        v-if="c.created_by == $auth.user.id"
+                                      >
+                                        ~My response
+                                      </v-card-text>
+
+                                      <v-card-text v-else>
+                                        ~Manager's Comment
+                                      </v-card-text>
+                                    </v-card>
+                                  </div>
+                                  <div>
+                                    <v-textarea
+                                      solo
+                                      name="input-7-4"
+                                      label="Write your comment here"
+                                    ></v-textarea>
+                                    <v-card-actions class="justify-end">
+                                      <v-btn
+                                        @click="item.dialog = false"
+                                        color="primary"
+                                        fab
+                                        ><v-icon>mdi-send-outline</v-icon>
+                                      </v-btn>
+                                    </v-card-actions>
+                                  </div>
+                                </div>
+                              </v-tab-item>
+                            </v-tabs-items>
+                          </v-tabs>
+                        </v-card-text>
+                      </v-card>
+                    </v-dialog>
+
+                    <v-btn color="success" icon>
+                      <v-icon>mdi-circle-edit-outline</v-icon>
+                    </v-btn>
+                    <v-btn color="error" icon>
+                      <v-icon>mdi-delete-outline</v-icon>
+                    </v-btn>
                   </div>
                 </template>
               </v-data-table>
@@ -71,7 +156,7 @@
         </v-tab-item>
 
         <v-tab-item>
-           <v-card flat>
+          <v-card flat>
             <v-card-text>
               <h3 class="my-5 text-center">My Core Values</h3>
               <v-data-table
@@ -155,6 +240,13 @@ export default {
             goal_title: goal.summary,
             due: goal.due,
             weightage: `${goal.weightage}%`,
+            dialog: false,
+            tabs: null,
+            comments: [
+              { id: 0, date: goal.commentbox_set.reverse() },
+              { id: 1, data: goal.midyrcommentbox_set.reverse() },
+              { id: 2, data: goal.endyrcommentbox_set.reverse() },
+            ],
           })
         })
 
@@ -188,27 +280,23 @@ export default {
       myGoalsTableHeader: [
         {
           text: 'Category',
-          align: 'start',
           value: 'category',
         },
         {
           text: 'Goal Title',
-          align: 'start',
           value: 'goal_title',
         },
         {
           text: 'Due',
-          align: 'start',
           value: 'due',
         },
         {
           text: 'Weightage',
-          align: 'start',
           value: 'weightage',
         },
         {
           text: 'Action',
-          align: 'start',
+          align: 'center',
           value: 'actions',
         },
       ],
@@ -216,22 +304,19 @@ export default {
       mySkillsTableHeader: [
         {
           text: 'Skill',
-          align: 'start',
           value: 'skill',
         },
         {
           text: 'Descriptions',
-          align: 'start',
           value: 'description',
         },
         {
           text: 'Weightage',
-          align: 'start',
           value: 'weightage',
         },
         {
-          text: 'Actions',
-          align: 'start',
+          text: 'Action',
+          align: 'center',
           value: 'actions',
         },
       ],
@@ -239,22 +324,19 @@ export default {
       myValuesTableHeader: [
         {
           text: 'Core Values Competency',
-          align: 'start',
           value: 'value',
         },
         {
           text: 'Description',
-          align: 'start',
           value: 'description',
         },
         {
           text: 'Weightage',
-          align: 'start',
           value: 'weightage',
         },
         {
-          text: 'Actions',
-          align: 'start',
+          text: 'Action',
+          align: 'center',
           value: 'actions',
         },
       ],
@@ -267,11 +349,36 @@ export default {
     changeAppraisal(i) {
       this.appraisalSelected = i
       this.myGoalsTableItems = this.appraisalData[this.appraisalSelected].goals
-      this.mySkillsTableItems = this.appraisalData[this.appraisalSelected].skills
-      this.myValuesTableItems = this.appraisalData[this.appraisalSelected].core_values
+      this.mySkillsTableItems = this.appraisalData[
+        this.appraisalSelected
+      ].skills
+      this.myValuesTableItems = this.appraisalData[
+        this.appraisalSelected
+      ].core_values
     },
   },
 }
 </script>
 
-<style></style>
+<style>
+.my-chat {
+  background: #55c4fa !important;
+  color: #fff !important;
+  width: 350px;
+  float: right;
+  border-radius: 20px !important;
+}
+.chat-container {
+  min-height: 300px;
+  overflow-y: scroll;
+  padding: 0 10px;
+  margin-bottom: 10px;
+}
+.manager-chat {
+  background: #00ca48 !important;
+  color: #fff !important;
+  width: 350px;
+  float: left;
+  border-radius: 20px !important;
+}
+</style>
