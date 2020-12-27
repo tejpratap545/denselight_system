@@ -21,7 +21,6 @@
                   <v-tab class="justify-start">ONGOING APPRAISALS</v-tab>
                   <v-tab class="justify-start">COMPLETED APPRAISALS</v-tab>
 
-                  <!-- GOALS LAUNCHING -->
                   <v-tab-item>
                     <v-card flat>
                       <v-card-text>
@@ -30,21 +29,39 @@
                           :items="onGoingTableItems"
                           :items-per-page="10"
                         >
-                          <template v-slot:[`item.action`]="{ item }">
-                            <v-btn
-                              v-model="item.action"
-                              color="transparent"
-                              elevation="0"
-                            >
-                              <i class="fas fa-ellipsis-h"></i>
-                            </v-btn>
+                          <template v-slot:[`item.actions`]="{ item }">
+                            <v-dialog v-model="item.dialog" fullscreen>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                  color="primary"
+                                  icon
+                                  v-bind="attrs"
+                                  v-on="on"
+                                >
+                                  <v-icon>mdi-eye-outline</v-icon>
+                                </v-btn>
+                              </template>
+
+                              <v-card>
+                                <v-toolbar color="primary" dark>
+                                  <b>{{ item.appraisal_name }}</b> : Comments
+                                  <v-spacer></v-spacer>
+                                  <v-btn @click="item.dialog = false" icon>
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-btn>
+                                </v-toolbar>
+
+                                <v-card-text>
+                                  <AppraisalDetails :appraisalID="item.id" />
+                                </v-card-text>
+                              </v-card>
+                            </v-dialog>
                           </template>
                         </v-data-table>
                       </v-card-text>
                     </v-card>
                   </v-tab-item>
 
-                  <!-- MID-YEAR REVIEW -->
                   <v-tab-item>
                     <v-card flat>
                       <v-card-text>
@@ -179,6 +196,8 @@
 </template>
 
 <script>
+import { AppraisalDetails } from '~/components/AppraisalDetails'
+
 export default {
   title: 'Appraisal Status',
   name: 'AppraisalStatus',
@@ -211,7 +230,7 @@ export default {
           text: 'Actions',
           align: 'center',
           sortable: false,
-          value: 'action',
+          value: 'actions',
         },
       ],
       onGoingTableItems: [],
@@ -250,7 +269,7 @@ export default {
           text: 'Actions',
           align: 'center',
           sortable: false,
-          value: 'action',
+          value: 'actions',
         },
       ],
       completedTableItems: [],
@@ -302,7 +321,7 @@ export default {
           text: 'Actions',
           align: 'center',
           sortable: false,
-          value: 'action',
+          value: 'actions',
         },
       ],
       goalsLaunchingTableItems: [],
@@ -316,11 +335,13 @@ export default {
       .then((response) => {
         response.forEach((appraisal) => {
           var tableData = {
+            id: appraisal.id,
             appraisal_name: appraisal.appraisal_name,
             employee: appraisal.employee.name,
 
             end_date: appraisal.overall_appraisal.goals_setting_end_date,
             status: appraisal.status,
+            dialog: false,
           }
 
           switch (appraisal.overall_appraisal.status) {
@@ -335,7 +356,7 @@ export default {
         })
       })
       .catch((error) => console.log(error))
-/*
+    /*
     this.$axios
       .$get('api​/overallAppraisal​')
       .then((response) => {

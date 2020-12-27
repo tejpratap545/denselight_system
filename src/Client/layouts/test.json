@@ -1,910 +1,442 @@
-[
-    {
-      "id": 154,
-      "manager": {
-        "name": "RAJAN RAJGOPAL",
-        "email": "rajan@denselight.com",
-        "department": {
-          "id": 2,
-          "name": "CORPORATE OFFICE",
-          "manager": null
-        },
-        "date_Of_Hire": "2017-01-23"
+{
+    "id": 154,
+    "manager": {
+      "name": "RAJAN RAJGOPAL",
+      "email": "rajan@denselight.com",
+      "department": {
+        "id": 2,
+        "name": "CORPORATE OFFICE",
+        "manager": null
       },
-      "employee": {
-        "name": "HELEN VINCENT",
-        "email": "helen@denselight.com",
-        "department": {
-          "id": 9,
-          "name": "HUMAN RESOURCE",
-          "manager": null
-        },
-        "date_Of_Hire": "2017-08-21"
-      },
-      "overall_appraisal": {
-        "id": 21,
-        "is_company": false,
-        "name": "2020 Performance Appraisal",
-        "goal_weightage": 100,
-        "competency_weightage": 0,
-        "skill_weightage": 0,
-        "start_date": "2020-09-01",
-        "goals_setting_end_date": "2020-09-30",
-        "mid_year_start_date": "2020-11-30",
-        "mid_year_end_date": "2020-12-15",
-        "end_year_start_date": "2021-01-01",
-        "appraisal_end_date": "2021-01-31",
-        "reports_end_date": "2021-02-15",
-        "calibration_end_date": "2021-03-01",
-        "rating_scale": "Denselight System",
-        "status": "Stage 1B",
-        "appraisal_category": 3
-      },
-      "appraisal_category": {
-        "id": 3,
-        "name": "3rd Quarter"
-      },
-      "goals_set": [
-        {
-          "id": 105,
-          "kpi_set": [
-            {
-              "id": 269,
-              "description": "b. Review the HRIS to increase productivity for work - E- PMP by HuNet (By Q3, 2020) - E- OT System -Auto link to Citrix for time soft payout computation by HuNet (By March 2020)",
-              "due": null,
-              "date_created": "2020-10-05",
-              "progress": "Working",
-              "goal": 105
-            },
-            {
-              "id": 268,
-              "description": "a. Attend at least 4 job fairs/talks to represent DLS (Total no. of attended by year end)",
-              "due": null,
-              "date_created": "2020-10-05",
-              "progress": "Working",
-              "goal": 105
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 4,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:28:01.824780+05:30",
-              "goal": 105,
-              "created_by": 534558467
-            },
-            {
-              "id": 10,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:39:05.828944+05:30",
-              "goal": 105,
-              "created_by": 1813823810
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Improve Company's Branding",
-          "description": "Improve company’s image for better hiring sourcing and overall reputation of Denselight",
-          "due": "2020-09-30",
-          "weightage": 20,
-          "metrics_Used": "Implementation of the E-PMP and E-OT on schedule",
-          "MID_user_comments": "NIL",
-          "MID_manager_comments": "NIL",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "null",
-          "metrics_evidence": null,
-          "appraisal": 154,
-          "employee": 534558467,
-          "goal_category": 5
-        },
-        {
-          "id": 102,
-          "kpi_set": [
-            {
-              "id": 66,
-              "description": "1. Set up a more robust KFA no. 1 teams led by new energized leaders\r\n2. Look at a Selection Assessment tool to check for cultur fit and commitment from final  2 candidates to 'Hire Right'\r\n3. Introduce a panel interview (if necessary)",
-              "due": "2020-12-31",
-              "date_created": "2020-09-18",
-              "progress": "Not Started",
-              "goal": 102
-            },
-            {
-              "id": 67,
-              "description": "Identify & fill up 2020 budgeted positions\r\n- Hire as per AOP 2020 and according to the needsbut mindful of the cost of payroll acceding the budget",
-              "due": "2020-12-31",
-              "date_created": "2020-09-18",
-              "progress": "Not Started",
-              "goal": 102
-            },
-            {
-              "id": 68,
-              "description": "Odoo Recruitment Database\r\n- Maintain a database of CVs, in Odoo by Q4,2020 to keep track of good KIV candidates for future hiring & hiring via ODOO recruitment tracking system\r\n\r\na) 50% by Q2,2020\r\nb) 100% of CV by Q4,2020",
-              "due": "2020-12-31",
-              "date_created": "2020-09-18",
-              "progress": "Not Started",
-              "goal": 102
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 5,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:30:27.560337+05:30",
-              "goal": 102,
-              "created_by": 534558467
-            },
-            {
-              "id": 8,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:35:27.920524+05:30",
-              "goal": 102,
-              "created_by": 1813823810
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Develop & Improve standard Recruitment Process to Reduce Attrition",
-          "description": "1.  Set up a more robust KFA no.1 teams to lead by new energized leaders\r\n2. Look at Selection Assesmen tool to check for culture fit and commitment from final 2 candidates to 'Hire Right'.",
-          "due": "2020-12-31",
-          "weightage": 20,
-          "metrics_Used": "KFA Monthly meetings",
-          "MID_user_comments": "NIL",
-          "MID_manager_comments": "NIL",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "null",
-          "metrics_evidence": null,
-          "appraisal": 154,
-          "employee": 534558467,
-          "goal_category": 5
-        },
-        {
-          "id": 103,
-          "kpi_set": [
-            {
-              "id": 69,
-              "description": "Improved NMTO and E-Boarding program in KFA no.1.1\r\nTop 10% identified form Functional Review - 0% turnover and are retained from KFA no.13",
-              "due": "2020-12-31",
-              "date_created": "2020-09-18",
-              "progress": "Not Started",
-              "goal": 103
-            },
-            {
-              "id": 70,
-              "description": "Leadership Development\r\n- Conduct 4 supervisory training for potential managers/supervisors\r\n\r\nBy Q2,2020, 2 training to be completed.\r\nBy Q4, 2020, last 2 trainings conducted.",
-              "due": "2020-12-31",
-              "date_created": "2020-09-18",
-              "progress": "Not Started",
-              "goal": 103
-            },
-            {
-              "id": 71,
-              "description": "Consistent welfare activities on alternate months to bond the people\r\n- 6 welfare activities to bey done by Q4,2020\r\n\r\nIntroduce workplace integration program (funded by WSG and administered by SNEF) to come up with integration activity for staff - Q3,2020\r\n\r\nTouch points with new hires 1st, 3rd and 6th month of service in DLS to be organized by HRBPs assigned.",
-              "due": null,
-              "date_created": "2020-09-18",
-              "progress": "Not Started",
-              "goal": 103
-            },
-            {
-              "id": 72,
-              "description": "Improve Communication\r\n- During townhall, introduce pigeon-hole questions for people to ask Rajan (by Apr 2020)\r\n\r\n- Start a group-chat Buddy system (4 existing employee mentor 1 new hire) per KFA no.1.3 (By April 2020)\r\n\r\n- Evaluate EOS 2020 results and start focused group coffee talks to determine action plans. (By March 2020)",
-              "due": "2020-12-31",
-              "date_created": "2020-09-18",
-              "progress": "Not Started",
-              "goal": 103
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 6,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:31:17.046723+05:30",
-              "goal": 103,
-              "created_by": 534558467
-            },
-            {
-              "id": 7,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:34:25.031260+05:30",
-              "goal": 103,
-              "created_by": 1813823810
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Reduce Turnover",
-          "description": "Retain effective employees and motivate them to higher productivity",
-          "due": "2020-12-31",
-          "weightage": 20,
-          "metrics_Used": "KFA 1.3 monthly report",
-          "MID_user_comments": "NIL",
-          "MID_manager_comments": "NIL",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "null",
-          "metrics_evidence": null,
-          "appraisal": 154,
-          "employee": 534558467,
-          "goal_category": 4
-        },
-        {
-          "id": 104,
-          "kpi_set": [
-            {
-              "id": 73,
-              "description": "a. Propose a sales incentive Plan for implementation twice a year (SIP) \r\n(By April 2020)\r\n\r\nb. Propose a general bonus proposal for the Board's approval (By April 2020)\r\n\r\nc. Prepare a Salary increment proposal in May for July 2020 Implementation (By May 2020)\r\n\r\nd. Conduct a market adjustment for key employees by March 2020 (By March 2020)",
-              "due": "2020-07-31",
-              "date_created": "2020-09-18",
-              "progress": "Working",
-              "goal": 104
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 9,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:37:05.565377+05:30",
-              "goal": 104,
-              "created_by": 1813823810
-            },
-            {
-              "id": 3,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:26:56.955841+05:30",
-              "goal": 104,
-              "created_by": 534558467
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Benefit Reviews",
-          "description": "To continue ensure the benefits for the employees are competitive with the market for retention and motivation",
-          "due": "2020-12-31",
-          "weightage": 20,
-          "metrics_Used": "Programs developed",
-          "MID_user_comments": "NIL",
-          "MID_manager_comments": "NIL",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "null",
-          "metrics_evidence": null,
-          "appraisal": 154,
-          "employee": 534558467,
-          "goal_category": 6
-        },
-        {
-          "id": 106,
-          "kpi_set": [
-            {
-              "id": 74,
-              "description": "a. Identify next set of potential leaders to develop and train them via the DLS supervisory Leadership program found in KRA (2) and reduce the no. of reports to HODs for better management.\r\n(BY Q3,2020 completed functional reviews)\r\n\r\nb. Ensure HODs rate and rank their employees under their charge during Functional Reviews and ensure top 10% identified as key personnel are retained. \r\n(By August 2020 functional reviews done and key talents identified)",
-              "due": "2020-12-31",
-              "date_created": "2020-09-18",
-              "progress": "Not Started",
-              "goal": 106
-            },
-            {
-              "id": 75,
-              "description": "a. Identify next set of potential leaders to develop and train them via the DLS supervisory Leadership program found in KRA (2) and reduce the no. of reports to HODs for better management.\r\n(BY Q3,2020 completed functional reviews)\r\n\r\nb. Ensure HODs rate and rank their employees under their charge during Functional Reviews and ensure top 10% identified as key personnel are retained. \r\n(By August 2020 functional reviews done and key talents identified)",
-              "due": "2020-12-31",
-              "date_created": "2020-09-18",
-              "progress": "Not Started",
-              "goal": 106
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 1,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:22:11.277441+05:30",
-              "goal": 106,
-              "created_by": 534558467
-            },
-            {
-              "id": 2,
-              "comment": "NIL",
-              "created_on": "2020-11-26T09:23:51.369742+05:30",
-              "goal": 106,
-              "created_by": 1813823810
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Talent Succession Planning via Functional Reviews",
-          "description": "Ensure sufficient Benchstrength",
-          "due": "2020-09-30",
-          "weightage": 20,
-          "metrics_Used": "Functional Reviews Minutes",
-          "MID_user_comments": "NIL",
-          "MID_manager_comments": "NIL",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "null",
-          "metrics_evidence": null,
-          "appraisal": 154,
-          "employee": 534558467,
-          "goal_category": 5
-        }
-      ],
-      "competencies_set": [
-        {
-          "id": 43,
-          "competencycomment_set": [],
-          "summary": "Reduce Turnover",
-          "description": "Provide regular feedback to HODs on their 'People Issues'.",
-          "weightage": 40,
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "appraisal": 154,
-          "employee": 534558467,
-          "competency_category": 6
-        },
-        {
-          "id": 44,
-          "competencycomment_set": [],
-          "summary": "Improve Company's Branding",
-          "description": "Develop a new HR team to excel in business partnering.",
-          "weightage": 30,
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "appraisal": 154,
-          "employee": 534558467,
-          "competency_category": 7
-        },
-        {
-          "id": 45,
-          "competencycomment_set": [],
-          "summary": "Improve COmpnay's Branding",
-          "description": "Upload Denselight core values with fairness to all employees (regardless of rank) by giving feedback to anyone if seen to waiver from the values",
-          "weightage": 30,
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "appraisal": 154,
-          "employee": 534558467,
-          "competency_category": 8
-        }
-      ],
-      "skills_set": [
-        {
-          "id": 24,
-          "skill_category": {
-            "id": 19,
-            "name": "Communication"
-          },
-          "description": "Behaviour Observation and conflict Resolution - Managing difficult conversations with talking with employee at termination or grievance handling.\r\n\r\nTo attend course: SNEF - Managing Harassment in the work place.",
-          "weightage": 100,
-          "recommended_Trainings_user": "NIL",
-          "recommended_Trainings_manager": "NIL",
-          "recommended_Trainings_board": "NIL",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "appraisal": 154,
-          "employee": 534558467
-        }
-      ],
-      "status": "S1BEmployee",
-      "appraisal_name": "2020 Performance Appraisal",
-      "overall_board_comments": "No Comments",
-      "start_date": "2020-09-01",
-      "end_date": "2020-09-01",
-      "completion": "null",
-      "goals_settingM_rejection": "NIL",
-      "mid_yearM_rejection": "NIL",
-      "appraisalHR_rejection": "NIL",
-      "mid_year_completion": "Uncompleted",
-      "incrementRecommendation": 0,
-      "bonusRecommendation": "NIL",
-      "recommendationComments": "NIL",
-      "final_employee_rating": null,
-      "final_manager_rating": null,
-      "final_board_rating": null
+      "date_Of_Hire": "2017-01-23"
     },
-    {
-      "id": 256,
-      "manager": {
-        "name": "RAJAN RAJGOPAL",
-        "email": "rajan@denselight.com",
-        "department": {
-          "id": 2,
-          "name": "CORPORATE OFFICE",
-          "manager": null
-        },
-        "date_Of_Hire": "2017-01-23"
+    "employee": {
+      "name": "HELEN VINCENT",
+      "email": "helen@denselight.com",
+      "department": {
+        "id": 9,
+        "name": "HUMAN RESOURCE",
+        "manager": null
       },
-      "employee": {
-        "name": "HELEN VINCENT",
-        "email": "helen@denselight.com",
-        "department": {
-          "id": 9,
-          "name": "HUMAN RESOURCE",
-          "manager": null
-        },
-        "date_Of_Hire": "2017-08-21"
-      },
-      "overall_appraisal": {
-        "id": 27,
-        "is_company": false,
-        "name": "2020 Performance Appraisal - Helen Vincent",
-        "goal_weightage": 100,
-        "competency_weightage": 0,
-        "skill_weightage": 0,
-        "start_date": "2020-09-01",
-        "goals_setting_end_date": "2020-09-30",
-        "mid_year_start_date": "2020-10-01",
-        "mid_year_end_date": "2020-10-31",
-        "end_year_start_date": "2021-01-01",
-        "appraisal_end_date": "2021-01-31",
-        "reports_end_date": "2021-02-01",
-        "calibration_end_date": "2021-02-05",
-        "rating_scale": "Denselight System",
-        "status": "Stage 1B",
-        "appraisal_category": 3
-      },
-      "appraisal_category": {
-        "id": 3,
-        "name": "3rd Quarter"
-      },
-      "goals_set": [
-        {
-          "id": 364,
-          "kpi_set": [
-            {
-              "id": 469,
-              "description": "b. Ensure HODs rate and rank their employees under their charge during Functional Reviews and ensure top 10% identified as key personnel are retained. (By August 2020 functional reviews done and key talents identified)",
-              "due": "2020-12-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 364
-            },
-            {
-              "id": 470,
-              "description": "a. Identify next set of potential leaders to develop and train them via the DLS supervisory Leadership program found in KRA (2) and reduce the no. of reports to HODs for better management. (BY Q3,2020 completed functional reviews)",
-              "due": "2020-12-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 364
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 116,
-              "comment": "Need to do annual talent ranking excercise",
-              "created_on": "2020-11-29T22:54:10.549907+05:30",
-              "goal": 364,
-              "created_by": 1813823810
-            },
-            {
-              "id": 111,
-              "comment": "We have finished the Functional Reviews for Operations, Process/Prod Engr, Supply Chain, Sales and we have identified 2 additional section managers - Aaron, Chuan Ye in Subbu's team.  We have also conducted 3 out of 6 leadership training to help the new leaders/supervisor improve their managerial knowledge.",
-              "created_on": "2020-11-29T22:26:31.932722+05:30",
-              "goal": 364,
-              "created_by": 534558467
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Talent Succession Planning via Functional Reviews",
-          "description": "Ensure sufficient Benchstrength",
-          "due": "2020-09-30",
-          "weightage": 20,
-          "metrics_Used": "Functional Reviews Minutes",
-          "MID_user_comments": "We have finished the Functional Reviews for Operations, Process/Prod Engr, Supply Chain, Sales and we have identified 2 additional section managers - Aaron, Chuan Ye in Subbu's team.  We have also conducted 3 out of 6 leadership training to help the new leaders/supervisor improve their managerial knowledge.",
-          "MID_manager_comments": "Need to do annual talent ranking excercise",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "On Track",
-          "metrics_evidence": null,
-          "appraisal": 256,
-          "employee": 534558467,
-          "goal_category": 5
-        },
-        {
-          "id": 363,
-          "kpi_set": [
-            {
-              "id": 462,
-              "description": "d. Conduct a market adjustment for key employees by March 2020 (By March 2020)",
-              "due": "2020-07-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 363
-            },
-            {
-              "id": 463,
-              "description": "c. Prepare a Salary increment proposal in May for July 2020 Implementation (By May 2020)",
-              "due": "2020-07-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 363
-            },
-            {
-              "id": 464,
-              "description": "b. Propose a general bonus proposal for the Board's approval (By April 2020)",
-              "due": "2020-07-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 363
-            },
-            {
-              "id": 468,
-              "description": "a. Propose a sales incentive Plan for implementation twice a year (SIP) (By April 2020)",
-              "due": "2020-07-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 363
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 115,
-              "comment": "To date, we have implemented the salary increment and market adjustment was executed on 01.07.2020. In Oct 2020, the proposal for the operators in-hire rate adjustment that required a compression exercise was discussed and, which will be implemented in Nov 2021.",
-              "created_on": "2020-11-29T22:28:44.906837+05:30",
-              "goal": 363,
-              "created_by": 534558467
-            },
-            {
-              "id": 120,
-              "comment": "NIL",
-              "created_on": "2020-11-29T22:56:56.504539+05:30",
-              "goal": 363,
-              "created_by": 1813823810
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Benefit Reviews",
-          "description": "To continue ensure the benefits for the employees are competitive with the market for retention and motivation",
-          "due": "2020-12-31",
-          "weightage": 20,
-          "metrics_Used": "Programs developed",
-          "MID_user_comments": "To date, we have implemented the salary increment and market adjustment was executed on 01.07.2020. In Oct 2020, the proposal for the operators in-hire rate adjustment that required a compression exercise was discussed and, which will be implemented in Nov 2021.",
-          "MID_manager_comments": "NIL",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "On Track",
-          "metrics_evidence": null,
-          "appraisal": 256,
-          "employee": 534558467,
-          "goal_category": 6
-        },
-        {
-          "id": 360,
-          "kpi_set": [
-            {
-              "id": 446,
-              "description": "b. Review the HRIS to increase productivity for work - E- PMP by HuNet (By Q3, 2020) - E- OT System -Auto link to Citrix for time soft payout computation by HuNet (By March 2020)",
-              "due": null,
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 360
-            },
-            {
-              "id": 447,
-              "description": "a. Attend at least 4 job fairs/talks to represent DLS (Total no. of attended by year end)",
-              "due": null,
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 360
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 112,
-              "comment": "Participated a total of 4 Job fairs: a. 20/1/2020 NTU Job Fairs (F2F); NTU Virtual Job Fair 13 - 17.07.20; USPUR 1 - 31.08.20 (Virtual); SG Enable Virtual Training & Career Fair 5 19.09.20 (Virtual)",
-              "created_on": "2020-11-29T22:27:05.379979+05:30",
-              "goal": 360,
-              "created_by": 534558467
-            },
-            {
-              "id": 117,
-              "comment": "Hiring process still needs to be fine tuned. Need to get out of watch list of TAFEP.",
-              "created_on": "2020-11-29T22:55:16.960723+05:30",
-              "goal": 360,
-              "created_by": 1813823810
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Improve Company's Branding",
-          "description": "Improve company’s image for better hiring sourcing and overall reputation of Denselight",
-          "due": "2020-09-30",
-          "weightage": 20,
-          "metrics_Used": "Implementation of the E-PMP and E-OT on schedule",
-          "MID_user_comments": "Participated a total of 4 Job fairs: a. 20/1/2020 NTU Job Fairs (F2F); NTU Virtual Job Fair 13 - 17.07.20; USPUR 1 - 31.08.20 (Virtual); SG Enable Virtual Training & Career Fair 5 19.09.20 (Virtual)",
-          "MID_manager_comments": "Hiring process still needs to be fine tuned. Need to get out of watch list of TAFEP.",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "On Track",
-          "metrics_evidence": null,
-          "appraisal": 256,
-          "employee": 534558467,
-          "goal_category": 5
-        },
-        {
-          "id": 361,
-          "kpi_set": [
-            {
-              "id": 449,
-              "description": "1. Set up a more robust KFA no. 1 teams led by new energized leaders \r\n2. Look at a Selection Assessment tool to check for cultur fit and commitment from final 2 candidates to 'Hire Right' \r\n3. Introduce a panel interview (if necessary)",
-              "due": "2020-12-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 361
-            },
-            {
-              "id": 450,
-              "description": "Identify & fill up 2020 budgeted positions - Hire as per AOP 2020 and according to the needsbut mindful of the cost of payroll acceding the budget",
-              "due": "2020-12-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 361
-            },
-            {
-              "id": 451,
-              "description": "Odoo Recruitment Database - Maintain a database of CVs, in Odoo by Q4,2020 to keep track of good KIV candidates for future hiring & hiring via ODOO recruitment tracking system a) 50% by Q2,2020 b) 100% of CV by Q4,2020",
-              "due": "2020-12-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 361
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 113,
-              "comment": "Revamped the entire KFA no.1 team leaders. Tirso has completed KFA no.1.1; remaining KFA 1.2 to KFA 1.5 still on-going.  For the Selection Assessment Tool - we will review if we can afford such a system to maintain cost expenditure. This may move to year 2021 for review.",
-              "created_on": "2020-11-29T22:27:39.811200+05:30",
-              "goal": 361,
-              "created_by": 534558467
-            },
-            {
-              "id": 118,
-              "comment": "Recruitment process, in particular interview process, needs to be looked at in 2021",
-              "created_on": "2020-11-29T22:55:57.596154+05:30",
-              "goal": 361,
-              "created_by": 1813823810
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Develop & Improve standard Recruitment Process to Reduce Attrition",
-          "description": "1. Set up a more robust KFA no.1 teams to lead by new energized leaders \r\n2. Look at Selection Assesmen tool to check for culture fit and commitment from final 2 candidates to 'Hire Right'.",
-          "due": "2020-12-31",
-          "weightage": 20,
-          "metrics_Used": "KFA Monthly meetings",
-          "MID_user_comments": "Revamped the entire KFA no.1 team leaders. Tirso has completed KFA no.1.1; remaining KFA 1.2 to KFA 1.5 still on-going.  For the Selection Assessment Tool - we will review if we can afford such a system to maintain cost expenditure. This may move to year 2021 for review.",
-          "MID_manager_comments": "Recruitment process, in particular interview process, needs to be looked at in 2021",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "On Track",
-          "metrics_evidence": null,
-          "appraisal": 256,
-          "employee": 534558467,
-          "goal_category": 5
-        },
-        {
-          "id": 362,
-          "kpi_set": [
-            {
-              "id": 452,
-              "description": "Improved NMTO and E-Boarding program in KFA no.1.1 Top 10% identified form Functional Review - 0% turnover and are retained from KFA no.13",
-              "due": "2020-12-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 362
-            },
-            {
-              "id": 453,
-              "description": "Leadership Development - Conduct 4 supervisory training for potential managers/supervisors By Q2,2020, 2 training to be completed. By Q4, 2020, last 2 trainings conducted.",
-              "due": "2020-12-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 362
-            },
-            {
-              "id": 454,
-              "description": "Consistent welfare activities on alternate months to bond the people - 6 welfare activities to bey done by Q4,2020 Introduce workplace integration program (funded by WSG and administered by SNEF) to come up with integration activity for staff - Q3,2020 Touch points with new hires 1st, 3rd and 6th month of service in DLS to be organized by HRBPs assigned.",
-              "due": null,
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 362
-            },
-            {
-              "id": 456,
-              "description": "Improve Communication - During townhall, introduce pigeon-hole questions for people to ask Rajan (by Apr 2020) - Start a group-chat Buddy system (4 existing employee mentor 1 new hire) per KFA no.1.3 (By April 2020) - Evaluate EOS 2020 results and start focused group coffee talks to determine action plans. (By March 2020)",
-              "due": "2020-12-31",
-              "date_created": "2020-10-14",
-              "progress": "Not Started",
-              "goal": 362
-            }
-          ],
-          "goalcomment_set": [],
-          "commentbox_set": [],
-          "midyrcommentbox_set": [
-            {
-              "id": 114,
-              "comment": "To date the Voluntary average monthly Turnover for Indirects is at 0.9% (August 2020).  Target for voluntary average monthly indirects Turnover is 1.5%.   We have commenced on different programs e.g. Touch Points survey, HR Chit-chats with employees and Buddy System for new hires.",
-              "created_on": "2020-11-29T22:28:12.142209+05:30",
-              "goal": 362,
-              "created_by": 534558467
-            },
-            {
-              "id": 119,
-              "comment": "Attrition has dropped slightly but still above market standard",
-              "created_on": "2020-11-29T22:56:28.168184+05:30",
-              "goal": 362,
-              "created_by": 1813823810
-            }
-          ],
-          "endyrcommentbox_set": [],
-          "summary": "Reduce Turnover",
-          "description": "Retain effective employees and motivate them to higher productivity",
-          "due": "2020-12-31",
-          "weightage": 20,
-          "metrics_Used": "KFA 1.3 monthly report",
-          "MID_user_comments": "To date the Voluntary average monthly Turnover for Indirects is at 0.9% (August 2020).  Target for voluntary average monthly indirects Turnover is 1.5%.   We have commenced on different programs e.g. Touch Points survey, HR Chit-chats with employees and Buddy System for new hires.",
-          "MID_manager_comments": "Attrition has dropped slightly but still above market standard",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "tracking_status": "On Track",
-          "metrics_evidence": null,
-          "appraisal": 256,
-          "employee": 534558467,
-          "goal_category": 4
-        }
-      ],
-      "competencies_set": [
-        {
-          "id": 204,
-          "competencycomment_set": [],
-          "summary": "Improve Company's Branding",
-          "description": "Upload Denselight core values with fairness to all employees (regardless of rank) by giving feedback to anyone if seen to waiver from the values",
-          "weightage": 30,
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "appraisal": 256,
-          "employee": 534558467,
-          "competency_category": 8
-        },
-        {
-          "id": 205,
-          "competencycomment_set": [],
-          "summary": "Improve Company's Branding",
-          "description": "Develop a new HR team to excel in business partnering.",
-          "weightage": 30,
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "appraisal": 256,
-          "employee": 534558467,
-          "competency_category": 7
-        },
-        {
-          "id": 206,
-          "competencycomment_set": [],
-          "summary": "Reduce Turnover",
-          "description": "Provide regular feedback to HODs on their 'People Issues'.",
-          "weightage": 40,
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "appraisal": 256,
-          "employee": 534558467,
-          "competency_category": 6
-        }
-      ],
-      "skills_set": [
-        {
-          "id": 85,
-          "skill_category": {
-            "id": 19,
-            "name": "Communication"
+      "date_Of_Hire": "2017-08-21"
+    },
+    "overall_appraisal": {
+      "id": 21,
+      "is_company": false,
+      "name": "2020 Performance Appraisal",
+      "goal_weightage": 100,
+      "competency_weightage": 0,
+      "skill_weightage": 0,
+      "start_date": "2020-09-01",
+      "goals_setting_end_date": "2020-09-30",
+      "mid_year_start_date": "2020-11-30",
+      "mid_year_end_date": "2020-12-15",
+      "end_year_start_date": "2021-01-01",
+      "appraisal_end_date": "2021-01-31",
+      "reports_end_date": "2021-02-15",
+      "calibration_end_date": "2021-03-01",
+      "rating_scale": "Denselight System",
+      "status": "Stage 1B",
+      "appraisal_category": 3
+    },
+    "appraisal_category": {
+      "id": 3,
+      "name": "3rd Quarter"
+    },
+    "goals_set": [
+      {
+        "id": 105,
+        "kpi_set": [
+          {
+            "id": 269,
+            "description": "b. Review the HRIS to increase productivity for work - E- PMP by HuNet (By Q3, 2020) - E- OT System -Auto link to Citrix for time soft payout computation by HuNet (By March 2020)",
+            "due": null,
+            "date_created": "2020-10-05",
+            "progress": "Working",
+            "goal": 105
           },
-          "description": "Behaviour Observation and conflict Resolution - Managing difficult conversations with talking with employee at termination or grievance handling. To attend course: SNEF - Managing Harassment in the work place.",
-          "weightage": 100,
-          "recommended_Trainings_user": "NIL",
-          "recommended_Trainings_manager": "NIL",
-          "recommended_Trainings_board": "NIL",
-          "user_rating": 1,
-          "manager_rating": 1,
-          "board_rating": 1,
-          "user_comments": "NIL",
-          "manager_comments": "NIL",
-          "board_comments": "NIL",
-          "appraisal": 256,
-          "employee": 534558467
-        }
-      ],
-      "status": "S2Employee",
-      "appraisal_name": "2020 Performance Appraisal - Helen Vincent",
-      "overall_board_comments": "No Comments",
-      "start_date": "2020-10-14",
-      "end_date": "2020-10-14",
-      "completion": "null",
-      "goals_settingM_rejection": "NIL",
-      "mid_yearM_rejection": "NIL",
-      "appraisalHR_rejection": "NIL",
-      "mid_year_completion": "Completed",
-      "incrementRecommendation": 0,
-      "bonusRecommendation": "NIL",
-      "recommendationComments": "NIL",
-      "final_employee_rating": null,
-      "final_manager_rating": null,
-      "final_board_rating": null
-    }
-  ]
+          {
+            "id": 268,
+            "description": "a. Attend at least 4 job fairs/talks to represent DLS (Total no. of attended by year end)",
+            "due": null,
+            "date_created": "2020-10-05",
+            "progress": "Working",
+            "goal": 105
+          }
+        ],
+        "goalcomment_set": [],
+        "commentbox_set": [],
+        "midyrcommentbox_set": [
+          {
+            "id": 4,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:28:01.824780+05:30",
+            "goal": 105,
+            "created_by": 534558467
+          },
+          {
+            "id": 10,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:39:05.828944+05:30",
+            "goal": 105,
+            "created_by": 1813823810
+          }
+        ],
+        "endyrcommentbox_set": [],
+        "summary": "Improve Company's Branding",
+        "description": "Improve company’s image for better hiring sourcing and overall reputation of Denselight",
+        "due": "2020-09-30",
+        "weightage": 20,
+        "metrics_Used": "Implementation of the E-PMP and E-OT on schedule",
+        "MID_user_comments": "NIL",
+        "MID_manager_comments": "NIL",
+        "user_rating": 1,
+        "manager_rating": 1,
+        "board_rating": 1,
+        "user_comments": "NIL",
+        "manager_comments": "NIL",
+        "board_comments": "NIL",
+        "tracking_status": "null",
+        "metrics_evidence": null,
+        "appraisal": 154,
+        "employee": 534558467,
+        "goal_category": 5
+      },
+      {
+        "id": 102,
+        "kpi_set": [
+          {
+            "id": 66,
+            "description": "1. Set up a more robust KFA no. 1 teams led by new energized leaders\r\n2. Look at a Selection Assessment tool to check for cultur fit and commitment from final  2 candidates to 'Hire Right'\r\n3. Introduce a panel interview (if necessary)",
+            "due": "2020-12-31",
+            "date_created": "2020-09-18",
+            "progress": "Not Started",
+            "goal": 102
+          },
+          {
+            "id": 67,
+            "description": "Identify & fill up 2020 budgeted positions\r\n- Hire as per AOP 2020 and according to the needsbut mindful of the cost of payroll acceding the budget",
+            "due": "2020-12-31",
+            "date_created": "2020-09-18",
+            "progress": "Not Started",
+            "goal": 102
+          },
+          {
+            "id": 68,
+            "description": "Odoo Recruitment Database\r\n- Maintain a database of CVs, in Odoo by Q4,2020 to keep track of good KIV candidates for future hiring & hiring via ODOO recruitment tracking system\r\n\r\na) 50% by Q2,2020\r\nb) 100% of CV by Q4,2020",
+            "due": "2020-12-31",
+            "date_created": "2020-09-18",
+            "progress": "Not Started",
+            "goal": 102
+          }
+        ],
+        "goalcomment_set": [],
+        "commentbox_set": [],
+        "midyrcommentbox_set": [
+          {
+            "id": 5,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:30:27.560337+05:30",
+            "goal": 102,
+            "created_by": 534558467
+          },
+          {
+            "id": 8,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:35:27.920524+05:30",
+            "goal": 102,
+            "created_by": 1813823810
+          }
+        ],
+        "endyrcommentbox_set": [],
+        "summary": "Develop & Improve standard Recruitment Process to Reduce Attrition",
+        "description": "1.  Set up a more robust KFA no.1 teams to lead by new energized leaders\r\n2. Look at Selection Assesmen tool to check for culture fit and commitment from final 2 candidates to 'Hire Right'.",
+        "due": "2020-12-31",
+        "weightage": 20,
+        "metrics_Used": "KFA Monthly meetings",
+        "MID_user_comments": "NIL",
+        "MID_manager_comments": "NIL",
+        "user_rating": 1,
+        "manager_rating": 1,
+        "board_rating": 1,
+        "user_comments": "NIL",
+        "manager_comments": "NIL",
+        "board_comments": "NIL",
+        "tracking_status": "null",
+        "metrics_evidence": null,
+        "appraisal": 154,
+        "employee": 534558467,
+        "goal_category": 5
+      },
+      {
+        "id": 103,
+        "kpi_set": [
+          {
+            "id": 69,
+            "description": "Improved NMTO and E-Boarding program in KFA no.1.1\r\nTop 10% identified form Functional Review - 0% turnover and are retained from KFA no.13",
+            "due": "2020-12-31",
+            "date_created": "2020-09-18",
+            "progress": "Not Started",
+            "goal": 103
+          },
+          {
+            "id": 70,
+            "description": "Leadership Development\r\n- Conduct 4 supervisory training for potential managers/supervisors\r\n\r\nBy Q2,2020, 2 training to be completed.\r\nBy Q4, 2020, last 2 trainings conducted.",
+            "due": "2020-12-31",
+            "date_created": "2020-09-18",
+            "progress": "Not Started",
+            "goal": 103
+          },
+          {
+            "id": 71,
+            "description": "Consistent welfare activities on alternate months to bond the people\r\n- 6 welfare activities to bey done by Q4,2020\r\n\r\nIntroduce workplace integration program (funded by WSG and administered by SNEF) to come up with integration activity for staff - Q3,2020\r\n\r\nTouch points with new hires 1st, 3rd and 6th month of service in DLS to be organized by HRBPs assigned.",
+            "due": null,
+            "date_created": "2020-09-18",
+            "progress": "Not Started",
+            "goal": 103
+          },
+          {
+            "id": 72,
+            "description": "Improve Communication\r\n- During townhall, introduce pigeon-hole questions for people to ask Rajan (by Apr 2020)\r\n\r\n- Start a group-chat Buddy system (4 existing employee mentor 1 new hire) per KFA no.1.3 (By April 2020)\r\n\r\n- Evaluate EOS 2020 results and start focused group coffee talks to determine action plans. (By March 2020)",
+            "due": "2020-12-31",
+            "date_created": "2020-09-18",
+            "progress": "Not Started",
+            "goal": 103
+          }
+        ],
+        "goalcomment_set": [],
+        "commentbox_set": [],
+        "midyrcommentbox_set": [
+          {
+            "id": 6,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:31:17.046723+05:30",
+            "goal": 103,
+            "created_by": 534558467
+          },
+          {
+            "id": 7,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:34:25.031260+05:30",
+            "goal": 103,
+            "created_by": 1813823810
+          }
+        ],
+        "endyrcommentbox_set": [],
+        "summary": "Reduce Turnover",
+        "description": "Retain effective employees and motivate them to higher productivity",
+        "due": "2020-12-31",
+        "weightage": 20,
+        "metrics_Used": "KFA 1.3 monthly report",
+        "MID_user_comments": "NIL",
+        "MID_manager_comments": "NIL",
+        "user_rating": 1,
+        "manager_rating": 1,
+        "board_rating": 1,
+        "user_comments": "NIL",
+        "manager_comments": "NIL",
+        "board_comments": "NIL",
+        "tracking_status": "null",
+        "metrics_evidence": null,
+        "appraisal": 154,
+        "employee": 534558467,
+        "goal_category": 4
+      },
+      {
+        "id": 104,
+        "kpi_set": [
+          {
+            "id": 73,
+            "description": "a. Propose a sales incentive Plan for implementation twice a year (SIP) \r\n(By April 2020)\r\n\r\nb. Propose a general bonus proposal for the Board's approval (By April 2020)\r\n\r\nc. Prepare a Salary increment proposal in May for July 2020 Implementation (By May 2020)\r\n\r\nd. Conduct a market adjustment for key employees by March 2020 (By March 2020)",
+            "due": "2020-07-31",
+            "date_created": "2020-09-18",
+            "progress": "Working",
+            "goal": 104
+          }
+        ],
+        "goalcomment_set": [],
+        "commentbox_set": [],
+        "midyrcommentbox_set": [
+          {
+            "id": 9,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:37:05.565377+05:30",
+            "goal": 104,
+            "created_by": 1813823810
+          },
+          {
+            "id": 3,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:26:56.955841+05:30",
+            "goal": 104,
+            "created_by": 534558467
+          }
+        ],
+        "endyrcommentbox_set": [],
+        "summary": "Benefit Reviews",
+        "description": "To continue ensure the benefits for the employees are competitive with the market for retention and motivation",
+        "due": "2020-12-31",
+        "weightage": 20,
+        "metrics_Used": "Programs developed",
+        "MID_user_comments": "NIL",
+        "MID_manager_comments": "NIL",
+        "user_rating": 1,
+        "manager_rating": 1,
+        "board_rating": 1,
+        "user_comments": "NIL",
+        "manager_comments": "NIL",
+        "board_comments": "NIL",
+        "tracking_status": "null",
+        "metrics_evidence": null,
+        "appraisal": 154,
+        "employee": 534558467,
+        "goal_category": 6
+      },
+      {
+        "id": 106,
+        "kpi_set": [
+          {
+            "id": 74,
+            "description": "a. Identify next set of potential leaders to develop and train them via the DLS supervisory Leadership program found in KRA (2) and reduce the no. of reports to HODs for better management.\r\n(BY Q3,2020 completed functional reviews)\r\n\r\nb. Ensure HODs rate and rank their employees under their charge during Functional Reviews and ensure top 10% identified as key personnel are retained. \r\n(By August 2020 functional reviews done and key talents identified)",
+            "due": "2020-12-31",
+            "date_created": "2020-09-18",
+            "progress": "Not Started",
+            "goal": 106
+          },
+          {
+            "id": 75,
+            "description": "a. Identify next set of potential leaders to develop and train them via the DLS supervisory Leadership program found in KRA (2) and reduce the no. of reports to HODs for better management.\r\n(BY Q3,2020 completed functional reviews)\r\n\r\nb. Ensure HODs rate and rank their employees under their charge during Functional Reviews and ensure top 10% identified as key personnel are retained. \r\n(By August 2020 functional reviews done and key talents identified)",
+            "due": "2020-12-31",
+            "date_created": "2020-09-18",
+            "progress": "Not Started",
+            "goal": 106
+          }
+        ],
+        "goalcomment_set": [],
+        "commentbox_set": [],
+        "midyrcommentbox_set": [
+          {
+            "id": 1,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:22:11.277441+05:30",
+            "goal": 106,
+            "created_by": 534558467
+          },
+          {
+            "id": 2,
+            "comment": "NIL",
+            "created_on": "2020-11-26T09:23:51.369742+05:30",
+            "goal": 106,
+            "created_by": 1813823810
+          }
+        ],
+        "endyrcommentbox_set": [],
+        "summary": "Talent Succession Planning via Functional Reviews",
+        "description": "Ensure sufficient Benchstrength",
+        "due": "2020-09-30",
+        "weightage": 20,
+        "metrics_Used": "Functional Reviews Minutes",
+        "MID_user_comments": "NIL",
+        "MID_manager_comments": "NIL",
+        "user_rating": 1,
+        "manager_rating": 1,
+        "board_rating": 1,
+        "user_comments": "NIL",
+        "manager_comments": "NIL",
+        "board_comments": "NIL",
+        "tracking_status": "null",
+        "metrics_evidence": null,
+        "appraisal": 154,
+        "employee": 534558467,
+        "goal_category": 5
+      }
+    ],
+    "competencies_set": [
+      {
+        "id": 43,
+        "competencycomment_set": [],
+        "summary": "Reduce Turnover",
+        "description": "Provide regular feedback to HODs on their 'People Issues'.",
+        "weightage": 40,
+        "user_rating": 1,
+        "manager_rating": 1,
+        "board_rating": 1,
+        "user_comments": "NIL",
+        "manager_comments": "NIL",
+        "board_comments": "NIL",
+        "appraisal": 154,
+        "employee": 534558467,
+        "competency_category": 6
+      },
+      {
+        "id": 44,
+        "competencycomment_set": [],
+        "summary": "Improve Company's Branding",
+        "description": "Develop a new HR team to excel in business partnering.",
+        "weightage": 30,
+        "user_rating": 1,
+        "manager_rating": 1,
+        "board_rating": 1,
+        "user_comments": "NIL",
+        "manager_comments": "NIL",
+        "board_comments": "NIL",
+        "appraisal": 154,
+        "employee": 534558467,
+        "competency_category": 7
+      },
+      {
+        "id": 45,
+        "competencycomment_set": [],
+        "summary": "Improve COmpnay's Branding",
+        "description": "Upload Denselight core values with fairness to all employees (regardless of rank) by giving feedback to anyone if seen to waiver from the values",
+        "weightage": 30,
+        "user_rating": 1,
+        "manager_rating": 1,
+        "board_rating": 1,
+        "user_comments": "NIL",
+        "manager_comments": "NIL",
+        "board_comments": "NIL",
+        "appraisal": 154,
+        "employee": 534558467,
+        "competency_category": 8
+      }
+    ],
+    "skills_set": [
+      {
+        "id": 24,
+        "skill_category": {
+          "id": 19,
+          "name": "Communication"
+        },
+        "description": "Behaviour Observation and conflict Resolution - Managing difficult conversations with talking with employee at termination or grievance handling.\r\n\r\nTo attend course: SNEF - Managing Harassment in the work place.",
+        "weightage": 100,
+        "recommended_Trainings_user": "NIL",
+        "recommended_Trainings_manager": "NIL",
+        "recommended_Trainings_board": "NIL",
+        "user_rating": 1,
+        "manager_rating": 1,
+        "board_rating": 1,
+        "user_comments": "NIL",
+        "manager_comments": "NIL",
+        "board_comments": "NIL",
+        "appraisal": 154,
+        "employee": 534558467
+      }
+    ],
+    "status": "S1BEmployee",
+    "appraisal_name": "2020 Performance Appraisal",
+    "overall_board_comments": "No Comments",
+    "start_date": "2020-09-01",
+    "end_date": "2020-09-01",
+    "completion": "null",
+    "goals_settingM_rejection": "NIL",
+    "mid_yearM_rejection": "NIL",
+    "appraisalHR_rejection": "NIL",
+    "mid_year_completion": "Uncompleted",
+    "incrementRecommendation": 0,
+    "bonusRecommendation": "NIL",
+    "recommendationComments": "NIL",
+    "final_employee_rating": null,
+    "final_manager_rating": null,
+    "final_board_rating": null
+  }

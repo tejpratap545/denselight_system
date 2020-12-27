@@ -20,6 +20,7 @@
               :headers="employeesTableHeader"
               :items="employeesTableItems"
               :items-per-page="10"
+              :loading="loading"
             >
             </v-data-table>
           </v-card>
@@ -55,6 +56,7 @@
                           :headers="goalsLaunchingTableHeader"
                           :items="goalsLaunchingTableItems"
                           :items-per-page="10"
+                          :loading="loading"
                         >
                           <template v-slot:[`item.action`]="{ item }">
                             <v-btn
@@ -78,6 +80,7 @@
                           :headers="goalsLaunchingTableHeader"
                           :items="midYearTableItems"
                           :items-per-page="10"
+                          :loading="loading"
                         >
                           <template v-slot:[`item.action`]="{ item }">
                             <v-btn
@@ -100,6 +103,7 @@
                           :headers="goalsLaunchingTableHeader"
                           :items="endYearTableItems"
                           :items-per-page="10"
+                          :loading="loading"
                         >
                           <template v-slot:[`item.action`]="{ item }">
                             <v-btn
@@ -146,6 +150,7 @@ export default {
   layout: 'dashboard-template',
   data() {
     return {
+      loading: true,
       tabData: null,
       tabData2: null,
       departmentData: '',
@@ -236,6 +241,7 @@ export default {
     this.$axios
       .$get('api/appraisals/list/manager')
       .then((response) => {
+        this.loading = false
         response.forEach(async (appraisal) => {
           if (this.employees.indexOf(appraisal.employee.name) == -1) {
             this.employeesTableItems.push({
@@ -244,6 +250,8 @@ export default {
               name: appraisal.employee.name,
               date_of_hire: appraisal.employee.date_Of_Hire,
             })
+
+            this.employees.push(appraisal.employee.name)
           }
 
           var tableData = {
@@ -276,7 +284,10 @@ export default {
           }
         })
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        this.loading = false
+        console.log(error)
+      })
   },
 }
 </script>
