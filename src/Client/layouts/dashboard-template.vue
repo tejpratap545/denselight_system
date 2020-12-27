@@ -1,5 +1,7 @@
 <template>
   <v-app>
+    <Snackbar></Snackbar>
+
     <v-navigation-drawer app>
       <template v-slot:prepend>
         <v-list-item style="margin: 50px 0">
@@ -36,7 +38,7 @@
 
     <v-main>
       <v-container fluid>
-        <router-view></router-view>
+        <nuxt />
       </v-container>
     </v-main>
 
