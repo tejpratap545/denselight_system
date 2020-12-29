@@ -87,6 +87,7 @@
                         <v-avatar
                           class="accent white--text"
                           left
+                          v-if="data.item != null"
                           v-text="data.item.name.slice(0, 1).toUpperCase()"
                         ></v-avatar>
                         {{ data.item.name }}
@@ -367,7 +368,7 @@ export default {
 
       appraisal: {
         name: '',
-        is_company: false, //
+        is_company: false,
         individual_employees: [],
         departments: [],
         goal_weightage: 0,
@@ -391,14 +392,14 @@ export default {
     createAppraisal() {
       this.dialog = false
 
-      switch (this.appraisal.appraisal_for) {
-        case 0:
+      switch (this.appraisal_for) {
+        case 0 || "0":
           this.appraisal.is_company = true
           break
-        case 1:
+        case 1 || "1":
           this.appraisal.departments = this.selected_data.map(x => x.id)
           break
-        case 2:
+        case 2 || "2":
           this.appraisal.individual_employees = this.selected_data.map(x => x.id)
           break
 
@@ -420,7 +421,7 @@ export default {
             content: 'Error creating appraisal',
             color: 'error',
           })
-          console.log(error)
+          console.log(error, this.appraisal)
         })
     },
   },

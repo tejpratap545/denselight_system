@@ -17,7 +17,7 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <h3 class="my-5 text-center">{{name}} Goals</h3>
+            <h3 class="my-5 text-center">{{ name }} Goals</h3>
             <v-data-table
               :headers="myGoalsTableHeader"
               :items="myGoalsTableItems"
@@ -107,6 +107,80 @@
                       </v-card-text>
                     </v-card>
                   </v-dialog>
+                  <v-dialog
+                    v-model="item.kpi_dialog"
+                    scrollable
+                    max-width="800"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn icon v-bind="attrs" v-on="on">
+                        <v-icon>mdi-information-outline</v-icon>
+                      </v-btn>
+                    </template>
+
+                    <v-card>
+                      <v-toolbar color="primary" dark>
+                        <b>{{ item.goal_title }}</b> : KPI
+                        <v-spacer></v-spacer>
+                        <v-btn @click="item.kpi_dialog = false" icon>
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </v-toolbar>
+
+                      <v-card-text>
+                        <v-card
+                          class="my-5"
+                          v-for="kpi in item.kpi_set"
+                          :key="kpi.id"
+                        >
+                          <v-card-text>
+                            <p>{{ kpi.description }}</p>
+                            <small
+                              >Progress : <b>{{ kpi.progress }}</b></small
+                            >
+                          </v-card-text>
+                        </v-card>
+                      </v-card-text>
+
+                      <v-card-actions>
+                        <v-container>
+                        <v-row>
+                          <v-text-field
+                            v-model="kpi"
+                            label="KPI description"
+                          ></v-text-field>
+                        </v-row>
+
+                        <v-row>
+                          <v-menu
+                            v-model="item.date_menu"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="kpi_date"
+                                label="KPI due"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="kpi_date"
+                              @input="item.date_menu = false"
+                            ></v-date-picker>
+                          </v-menu>
+                          <v-btn color="primary" @click="add_kpi(item)"> Add new KPI </v-btn>
+                        </v-row>
+                        </v-container>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                 </div>
               </template>
             </v-data-table>
@@ -117,7 +191,7 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <h3 class="my-5 text-center">{{name}} Core Values</h3>
+            <h3 class="my-5 text-center">{{ name }} Core Values</h3>
             <v-data-table
               :headers="myValuesTableHeader"
               :items="myValuesTableItems"
@@ -139,7 +213,7 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <h3 class="my-5 text-center">{{name}} Skills</h3>
+            <h3 class="my-5 text-center">{{ name }} Skills</h3>
             <v-data-table
               :headers="mySkillsTableHeader"
               :items="mySkillsTableItems"
@@ -170,7 +244,6 @@
 </template>
 
 <script>
-
 export default {
   props: ['appraisalID'],
   watch: {
@@ -249,6 +322,8 @@ export default {
         },
       ],
       name: 'My',
+      kpi: '',
+      kpi_date: '',
       myValuesTableItems: [],
     }
   },
@@ -275,17 +350,21 @@ export default {
 
         appraisal.goals_set.forEach((goal) => {
           data.goals.push({
+            id: goal.id,
             category: 'Organization Effectivness',
             goal_title: goal.summary,
             due: goal.due,
             weightage: `${goal.weightage}%`,
             dialog: false,
+            kpi_dialog: false,
             tabs: null,
+            date_menu: false,
             comments: [
               { id: 0, date: goal.commentbox_set.reverse() },
               { id: 1, data: goal.midyrcommentbox_set.reverse() },
               { id: 2, data: goal.endyrcommentbox_set.reverse() },
             ],
+            kpi_set: goal.kpi_set,
           })
         })
 
@@ -316,6 +395,25 @@ export default {
 
       this.loading = false
     },
+    async add_kpi(goal) {
+       try {
+        var data = {
+          description: this.description,
+          goal: goal.id,
+          due: this.kpi_date
+        }
+
+        const appraisal = await this.$axios.$post(
+          `api/KPI/create`,
+          data
+        )
+
+        goal.kpi_dialog = false
+        await this.init()
+      } catch (error) {
+        console.log(error)
+      }
+    }
   },
 }
 </script>
