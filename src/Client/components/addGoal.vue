@@ -9,6 +9,13 @@
       <v-card>
         <v-card-title class="headline"> Add Goal </v-card-title>
         <v-card-text>
+          <v-select
+            v-model="createGoal.goal_category"
+            :items="categories"
+            item-text="name"
+            item-value="id"
+            label="Enter appraisal category"
+          ></v-select>
           <v-text-field
             v-model="createGoal.summary"
             label="Goal Title "
@@ -71,12 +78,20 @@
 export default {
   name: 'AddGoalVue',
   props: { dialog: Boolean, appraisalId: Number },
+  fetch() {
+    this.$axios
+      .$get('/api/category/goal/')
+      .then((response) => (this.categories = response))
+      .catch((error) => console.log(error))
+  },
   data() {
     return {
       menu: false,
       maxWeightageNumber: 100,
+      categories: '',
       createGoal: {
         appraisal: this.appraisalId,
+        goal_category: 0,
         summary: '',
         description: '',
         weightage: '',

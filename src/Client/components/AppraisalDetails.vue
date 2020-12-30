@@ -40,7 +40,7 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Goals</b>
               <v-spacer></v-spacer>
-              <v-btn v-if="editable" @click="addGoalsDialog = true" icon>
+              <v-btn v-if="editable" icon @click="addGoalsDialog = true">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -222,7 +222,7 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Core Values</b>
               <v-spacer></v-spacer>
-              <v-btn v-if="editable" @click="addCoreValueDialog = true" icon>
+              <v-btn v-if="editable" icon @click="addCoreValueDialog = true">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -249,7 +249,7 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Skills</b>
               <v-spacer></v-spacer>
-              <v-btn v-if="editable" @click="addSkillsDialog = true" icon>
+              <v-btn v-if="editable" icon @click="addSkillsDialog = true">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -286,14 +286,6 @@
 <script>
 export default {
   props: ['appraisal'],
-  watch: {
-    appraisal: function (newVal, _) {
-      this.init(newVal)
-    },
-  },
-  mounted() {
-    this.init(this.appraisal)
-  },
   data() {
     return {
       addGoalsDialog: false,
@@ -366,18 +358,23 @@ export default {
       editable: this.appraisal.employee.email == this.$auth.user.email,
       name: 'My',
       kpi: '',
+      description: '',
       kpi_date: '',
       myValuesTableItems: [],
     }
   },
+
   watch: {
     async appraisalID(newVal, _) {
       await this.init()
     },
   },
+  mounted() {
+    this.init(this.appraisal)
+  },
   methods: {
     init(appraisal) {
-      var data = {
+      const data = {
         name: appraisal.appraisal_name,
         category: appraisal.appraisal_category.name,
         status: appraisal.status,
@@ -434,8 +431,8 @@ export default {
     },
     async add_kpi(goal) {
       try {
-        var data = {
-          description: this.description,
+        const data = {
+          description: this.kpi,
           goal: goal.id,
           due: this.kpi_date,
         }
