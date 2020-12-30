@@ -17,6 +17,18 @@ class ManagerAppraisal(generics.ListAPIView):
     serializer_class = UserAppraisalListSerializer
 
     def get_queryset(self):
+        # if self.request.user.role == "HRManager":
+        #     return User_Appraisal_List.objects.prefetch_related(
+        #         "overall_appraisal",
+        #         "employee",
+        #         "manager",
+        #         "overall_appraisal__appraisal_category",
+        #         "appraisal_category",
+        #     ).annotate(
+        #         goals_count=Count("goals"),
+        #         core_values_competencies_count=Count("competencies"),
+        #         skills_count=Count("skills"),
+        #     )
         return (
             User_Appraisal_List.objects.prefetch_related(
                 "overall_appraisal",

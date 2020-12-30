@@ -52,13 +52,13 @@
                                 <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b> : Comments
                                   <v-spacer></v-spacer>
-                                  <v-btn @click="item.dialog = false" icon>
+                                  <v-btn icon @click="item.dialog = false">
                                     <v-icon>mdi-close</v-icon>
                                   </v-btn>
                                 </v-toolbar>
 
                                 <v-card-text>
-                                  <AppraisalDetails :appraisalID="item.id" />
+                                  <AppraisalDetails :appraisal-i-d="item.id" />
                                 </v-card-text>
                               </v-card>
                             </v-dialog>
@@ -209,6 +209,67 @@ export default {
   title: 'Appraisal Status',
   name: 'AppraisalStatus',
   layout: 'dashboard-template',
+  fetch() {
+    this.$axios
+      .$get('api/appraisals/list/manager')
+      .then((response) => {
+        response.forEach((appraisal) => {
+          const tableData = {
+            id: appraisal.id,
+            appraisal_name: appraisal.appraisal_name,
+            employee: appraisal.employee.name,
+
+            end_date: appraisal.overall_appraisal.goals_setting_end_date,
+            status: appraisal.status,
+            dialog: false,
+          }
+
+          switch (appraisal.overall_appraisal.status) {
+            case 'ReviewCompleted':
+              this.completedTableItems.push(tableData)
+              break
+
+            default:
+              this.onGoingTableItems.push(tableData)
+              break
+          }
+        })
+      })
+      .catch((error) => console.log(error))
+    /*
+    this.$axios
+      .$get('api​/overallAppraisal​')
+      .then((response) => {
+        response.forEach(async (appraisal) => {
+          var tableData = {
+            appraisal_name: appraisal.appraisal_name,
+            employee: appraisal.employee.name,
+
+            skills_count: 0,
+            end_date: appraisal.overall_appraisal.goals_setting_end_date,
+            status: appraisal.status,
+          }
+
+          switch (appraisal.overall_appraisal.status) {
+            case 'Stage 1':
+              this.goalsLaunchingTableItems.push(tableData)
+              break
+
+            case 'Stage 1B':
+              this.midYearTableItems.push(tableData)
+              break
+
+            case 'Stage 2':
+              this.endYearTableItems.push(tableData)
+              break
+
+            default:
+              break
+          }
+        })
+      })
+      .catch((error) => console.log(error)) */
+  },
   data() {
     return {
       tabData: null,
@@ -335,67 +396,6 @@ export default {
       midYearTableItems: [],
       endYearTableItems: [],
     }
-  },
-  fetch() {
-    this.$axios
-      .$get('api/appraisals/list/manager')
-      .then((response) => {
-        response.forEach((appraisal) => {
-          var tableData = {
-            id: appraisal.id,
-            appraisal_name: appraisal.appraisal_name,
-            employee: appraisal.employee.name,
-
-            end_date: appraisal.overall_appraisal.goals_setting_end_date,
-            status: appraisal.status,
-            dialog: false,
-          }
-
-          switch (appraisal.overall_appraisal.status) {
-            case 'ReviewCompleted':
-              this.completedTableItems.push(tableData)
-              break
-
-            default:
-              this.onGoingTableItems.push(tableData)
-              break
-          }
-        })
-      })
-      .catch((error) => console.log(error))
-    /*
-    this.$axios
-      .$get('api​/overallAppraisal​')
-      .then((response) => {
-        response.forEach(async (appraisal) => {
-          var tableData = {
-            appraisal_name: appraisal.appraisal_name,
-            employee: appraisal.employee.name,
-
-            skills_count: 0,
-            end_date: appraisal.overall_appraisal.goals_setting_end_date,
-            status: appraisal.status,
-          }
-
-          switch (appraisal.overall_appraisal.status) {
-            case 'Stage 1':
-              this.goalsLaunchingTableItems.push(tableData)
-              break
-
-            case 'Stage 1B':
-              this.midYearTableItems.push(tableData)
-              break
-
-            case 'Stage 2':
-              this.endYearTableItems.push(tableData)
-              break
-
-            default:
-              break
-          }
-        })
-      })
-      .catch((error) => console.log(error))*/
   },
 }
 </script>

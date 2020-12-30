@@ -59,17 +59,17 @@
 
             <v-stepper-content step="2">
               <div class="mb-12" style="height: 400px">
-                <div v-if="appraisal_for == 0">
+                <div v-if="appraisal_for === 0">
                   <p class="text-center">Entire company is selected</p>
                 </div>
                 <div v-else>
                   <v-combobox
                     v-model="selected_data"
-                    :items="appraisal_for == 1 ? departments : employees"
+                    :items="appraisal_for === 1 ? departments : employees"
                     item-text="name"
                     item-value="id"
                     :label="
-                      appraisal_for == 1
+                      appraisal_for === 1
                         ? 'Select Department(s)'
                         : 'Select Employee(s)'
                     "
@@ -85,9 +85,9 @@
                         @click:close="data.parent.selectItem(data.item.id)"
                       >
                         <v-avatar
+                          v-if="data.item != null"
                           class="accent white--text"
                           left
-                          v-if="data.item != null"
                           v-text="data.item.name.slice(0, 1).toUpperCase()"
                         ></v-avatar>
                         {{ data.item.name }}
@@ -393,14 +393,16 @@ export default {
       this.dialog = false
 
       switch (this.appraisal_for) {
-        case 0 || "0":
+        case 0 || '0':
           this.appraisal.is_company = true
           break
-        case 1 || "1":
-          this.appraisal.departments = this.selected_data.map(x => x.id)
+        case 1 || '1':
+          this.appraisal.departments = this.selected_data.map((x) => x.id)
           break
-        case 2 || "2":
-          this.appraisal.individual_employees = this.selected_data.map(x => x.id)
+        case 2 || '2':
+          this.appraisal.individual_employees = this.selected_data.map(
+            (x) => x.id
+          )
           break
 
         default:
