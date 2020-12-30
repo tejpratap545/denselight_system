@@ -375,14 +375,14 @@ export default {
         competency_weightage: 0,
         skill_weightage: 0,
 
-        start_date: '',
-        goals_setting_end_date: '',
-        mid_year_start_date: '',
-        mid_year_end_date: '',
-        end_year_start_date: '',
-        appraisal_end_date: '',
-        reports_end_date: '',
-        calibration_end_date: '',
+        start_date: new Date().toISOString().substr(0, 10),
+        goals_setting_end_date: new Date().toISOString().substr(0, 10),
+        mid_year_start_date: new Date().toISOString().substr(0, 10),
+        mid_year_end_date: new Date().toISOString().substr(0, 10),
+        end_year_start_date: new Date().toISOString().substr(0, 10),
+        appraisal_end_date: new Date().toISOString().substr(0, 10),
+        reports_end_date: new Date().toISOString().substr(0, 10),
+        calibration_end_date: new Date().toISOString().substr(0, 10),
 
         appraisal_category: 0,
       },
@@ -429,4 +429,3 @@ export default {
   },
 }
 </script>
-
