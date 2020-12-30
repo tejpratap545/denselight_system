@@ -34,11 +34,10 @@
                           :headers="onGoingTableHeader"
                           :items="onGoingTableItems"
                           :items-per-page="10"
+                          :loading="loading"
                         >
-                          <template v-slot:[`item.actions`]="{}">
-                            <v-btn color="success" icon>
-                              <v-icon>mdi-circle-edit-outline</v-icon>
-                            </v-btn>
+                          <template v-slot:[`item.actions`]="{item}">
+                            <AppraisalCreate :editMode="true" :appraisal="item.overallAppraisal" />
                             <v-btn color="error" icon>
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
@@ -202,6 +201,7 @@ export default {
           end_date: appraisal.overall_appraisal.goals_setting_end_date,
           status: appraisal.status,
           dialog: false,
+          overallAppraisal: appraisal.overall_appraisal || {}
         }
 
         switch (appraisal.overall_appraisal.status) {
@@ -214,12 +214,15 @@ export default {
             break
         }
       })
+      this.loading = false
     } catch (error) {
+      this.loading = false
       console.log(error)
     }
   },
   data() {
     return {
+      loading: true,
       tabData: null,
       tabData2: null,
       departmentData: '',

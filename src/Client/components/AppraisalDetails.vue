@@ -358,7 +358,6 @@ export default {
       editable: this.appraisal.employee.email == this.$auth.user.email,
       name: 'My',
       kpi: '',
-      description: '',
       kpi_date: '',
       myValuesTableItems: [],
     }

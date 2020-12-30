@@ -1,13 +1,18 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on">
+      <v-btn v-if="editMode" v-bind="attrs" v-on="on" color="success" icon>
+        <v-icon>mdi-circle-edit-outline</v-icon>
+      </v-btn>
+      <v-btn v-else color="primary" dark v-bind="attrs" v-on="on">
         Create Appraisal
       </v-btn>
     </template>
 
     <v-card>
-      <v-card-title class="headline py-5"> Create Appraisal </v-card-title>
+      <v-card-title class="headline py-5">
+        {{ editMode ? 'Edit Appraisal' : 'Create Appraisal' }}
+      </v-card-title>
 
       <v-card-text>
         <v-stepper v-model="e1">
@@ -48,9 +53,9 @@
                   label="Enter appraisal category"
                 ></v-select>
                 <v-radio-group v-model="appraisal_for">
-                  <v-radio label="For Company" value="0"></v-radio>
-                  <v-radio label="For Departments" value="1"></v-radio>
-                  <v-radio label="For Employees" value="2"></v-radio>
+                  <v-radio label="For Company" :value="0"></v-radio>
+                  <v-radio label="For Departments" :value="1"></v-radio>
+                  <v-radio label="For Employees" :value="2"></v-radio>
                 </v-radio-group>
               </div>
 
@@ -59,7 +64,7 @@
 
             <v-stepper-content step="2">
               <div class="mb-12" style="height: 400px">
-                <div v-if="appraisal_for === 0">
+                <div v-if="appraisal_for == 0">
                   <p class="text-center">Entire company is selected</p>
                 </div>
                 <div v-else>
@@ -326,6 +331,7 @@
 
 <script>
 export default {
+  porps: ['editMode', 'appraisal'],
   fetch() {
     this.$axios
       .$get('/api/employee/list/')
@@ -349,12 +355,14 @@ export default {
   },
   data() {
     return {
+      editMode: this.$attrs.editMode,
+
       dialog: false,
       e1: 1,
       employees: [],
       categories: [],
       departments: [],
-      appraisal_for: 0,
+      appraisal_for: this.calulateAppraisalType(),
       selected_data: [],
 
       menu1: false,
@@ -367,24 +375,53 @@ export default {
       menu8: false,
 
       appraisal: {
-        name: '',
-        is_company: false,
+        id: this.$attrs.editMode ? this.$attrs.appraisal.id : 0,
+        name: this.$attrs.editMode ? this.$attrs.appraisal.name : '',
+        is_company: this.$attrs.editMode
+          ? this.$attrs.appraisal.is_company
+          : false,
+
+        goal_weightage: this.$attrs.editMode
+          ? this.$attrs.appraisal.goal_weightage
+          : 0,
+        competency_weightage: this.$attrs.editMode
+          ? this.$attrs.appraisal.competency_weightage
+          : 0,
+        skill_weightage: this.$attrs.editMode
+          ? this.$attrs.appraisal.skill_weightage
+          : 0,
+
+        start_date: this.$attrs.editMode
+          ? this.$attrs.appraisal.start_date
+          : new Date().toISOString().substr(0, 10),
+        goals_setting_end_date: this.$attrs.editMode
+          ? this.$attrs.appraisal.goals_setting_end_date
+          : new Date().toISOString().substr(0, 10),
+        mid_year_start_date: this.$attrs.editMode
+          ? this.$attrs.appraisal.mid_year_start_date
+          : new Date().toISOString().substr(0, 10),
+        mid_year_end_date: this.$attrs.editMode
+          ? this.$attrs.appraisal.mid_year_end_date
+          : new Date().toISOString().substr(0, 10),
+        end_year_start_date: this.$attrs.editMode
+          ? this.$attrs.appraisal.end_year_start_date
+          : new Date().toISOString().substr(0, 10),
+        appraisal_end_date: this.$attrs.editMode
+          ? this.$attrs.appraisal.appraisal_end_date
+          : new Date().toISOString().substr(0, 10),
+        reports_end_date: this.$attrs.editMode
+          ? this.$attrs.appraisal.reports_end_date
+          : new Date().toISOString().substr(0, 10),
+        calibration_end_date: this.$attrs.editMode
+          ? this.$attrs.appraisal.calibration_end_date
+          : new Date().toISOString().substr(0, 10),
+
         individual_employees: [],
         departments: [],
-        goal_weightage: 0,
-        competency_weightage: 0,
-        skill_weightage: 0,
 
-        start_date: new Date().toISOString().substr(0, 10),
-        goals_setting_end_date: new Date().toISOString().substr(0, 10),
-        mid_year_start_date: new Date().toISOString().substr(0, 10),
-        mid_year_end_date: new Date().toISOString().substr(0, 10),
-        end_year_start_date: new Date().toISOString().substr(0, 10),
-        appraisal_end_date: new Date().toISOString().substr(0, 10),
-        reports_end_date: new Date().toISOString().substr(0, 10),
-        calibration_end_date: new Date().toISOString().substr(0, 10),
-
-        appraisal_category: 0,
+        appraisal_category: this.$attrs.editMode
+          ? this.$attrs.appraisal.appraisal_category
+          : 0,
       },
     }
   },
@@ -410,22 +447,56 @@ export default {
           break
       }
 
-      this.$axios
-        .$post('/api/overallAppraisal/', this.appraisal)
-        .then((res) => {
-          this.$notifier.showMessage({
-            content: 'Success creating appraisal',
-            color: 'info',
+      if (!this.editMode) {
+        this.$axios
+          .$post('/api/overallAppraisal/', this.appraisal)
+          .then((res) => {
+            this.$notifier.showMessage({
+              content: 'Success creating appraisal',
+              color: 'info',
+            })
           })
-        })
-        .catch((error) => {
-          this.$notifier.showMessage({
-            content: 'Error creating appraisal',
-            color: 'error',
+          .catch((error) => {
+            this.$notifier.showMessage({
+              content: 'Error creating appraisal',
+              color: 'error',
+            })
+            console.log(error, this.appraisal)
           })
-          console.log(error, this.appraisal)
-        })
+      } else {
+         this.$axios
+          .$patch(`/api/overallAppraisal/${this.appraisal.id}`, this.appraisal)
+          .then((res) => {
+            this.$notifier.showMessage({
+              content: 'Appraisal saved',
+              color: 'info',
+            })
+          })
+          .catch((error) => {
+            this.$notifier.showMessage({
+              content: 'Error saving',
+              color: 'error',
+            })
+            console.log(error, this.appraisal)
+          })
+      }
     },
+    calulateAppraisalType() {
+      // TBD : Tejpratap overallappriasal me individual_employees dalo
+      /*
+      if(this.$attrs.editMode){
+        if(this.$attrs.appraisal.is_company)
+          return 0
+
+        else if(this.$attrs.appraisal.individual_employees > 0)
+          return 1
+
+        else
+          return 2
+      }*/
+
+      return ''
+    }
   },
 }
 </script>

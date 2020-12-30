@@ -40,7 +40,6 @@ export default {
   async fetch() {
     try {
       const response = await this.$axios.$get('api/employee/list/')
-      this.loading = false
 
       response.forEach((employee) => {
         this.employees.push({
@@ -50,6 +49,8 @@ export default {
           supervisor: employee.first_Reporting_Manager.name,
         })
       })
+
+      this.loading = false
     } catch (error) {
       this.loading = false
       console.log(error)
