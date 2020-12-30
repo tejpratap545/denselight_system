@@ -29,7 +29,6 @@
             v-model="createGoal.weightage"
             label="Weightage (%)"
             type="number"
-            :rules="maxWeightage"
           ></v-text-field>
 
           <v-menu
@@ -86,7 +85,6 @@ export default {
   data() {
     return {
       menu: false,
-      maxWeightageNumber: 100,
       categories: '',
       createGoal: {
         appraisal: this.appraisalId,
@@ -101,13 +99,6 @@ export default {
   mounted() {},
 
   methods: {
-    maxWeightage: [
-      (v) => {
-        if (this.createGoal.weightage > this.maxWeightageNumber) {
-          return 'Error'
-        }
-      },
-    ],
     close() {
       this.$emit('close-goal-dialog')
     },

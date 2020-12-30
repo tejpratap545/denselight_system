@@ -51,7 +51,6 @@ export default {
   data() {
     return {
       menu: false,
-      maxWeightageNumber: 100,
       categories: '',
       skills: {
         appraisal: this.appraisalId,

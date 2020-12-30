@@ -31,7 +31,6 @@
             v-model="competencies.weightage"
             label="Weightage (%)"
             type="number"
-            :rules="maxWeightage"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
@@ -57,7 +56,6 @@ export default {
   data() {
     return {
       menu: false,
-      maxWeightageNumber: 100,
       categories: '',
       competencies: {
         appraisal: this.appraisalId,
