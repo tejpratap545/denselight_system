@@ -18,6 +18,42 @@
       </v-menu>
 
       <div v-if="appraisalData.length != 0">
+        <v-menu rounded="lg">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn elevation="0" color="primary" v-bind="attrs" v-on="on">
+              Add
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item link>
+              <v-list-item-title @click="addGoalsDialog = true">
+                Add Goals
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item link>
+              <v-list-item-title @click="changeAppraisal(y)">
+                Add Core value
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item link>
+              <v-list-item-title @click="changeAppraisal(y)">
+                Add Skills
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item link>
+              <v-list-item-title @click="changeAppraisal(y)">
+                Add Mid year ratings
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item link>
+              <v-list-item-title @click="changeAppraisal(y)">
+                Add End year ratings
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
         <h3 class="font-weight-medium">
           {{ appraisalData[appraisalSelected].name }} -
           {{ appraisalData[appraisalSelected].category }}
@@ -36,7 +72,12 @@
         <h3 class="font-weight-medium">No Appraisal selected</h3>
       </div>
     </div>
-
+    <AddGoal
+      v-if="addGoalsDialog"
+      :dialog="addGoalsDialog"
+      :appraisal-id="appraisalData[appraisalSelected].id"
+      @close-goal-dialog="addGoalsDialog = false"
+    />
     <div class="px-10 my-5">
       <v-tabs
         v-model="tabData"
@@ -222,12 +263,14 @@
 export default {
   title: 'Dashboard',
   layout: 'dashboard-template',
+
   async fetch() {
     try {
       const response = await this.$axios.$get('api/appraisals/list/detail/me')
 
       response.forEach((appraisal) => {
         const data = {
+          id: appraisal.id,
           name: appraisal.appraisal_name,
           category: appraisal.appraisal_category.name,
           status: appraisal.status,
@@ -282,6 +325,9 @@ export default {
   },
   data() {
     return {
+      addGoalsDialog: false,
+      addSkillsDialog: false,
+      addCoreValueDialog: false,
       tabData: null,
       myGoalsTableHeader: [
         {

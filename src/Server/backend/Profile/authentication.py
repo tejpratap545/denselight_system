@@ -82,7 +82,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
         if not user.is_active:
             msg = "This user has been deactivated."
             raise exceptions.AuthenticationFailed(msg)
-        enforce_csrf(request)
+        # enforce_csrf(request)
         return user, token
 
     def _get_valid_user(self, payload):
