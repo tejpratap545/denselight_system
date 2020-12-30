@@ -41,6 +41,11 @@
       v-if="appraisalSelectedIndex != 0"
       :appraisal="appraisalSelected"
     />
+     <v-skeleton-loader
+      class="px-10 my-5"
+      type="card"
+      v-if="appraisalSelectedIndex == 0"
+    ></v-skeleton-loader>
   </div>
 </template>
 
