@@ -3,7 +3,6 @@
     <v-dialog
       v-model="dialog"
       transition="dialog-bottom-transition"
-      persistent
       max-width="700"
     >
       <v-card>
