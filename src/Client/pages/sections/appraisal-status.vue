@@ -36,6 +36,9 @@
                           :items-per-page="10"
                         >
                           <template v-slot:[`item.actions`]="{}">
+                            <v-btn color="success" icon>
+                              <v-icon>mdi-circle-edit-outline</v-icon>
+                            </v-btn>
                             <v-btn color="error" icon>
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
@@ -214,40 +217,6 @@ export default {
     } catch (error) {
       console.log(error)
     }
-
-    /*
-    this.$axios
-      .$get('api​/overallAppraisal​')
-      .then((response) => {
-        response.forEach(async (appraisal) => {
-          var tableData = {
-            appraisal_name: appraisal.appraisal_name,
-            employee: appraisal.employee.name,
-
-            skills_count: 0,
-            end_date: appraisal.overall_appraisal.goals_setting_end_date,
-            status: appraisal.status,
-          }
-
-          switch (appraisal.overall_appraisal.status) {
-            case 'Stage 1':
-              this.goalsLaunchingTableItems.push(tableData)
-              break
-
-            case 'Stage 1B':
-              this.midYearTableItems.push(tableData)
-              break
-
-            case 'Stage 2':
-              this.endYearTableItems.push(tableData)
-              break
-
-            default:
-              break
-          }
-        })
-      })
-      .catch((error) => console.log(error)) */
   },
   data() {
     return {
@@ -257,7 +226,6 @@ export default {
       onGoingTableHeader: [
         {
           text: 'Appraisal Name',
-          align: 'center',
           sortable: true,
           value: 'appraisal_name',
         },
@@ -284,7 +252,6 @@ export default {
       completedTableHeader: [
         {
           text: 'Appraisal Name',
-          align: 'center',
           sortable: true,
           value: 'appraisal_name',
         },

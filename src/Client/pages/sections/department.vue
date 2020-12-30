@@ -26,6 +26,8 @@
               :items="employeesTableItems"
               :items-per-page="10"
               :loading="loading"
+              group-by="name"
+              show-group-by
             >
             </v-data-table>
           </v-card>
@@ -159,7 +161,7 @@ export default {
       tabData: null,
       tabData2: null,
       departmentData: '',
-      employees: [],
+  //    employees: [],
       employeesTableHeader: [
         {
           text: 'Name',
@@ -248,16 +250,14 @@ export default {
       .then((response) => {
         this.loading = false
         response.forEach(async (appraisal) => {
-          if (this.employees.indexOf(appraisal.employee.name) == -1) {
-            this.employeesTableItems.push({
-              department: appraisal.employee.department.name,
-              stage: appraisal.overall_appraisal.status,
-              name: appraisal.employee.name,
-              date_of_hire: appraisal.employee.date_Of_Hire,
-            })
-
-            this.employees.push(appraisal.employee.name)
-          }
+          this.employeesTableItems.push({
+            department: appraisal.employee.department.name,
+            stage: appraisal.overall_appraisal.status,
+            name: appraisal.employee.name,
+            date_of_hire: appraisal.employee.date_Of_Hire,
+            appraisal_name: appraisal.appraisal_name,
+            appraisal_stage: appraisal.stage,
+          })
 
           var tableData = {
             appraisal_name: appraisal.appraisal_name,
