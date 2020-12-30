@@ -41,16 +41,15 @@
       v-if="appraisalSelectedIndex != 0"
       :appraisal="appraisalSelected"
     />
-     <v-skeleton-loader
+    <v-skeleton-loader
+      v-if="appraisalSelectedIndex == 0"
       class="px-10 my-5"
       type=" table-thead, card-heading, card"
-      v-if="appraisalSelectedIndex == 0"
     ></v-skeleton-loader>
   </div>
 </template>
 
 <script>
-import { AppraisalDetails } from '~/components/AppraisalDetails'
 import global from '~/mixins/global'
 
 export default {

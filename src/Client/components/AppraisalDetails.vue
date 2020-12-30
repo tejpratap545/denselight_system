@@ -364,8 +364,8 @@ export default {
   },
 
   watch: {
-    async appraisalID(newVal, _) {
-      await this.init()
+    appraisal(newVal, _) {
+      this.init(newVal)
     },
   },
   mounted() {
