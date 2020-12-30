@@ -37,7 +37,7 @@ export default {
     css: [],
 
     // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-    plugins: ['~/plugins/notifier.js'],
+    plugins: ['~/plugins/notifier.js', '~/plugins/axios.js'],
 
     // Auto import components (https://go.nuxtjs.dev/config-components)
     components: true,
@@ -114,11 +114,11 @@ export default {
             login: '/login',
             logout: '/login',
             callback: '/login',
-            home: '/'
+            home: '/',
         },
         plugins: ['~/plugins/axios.js', '~/plugins/auth.js'],
     },
     router: {
-        middleware: ['auth']
-    }
+        middleware: ['auth'],
+    },
 }

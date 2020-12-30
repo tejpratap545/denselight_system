@@ -64,6 +64,6 @@ export default {
       this.appraisalSelected = i
       this.appraisalSelectedIndex = this.appraisalSelected.id
     },
-  }
+  },
 }
 </script>

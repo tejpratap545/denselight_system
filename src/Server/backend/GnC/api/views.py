@@ -54,13 +54,7 @@ class CreateCompetenciesView(generics.CreateAPIView):
 class CreateKPI(generics.CreateAPIView):
 
     serializer_class = CreateKPISerializer
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(employee=request.user.profile)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    queryset = KPI.objects.all()
 
 
 class GoalApiView(generics.RetrieveUpdateDestroyAPIView):

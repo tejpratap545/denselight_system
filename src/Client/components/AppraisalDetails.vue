@@ -43,7 +43,7 @@
                       <v-toolbar color="primary" dark>
                         <b>{{ item.goal_title }}</b> : Comments
                         <v-spacer></v-spacer>
-                        <v-btn @click="item.dialog = false" icon>
+                        <v-btn icon @click="item.dialog = false">
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
                       </v-toolbar>
@@ -56,19 +56,21 @@
 
                           <v-tabs-items v-model="item.tabs">
                             <v-tab-item
-                              class="pa-5"
                               v-for="comment in item.comments"
                               :key="comment.id"
+                              class="pa-5"
                             >
                               <v-card flat class="chat-ui">
                                 <v-card-text class="chat-container">
                                   <p
-                                    class="text-center"
                                     v-if="comment.data == null"
+                                    class="text-center"
                                   >
                                     No comments yet
                                   </p>
                                   <v-card
+                                    v-for="c in comment.data"
+                                    :key="c.id"
                                     flat
                                     :class="
                                       c.created_by == $auth.user.id
@@ -76,8 +78,6 @@
                                         : 'my-4 manager-chat'
                                     "
                                     raised
-                                    v-for="c in comment.data"
-                                    :key="c.id"
                                   >
                                     <v-card-title class="subtitle-2">{{
                                       c.comment
@@ -100,9 +100,9 @@
                                   ></v-textarea>
                                   <div class="justify-end">
                                     <v-btn
-                                      @click="item.dialog = false"
                                       color="primary"
                                       fab
+                                      @click="item.dialog = false"
                                       ><v-icon>mdi-send-outline</v-icon>
                                     </v-btn>
                                   </div>
@@ -129,16 +129,16 @@
                       <v-toolbar color="primary" dark>
                         <b>{{ item.goal_title }}</b> : KPI
                         <v-spacer></v-spacer>
-                        <v-btn @click="item.kpi_dialog = false" icon>
+                        <v-btn icon @click="item.kpi_dialog = false">
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
                       </v-toolbar>
 
                       <v-card-text>
                         <v-card
-                          class="my-5"
                           v-for="kpi in item.kpi_set"
                           :key="kpi.id"
+                          class="my-5"
                         >
                           <v-card-text>
                             <p>{{ kpi.description }}</p>
@@ -349,6 +349,11 @@ export default {
       myValuesTableItems: [],
     }
   },
+  watch: {
+    async appraisalID(newVal, _) {
+      await this.init()
+    },
+  },
   methods: {
     init(appraisal) {
       this.loading = true
@@ -429,7 +434,6 @@ export default {
   },
 }
 </script>
-
 
 <style>
 .my-chat {
