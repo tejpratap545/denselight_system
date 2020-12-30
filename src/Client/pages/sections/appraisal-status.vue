@@ -35,33 +35,10 @@
                           :items="onGoingTableItems"
                           :items-per-page="10"
                         >
-                          <template v-slot:[`item.actions`]="{ item }">
-                            <v-dialog v-model="item.dialog" fullscreen>
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                  color="primary"
-                                  icon
-                                  v-bind="attrs"
-                                  v-on="on"
-                                >
-                                  <v-icon>mdi-eye-outline</v-icon>
-                                </v-btn>
-                              </template>
-
-                              <v-card>
-                                <v-toolbar color="primary" dark>
-                                  <b>{{ item.appraisal_name }}</b> : Comments
-                                  <v-spacer></v-spacer>
-                                  <v-btn icon @click="item.dialog = false">
-                                    <v-icon>mdi-close</v-icon>
-                                  </v-btn>
-                                </v-toolbar>
-
-                                <v-card-text>
-                                  <AppraisalDetails :appraisal="item.rawdata" />
-                                </v-card-text>
-                              </v-card>
-                            </v-dialog>
+                          <template v-slot:[`item.actions`]="{}">
+                            <v-btn color="error" icon>
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
                           </template>
                         </v-data-table>
                       </v-card-text>
@@ -203,7 +180,6 @@
 
 <script>
 import { AppraisalCreate } from '~/components/AppraisalCreate'
-import { AppraisalDetails } from '~/components/AppraisalDetails'
 
 export default {
   title: 'Appraisal Status',
@@ -215,8 +191,7 @@ export default {
       const response = await this.$axios.$get('api/appraisals/list/manager')
 
       response.forEach((appraisal) => {
-
-       const tableData = {
+        const tableData = {
           id: appraisal.id,
           appraisal_name: appraisal.appraisal_name,
           employee: appraisal.employee.name,
@@ -224,7 +199,6 @@ export default {
           end_date: appraisal.overall_appraisal.goals_setting_end_date,
           status: appraisal.status,
           dialog: false,
-          rawdata: appraisal,
         }
 
         switch (appraisal.overall_appraisal.status) {
@@ -237,7 +211,6 @@ export default {
             break
         }
       })
-
     } catch (error) {
       console.log(error)
     }
