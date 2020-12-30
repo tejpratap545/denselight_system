@@ -2,7 +2,6 @@
   <v-row justify="center">
     <v-dialog
       v-model="dialog"
-      transition="dialog-bottom-transition"
       max-width="500"
     >
       <v-card>
