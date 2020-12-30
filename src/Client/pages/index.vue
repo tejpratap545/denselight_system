@@ -43,7 +43,7 @@
     />
      <v-skeleton-loader
       class="px-10 my-5"
-      type="card"
+      type=" table-thead, card-heading, card"
       v-if="appraisalSelectedIndex == 0"
     ></v-skeleton-loader>
   </div>
