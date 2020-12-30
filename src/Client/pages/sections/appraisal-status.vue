@@ -58,7 +58,7 @@
                                 </v-toolbar>
 
                                 <v-card-text>
-                                  <AppraisalDetails :appraisal-i-d="item.id" />
+                                  <AppraisalDetails :appraisal="item.rawdata" />
                                 </v-card-text>
                               </v-card>
                             </v-dialog>
@@ -209,33 +209,39 @@ export default {
   title: 'Appraisal Status',
   name: 'AppraisalStatus',
   layout: 'dashboard-template',
-  fetch() {
-    this.$axios
-      .$get('api/appraisals/list/manager')
-      .then((response) => {
-        response.forEach((appraisal) => {
-          const tableData = {
-            id: appraisal.id,
-            appraisal_name: appraisal.appraisal_name,
-            employee: appraisal.employee.name,
 
-            end_date: appraisal.overall_appraisal.goals_setting_end_date,
-            status: appraisal.status,
-            dialog: false,
-          }
+  async fetch() {
+    try {
+      const response = await this.$axios.$get('api/appraisals/list/manager')
 
-          switch (appraisal.overall_appraisal.status) {
-            case 'ReviewCompleted':
-              this.completedTableItems.push(tableData)
-              break
+      response.forEach((appraisal) => {
 
-            default:
-              this.onGoingTableItems.push(tableData)
-              break
-          }
-        })
+       const tableData = {
+          id: appraisal.id,
+          appraisal_name: appraisal.appraisal_name,
+          employee: appraisal.employee.name,
+
+          end_date: appraisal.overall_appraisal.goals_setting_end_date,
+          status: appraisal.status,
+          dialog: false,
+          rawdata: appraisal,
+        }
+
+        switch (appraisal.overall_appraisal.status) {
+          case 'ReviewCompleted':
+            this.completedTableItems.push(tableData)
+            break
+
+          default:
+            this.onGoingTableItems.push(tableData)
+            break
+        }
       })
-      .catch((error) => console.log(error))
+
+    } catch (error) {
+      console.log(error)
+    }
+
     /*
     this.$axios
       .$get('api​/overallAppraisal​')
