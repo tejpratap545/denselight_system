@@ -23,7 +23,13 @@
           {{ appraisalSelected.appraisal_category.name }}
         </h3>
         <p class="ma-0">
-          Status: {{ getStatus(appraisalSelected.overall_appraisal.status, appraisalSelected.status) }}
+          Status:
+          {{
+            getStatus(
+              appraisalSelected.overall_appraisal.status,
+              appraisalSelected.status
+            )
+          }}
         </p>
       </div>
       <div v-else>
@@ -31,7 +37,10 @@
       </div>
     </div>
 
-    <AppraisalDetails v-if="appraisalSelectedIndex != 0" :appraisal="appraisalSelected" />
+    <AppraisalDetails
+      v-if="appraisalSelectedIndex != 0"
+      :appraisal="appraisalSelected"
+    />
   </div>
 </template>
 
@@ -45,7 +54,9 @@ export default {
   mixins: [global],
   async fetch() {
     try {
-      this.appraisalData = await this.$axios.$get('/api/appraisals/list/detail/me')
+      this.appraisalData = await this.$axios.$get(
+        '/api/appraisals/list/detail/me'
+      )
       this.changeAppraisal(this.appraisalData[0])
     } catch (error) {
       console.log(error)
@@ -56,7 +67,7 @@ export default {
       tabData: null,
       appraisalData: [],
       appraisalSelected: {},
-      appraisalSelectedIndex: 0
+      appraisalSelectedIndex: 0,
     }
   },
   methods: {

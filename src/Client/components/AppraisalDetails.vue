@@ -425,7 +425,7 @@ export default {
 
       this.myGoalsTableItems = data.goals
       this.myValuesTableItems = data.core_values
-      this.mySkillsTableHeader = data.skills
+      this.mySkillsTableItems = data.skills
 
       this.name = `${appraisal.employee.name}'s`
     },

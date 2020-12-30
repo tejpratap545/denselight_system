@@ -28,7 +28,7 @@ class CreateGoalView(generics.CreateAPIView):
             ):
                 return Response(
                     {"msg": "Total weightage should be less then 100"},
-                    status=status.HTTP_406_NOT_ACCEPTABLE,
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
             else:
                 appraisal = validated_data.get("appraisal")
@@ -46,7 +46,23 @@ class CreateCompetenciesView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(employee=request.user.profile)
+            validated_data = serializer.data
+
+            weightage_sum = Competencies.objects.filter(
+                appraisal=validated_data.get("appraisal")
+            ).aggregate(Sum("weightage"))
+            if (
+                int(validated_data.get("weightage"))
+                + int(weightage_sum["weightage__sum"])
+                > 100
+            ):
+                return Response(
+                    {"msg": "Total weightage should be less then 100"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                serializer.save(employee=request.user.profile)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -4,21 +4,25 @@
       v-model="dialog"
       transition="dialog-bottom-transition"
       persistent
-      max-width="500"
+      max-width="700"
     >
       <v-card>
-        <v-card-title class="headline"> Add Goal </v-card-title>
+        <v-card-title class="headline">Create Skills </v-card-title>
+        <v-col cols="10">
+          <v-select
+            v-model="skills.skill_category"
+            :items="categories"
+            item-text="name"
+            item-value="id"
+            label="Enter skills category"
+          ></v-select>
+        </v-col>
         <v-card-text>
-          <v-text-field
-            v-model="skills.summary"
-            label="Goal Title "
-          ></v-text-field>
-
           <v-textarea
             v-model="skills.description"
-            label="Goal Objective "
+            label="Skill Description "
           ></v-textarea>
-          <v-text-field label="Tracking Source/Documents "></v-text-field>
+
           <v-text-field
             v-model="skills.weightage"
             label="Weightage (%)"
@@ -39,16 +43,23 @@
 export default {
   name: 'AddSkillsVue',
   props: { dialog: Boolean, appraisalId: Number },
+  fetch() {
+    this.$axios
+      .$get('/api/category/skill/')
+      .then((response) => (this.categories = response))
+      .catch((error) => console.log(error))
+  },
   data() {
     return {
       menu: false,
       maxWeightageNumber: 100,
+      categories: '',
       skills: {
         appraisal: this.appraisalId,
         summary: '',
         description: '',
-        weightage: '',
-        competency_category: 0,
+        weightage: 0,
+        skill_category: 0,
       },
     }
   },
@@ -59,17 +70,17 @@ export default {
     },
     submit() {
       this.$axios
-        .$post('api/skills/create', this.skills)
+        .$post('api/skill/create', this.skills)
         .then((res) => {
           this.$notifier.showMessage({
-            content: 'Success creating competencies',
+            content: 'Success creating skills',
             color: 'info',
           })
           this.close()
         })
         .catch((error) => {
           this.$notifier.showMessage({
-            content: 'Error creating competencies',
+            content: 'Error creating skills',
             color: 'error',
           })
         })

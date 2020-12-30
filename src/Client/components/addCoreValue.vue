@@ -7,18 +7,27 @@
       max-width="500"
     >
       <v-card>
-        <v-card-title class="headline"> Add Goal </v-card-title>
+        <v-card-title class="headline">
+          Create Core Values Competencies</v-card-title
+        >
         <v-card-text>
+          <v-select
+            v-model="competencies.competency_category"
+            :items="categories"
+            item-text="name"
+            item-value="id"
+            label="Core Values Competency Category"
+          ></v-select>
           <v-text-field
             v-model="competencies.summary"
-            label="Goal Title "
+            label="Core Values Competency"
           ></v-text-field>
 
           <v-textarea
             v-model="competencies.description"
-            label="Goal Objective "
+            label="Description"
           ></v-textarea>
-          <v-text-field label="Tracking Source/Documents "></v-text-field>
+
           <v-text-field
             v-model="competencies.weightage"
             label="Weightage (%)"
@@ -40,15 +49,22 @@
 export default {
   name: 'AddCoreValueVue',
   props: { dialog: Boolean, appraisalId: Number },
+  fetch() {
+    this.$axios
+      .$get('/api/category/competency/')
+      .then((response) => (this.categories = response))
+      .catch((error) => console.log(error))
+  },
   data() {
     return {
       menu: false,
       maxWeightageNumber: 100,
+      categories: '',
       competencies: {
         appraisal: this.appraisalId,
         summary: '',
         description: '',
-        weightage: '',
+        weightage: 0,
         competency_category: 0,
       },
     }
@@ -62,6 +78,7 @@ export default {
       this.$axios
         .$post('api/competencies/create', this.competencies)
         .then((res) => {
+          this.close()
           this.$notifier.showMessage({
             content: 'Success creating competencies',
             color: 'info',

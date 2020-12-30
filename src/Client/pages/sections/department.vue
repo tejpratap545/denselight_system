@@ -153,6 +153,58 @@ export default {
   title: 'Department',
   name: 'Department',
   layout: 'dashboard-template',
+  fetch() {
+    this.$axios
+      .$get('api/appraisals/list/manager')
+      .then((response) => {
+        this.loading = false
+        response.forEach(async (appraisal) => {
+          if (!this.employees.includes(appraisal.employee.name)) {
+            this.employeesTableItems.push({
+              department: appraisal.employee.department.name,
+              stage: appraisal.overall_appraisal.status,
+              name: appraisal.employee.name,
+              date_of_hire: appraisal.employee.date_Of_Hire,
+            })
+
+            this.employees.push(appraisal.employee.name)
+          }
+
+          const tableData = {
+            appraisal_name: appraisal.appraisal_name,
+            employee: appraisal.employee.name,
+
+            goals_count: appraisal.goals_count,
+            core_values_count: appraisal.core_values_competencies_count,
+
+            skills_count: 0,
+            end_date: appraisal.overall_appraisal.goals_setting_end_date,
+            status: appraisal.status,
+          }
+
+          switch (appraisal.overall_appraisal.status) {
+            case 'Stage 1':
+              this.goalsLaunchingTableItems.push(tableData)
+              break
+
+            case 'Stage 1B':
+              this.midYearTableItems.push(tableData)
+              break
+
+            case 'Stage 2':
+              this.endYearTableItems.push(tableData)
+              break
+
+            default:
+              break
+          }
+        })
+      })
+      .catch((error) => {
+        this.loading = false
+        console.log(error)
+      })
+  },
   data() {
     return {
       loading: true,
@@ -241,58 +293,6 @@ export default {
       midYearTableItems: [],
       endYearTableItems: [],
     }
-  },
-  fetch() {
-    this.$axios
-      .$get('api/appraisals/list/manager')
-      .then((response) => {
-        this.loading = false
-        response.forEach(async (appraisal) => {
-          if (this.employees.indexOf(appraisal.employee.name) == -1) {
-            this.employeesTableItems.push({
-              department: appraisal.employee.department.name,
-              stage: appraisal.overall_appraisal.status,
-              name: appraisal.employee.name,
-              date_of_hire: appraisal.employee.date_Of_Hire,
-            })
-
-            this.employees.push(appraisal.employee.name)
-          }
-
-          var tableData = {
-            appraisal_name: appraisal.appraisal_name,
-            employee: appraisal.employee.name,
-
-            goals_count: appraisal.goals_count,
-            core_values_count: appraisal.core_values_competencies_count,
-
-            skills_count: 0,
-            end_date: appraisal.overall_appraisal.goals_setting_end_date,
-            status: appraisal.status,
-          }
-
-          switch (appraisal.overall_appraisal.status) {
-            case 'Stage 1':
-              this.goalsLaunchingTableItems.push(tableData)
-              break
-
-            case 'Stage 1B':
-              this.midYearTableItems.push(tableData)
-              break
-
-            case 'Stage 2':
-              this.endYearTableItems.push(tableData)
-              break
-
-            default:
-              break
-          }
-        })
-      })
-      .catch((error) => {
-        this.loading = false
-        console.log(error)
-      })
   },
 }
 </script>
