@@ -70,11 +70,11 @@
                 <div v-else>
                   <v-combobox
                     v-model="selected_data"
-                    :items="appraisal_for === 1 ? departments : employees"
+                    :items="appraisal_for == 1 ? departments : employees"
                     item-text="name"
                     item-value="id"
                     :label="
-                      appraisal_for === 1
+                      appraisal_for == 1
                         ? 'Select Department(s)'
                         : 'Select Employee(s)'
                     "

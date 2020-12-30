@@ -34,7 +34,7 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
             overall_appraisal = Overall_Appraisal.objects.create(**validated_data)
             if is_company:
                 for profile in Profile.objects.all():
-                    User_Appraisal_List.objects.create(
+                    User_Appraisal_List.objects.get_or_create(
                         employee=profile,
                         manager=profile.first_Reporting_Manager,
                         overall_appraisal=overall_appraisal,
