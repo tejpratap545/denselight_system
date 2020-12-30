@@ -14,7 +14,7 @@
             :items="categories"
             item-text="name"
             item-value="id"
-            label="Enter appraisal category"
+            label="Enter goal category"
           ></v-select>
           <v-text-field
             v-model="createGoal.summary"

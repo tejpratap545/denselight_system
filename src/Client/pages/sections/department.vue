@@ -155,6 +155,7 @@ export default {
   title: 'Department',
   name: 'Department',
   layout: 'dashboard-template',
+
   data() {
     return {
       loading: true,
@@ -259,7 +260,7 @@ export default {
             appraisal_stage: appraisal.stage,
           })
 
-          var tableData = {
+          const tableData = {
             appraisal_name: appraisal.appraisal_name,
             employee: appraisal.employee.name,
 
