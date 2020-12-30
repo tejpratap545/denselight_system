@@ -2,6 +2,7 @@
   <v-row justify="center">
     <v-dialog
       v-model="dialog"
+      persistent
       max-width="700"
     >
       <v-card>
