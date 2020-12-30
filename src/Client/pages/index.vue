@@ -26,30 +26,20 @@
           </template>
 
           <v-list>
-            <v-list-item link>
-              <v-list-item-title @click="addGoalsDialog = true">
-                Add Goals
-              </v-list-item-title>
+            <v-list-item link @click="addGoalsDialog = true">
+              <v-list-item-title> Add Goals </v-list-item-title>
+            </v-list-item>
+            <v-list-item link @click="addCoreValueDialog = true">
+              <v-list-item-title> Add Core value </v-list-item-title>
+            </v-list-item>
+            <v-list-item link @click="addSkillsDialog = true">
+              <v-list-item-title> Add Skills </v-list-item-title>
             </v-list-item>
             <v-list-item link>
-              <v-list-item-title @click="changeAppraisal(y)">
-                Add Core value
-              </v-list-item-title>
+              <v-list-item-title> Add Mid year ratings </v-list-item-title>
             </v-list-item>
             <v-list-item link>
-              <v-list-item-title @click="changeAppraisal(y)">
-                Add Skills
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item link>
-              <v-list-item-title @click="changeAppraisal(y)">
-                Add Mid year ratings
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item link>
-              <v-list-item-title @click="changeAppraisal(y)">
-                Add End year ratings
-              </v-list-item-title>
+              <v-list-item-title> Add End year ratings </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -72,12 +62,30 @@
         <h3 class="font-weight-medium">No Appraisal selected</h3>
       </div>
     </div>
-    <AddGoal
-      v-if="addGoalsDialog"
-      :dialog="addGoalsDialog"
-      :appraisal-id="appraisalData[appraisalSelected].id"
-      @close-goal-dialog="addGoalsDialog = false"
-    />
+    <div>
+      <AddGoal
+        v-if="addGoalsDialog"
+        :dialog="addGoalsDialog"
+        :appraisal-id="appraisalData[appraisalSelected].id"
+        @close-goal-dialog="addGoalsDialog = false"
+      />
+    </div>
+    <div>
+      <AddCoreValue
+        v-if="addCoreValueDialog"
+        :dialog="addCoreValueDialog"
+        :appraisal-id="appraisalData[appraisalSelected].id"
+        @close-core-dialog="addCoreValueDialog = false"
+      />
+    </div>
+    <div>
+      <AddSkills
+        v-if="addSkillsDialog"
+        :dialog="addSkillsDialog"
+        :appraisal-id="appraisalData[appraisalSelected].id"
+        @close-skills-dialog="addSkillsDialog = false"
+      />
+    </div>
     <div class="px-10 my-5">
       <v-tabs
         v-model="tabData"
@@ -255,6 +263,15 @@
           </v-card>
         </v-tab-item>
       </v-tabs-items>
+
+      <!--      <v-card class="mx-auto">-->
+      <!--        <v-card-title> Mid Year Status </v-card-title>-->
+      <!--        <v-card-text>-->
+      <!--          <div>Word of the Day</div>-->
+
+      <!--          <p>adjective</p>-->
+      <!--        </v-card-text>-->
+      <!--      </v-card>-->
     </div>
   </div>
 </template>

@@ -38,7 +38,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="createGoal.due"
-                label="Picker in menu"
+                label="Due Date"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
