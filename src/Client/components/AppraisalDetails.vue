@@ -37,7 +37,7 @@
                       <v-toolbar color="primary" dark>
                         <b>{{ item.goal_title }}</b> : Comments
                         <v-spacer></v-spacer>
-                        <v-btn @click="item.dialog = false" icon>
+                        <v-btn icon @click="item.dialog = false">
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
                       </v-toolbar>
@@ -50,19 +50,21 @@
 
                           <v-tabs-items v-model="item.tabs">
                             <v-tab-item
-                              class="pa-5"
                               v-for="comment in item.comments"
                               :key="comment.id"
+                              class="pa-5"
                             >
                               <v-card flat class="chat-ui">
                                 <v-card-text class="chat-container">
                                   <p
-                                    class="text-center"
                                     v-if="comment.data == null"
+                                    class="text-center"
                                   >
                                     No comments yet
                                   </p>
                                   <v-card
+                                    v-for="c in comment.data"
+                                    :key="c.id"
                                     flat
                                     :class="
                                       c.created_by == $auth.user.id
@@ -70,10 +72,10 @@
                                         : 'my-4 manager-chat'
                                     "
                                     raised
-                                    v-for="c in comment.data"
-                                    :key="c.id"
                                   >
-                                    <v-card-title class="subtitle-2">{{ c.comment }}</v-card-title>
+                                    <v-card-title class="subtitle-2">{{
+                                      c.comment
+                                    }}</v-card-title>
                                     <v-card-text
                                       v-if="c.created_by == $auth.user.id"
                                     >
@@ -92,9 +94,9 @@
                                   ></v-textarea>
                                   <div class="justify-end">
                                     <v-btn
-                                      @click="item.dialog = false"
                                       color="primary"
                                       fab
+                                      @click="item.dialog = false"
                                       ><v-icon>mdi-send-outline</v-icon>
                                     </v-btn>
                                   </div>
@@ -121,16 +123,16 @@
                       <v-toolbar color="primary" dark>
                         <b>{{ item.goal_title }}</b> : KPI
                         <v-spacer></v-spacer>
-                        <v-btn @click="item.kpi_dialog = false" icon>
+                        <v-btn icon @click="item.kpi_dialog = false">
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
                       </v-toolbar>
 
                       <v-card-text>
                         <v-card
-                          class="my-5"
                           v-for="kpi in item.kpi_set"
                           :key="kpi.id"
+                          class="my-5"
                         >
                           <v-card-text>
                             <p>{{ kpi.description }}</p>
@@ -143,39 +145,41 @@
 
                       <v-card-actions>
                         <v-container>
-                        <v-row>
-                          <v-text-field
-                            v-model="kpi"
-                            label="KPI description"
-                          ></v-text-field>
-                        </v-row>
+                          <v-row>
+                            <v-text-field
+                              v-model="kpi"
+                              label="KPI description"
+                            ></v-text-field>
+                          </v-row>
 
-                        <v-row>
-                          <v-menu
-                            v-model="item.date_menu"
-                            :close-on-content-click="false"
-                            :nudge-right="40"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="290px"
-                          >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-text-field
+                          <v-row>
+                            <v-menu
+                              v-model="item.date_menu"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              offset-y
+                              min-width="290px"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                  v-model="kpi_date"
+                                  label="KPI due"
+                                  prepend-icon="mdi-calendar"
+                                  readonly
+                                  v-bind="attrs"
+                                  v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker
                                 v-model="kpi_date"
-                                label="KPI due"
-                                prepend-icon="mdi-calendar"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                              ></v-text-field>
-                            </template>
-                            <v-date-picker
-                              v-model="kpi_date"
-                              @input="item.date_menu = false"
-                            ></v-date-picker>
-                          </v-menu>
-                          <v-btn color="primary" @click="add_kpi(item)"> Add new KPI </v-btn>
-                        </v-row>
+                                @input="item.date_menu = false"
+                              ></v-date-picker>
+                            </v-menu>
+                            <v-btn color="primary" @click="add_kpi(item)">
+                              Add new KPI
+                            </v-btn>
+                          </v-row>
                         </v-container>
                       </v-card-actions>
                     </v-card>
@@ -245,11 +249,6 @@
 <script>
 export default {
   props: ['appraisalID'],
-  watch: {
-    appraisalID: async function (newVal, _) {
-      await this.init()
-    },
-  },
   async fetch() {
     await this.init()
   },
@@ -326,6 +325,11 @@ export default {
       myValuesTableItems: [],
     }
   },
+  watch: {
+    async appraisalID(newVal, _) {
+      await this.init()
+    },
+  },
   methods: {
     async init() {
       this.loading = true
@@ -335,7 +339,7 @@ export default {
           `api/appraisals/detail/${this.appraisalID}`
         )
 
-        var data = {
+        const data = {
           name: appraisal.appraisal_name,
           category: appraisal.appraisal_category.name,
           status: appraisal.status,
@@ -395,28 +399,24 @@ export default {
       this.loading = false
     },
     async add_kpi(goal) {
-       try {
-        var data = {
+      try {
+        const data = {
           description: this.description,
           goal: goal.id,
-          due: this.kpi_date
+          due: this.kpi_date,
         }
 
-        const appraisal = await this.$axios.$post(
-          `api/KPI/create`,
-          data
-        )
+        const appraisal = await this.$axios.$post(`api/KPI/create`, data)
 
         goal.kpi_dialog = false
         await this.init()
       } catch (error) {
         console.log(error)
       }
-    }
+    },
   },
 }
 </script>
-
 
 <style>
 .my-chat {

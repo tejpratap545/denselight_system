@@ -23,7 +23,13 @@
           {{ appraisalData[appraisalSelected].category }}
         </h3>
         <p class="ma-0">
-          Status: {{ getStatus(appraisalData[appraisalSelected].overallStatus, appraisalData[appraisalSelected].status) }}
+          Status:
+          {{
+            getStatus(
+              appraisalData[appraisalSelected].overallStatus,
+              appraisalData[appraisalSelected].status
+            )
+          }}
         </p>
       </div>
       <div v-else>
@@ -31,7 +37,10 @@
       </div>
     </div>
 
-    <AppraisalDetails v-if="appraisalSelectedIndex != 0" :appraisalID="appraisalSelectedIndex"/>
+    <AppraisalDetails
+      v-if="appraisalSelectedIndex != 0"
+      :appraisal-i-d="appraisalSelectedIndex"
+    />
   </div>
 </template>
 
@@ -47,7 +56,7 @@ export default {
     try {
       const response = await this.$axios.$get('/api/appraisals/list/me')
       response.forEach((appraisal) => {
-        var data = {
+        const data = {
           id: appraisal.id,
           name: appraisal.appraisal_name,
           category: appraisal.appraisal_category.name,
@@ -57,9 +66,6 @@ export default {
           start_date: appraisal.start_date,
           end_date: appraisal.end_date,
         }
-
-
-      console.log(data, appraisal)
 
         this.appraisalData.push(data)
       })
@@ -74,14 +80,16 @@ export default {
       tabData: null,
       appraisalData: [],
       appraisalSelected: 0,
-      appraisalSelectedIndex: 0
+      appraisalSelectedIndex: 0,
     }
   },
   methods: {
     changeAppraisal(i) {
       this.appraisalSelected = i
-      this.appraisalSelectedIndex = this.appraisalData[this.appraisalSelected].id
+      this.appraisalSelectedIndex = this.appraisalData[
+        this.appraisalSelected
+      ].id
     },
-  }
+  },
 }
 </script>
