@@ -16,8 +16,14 @@
     <v-tabs-items v-model="tabData">
       <v-tab-item>
         <v-card flat>
+          <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <b>{{ name }} Goals</b>
+            <v-spacer></v-spacer>
+            <v-btn v-if="editable" icon>
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-toolbar>
           <v-card-text>
-            <h3 class="my-5 text-center">{{ name }} Goals</h3>
             <v-data-table
               :headers="myGoalsTableHeader"
               :items="myGoalsTableItems"
@@ -193,8 +199,14 @@
 
       <v-tab-item>
         <v-card flat>
+          <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <b>{{ name }} Core Values</b>
+            <v-spacer></v-spacer>
+            <v-btn v-if="editable" icon>
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-toolbar>
           <v-card-text>
-            <h3 class="my-5 text-center">{{ name }} Core Values</h3>
             <v-data-table
               :headers="myValuesTableHeader"
               :items="myValuesTableItems"
@@ -215,8 +227,14 @@
 
       <v-tab-item>
         <v-card flat>
+          <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <b>{{ name }} Skills</b>
+            <v-spacer></v-spacer>
+            <v-btn v-if="editable" icon>
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-toolbar>
           <v-card-text>
-            <h3 class="my-5 text-center">{{ name }} Skills</h3>
             <v-data-table
               :headers="mySkillsTableHeader"
               :items="mySkillsTableItems"
@@ -248,9 +266,14 @@
 
 <script>
 export default {
-  props: ['appraisalID'],
-  async fetch() {
-    await this.init()
+  props: ['appraisal'],
+  watch: {
+    appraisal: function (newVal, _) {
+      this.init(newVal)
+    },
+  },
+  mounted() {
+    this.init(this.appraisal)
   },
   data() {
     return {
@@ -319,6 +342,7 @@ export default {
           value: 'actions',
         },
       ],
+      editable: this.appraisal.employee.email == this.$auth.user.email,
       name: 'My',
       kpi: '',
       kpi_date: '',
@@ -331,76 +355,69 @@ export default {
     },
   },
   methods: {
-    async init() {
+    init(appraisal) {
       this.loading = true
 
-      try {
-        const appraisal = await this.$axios.$get(
-          `api/appraisals/detail/${this.appraisalID}`
-        )
-
-        const data = {
-          name: appraisal.appraisal_name,
-          category: appraisal.appraisal_category.name,
-          status: appraisal.status,
-          completion: appraisal.completion,
-          start_date: appraisal.start_date,
-          end_date: appraisal.end_date,
-          goals: [],
-          skills: [],
-          core_values: [],
-        }
-
-        appraisal.goals_set.forEach((goal) => {
-          data.goals.push({
-            id: goal.id,
-            category: 'Organization Effectivness',
-            goal_title: goal.summary,
-            due: goal.due,
-            weightage: `${goal.weightage}%`,
-            dialog: false,
-            kpi_dialog: false,
-            tabs: null,
-            date_menu: false,
-            comments: [
-              { id: 0, date: goal.commentbox_set.reverse() },
-              { id: 1, data: goal.midyrcommentbox_set.reverse() },
-              { id: 2, data: goal.endyrcommentbox_set.reverse() },
-            ],
-            kpi_set: goal.kpi_set,
-          })
-        })
-
-        appraisal.skills_set.forEach((skill) => {
-          data.skills.push({
-            skill: skill.skill_category.name,
-            description: skill.description,
-            weightage: skill.weightage,
-          })
-        })
-
-        appraisal.competencies_set.forEach((value) => {
-          data.core_values.push({
-            value: value.summary,
-            description: value.description,
-            weightage: value.weightage,
-          })
-        })
-
-        this.myGoalsTableItems = data.goals
-        this.myValuesTableItems = data.core_values
-        this.mySkillsTableHeader = data.skills
-
-        this.name = `${appraisal.employee.name}'s`
-      } catch (error) {
-        console.log(error)
+      var data = {
+        name: appraisal.appraisal_name,
+        category: appraisal.appraisal_category.name,
+        status: appraisal.status,
+        editable: appraisal.employee.email == this.$auth.user.email,
+        completion: appraisal.completion,
+        start_date: appraisal.start_date,
+        end_date: appraisal.end_date,
+        goals: [],
+        skills: [],
+        core_values: [],
       }
+
+      appraisal.goals_set.forEach((goal) => {
+        data.goals.push({
+          id: goal.id,
+          category: 'Organization Effectivness',
+          goal_title: goal.summary,
+          due: goal.due,
+          weightage: `${goal.weightage}%`,
+          dialog: false,
+          kpi_dialog: false,
+          tabs: null,
+          date_menu: false,
+          comments: [
+            { id: 0, date: goal.commentbox_set.reverse() },
+            { id: 1, data: goal.midyrcommentbox_set.reverse() },
+            { id: 2, data: goal.endyrcommentbox_set.reverse() },
+          ],
+          kpi_set: goal.kpi_set,
+        })
+      })
+
+      appraisal.skills_set.forEach((skill) => {
+        data.skills.push({
+          skill: skill.skill_category.name,
+          description: skill.description,
+          weightage: skill.weightage,
+        })
+      })
+
+      appraisal.competencies_set.forEach((value) => {
+        data.core_values.push({
+          value: value.summary,
+          description: value.description,
+          weightage: value.weightage,
+        })
+      })
+
+      this.myGoalsTableItems = data.goals
+      this.myValuesTableItems = data.core_values
+      this.mySkillsTableHeader = data.skills
+
+      this.name = `${appraisal.employee.name}'s`
 
       this.loading = false
     },
     async add_kpi(goal) {
       try {
-        const data = {
+        var data = {
           description: this.description,
           goal: goal.id,
           due: this.kpi_date,

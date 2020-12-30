@@ -10,26 +10,20 @@
 
         <v-list>
           <v-list-item v-for="(x, y) in appraisalData" :key="y" link>
-            <v-list-item-title @click="changeAppraisal(y)">
-              {{ x.name }}
+            <v-list-item-title @click="changeAppraisal(x)">
+              {{ x.appraisal_name }}
             </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
 
-      <div v-if="appraisalData.length != 0">
+      <div v-if="appraisalSelectedIndex != 0">
         <h3 class="font-weight-medium">
-          {{ appraisalData[appraisalSelected].name }} -
-          {{ appraisalData[appraisalSelected].category }}
+          {{ appraisalSelected.appraisal_name }} -
+          {{ appraisalSelected.appraisal_category.name }}
         </h3>
         <p class="ma-0">
-          Status:
-          {{
-            getStatus(
-              appraisalData[appraisalSelected].overallStatus,
-              appraisalData[appraisalSelected].status
-            )
-          }}
+          Status: {{ getStatus(appraisalSelected.overall_appraisal.status, appraisalSelected.status) }}
         </p>
       </div>
       <div v-else>
@@ -37,10 +31,7 @@
       </div>
     </div>
 
-    <AppraisalDetails
-      v-if="appraisalSelectedIndex != 0"
-      :appraisal-i-d="appraisalSelectedIndex"
-    />
+    <AppraisalDetails v-if="appraisalSelectedIndex != 0" :appraisal="appraisalSelected" />
   </div>
 </template>
 
@@ -54,23 +45,8 @@ export default {
   mixins: [global],
   async fetch() {
     try {
-      const response = await this.$axios.$get('/api/appraisals/list/me')
-      response.forEach((appraisal) => {
-        const data = {
-          id: appraisal.id,
-          name: appraisal.appraisal_name,
-          category: appraisal.appraisal_category.name,
-          status: appraisal.status,
-          overallStatus: appraisal.overall_appraisal.status,
-          completion: appraisal.completion,
-          start_date: appraisal.start_date,
-          end_date: appraisal.end_date,
-        }
-
-        this.appraisalData.push(data)
-      })
-
-      this.changeAppraisal(0)
+      this.appraisalData = await this.$axios.$get('/api/appraisals/list/detail/me')
+      this.changeAppraisal(this.appraisalData[0])
     } catch (error) {
       console.log(error)
     }
@@ -79,16 +55,14 @@ export default {
     return {
       tabData: null,
       appraisalData: [],
-      appraisalSelected: 0,
-      appraisalSelectedIndex: 0,
+      appraisalSelected: {},
+      appraisalSelectedIndex: 0
     }
   },
   methods: {
     changeAppraisal(i) {
       this.appraisalSelected = i
-      this.appraisalSelectedIndex = this.appraisalData[
-        this.appraisalSelected
-      ].id
+      this.appraisalSelectedIndex = this.appraisalSelected.id
     },
   },
 }
