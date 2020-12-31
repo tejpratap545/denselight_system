@@ -20,7 +20,11 @@
         @close-skills-dialog="addSkillsDialog = false"
       />
     </div>
+
     <div class="px-10 my-5">
+      <v-btn v-if="overallAppraisalStatus == 'Stage 1'" class="text-right"
+        >Submit</v-btn
+      >
       <v-tabs
         v-model="tabData"
         background-color="transparent"
@@ -41,7 +45,7 @@
               <b>{{ name }} Goals</b>
               <v-spacer></v-spacer>
               <v-btn
-                v-if="appraisal.overall_appraisal.status == 'Stage 1'"
+                v-if="overallAppraisalStatus == 'Stage 1'"
                 icon
                 @click="addGoalsDialog = true"
               >
@@ -226,7 +230,11 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Core Values</b>
               <v-spacer></v-spacer>
-              <v-btn v-if="editable" icon @click="addCoreValueDialog = true">
+              <v-btn
+                v-if="(overallAppraisalStatus = 'Stage 1')"
+                icon
+                @click="addCoreValueDialog = true"
+              >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -254,7 +262,7 @@
               <b>{{ name }} Skills</b>
               <v-spacer></v-spacer>
               <v-btn
-                v-if="appraisal.overall_appraisal.status == 'Stage 1'"
+                v-if="overallAppraisalStatus == 'Stage 1'"
                 icon
                 @click="addSkillsDialog = true"
               >
@@ -294,6 +302,9 @@
 <script>
 export default {
   props: ['appraisal'],
+  fetch() {
+    this.init(this.appraisal)
+  },
   data() {
     return {
       addGoalsDialog: false,
@@ -368,6 +379,7 @@ export default {
       kpi: '',
       kpi_date: '',
       myValuesTableItems: [],
+      overallAppraisalStatus: '',
     }
   },
 
@@ -375,9 +387,6 @@ export default {
     appraisal(newVal, _) {
       this.init(newVal)
     },
-  },
-  mounted() {
-    this.init(this.appraisal)
   },
   methods: {
     init(appraisal) {
@@ -394,6 +403,7 @@ export default {
         skills: [],
         core_values: [],
       }
+      this.overallAppraisalStatus = data.overallAppraisal.status
 
       appraisal.goals_set.forEach((goal) => {
         data.goals.push({
