@@ -40,7 +40,11 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Goals</b>
               <v-spacer></v-spacer>
-              <v-btn v-if="editable" icon @click="addGoalsDialog = true">
+              <v-btn
+                v-if="appraisal.overall_appraisal.status == 'Stage 1'"
+                icon
+                @click="addGoalsDialog = true"
+              >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -249,7 +253,11 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Skills</b>
               <v-spacer></v-spacer>
-              <v-btn v-if="editable" icon @click="addSkillsDialog = true">
+              <v-btn
+                v-if="appraisal.overall_appraisal.status == 'Stage 1'"
+                icon
+                @click="addSkillsDialog = true"
+              >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -381,6 +389,7 @@ export default {
         completion: appraisal.completion,
         start_date: appraisal.start_date,
         end_date: appraisal.end_date,
+        overallAppraisal: appraisal.overall_appraisal,
         goals: [],
         skills: [],
         core_values: [],

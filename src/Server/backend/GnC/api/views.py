@@ -13,58 +13,62 @@ class CreateGoalView(generics.CreateAPIView):
     # queryset = Goals.objects.all()
     serializer_class = CreateGoalSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+    def perform_create(self, serializer):
         if serializer.is_valid(raise_exception=True):
-            validated_data = serializer.data
+            validated_data = serializer.validated_data
 
             weightage_sum = Goals.objects.filter(
                 appraisal=validated_data.get("appraisal")
             ).aggregate(Sum("weightage"))
-            if (
+            if weightage_sum["weightage__sum"] is None:
+
+                appraisal = validated_data.get("appraisal")
+                appraisal.status = "Employee"
+                appraisal.save()
+                serializer.save(employee=self.request.user.profile)
+                return serializer.data
+            elif (
                 int(validated_data.get("weightage"))
                 + int(weightage_sum["weightage__sum"])
                 > 100
             ):
-                return Response(
-                    {"msg": "Total weightage should be less then 100"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+                raise ValueError("Total weightage should be less then 100")
             else:
                 appraisal = validated_data.get("appraisal")
                 appraisal.status = "Employee"
                 appraisal.save()
-                serializer.save(employee=request.user.profile)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                serializer.save(employee=self.request.user.profile)
+                return serializer.data
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        raise ValueError("error in serializer data")
 
 
 class CreateCompetenciesView(generics.CreateAPIView):
     serializer_class = CreateCompetenciesSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+    def perform_create(self, serializer):
+
         if serializer.is_valid(raise_exception=True):
-            validated_data = serializer.data
+            validated_data = serializer.validated_data
 
             weightage_sum = Competencies.objects.filter(
                 appraisal=validated_data.get("appraisal")
             ).aggregate(Sum("weightage"))
-            if (
+            if weightage_sum["weightage__sum"] is None:
+
+                serializer.save(employee=self.request.user.profile)
+                return serializer.data
+            elif (
                 int(validated_data.get("weightage"))
                 + int(weightage_sum["weightage__sum"])
                 > 100
             ):
-                return Response(
-                    {"msg": "Total weightage should be less then 100"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+                raise ValueError("Total weightage should be less then 100")
             else:
-                serializer.save(employee=request.user.profile)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                serializer.save(employee=self.request.user.profile)
+                return serializer.data
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        raise ValueError("error in serializer data")
 
 
 class CreateKPI(generics.CreateAPIView):

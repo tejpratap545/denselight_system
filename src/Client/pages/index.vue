@@ -37,10 +37,7 @@
       </div>
     </div>
 
-    <AppraisalDetails
-      v-if="appraisalSelectedIndex != 0"
-      :appraisal="appraisalSelected"
-    />
+    <AppraisalDetails :appraisal="appraisalSelected" />
     <v-skeleton-loader
       v-if="appraisalSelectedIndex == 0"
       class="px-10 my-5"

@@ -1,10 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="500"
-    >
+    <v-dialog v-model="dialog" persistent max-width="500">
       <v-card>
         <v-card-title class="headline"> Add Goal </v-card-title>
         <v-card-text>
@@ -91,7 +87,7 @@ export default {
         goal_category: 0,
         summary: '',
         description: '',
-        weightage: '',
+        weightage: 0,
         due: new Date().toISOString().substr(0, 10),
       },
     }
