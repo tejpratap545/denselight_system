@@ -161,9 +161,9 @@ class DetailAppraisal(generics.RetrieveAPIView):
         return super().dispatch(request, *args, **kwargs)
 
 
-@api_view()
-def submit_goals(request):
-    id = request.kwargs.get("pk")
+@api_view(["POST"])
+def submit_goals(request, *args, **kwargs):
+    id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
     if app.overall_appraisal.status == "Stage 1":
         app.status = "Manager"
@@ -174,9 +174,9 @@ def submit_goals(request):
     return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view()
-def approve_goal(request):
-    id = request.kwargs.get("pk")
+@api_view(["POST"])
+def approve_goal(request, *args, **kwargs):
+    id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
     if app.overall_appraisal.status == "Stage 1":
         app.status = "S1BEmployee"

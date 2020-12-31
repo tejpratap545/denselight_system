@@ -1,5 +1,21 @@
 <template>
-  <div class="pa-5">
+  <div v-if="$fetchState.pending">
+    <v-skeleton-loader
+      class="px-10 my-5"
+      type=" table-thead, card-heading, card"
+    ></v-skeleton-loader>
+  </div>
+  <div v-else-if="$fetchState.error">An error occurred</div>
+
+  <div v-else class="pa-5">
+    <div class="dialogs">
+      <GoalApproved
+        v-if="goalsApprovedDialog"
+        :dialog="goalsApprovedDialog"
+        :appraisal-id="currentAppraisalId"
+        @close-goal-approved-dialog="goalsApprovedDialog = false"
+      />
+    </div>
     <div class="d-flex justify-lg-space-between align-center">
       <v-btn color="success"> Create Department goal </v-btn>
 
@@ -70,6 +86,7 @@
                               v-model="item.action"
                               color="transparent"
                               elevation="0"
+                              @click="showGaolApproval(item)"
                             >
                               <i class="fas fa-ellipsis-h"></i>
                             </v-btn>
@@ -155,14 +172,67 @@ export default {
   title: 'Department',
   name: 'Department',
   layout: 'dashboard-template',
+  fetch() {
+    this.$axios
+      .$get('api/appraisals/list/manager')
+      .then((response) => {
+        this.loading = false
+        response.forEach(async (appraisal) => {
+          this.employeesTableItems.push({
+            id: appraisal.id,
+            department: appraisal.employee.department.name,
+            stage: appraisal.overall_appraisal.status,
+            name: appraisal.employee.name,
+            date_of_hire: appraisal.employee.date_Of_Hire,
+            appraisal_name: appraisal.appraisal_name,
+            appraisal_stage: appraisal.stage,
+          })
 
+          const tableData = {
+            id: appraisal.id,
+            appraisal_name: appraisal.appraisal_name,
+            employee: appraisal.employee.name,
+
+            goals_count: appraisal.goals_count,
+            core_values_count: appraisal.core_values_competencies_count,
+
+            skills_count: 0,
+            end_date: appraisal.overall_appraisal.goals_setting_end_date,
+            status: appraisal.status,
+          }
+
+          switch (appraisal.overall_appraisal.status) {
+            case 'Stage 1':
+              this.goalsLaunchingTableItems.push(tableData)
+              break
+
+            case 'Stage 1B':
+              this.midYearTableItems.push(tableData)
+              break
+
+            case 'Stage 2':
+              this.endYearTableItems.push(tableData)
+              break
+
+            default:
+              break
+          }
+        })
+      })
+      .catch((error) => {
+        this.loading = false
+        console.log(error)
+      })
+  },
   data() {
     return {
       loading: true,
       tabData: null,
       tabData2: null,
       departmentData: '',
-  //    employees: [],
+      currentAppraisalId: 0,
+      goalsApprovedDialog: false,
+
       employeesTableHeader: [
         {
           text: 'Name',
@@ -245,55 +315,11 @@ export default {
       endYearTableItems: [],
     }
   },
-  fetch() {
-    this.$axios
-      .$get('api/appraisals/list/manager')
-      .then((response) => {
-        this.loading = false
-        response.forEach(async (appraisal) => {
-          this.employeesTableItems.push({
-            department: appraisal.employee.department.name,
-            stage: appraisal.overall_appraisal.status,
-            name: appraisal.employee.name,
-            date_of_hire: appraisal.employee.date_Of_Hire,
-            appraisal_name: appraisal.appraisal_name,
-            appraisal_stage: appraisal.stage,
-          })
-
-          const tableData = {
-            appraisal_name: appraisal.appraisal_name,
-            employee: appraisal.employee.name,
-
-            goals_count: appraisal.goals_count,
-            core_values_count: appraisal.core_values_competencies_count,
-
-            skills_count: 0,
-            end_date: appraisal.overall_appraisal.goals_setting_end_date,
-            status: appraisal.status,
-          }
-
-          switch (appraisal.overall_appraisal.status) {
-            case 'Stage 1':
-              this.goalsLaunchingTableItems.push(tableData)
-              break
-
-            case 'Stage 1B':
-              this.midYearTableItems.push(tableData)
-              break
-
-            case 'Stage 2':
-              this.endYearTableItems.push(tableData)
-              break
-
-            default:
-              break
-          }
-        })
-      })
-      .catch((error) => {
-        this.loading = false
-        console.log(error)
-      })
+  methods: {
+    showGaolApproval(item) {
+      this.currentAppraisalId = item.id
+      this.goalsApprovedDialog = true
+    },
   },
 }
 </script>

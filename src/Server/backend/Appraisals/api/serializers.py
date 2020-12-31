@@ -115,9 +115,10 @@ class GoalsSettingRejectionSerializer(serializers.ModelSerializer):
         fields = ("goals_settingM_rejection",)
 
     def update(self, instance, validated_data):
-        super(GoalsSettingRejectionSerializer, self).update()
+        super(GoalsSettingRejectionSerializer, self).update(instance, validated_data)
         instance.status = "Employee"
         instance.save()
+        return instance
 
 
 class MidYearRejectionSerializer(serializers.ModelSerializer):
@@ -126,9 +127,10 @@ class MidYearRejectionSerializer(serializers.ModelSerializer):
         fields = ("mid_yearM_rejection",)
 
     def update(self, instance, validated_data):
-        super(MidYearRejectionSerializer, self).update()
+        super(MidYearRejectionSerializer, self).update(instance, validated_data)
         instance.status = "S1BReview"
         instance.save()
+        return instance
 
 
 class AppraisalRejectionSerializer(serializers.ModelSerializer):
@@ -137,6 +139,7 @@ class AppraisalRejectionSerializer(serializers.ModelSerializer):
         fields = ("appraisalHR_rejection",)
 
     def update(self, instance, validated_data):
-        super(AppraisalRejectionSerializer, self).update()
+        super(AppraisalRejectionSerializer, self).update(instance, validated_data)
         instance.status = "Employee"
         instance.save()
+        return instance
