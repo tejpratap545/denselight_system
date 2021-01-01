@@ -350,3 +350,13 @@ class ManagerPeerAppraisal(generics.ListAPIView):
 
     def get_queryset(self):
         return peerAppraisal.objects.filter(created_by=self.request.user.profile)
+
+
+class ShortManagerAppraisal(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ShortAppraisal2Serializer
+
+    def get_queryset(self):
+        return User_Appraisal_List.objects.only("id", "appraisal_name").filter(
+            manager=self.request.user.profile
+        )

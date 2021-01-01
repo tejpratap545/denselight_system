@@ -28,6 +28,7 @@ from backend.Appraisals.api.views import (
     CreatePeerAppraisal,
     EmployeePeerAppraisal,
     ManagerPeerAppraisal,
+    ShortManagerAppraisal,
 )
 from backend.Trainings.api.views import SkillsApiView, CreateSkillsApiView
 
@@ -45,6 +46,11 @@ urlpatterns = [
         "appraisals/list/manager",
         ManagerAppraisal.as_view(),
         name="retrieve_manager_appraisals",
+    ),
+    path(
+        "appraisals/list/short/manager",
+        ShortManagerAppraisal.as_view(),
+        name="retrieve_short_manager_appraisals",
     ),
     path(
         "appraisals/list/me",
