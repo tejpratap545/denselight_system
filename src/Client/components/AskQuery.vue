@@ -87,7 +87,6 @@
 
 <script>
 export default {
-  porps: ['appraisalID'],
   fetch() {
     this.$axios
       .$get('/api/employee/short/list')
@@ -107,7 +106,7 @@ export default {
       e1: 1,
       employees: [],
       peerappraisal: {
-        appraisal: this.$attrs.appraisalID,
+        appraisal: 0,
         title1: '',
         title2: '',
         title3: '',
