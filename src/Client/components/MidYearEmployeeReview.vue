@@ -27,7 +27,9 @@
 
                 <v-expansion-panel-content>
                   <v-card class="my-2">
-                    <v-card-text><b>Description : </b>{{ item.description }}</v-card-text>
+                    <v-card-text
+                      ><b>Description : </b>{{ item.description }}</v-card-text
+                    >
                   </v-card>
 
                   <v-card
@@ -125,16 +127,37 @@ export default {
           weightage: `${goal.weightage}%`,
           MID_user_comments: goal.MID_user_comments,
           tracking_status: goal.tracking_status,
-          kpi_set: goal.kpi_set
+          kpi_set: goal.kpi_set,
         })
       })
     },
-    submit() {
-      this.goals.forEach((goal) => {
-        this.$axios.patch(`api/goal/${goal.id}`, {
+    async patchGoals() {
+      this.goals.forEach(async (goal) => {
+        await this.$axios.patch(`api/goal/${goal.id}`, {
           MID_user_comments: goal.MID_user_comments,
           tracking_status: goal.tracking_status,
         })
+      })
+    },
+    async submit() {
+      await this.patchGoals().then(() => {
+        this.$axios
+          .post(`api/input/employee/midyear/${this.appraisalId}`)
+          .then(() => {
+            this.$notifier.showMessage({
+              content:
+                'Manager Mid Year Successfully submitted . Please confirm review',
+              color: 'info',
+            })
+            this.close()
+          })
+          .catch(() => {
+            this.$notifier.showMessage({
+              content: 'An error found please validate or try again',
+              color: 'error',
+            })
+            this.close()
+          })
       })
     },
   },

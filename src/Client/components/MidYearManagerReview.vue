@@ -140,9 +140,7 @@ export default {
         })
       })
     },
-    sleep(ms) {
-      return new Promise((resolve) => setTimeout(resolve, ms))
-    },
+
     // eslint-disable-next-line require-await
     async patchGoals() {
       this.goals.forEach(async (goal) => {
