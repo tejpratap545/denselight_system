@@ -167,6 +167,7 @@ def submit_goals(request, *args, **kwargs):
     app = get_object_or_404(User_Appraisal_List, id=id)
     if app.overall_appraisal.status == "Stage 1":
         app.status = "Manager"
+        app.save()
         return Response(
             {"msg": "Goal are successfully submitted to manager/supervisor"},
             status=status.HTTP_202_ACCEPTED,
@@ -180,10 +181,130 @@ def approve_goal(request, *args, **kwargs):
     app = get_object_or_404(User_Appraisal_List, id=id)
     if app.overall_appraisal.status == "Stage 1":
         app.status = "S1BEmployee"
+        app.save()
         return Response(
             {"msg": "Goal are successfully approves by manager/supervisor"},
             status=status.HTTP_202_ACCEPTED,
         )
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def input_midyear_employee(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if app.overall_appraisal.status == "Stage 1B":
+        app.status = "S1BManager"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def submit_midyear_employee(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if app.overall_appraisal.status == "Stage 1B":
+        app.status = "S1BReview"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def input_midyear_manager(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if app.overall_appraisal.status == "Stage 1B":
+        app.status = "S1BManager"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def approve_endyear_manager(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if app.overall_appraisal.status == "Stage 1B":
+        app.status = "S1BManager"
+        app.mid_year_completion = "Completed"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def input_endyear_employee(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if app.overall_appraisal.status == "Stage 2":
+        app.status = "S2Employee"
+        app.completion = "Ecompleted"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def submit_endyear_employee(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if app.overall_appraisal.status == "Stage 2":
+        app.status = "S2Manager"
+        app.completion = "Ecompleted"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def input_endyear_manager(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if app.overall_appraisal.status == "Stage 2":
+        app.status = "S2Manager"
+        app.completion = "MCompleted"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def submit_endyear_manager(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if app.overall_appraisal.status == "Stage 2":
+        app.status = "Approved"
+        app.completion = "MCompleted"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+
     return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
 
 
