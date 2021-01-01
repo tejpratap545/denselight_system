@@ -93,9 +93,11 @@
         "user_rating": 1,
         "manager_rating": 1,
         "board_rating": 1,
+
         "user_comments": "NIL",
         "manager_comments": "NIL",
         "board_comments": "NIL",
+
         "tracking_status": "null",
         "metrics_evidence": null,
         "appraisal": 154,

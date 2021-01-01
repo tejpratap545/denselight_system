@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="70%">
+      <v-dialog v-model="dialog" persistent max-width="800">
         <div v-if="$fetchState.pending">
           <v-skeleton-loader type="article, actions"></v-skeleton-loader>
         </div>
@@ -17,7 +17,7 @@
               >
                 <v-expansion-panel-header
                   class="pa-2"
-                  color="primary lighten-2"
+                  color="primary lighten-1"
                 >
                   <h3 class="title-topbar">
                     <b>{{ item.goal_title }}</b> <v-spacer />
@@ -26,35 +26,28 @@
                 </v-expansion-panel-header>
 
                 <v-expansion-panel-content>
-                  <v-card class="my-2">
-                    <v-card-text><b>Description : </b>{{ item.description }}</v-card-text>
-                  </v-card>
-
-                  <v-card
-                    v-for="kpi in item.kpi_set"
-                    :key="kpi.id"
-                    class="my-5"
-                  >
-                    <v-card-text>
-                      <p>{{ kpi.description }}</p>
-                      <small
-                        >Progress : <b>{{ kpi.progress }}</b></small
-                      >
-                    </v-card-text>
-                  </v-card>
-
                   <div class="ma-2">
-                    <v-select
-                      v-model="item.tracking_status"
-                      label="trackingStatus"
-                      :items="trackingStatus"
-                    >
-                    </v-select>
-                    <v-textarea
-                      v-model="item.MID_user_comments"
-                      label="Mid Year Employee Comment"
-                    >
-                    </v-textarea>
+                    <div><b>Description : </b>{{ item.description }}</div>
+
+                    <v-row>
+                      <v-col>Set tracking status</v-col>
+                      <v-col>
+                        <v-select
+                          v-model="item.tracking_status"
+                          :items="trackingStatus"
+                        >
+                        </v-select
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>
+                        Mid year employee comments
+                      </v-col>
+                      <v-col>
+                        <v-textarea outlined v-model="item.MID_user_comments">
+                        </v-textarea
+                      ></v-col>
+                    </v-row>
                   </div>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -63,7 +56,9 @@
           <v-card-actions class="mx-2">
             <v-spacer></v-spacer>
             <v-btn text @click="close"> Close </v-btn>
-            <v-btn color="success" text @click="submit"> Submit </v-btn>
+            <v-btn color="primary" elevation="0" @click="submit">
+              Submit
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -86,28 +81,6 @@ export default {
     return {
       goals: [],
       trackingStatus: ['On Track', 'Not On Track'],
-      ratingChoice: [
-        {
-          id: 1,
-          name: '1 - Major Improvement Needed',
-        },
-        {
-          id: 2,
-          name: '2 - Needs Improvement',
-        },
-        {
-          id: 3,
-          name: '3 - Meets Expectations',
-        },
-        {
-          id: 4,
-          name: '4 - Exceeds Expectations',
-        },
-        {
-          id: 5,
-          name: '5 - Far Exceed Expectations',
-        },
-      ],
     }
   },
   methods: {
@@ -125,7 +98,7 @@ export default {
           weightage: `${goal.weightage}%`,
           MID_user_comments: goal.MID_user_comments,
           tracking_status: goal.tracking_status,
-          kpi_set: goal.kpi_set
+          // kpi_set: goal.kpi_set
         })
       })
     },

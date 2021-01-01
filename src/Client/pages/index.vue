@@ -22,6 +22,13 @@
         @close-end-year-dialog="endYearEmployeeReviewDialog = false"
       >
       </EndYearEmployeeReview>
+      <ApproveReviews
+        v-if="approveReviewDialog"
+        :dialog="approveReviewDialog"
+        :appraisal-id="appraisalSelectedIndex"
+        @close-approve-dialog="approveReviewDialog = false"
+      >
+      </ApproveReviews>
       <v-card flat>
         <v-card-title class="d-flex justify-lg-space-between align-center">
           <v-menu rounded="lg">
@@ -65,15 +72,23 @@
             v-if="appraisalSelected.overall_appraisal.status === 'Stage 1B'"
             text
             @click="midYearEmployeeReviewDialog = true"
-            ><v-icon>mdi-plus</v-icon> Add Mid Year Review</v-btn
+            ><v-icon>mdi-message-draw</v-icon> Add Mid Year Review</v-btn
           >
           <v-btn
             v-if="appraisalSelected.overall_appraisal.status === 'Stage 2'"
             text
-            @class="endYearEmployeeReviewDialog = true"
-            ><v-icon>mdi-plus</v-icon> Add End Year Review</v-btn
+            @click="endYearEmployeeReviewDialog = true"
+            ><v-icon>mdi-message-draw</v-icon> Add End Year Review</v-btn
           >
-          <v-btn class="success"><v-icon>mdi-check-all</v-icon> Approve Reviews</v-btn>
+          <v-btn
+            v-if="
+              appraisalSelected.overall_appraisal.status === 'Stage 1B' ||
+              appraisalSelected.overall_appraisal.status === 'Stage 2'
+            "
+            class="success"
+            @click="approveReviewDialog = true"
+            ><v-icon>mdi-check-all</v-icon> Approve Reviews</v-btn
+          >
         </v-toolbar>
       </v-card>
 
@@ -86,7 +101,6 @@
 </template>
 
 <script>
-import { AppraisalDetails } from '~/components/AppraisalDetails'
 import global from '~/mixins/global'
 
 export default {
@@ -111,6 +125,7 @@ export default {
       appraisalSelectedIndex: 0,
       midYearEmployeeReviewDialog: false,
       endYearEmployeeReviewDialog: false,
+      approveReviewDialog: false,
     }
   },
 

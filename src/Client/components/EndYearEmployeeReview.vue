@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="600">
+      <v-dialog v-model="dialog" persistent max-width="800">
         <div v-if="$fetchState.pending">
           <v-skeleton-loader type="article, actions"></v-skeleton-loader>
         </div>
@@ -9,12 +9,56 @@
         <v-card v-else>
           <v-card-title class="headline"> End Year Review </v-card-title>
           <v-card-text>
-            {{ goals }}
+            <v-expansion-panels>
+              <v-expansion-panel
+                v-for="item in goals"
+                :key="item.id"
+                class="my-2"
+              >
+                <v-expansion-panel-header
+                  class="pa-2"
+                  color="primary lighten-1"
+                >
+                  <h3 class="title-topbar">
+                    <b>{{ item.goal_title }}</b> <v-spacer />
+                    <small>{{ item.category }}</small>
+                  </h3>
+                </v-expansion-panel-header>
+
+                <v-expansion-panel-content>
+                  <div class="ma-2">
+                    <div><b>Description : </b>{{ item.description }}</div>
+                    <v-row>
+                      <v-col>User rating</v-col>
+                      <v-col>
+                        <v-rating
+                          background-color="grey lighten-2"
+                          color="primary"
+                          length="5"
+                          size="30"
+                          value="1"
+                          v-model="item.user_rating"
+                          dense
+                          hover
+                        ></v-rating
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>End Year Employee Comment</v-col>
+                      <v-col>
+                        <v-textarea v-model="item.user_comments" outlined>
+                        </v-textarea
+                      ></v-col>
+                    </v-row>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="close"> Disagree </v-btn>
-            <v-btn color="green darken-1" text @click="close"> Agree </v-btn>
+            <v-btn text @click="close"> Close </v-btn>
+            <v-btn color="primary" elevation="0" @click="submit"> Submit </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -33,9 +77,35 @@ export default {
         this.init(res)
       })
   },
+  data() {
+    return {
+      goals: [],
+    }
+  },
   methods: {
     close() {
       this.$emit('close-end-year-dialog')
+    },
+    init(appraisal) {
+      appraisal.goals_set.forEach((goal) => {
+        this.goals.push({
+          id: goal.id,
+          goal_title: goal.summary,
+          description: goal.description,
+          due: goal.due,
+          category: 'Organization Effectivness',
+          user_comments: goal.user_comments,
+          user_rating: goal.user_rating,
+        })
+      })
+    },
+    submit() {
+      this.goals.forEach((goal) => {
+        this.$axios.patch(`api/goal/${goal.id}`, {
+          user_comments: goal.user_comments,
+          user_rating: goal.user_rating,
+        })
+      })
     },
   },
 }

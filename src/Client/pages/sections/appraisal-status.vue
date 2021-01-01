@@ -37,8 +37,7 @@
                           :loading="loading"
                         >
                           <template v-slot:[`item.actions`]="{ item }">
-                            <AppraisalCreate
-                              :edit-mode="true"
+                            <AppraisalEdit
                               :appraisal="item.overallAppraisal"
                             />
                             <v-btn
