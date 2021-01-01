@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-if="editMode" v-bind="attrs" v-on="on" color="success" icon>
+      <v-btn v-if="editMode" v-bind="attrs" color="success" icon v-on="on">
         <v-icon>mdi-circle-edit-outline</v-icon>
       </v-btn>
       <v-btn v-else color="primary" dark v-bind="attrs" v-on="on">
@@ -464,7 +464,7 @@ export default {
             console.log(error, this.appraisal)
           })
       } else {
-         this.$axios
+        this.$axios
           .$patch(`/api/overallAppraisal/${this.appraisal.id}`, this.appraisal)
           .then((res) => {
             this.$notifier.showMessage({
@@ -493,10 +493,10 @@ export default {
 
         else
           return 2
-      }*/
+      } */
 
       return ''
-    }
+    },
   },
 }
 </script>
