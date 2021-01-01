@@ -223,3 +223,9 @@ class SubmitPeerAppraisalSerializer(serializers.ModelSerializer):
         super(SubmitPeerAppraisalSerializer, self).update(instance, validated_data)
         instance.completion = "Completed"
         instance.save()
+
+
+class PeerAppraisalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = peerAppraisal
+        fields = "__all__"

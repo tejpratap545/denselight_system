@@ -360,3 +360,9 @@ class ShortManagerAppraisal(generics.ListAPIView):
         return User_Appraisal_List.objects.only("id", "appraisal_name").filter(
             manager=self.request.user.profile
         )
+
+
+class PeerAppraisal(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PeerAppraisalSerializer
+    queryset = peerAppraisal.objects.all()
