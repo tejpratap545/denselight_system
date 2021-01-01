@@ -20,7 +20,7 @@
                 <v-expansion-panel-header
                   elevation="0"
                   class="pa-2"
-                  color="info"
+                  color="primary lighten-2"
                 >
                   <h3 class="title-topbar">
                     <b>{{ item.goal_title }}</b> <v-spacer />
@@ -47,7 +47,7 @@
                       >
                     </v-card-text>
                   </v-card>
-                  <v-card>
+                  <v-card class="py-2">
                     <v-card-title> Mid Year Employee </v-card-title>
                     <v-card-subtitle> Comment </v-card-subtitle>
                     <v-card-text>
@@ -62,7 +62,7 @@
                   <div class="ma-2">
                     <v-textarea
                       v-model="item.MID_manager_comments"
-                      label="Mid Year Employee Comment"
+                      label="Mid Year Manager Comment"
                     >
                     </v-textarea>
                   </div>
@@ -83,7 +83,7 @@
 
 <script>
 export default {
-  name: 'MidYearEmployeeReviewVue',
+  name: 'MidYearManagerReviewVue',
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {
     await this.$axios
@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('close-mid-year-dialog')
+      this.$emit('close-mid-year-manager-dialog')
     },
     init(appraisal) {
       appraisal.goals_set.forEach((goal) => {
@@ -140,11 +140,34 @@ export default {
         })
       })
     },
-    submit() {
-      this.goals.forEach((goal) => {
-        this.$axios.patch(`api/goal/${goal.id}`, {
+
+    // eslint-disable-next-line require-await
+    async patchGoals() {
+      this.goals.forEach(async (goal) => {
+        await this.$axios.patch(`api/goal/${goal.id}`, {
           MID_manager_comments: goal.MID_manager_comments,
         })
+      })
+    },
+    async submit() {
+      await this.patchGoals().then(() => {
+        this.$axios
+          .post(`api/input/manager/midyear/${this.appraisalId}`)
+          .then(() => {
+            this.$notifier.showMessage({
+              content:
+                'Manager Mid Year Successfully submitted . Please confirm review',
+              color: 'info',
+            })
+            this.close()
+          })
+          .catch(() => {
+            this.$notifier.showMessage({
+              content: 'An error found please validate or try again',
+              color: 'error',
+            })
+            this.close()
+          })
       })
     },
   },

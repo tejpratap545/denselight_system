@@ -15,6 +15,12 @@
         :appraisal-id="currentAppraisalId"
         @close-goal-approved-dialog="goalsApprovedDialog = false"
       />
+      <MidYearManagerReview
+        v-if="MidYearManagerReviewDialog"
+        :dialog="MidYearManagerReviewDialog"
+        :appraisal-id="currentAppraisalId"
+        @close-mid-year-manager-dialog="MidYearManagerReviewDialog = false"
+      />
     </div>
     <div class="d-flex justify-lg-space-between align-center">
       <v-btn color="success"> Create Department goal </v-btn>
@@ -111,6 +117,7 @@
                               v-model="item.action"
                               color="transparent"
                               elevation="0"
+                              @click="showMidReview(item)"
                             >
                               <i class="fas fa-ellipsis-h"></i>
                             </v-btn>
@@ -232,6 +239,7 @@ export default {
       departmentData: '',
       currentAppraisalId: 0,
       goalsApprovedDialog: false,
+      MidYearManagerReviewDialog: false,
 
       employeesTableHeader: [
         {
@@ -319,6 +327,10 @@ export default {
     showGaolApproval(item) {
       this.currentAppraisalId = item.id
       this.goalsApprovedDialog = true
+    },
+    showMidReview(item) {
+      this.currentAppraisalId = item.id
+      this.MidYearManagerReviewDialog = true
     },
   },
 }
