@@ -92,6 +92,16 @@ class ShortOverallAppraisalSerSerializer(serializers.ModelSerializer):
         )
 
 
+class ShortAppraisal2Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Appraisal_List
+
+        fields = (
+            "id",
+            "appraisal_name",
+        )
+
+
 class ShortAppraisalSerializer(serializers.ModelSerializer):
     overall_appraisal = ShortOverallAppraisalSerSerializer()
 
