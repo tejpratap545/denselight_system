@@ -140,29 +140,37 @@ export default {
         })
       })
     },
-    submit() {
+    sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms))
+    },
+    // eslint-disable-next-line require-await
+    async patchGoals() {
       this.goals.forEach(async (goal) => {
         await this.$axios.patch(`api/goal/${goal.id}`, {
           MID_manager_comments: goal.MID_manager_comments,
         })
       })
-      this.$axios
-        .post(`api/input/manager/midyear/${this.appraisalId}`)
-        .then(() => {
-          this.$notifier.showMessage({
-            content:
-              'Manager Mid Year Successfully submitted . Please confirm review',
-            color: 'info',
+    },
+    async submit() {
+      await this.patchGoals().then(() => {
+        this.$axios
+          .post(`api/input/manager/midyear/${this.appraisalId}`)
+          .then(() => {
+            this.$notifier.showMessage({
+              content:
+                'Manager Mid Year Successfully submitted . Please confirm review',
+              color: 'info',
+            })
+            this.close()
           })
-          this.close()
-        })
-        .catch(() => {
-          this.$notifier.showMessage({
-            content: 'An error found please validate or try again',
-            color: 'error',
+          .catch(() => {
+            this.$notifier.showMessage({
+              content: 'An error found please validate or try again',
+              color: 'error',
+            })
+            this.close()
           })
-          this.close()
-        })
+      })
     },
   },
 }
