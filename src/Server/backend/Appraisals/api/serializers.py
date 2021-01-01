@@ -81,6 +81,31 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                 return serializers.ValidationError("Something went wrong")
 
 
+class ShortOverallAppraisalSerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Overall_Appraisal
+        fields = (
+            "id",
+            "name",
+            "status",
+            "calibration_end_date",
+        )
+
+
+class ShortAppraisalSerializer(serializers.ModelSerializer):
+    overall_appraisal = ShortOverallAppraisalSerSerializer()
+
+    class Meta:
+        model = User_Appraisal_List
+
+        fields = (
+            "id",
+            "appraisal_name",
+            "status",
+            "overall_appraisal",
+        )
+
+
 class UserAppraisalListSerializer(serializers.ModelSerializer):
     manager = ShortProfileSerializer()
     employee = ShortProfileSerializer()
@@ -143,3 +168,48 @@ class AppraisalRejectionSerializer(serializers.ModelSerializer):
         instance.status = "Employee"
         instance.save()
         return instance
+
+
+class CreatePeerAppraisalSerializer(serializers.ModelSerializer):
+    employee_list = serializers.ListField(required=True)
+
+    class Meta:
+        model = peerAppraisal
+        fields = (
+            "appraisal",
+            "title1",
+            "title2",
+            "title3",
+            "employee_list",
+        )
+
+
+class ShortPeerSerializer(serializers.ModelSerializer):
+    appraisal = ShortAppraisalSerializer()
+    viewer = ShortProfileSerializer()
+    created_by = ShortProfileSerializer()
+
+    class Meta:
+        model = peerAppraisal
+        fields = (
+            "id",
+            "appraisal",
+            "completion",
+            "viewer",
+            "created_by",
+        )
+
+
+class SubmitPeerAppraisalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = peerAppraisal
+        fields = (
+            "strength1",
+            "strength2",
+            "strength3",
+        )
+
+    def update(self, instance, validated_data):
+        super(SubmitPeerAppraisalSerializer, self).update(instance, validated_data)
+        instance.completion = "Completed"
+        instance.save()

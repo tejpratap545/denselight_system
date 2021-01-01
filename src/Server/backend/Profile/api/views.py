@@ -1,8 +1,13 @@
+import json
+
 from django.core.cache import cache
+from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import generics
+from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
 
 from .serializers import *
 from ..permissions import IsOwner
@@ -50,3 +55,20 @@ class ListEmployees(generics.ListAPIView):
     @method_decorator(cache_page(60 * 5))
     def dispatch(self, *args, **kwargs):
         return super(ListEmployees, self).dispatch(*args, **kwargs)
+
+
+from django.core import serializers
+from django.shortcuts import get_list_or_404
+
+
+class ShortListEmployees(generics.ListAPIView):
+    serializer_class = ShortEmployeeSerializer
+    queryset = Profile.objects.only(
+        "id",
+        "name",
+        "email",
+    )
+
+    @method_decorator(cache_page(60 * 5))
+    def dispatch(self, *args, **kwargs):
+        return super(ShortListEmployees, self).dispatch(*args, **kwargs)

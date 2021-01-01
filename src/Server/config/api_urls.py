@@ -8,7 +8,7 @@ from backend.GnC.api.views import (
     KPIApiView,
     CompetenciesAPIView,
 )
-from backend.Profile.api.views import ProfileView, ListEmployees
+from backend.Profile.api.views import ProfileView, ListEmployees, ShortListEmployees
 from backend.Appraisals.api.views import (
     ManagerAppraisal,
     UserAppraisal,
@@ -25,6 +25,9 @@ from backend.Appraisals.api.views import (
     submit_midyear_employee,
     input_midyear_manager,
     approve_endyear_manager,
+    CreatePeerAppraisal,
+    EmployeePeerAppraisal,
+    ManagerPeerAppraisal,
 )
 from backend.Trainings.api.views import SkillsApiView, CreateSkillsApiView
 
@@ -32,6 +35,11 @@ urlpatterns = [
     path("user/me/", ProfileView.as_view(), name="get_user_info"),
     path(
         "employee/list/", ListEmployees.as_view(), name="retrieve_employee_appraisals"
+    ),
+    path(
+        "employee/short/list",
+        ShortListEmployees.as_view(),
+        name="retrieve_short_employee_appraisals",
     ),
     path(
         "appraisals/list/manager",
@@ -74,6 +82,9 @@ urlpatterns = [
     path("submit/employee/endyear/<int:pk>", submit_endyear_employee),
     path("input/manager/endyear/<int:pk>", input_endyear_manager),
     path("submit/manager/endyear/<int:pk>", submit_endyear_manager),
+    path("peerappraisal/create", CreatePeerAppraisal.as_view()),
+    path("peerappraisal/me", EmployeePeerAppraisal.as_view()),
+    path("peerappraisal/manager", ManagerPeerAppraisal.as_view())
     # path("approve/manager/endyear/<int:pk>",input_endyear_employee)
     # path("reject/manager/endyear/<int:pk>",input_endyear_employee)
 ]

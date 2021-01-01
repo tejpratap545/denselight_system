@@ -311,3 +311,42 @@ def submit_endyear_manager(request, *args, **kwargs):
 class RejectGoals(generics.UpdateAPIView):
     serializer_class = GoalsSettingRejectionSerializer
     queryset = User_Appraisal_List.objects.all()
+
+
+class CreatePeerAppraisal(generics.CreateAPIView):
+    serializer_class = CreatePeerAppraisalSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = CreatePeerAppraisalSerializer(data=request.data)
+        if serializer.is_valid():
+            validated_data = serializer.validated_data
+            employee = validated_data.get("employee_list")
+            for profile in Profile.objects.filter(id__in=employee):
+                peerAppraisal.objects.create(
+                    appraisal=validated_data.get("appraisal"),
+                    manager=request.user.profile,
+                    viewer=profile,
+                    title1=validated_data.get("title1"),
+                    title2=validated_data.get("title2"),
+                    title3=validated_data.get("title3"),
+                    created_by=request.user.profile,
+                )
+
+            return Response(employee, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EmployeePeerAppraisal(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ShortPeerSerializer
+
+    def get_queryset(self):
+        return peerAppraisal.objects.filter(viewer=self.request.user.profile)
+
+
+class ManagerPeerAppraisal(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ShortPeerSerializer
+
+    def get_queryset(self):
+        return peerAppraisal.objects.filter(created_by=self.request.user.profile)

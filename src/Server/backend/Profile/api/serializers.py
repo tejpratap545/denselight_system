@@ -21,12 +21,23 @@ class DepartmentSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ShortEmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            "id",
+            "name",
+            "email",
+        )
+
+
 class ShortProfileSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer()
 
     class Meta:
         model = Profile
         fields = (
+            "id",
             "name",
             "email",
             "department",
