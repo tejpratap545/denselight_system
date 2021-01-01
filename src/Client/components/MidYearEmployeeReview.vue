@@ -9,32 +9,62 @@
         <v-card v-else>
           <v-card-title class="headline"> Mid-Year Review </v-card-title>
           <v-card-text>
-            <v-card v-for="item in goals" :key="item.id" class="my-3">
-              <v-card-subtitle>Goal</v-card-subtitle>
-              <v-card-text>{{ item.goal_title }}</v-card-text>
-              <v-card-subtitle>Goal Category</v-card-subtitle>
-              <v-card-text>{{ item.category }}</v-card-text>
-              <v-card-subtitle>Description</v-card-subtitle>
-              <v-card-text>{{ item.description }}</v-card-text>
-              <v-select
-                v-model="item.tracking_status"
-                label="trackingStatus"
-                :items="trackingStatus"
+            <v-expansion-panels>
+              <v-expansion-panel
+                v-for="item in goals"
+                :key="item.id"
+                class="my-3"
               >
-              </v-select>
-              <v-card-text>
-                <v-textarea
-                  v-model="item.MID_user_comments"
-                  label="Mid Year Employee Comment"
+                <v-expansion-panel-header
+                  elevation="0"
+                  class="pa-2"
+                  color="primary"
                 >
-                </v-textarea>
-              </v-card-text>
-            </v-card>
+                  <h3 class="title-topbar">
+                    <b>{{ item.goal_title }}</b> <v-spacer />
+                    <small>{{ item.category }}</small>
+                  </h3>
+                </v-expansion-panel-header>
+
+                <v-expansion-panel-content>
+                  <v-card class="my-2">
+                    <v-card-text><b>Description : </b>{{ item.description }}</v-card-text>
+                  </v-card>
+
+                  <v-card
+                    v-for="kpi in item.kpi_set"
+                    :key="kpi.id"
+                    class="my-5"
+                  >
+                    <v-card-text>
+                      <p>{{ kpi.description }}</p>
+                      <small
+                        >Progress : <b>{{ kpi.progress }}</b></small
+                      >
+                    </v-card-text>
+                  </v-card>
+
+                  <div class="ma-2">
+                    <v-select
+                      v-model="item.tracking_status"
+                      label="trackingStatus"
+                      :items="trackingStatus"
+                    >
+                    </v-select>
+                    <v-textarea
+                      v-model="item.MID_user_comments"
+                      label="Mid Year Employee Comment"
+                    >
+                    </v-textarea>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="close"> Disagree </v-btn>
-            <v-btn color="green darken-1" text @click="submit"> Submit </v-btn>
+            <v-btn text @click="close"> Close </v-btn>
+            <v-btn color="success" @click="submit"> Submit </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -96,6 +126,7 @@ export default {
           weightage: `${goal.weightage}%`,
           MID_user_comments: goal.MID_user_comments,
           tracking_status: goal.tracking_status,
+          kpi_set: goal.kpi_set
         })
       })
     },
@@ -111,4 +142,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style>
+.title-topbar {
+  color: #fff;
+  font-weight: 300;
+}
+</style>

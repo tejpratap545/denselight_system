@@ -73,7 +73,7 @@
             @class="endYearEmployeeReviewDialog = true"
             ><v-icon>mdi-plus</v-icon> Add End Year Review</v-btn
           >
-          <v-btn class="success"><v-icon>mdi-plus</v-icon> Submit</v-btn>
+          <v-btn class="success"><v-icon>mdi-check-all</v-icon> Approve Reviews</v-btn>
         </v-toolbar>
       </v-card>
 
