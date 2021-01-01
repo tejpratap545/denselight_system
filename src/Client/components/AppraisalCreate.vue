@@ -331,7 +331,7 @@ export default {
   porps: ['appraisal'],
   fetch() {
     this.$axios
-      .$get('/api/employee/list/')
+      .$get('/api/employee/short/list')
       .then((response) => {
         response.forEach((employee) => {
           this.employees.push({
