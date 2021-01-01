@@ -1,11 +1,11 @@
 <template>
-  <div style="background: #fff">
+  <div>
     <v-row justify="center">
       <v-dialog v-model="dialog" persistent fullscreen>
-        <div v-if="$fetchState.pending">
+        <div v-if="$fetchState.pending" style="height:100%; background: #fff">
           <v-skeleton-loader type="article, actions"></v-skeleton-loader>
         </div>
-        <div v-else-if="$fetchState.error">An error occurred</div>
+        <div v-else-if="$fetchState.error" style="height:100%; background: #fff">An error occurred</div>
         <v-card v-else>
           <v-card-title class="headline">
             {{ appraisal.appraisal_name }}
