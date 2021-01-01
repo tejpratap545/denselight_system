@@ -7,9 +7,7 @@
     </template>
 
     <v-card>
-      <v-card-title class="headline py-5">
-        Create Appraisal
-      </v-card-title>
+      <v-card-title class="headline py-5"> Create Appraisal </v-card-title>
 
       <v-card-text>
         <v-stepper v-model="e1">
@@ -57,6 +55,7 @@
               </div>
 
               <v-btn color="primary" @click="e1 = 2"> Continue </v-btn>
+              <v-btn text @click="dialog = false"> Close </v-btn>
             </v-stepper-content>
 
             <v-stepper-content step="2">

@@ -24,17 +24,25 @@
           <v-stepper-items>
             <v-stepper-content step="1">
               <div class="mb-12" style="height: 400px">
+                <v-select
+                  v-model="peerappraisal.appraisal"
+                  :items="appraisals"
+                  item-text="name"
+                  item-value="id"
+                  label="Select Appraisals"
+                ></v-select>
+
                 <v-text-field
                   v-model="peerappraisal.title1"
                   label="Query 1"
                   required
                 ></v-text-field>
-                 <v-text-field
+                <v-text-field
                   v-model="peerappraisal.title2"
                   label="Query 2"
                   required
                 ></v-text-field>
-                 <v-text-field
+                <v-text-field
                   v-model="peerappraisal.title3"
                   label="Query 3"
                   required
@@ -42,6 +50,7 @@
               </div>
 
               <v-btn color="primary" @click="e1 = 2"> Continue </v-btn>
+              <v-btn text @click="dialog = false"> Close </v-btn>
             </v-stepper-content>
 
             <v-stepper-content step="2">
@@ -89,6 +98,17 @@
 export default {
   fetch() {
     this.$axios
+      .$get('/api/appraisals/list/short/manager')
+      .then((response) => {
+        response.forEach((appraisal) => {
+          this.appraisals.push({
+            id: appraisal.id,
+            name: appraisal.appraisal_name,
+          })
+        })
+      })
+      .catch((error) => console.log(error))
+    this.$axios
       .$get('/api/employee/short/list')
       .then((response) => {
         response.forEach((employee) => {
@@ -105,6 +125,7 @@ export default {
       dialog: false,
       e1: 1,
       employees: [],
+      appraisals: [],
       peerappraisal: {
         appraisal: 0,
         title1: '',
@@ -118,7 +139,21 @@ export default {
     askQuery() {
       this.dialog = false
 
-      //
+       this.$axios
+        .$post('/api/peerappraisal/create', this.peerappraisal)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Success asking query',
+            color: 'info',
+          })
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error asking query',
+            color: 'error',
+          })
+          console.log(error, this.appraisal)
+        })
     },
   },
 }
