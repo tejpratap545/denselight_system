@@ -38,10 +38,14 @@
                         >
                           <template v-slot:[`item.actions`]="{ item }">
                             <AppraisalCreate
-                              :editMode="true"
+                              :edit-mode="true"
                               :appraisal="item.overallAppraisal"
                             />
-                            <v-btn color="error" @click="deleteAppraisal(item.id)" icon>
+                            <v-btn
+                              color="error"
+                              icon
+                              @click="deleteAppraisal(item.id)"
+                            >
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
                           </template>
@@ -354,10 +358,9 @@ export default {
       }
     },
     deleteAppraisal(id) {
-      this.$axios.delete(`api/overallAppraisal/${id}`)
-        .then(() => {
-          this.init()
-        })
+      this.$axios.delete(`api/overallAppraisal/${id}/`).then(() => {
+        this.init()
+      })
     },
   },
 }
