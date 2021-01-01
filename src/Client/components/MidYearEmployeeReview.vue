@@ -13,12 +13,11 @@
               <v-expansion-panel
                 v-for="item in goals"
                 :key="item.id"
-                class="my-3"
+                class="my-2"
               >
                 <v-expansion-panel-header
-                  elevation="0"
                   class="pa-2"
-                  color="primary"
+                  color="primary lighten-2"
                 >
                   <h3 class="title-topbar">
                     <b>{{ item.goal_title }}</b> <v-spacer />
@@ -61,10 +60,10 @@
               </v-expansion-panel>
             </v-expansion-panels>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions class="mx-2">
             <v-spacer></v-spacer>
             <v-btn text @click="close"> Close </v-btn>
-            <v-btn color="success" @click="submit"> Submit </v-btn>
+            <v-btn color="success" text @click="submit"> Submit </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

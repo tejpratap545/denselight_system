@@ -36,9 +36,12 @@
                           :items-per-page="10"
                           :loading="loading"
                         >
-                          <template v-slot:[`item.actions`]="{item}">
-                            <AppraisalCreate :editMode="true" :appraisal="item.overallAppraisal" />
-                            <v-btn color="error" icon>
+                          <template v-slot:[`item.actions`]="{ item }">
+                            <AppraisalCreate
+                              :editMode="true"
+                              :appraisal="item.overallAppraisal"
+                            />
+                            <v-btn color="error" @click="deleteAppraisal(item.id)" icon>
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
                           </template>
@@ -189,36 +192,7 @@ export default {
   layout: 'dashboard-template',
 
   async fetch() {
-    try {
-      const response = await this.$axios.$get('api/appraisals/list/manager')
-
-      response.forEach((appraisal) => {
-        const tableData = {
-          id: appraisal.id,
-          appraisal_name: appraisal.appraisal_name,
-          employee: appraisal.employee.name,
-
-          end_date: appraisal.overall_appraisal.goals_setting_end_date,
-          status: appraisal.status,
-          dialog: false,
-          overallAppraisal: appraisal.overall_appraisal || {}
-        }
-
-        switch (appraisal.overall_appraisal.status) {
-          case 'ReviewCompleted':
-            this.completedTableItems.push(tableData)
-            break
-
-          default:
-            this.onGoingTableItems.push(tableData)
-            break
-        }
-      })
-      this.loading = false
-    } catch (error) {
-      this.loading = false
-      console.log(error)
-    }
+    await this.init()
   },
   data() {
     return {
@@ -345,6 +319,46 @@ export default {
       midYearTableItems: [],
       endYearTableItems: [],
     }
+  },
+  methods: {
+    async init() {
+      try {
+        const response = await this.$axios.$get('api/appraisals/list/manager')
+
+        response.forEach((appraisal) => {
+          const tableData = {
+            id: appraisal.id,
+            appraisal_name: appraisal.appraisal_name,
+            employee: appraisal.employee.name,
+
+            end_date: appraisal.overall_appraisal.goals_setting_end_date,
+            status: appraisal.status,
+            dialog: false,
+            overallAppraisal: appraisal.overall_appraisal || {},
+          }
+
+          switch (appraisal.overall_appraisal.status) {
+            case 'ReviewCompleted':
+              this.completedTableItems.push(tableData)
+              break
+
+            default:
+              this.onGoingTableItems.push(tableData)
+              break
+          }
+        })
+        this.loading = false
+      } catch (error) {
+        this.loading = false
+        console.log(error)
+      }
+    },
+    deleteAppraisal(id) {
+      this.$axios.delete(`api/overallAppraisal/${id}`)
+        .then(() => {
+          this.init()
+        })
+    },
   },
 }
 </script>
