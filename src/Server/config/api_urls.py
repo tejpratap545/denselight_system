@@ -7,6 +7,8 @@ from backend.GnC.api.views import (
     GoalApiView,
     KPIApiView,
     CompetenciesAPIView,
+    approved_goal,
+    reject_goal,
 )
 from backend.Profile.api.views import ProfileView, ListEmployees, ShortListEmployees
 from backend.Appraisals.api.views import (
@@ -89,7 +91,9 @@ urlpatterns = [
     path("peerappraisal/create", CreatePeerAppraisal.as_view()),
     path("peerappraisal/me", EmployeePeerAppraisal.as_view()),
     path("peerappraisal/manager", ManagerPeerAppraisal.as_view()),
-    path("peerappraisal/<int:pk>", PeerAppraisal.as_view())
+    path("peerappraisal/<int:pk>", PeerAppraisal.as_view()),
+    path("approve/goal/<int:pk>", approved_goal),
+    path("reject/goal/<int:pk>", reject_goal)
     # path("approve/manager/endyear/<int:pk>",input_endyear_employee)
     # path("reject/manager/endyear/<int:pk>",input_endyear_employee)
 ]

@@ -158,6 +158,11 @@ class Goals(models.Model):
         max_length=50, blank=False, null=True, default="null", choices=TRACKING_CHOICES
     )
     metrics_evidence = models.ImageField(blank=True, null=True)
+    STATUS_CHOICE = (
+        ("APPROVED", "APPROVED"),
+        ("REJECTED", "REJECTED"),
+    )
+    status = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.summary

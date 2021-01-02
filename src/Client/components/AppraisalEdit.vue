@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on" color="success" icon>
+      <v-btn v-bind="attrs" color="success" icon v-on="on">
         <v-icon>mdi-circle-edit-outline</v-icon>
       </v-btn>
     </template>
@@ -221,8 +221,8 @@
           </div>
         </div>
 
-        <v-btn @click="dialog = false" text> Close </v-btn>
-        <v-btn @click="patchAppraisal" color="primary" text>
+        <v-btn text @click="dialog = false"> Close </v-btn>
+        <v-btn color="primary" text @click="patchAppraisal">
           Save changes
         </v-btn>
       </v-card-text>
@@ -290,7 +290,7 @@ export default {
     patchAppraisal() {
       this.dialog = false
       this.$axios
-        .patch(`/api/overallAppraisal/${this.appraisal.id}`, this.appraisal)
+        .patch(`/api/overallAppraisal/${this.appraisal.id}/`, this.appraisal)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Appraisal saved',
