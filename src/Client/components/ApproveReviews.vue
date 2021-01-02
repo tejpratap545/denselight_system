@@ -46,7 +46,7 @@
                 <thead>
                   <tr>
                     <th>Goals</th>
-                    <th v-if="appraisal.overall_appraisal.status === 'Stage 2'">
+                    <th>
                       Employee's Rating
                     </th>
                     <th>Comments</th>
@@ -55,7 +55,7 @@
                 <tbody>
                   <tr v-for="item in appraisal.goals_set" :key="item.id">
                     <th>{{ item.summary }}</th>
-                    <th v-if="appraisal.overall_appraisal.status === 'Stage 2'">
+                    <th>
                       <v-rating readonly value="item.user_rating"></v-rating>
                     </th>
                     <td>{{ item.user_comments }}</td>
@@ -69,7 +69,7 @@
                 <thead>
                   <tr>
                     <th>Core values</th>
-                    <th v-if="appraisal.overall_appraisal.status === 'Stage 2'">
+                    <th>
                       Employee's Rating
                     </th>
                     <th>Comments</th>
@@ -78,7 +78,7 @@
                 <tbody>
                   <tr v-for="item in appraisal.competencies_set" :key="item.id">
                     <th>{{ item.summary }}</th>
-                    <th v-if="appraisal.overall_appraisal.status === 'Stage 2'">
+                    <th>
                       <v-rating readonly value="item.user_rating"></v-rating>
                     </th>
                     <td>{{ item.user_comments }}</td>
