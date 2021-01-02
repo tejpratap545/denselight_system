@@ -185,7 +185,7 @@
               >
                 <template v-slot:[`item.actions`]="{}">
                   <div>
-                    <v-btn color="success" icon
+                    <v-btn color="primary" icon
                       ><v-icon>mdi-circle-edit-outline</v-icon></v-btn
                     >
                   </div>
@@ -209,7 +209,7 @@
               >
                 <template v-slot:[`item.actions`]="{}">
                   <div>
-                    <v-btn color="success" icon
+                    <v-btn color="primary" icon
                       ><v-icon>mdi-circle-edit-outline</v-icon></v-btn
                     >
                   </div>

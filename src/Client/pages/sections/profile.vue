@@ -1,15 +1,12 @@
 <template>
   <div>
-<p>Text</p>
+    
   </div>
 </template>
 
 <script>
 export default {
-
+  name: 'Profile',
+  layout: 'dashboard-template',
 }
 </script>
-
-<style>
-
-</style>

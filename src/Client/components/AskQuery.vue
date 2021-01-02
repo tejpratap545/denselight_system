@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn elevation="0" color="success" dark v-bind="attrs" v-on="on"> Ask Query </v-btn>
+      <v-btn elevation="0" color="primary" dark v-bind="attrs" v-on="on"> Ask Query </v-btn>
     </template>
 
     <v-card>
@@ -84,7 +84,7 @@
                 </v-combobox>
               </div>
 
-              <v-btn color="success" @click="askQuery"> Save query </v-btn>
+              <v-btn color="primary" @click="askQuery"> Save query </v-btn>
               <v-btn text @click="e1 = 1"> Back </v-btn>
             </v-stepper-content>
           </v-stepper-items>

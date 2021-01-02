@@ -8,11 +8,11 @@
       <v-card-title>
         <h3 class="my-5 text-center">Peer queries</h3>
       </v-card-title>
-      <v-data-table
-        :loading="loading"
-        :headers="headers"
-        :items="peerqueries"
-      ></v-data-table>
+      <v-data-table :loading="loading" :headers="headers" :items="peerqueries">
+        <template v-slot:[`item.actions`]="{ item }">
+          <PeerQueryResolve :id="item.id" />
+        </template>
+      </v-data-table>
     </v-card>
     <v-card flat class="ma-5">
       <v-card-title>
@@ -32,36 +32,38 @@ export default {
   name: 'Peers',
   layout: 'dashboard-template',
 
-  fetch() {
-    this.$axios
-      .$get('/api/peerappraisal/me')
-      .then((response) => {
-        this.loading = false
-        response.forEach((query) => {
-          this.peerqueries.push({
-            appraisal: query.appraisal.appraisal_name,
-            employeeName: query.created_by.name,
-            status: query.appraisal.status,
-            due: query.appraisal.overall_appraisal.calibration_end_date,
-          })
-        })
-      })
-      .catch((error) => console.log(error))
+  async fetch() {
+    try {
+      var response = await this.$axios.$get('/api/peerappraisal/me')
 
-       this.$axios
-      .$get('/api/peerappraisal/manager')
-      .then((response) => {
-        this.loading = false
-        response.forEach((query) => {
-          this.myqueries.push({
-            appraisal: query.appraisal.name,
-            employeeName: query.created_by.name,
-            status: query.appraisal.status,
-            due: query.appraisal.overall_appraisal.calibration_end_date,
-          })
+      response.forEach((query) => {
+        this.peerqueries.push({
+          id: query.id,
+          appraisal: query.appraisal.appraisal_name,
+          employeeName: query.created_by.name,
+          status: query.appraisal.status,
+          due: query.appraisal.overall_appraisal.calibration_end_date,
+          dialog: false,
         })
       })
-      .catch((error) => console.log(error))
+
+      response = await this.$axios.$get('/api/peerappraisal/manager')
+
+      response.forEach((query) => {
+        this.myqueries.push({
+          appraisal: query.appraisal.appraisal_name,
+          employeeName: query.created_by.name,
+          status: query.appraisal.status,
+          due: query.appraisal.overall_appraisal.calibration_end_date,
+        })
+      })
+
+      this.loading = false
+    } catch (error) {
+      this.loading = false
+
+      console.log(error)
+    }
   },
 
   data() {
@@ -72,9 +74,10 @@ export default {
         { text: 'Employee Name', value: 'employeeName' },
         { text: 'Status', value: 'status' },
         { text: 'Due', value: 'due' },
+        { text: 'Actions', value: 'actions' },
       ],
       peerqueries: [],
-      myqueries:[]
+      myqueries: [],
     }
   },
 }
