@@ -101,6 +101,7 @@ class DetailUserAppraisal(generics.ListAPIView):
             "competencies_set__competencycomment_set",
             "skills_set",
             "skills_set__skill_category",
+            "goals_set__goal_category",
         ).filter(employee=self.request.user.profile)
 
     @method_decorator(cache_page(60 * 2))
@@ -153,6 +154,7 @@ class DetailAppraisal(generics.RetrieveAPIView):
             "competencies_set__competencycomment_set",
             "skills_set",
             "skills_set__skill_category",
+            "goals_set__goal_category",
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
 

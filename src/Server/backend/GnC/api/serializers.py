@@ -115,6 +115,7 @@ class DetailGoalSerializer(serializers.ModelSerializer):
     commentbox_set = CommentBoxSerializer(many=True)
     midyrcommentbox_set = MidYrCommentBoxSerializer(many=True)
     endyrcommentbox_set = EndYrCommentBoxSerializer(many=True)
+    goal_category = GoalCategorySerializer()
 
     class Meta:
         model = Goals
