@@ -259,7 +259,7 @@
                           color="primary"
                           length="5"
                           size="30"
-                          value="item.user_rating"
+                          :value="item.user_rating"
                           dense
                           readonly
                         ></v-rating

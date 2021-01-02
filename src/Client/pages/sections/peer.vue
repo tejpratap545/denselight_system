@@ -39,7 +39,7 @@ export default {
         this.loading = false
         response.forEach((query) => {
           this.peerqueries.push({
-            appraisal: query.appraisal.name,
+            appraisal: query.appraisal.appraisal_name,
             employeeName: query.created_by.name,
             status: query.appraisal.status,
             due: query.appraisal.overall_appraisal.calibration_end_date,

@@ -127,7 +127,7 @@
                       <v-rating
                         dense
                         readonly
-                        value="item.user_rating"
+                        :value="item.user_rating"
                       ></v-rating>
                     </th>
                     <td>{{ item.user_comments }}</td>
@@ -152,7 +152,7 @@
                       <v-rating
                         dense
                         readonly
-                        value="item.user_rating"
+                        :value="item.user_rating"
                       ></v-rating>
                     </th>
                     <td>{{ item.user_comments }}</td>

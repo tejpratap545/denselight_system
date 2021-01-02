@@ -74,7 +74,7 @@
           </div>
         </v-card-title>
 
-        <v-toolbar class="button-group mx-5" elevation="0" color="#eee" rounded>
+        <v-toolbar class="button-group mx-5" elevation="0" color="primary" dark rounded>
           <v-btn
             v-if="appraisalSelected.overall_appraisal.status === 'Stage 1B'"
             text
