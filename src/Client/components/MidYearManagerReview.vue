@@ -73,7 +73,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="close"> Close </v-btn>
-            <v-btn color="success" @click="submit"> Submit </v-btn>
+            <v-btn color="primary" @click="submit"> Submit </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

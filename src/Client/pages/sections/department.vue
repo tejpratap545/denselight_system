@@ -38,7 +38,7 @@
       />
     </div>
     <div class="d-flex justify-lg-space-between align-center">
-      <v-btn color="success"> Create Department goal </v-btn>
+      <v-btn color="primary"> Create Department goal </v-btn>
 
       <h3 class="font-weight-medium">Department</h3>
     </div>

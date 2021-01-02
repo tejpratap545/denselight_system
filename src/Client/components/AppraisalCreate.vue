@@ -315,7 +315,7 @@
                 <small>Sum of all weightage should be 100</small>
               </div>
 
-              <v-btn color="success" @click="createAppraisal"> Submit </v-btn>
+              <v-btn color="primary" @click="createAppraisal"> Submit </v-btn>
               <v-btn text @click="e1 = 3"> Back </v-btn>
             </v-stepper-content>
           </v-stepper-items>
