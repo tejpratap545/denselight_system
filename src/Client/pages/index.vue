@@ -29,6 +29,13 @@
         @close-approve-dialog="approveReviewDialog = false"
       >
       </ApproveReviews>
+      <MidYearApprove
+        v-if="midYearApproveDialog"
+        :dialog="midYearApproveDialog"
+        :appraisal-id="appraisalSelectedIndex"
+        @close-mid-year-submit="midYearApproveDialog = false"
+      >
+      </MidYearApprove>
       <v-card flat>
         <v-card-title class="d-flex justify-lg-space-between align-center">
           <v-menu rounded="lg">
@@ -74,20 +81,20 @@
             @click="midYearEmployeeReviewDialog = true"
             ><v-icon>mdi-message-draw</v-icon> Add Mid Year Review</v-btn
           >
-          <v-btn
-            v-if="appraisalSelected.overall_appraisal.status === 'Stage 2'"
-            text
-            @click="endYearEmployeeReviewDialog = true"
+          <v-btn text @click="endYearEmployeeReviewDialog = true"
             ><v-icon>mdi-message-draw</v-icon> Add End Year Review</v-btn
           >
           <v-btn
-            v-if="
-              appraisalSelected.overall_appraisal.status === 'Stage 1B' ||
-              appraisalSelected.overall_appraisal.status === 'Stage 2'
-            "
+            v-if="appraisalSelected.overall_appraisal.status === 'Stage 2'"
             class="success"
             @click="approveReviewDialog = true"
             ><v-icon>mdi-check-all</v-icon> Approve Reviews</v-btn
+          >
+          <v-btn
+            v-if="appraisalSelected.overall_appraisal.status === 'Stage 1B'"
+            class="success"
+            @click="midYearApproveDialog = true"
+            ><v-icon>mdi-check-all</v-icon> Submit Mid Year Reviews</v-btn
           >
         </v-toolbar>
       </v-card>
@@ -126,6 +133,7 @@ export default {
       midYearEmployeeReviewDialog: false,
       endYearEmployeeReviewDialog: false,
       approveReviewDialog: false,
+      midYearApproveDialog: false,
     }
   },
 
