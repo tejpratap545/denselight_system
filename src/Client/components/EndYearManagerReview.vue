@@ -7,7 +7,9 @@
         </div>
         <div v-else-if="$fetchState.error">An error occurred</div>
         <v-card v-else>
-          <v-card-title class="headline"> End Year Review </v-card-title>
+          <v-card-title class="headline">
+            End Manager/Supervisor Year Review
+          </v-card-title>
           <v-card-text>
             <v-expansion-panels>
               <v-expansion-panel
@@ -40,13 +42,40 @@
                           value="1"
                           dense
                           hover
+                          readonly
                         ></v-rating
                       ></v-col>
                     </v-row>
                     <v-row>
                       <v-col>End Year Employee Comment</v-col>
                       <v-col>
-                        <v-textarea v-model="item.user_comments" outlined>
+                        <v-textarea
+                          v-model="item.user_comments"
+                          disabled
+                          outlined
+                        >
+                        </v-textarea
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Manager rating</v-col>
+                      <v-col>
+                        <v-rating
+                          v-model="item.manager_rating"
+                          background-color="grey lighten-2"
+                          color="primary"
+                          length="5"
+                          size="30"
+                          value="1"
+                          dense
+                          hover
+                        ></v-rating
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>End Year Manager Comment</v-col>
+                      <v-col>
+                        <v-textarea v-model="item.manager_comments" outlined>
                         </v-textarea
                       ></v-col>
                     </v-row>
@@ -86,7 +115,7 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('close-end-year-dialog')
+      this.$emit('close-end-year-manager-dialog')
     },
     init(appraisal) {
       appraisal.goals_set.forEach((goal) => {
@@ -98,21 +127,23 @@ export default {
           category: 'Organization Effectivness',
           user_comments: goal.user_comments,
           user_rating: goal.user_rating,
+          manager_comments: goal.user_comments,
+          manager_rating: goal.user_rating,
         })
       })
     },
     async patchGoals() {
       this.goals.forEach(async (goal) => {
         await this.$axios.patch(`api/goal/${goal.id}`, {
-          user_comments: goal.user_comments,
-          user_rating: goal.user_rating,
+          manager_comments: goal.manager_comments,
+          manager_rating: goal.manager_rating,
         })
       })
     },
     async submit() {
       await this.patchGoals().then(() => {
         this.$axios
-          .post(`api/input/employee/endyear/${this.appraisalId}`)
+          .post(`api/input/manager/endyear/${this.appraisalId}`)
           .then(() => {
             this.$notifier.showMessage({
               content:

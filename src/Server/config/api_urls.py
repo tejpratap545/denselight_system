@@ -82,10 +82,7 @@ urlpatterns = [
     path("approve/manager/midyear/<int:pk>", approve_endyear_manager),
     #
     #
-    path(
-        "input/employee/endyear/<int:pk>",
-        input_endyear_employee,
-    ),
+    path("input/employee/endyear/<int:pk>", input_endyear_employee),
     path("submit/employee/endyear/<int:pk>", submit_endyear_employee),
     path("input/manager/endyear/<int:pk>", input_endyear_manager),
     path("submit/manager/endyear/<int:pk>", submit_endyear_manager),
