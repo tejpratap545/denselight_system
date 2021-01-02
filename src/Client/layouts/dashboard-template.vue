@@ -13,7 +13,9 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{ name }}</v-list-item-title>
+            <Nlink to="/sections/profile">
+              <v-list-item-title>{{ name }}</v-list-item-title>
+            </Nlink>
             <v-list-item-subtitle>
               <a class="danger" @click="logout">Logout</a>
             </v-list-item-subtitle>

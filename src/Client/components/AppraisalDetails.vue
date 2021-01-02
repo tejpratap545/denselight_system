@@ -429,7 +429,7 @@ export default {
       appraisal.goals_set.forEach((goal) => {
         data.goals.push({
           id: goal.id,
-          category: goal.goal_category,
+          category: goal.goal_category.name,
           goal_title: goal.summary,
           due: goal.due,
           weightage: `${goal.weightage}%`,
