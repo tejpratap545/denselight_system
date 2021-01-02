@@ -188,21 +188,47 @@
                           :loading="loading"
                         >
                           <template v-slot:[`item.action`]="{ item }">
-                            <v-btn
-                              v-model="item.action"
-                              color="transparent"
-                              elevation="0"
-                              @click="showEndReview(item)"
+                            <v-icon
+                              v-if="
+                                item.mid_year_completion == 'Approved' &&
+                                item.status == 'MCompleted'
+                              "
+                              color="success"
                             >
-                            </v-btn>
-                            <v-btn
-                              v-model="item.action"
-                              color="transparent"
-                              elevation="0"
-                              @click="showEndSubmit(item)"
+                              mdi-checkbox-marked-circle-outline</v-icon
                             >
-                              <i class="fas fa-ellipsis-h"></i>
-                            </v-btn>
+                            <div v-else>
+                              <v-btn
+                                v-if="
+                                  (item.status == 'S2Manager' &&
+                                    item.completion == 'Ecompleted') ||
+                                  (item.status == 'S2Manager' &&
+                                    item.completion == 'MCompleted')
+                                "
+                                v-model="item.action"
+                                color="transparent"
+                                elevation="0"
+                                @click="showEndReview(item)"
+                              >
+                                <v-icon color="info"
+                                  >mdi-calendar-check
+                                </v-icon>
+                              </v-btn>
+                              <v-btn
+                                v-if="
+                                  item.status == 'S2Manager' &&
+                                  item.completion == 'MCompleted'
+                                "
+                                v-model="item.action"
+                                color="transparent"
+                                elevation="0"
+                                @click="showEndSubmit(item)"
+                              >
+                                <v-icon color="info"
+                                  >mdi-checkbox-marked-circle-outline
+                                </v-icon>
+                              </v-btn>
+                            </div>
                           </template>
                         </v-data-table>
                       </v-card-text>
