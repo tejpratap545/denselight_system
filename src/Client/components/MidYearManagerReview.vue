@@ -15,56 +15,46 @@
               <v-expansion-panel
                 v-for="item in goals"
                 :key="item.id"
-                class="my-3"
+                class="my-2"
               >
                 <v-expansion-panel-header
-                  elevation="0"
                   class="pa-2"
-                  color="primary lighten-2"
+                  color="primary lighten-1"
                 >
                   <h3 class="title-topbar">
                     <b>{{ item.goal_title }}</b> <v-spacer />
-                    <small>{{ item.category }}</small>
+                    <small>{{ item.category.name }}</small>
                   </h3>
                 </v-expansion-panel-header>
 
                 <v-expansion-panel-content>
-                  <v-card class="my-2">
-                    <v-card-text
-                      ><b>Description : </b>{{ item.description }}</v-card-text
-                    >
-                  </v-card>
-
-                  <v-card
-                    v-for="kpi in item.kpi_set"
-                    :key="kpi.id"
-                    class="my-5"
-                  >
-                    <v-card-text>
-                      <p>{{ kpi.description }}</p>
-                      <small
-                        >Progress : <b>{{ kpi.progress }}</b></small
-                      >
-                    </v-card-text>
-                  </v-card>
-                  <v-card class="py-2">
-                    <v-card-title> Mid Year Employee </v-card-title>
-                    <v-card-subtitle> Comment </v-card-subtitle>
-                    <v-card-text>
-                      {{ item.MID_user_comments }}
-                    </v-card-text>
-                    <v-card-subtitle> Tracking Status </v-card-subtitle>
-                    <v-card-text>
-                      {{ item.tracking_status }}
-                    </v-card-text>
-                  </v-card>
-
                   <div class="ma-2">
-                    <v-textarea
-                      v-model="item.MID_manager_comments"
-                      label="Mid Year Manager Comment"
-                    >
-                    </v-textarea>
+                    <div><b>Description : </b>{{ item.description }}</div>
+
+                    <v-row>
+                      <v-col> tracking status</v-col>
+                      <v-col>
+                        {{ item.tracking_status }}
+                        ></v-col
+                      >
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year employee comments </v-col>
+                      <v-col>
+                        {{ item.MID_user_comments }}
+                        ></v-col
+                      >
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year Manager comments </v-col>
+                      <v-col>
+                        <v-textarea
+                          v-model="item.MID_manager_comments"
+                          outlined
+                        >
+                        </v-textarea
+                      ></v-col>
+                    </v-row>
                   </div>
                 </v-expansion-panel-content>
               </v-expansion-panel>

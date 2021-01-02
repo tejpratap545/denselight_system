@@ -19,7 +19,7 @@ export default {
   props: { dialog: Boolean, appraisalId: Number },
   methods: {
     close() {
-      this.$emit('close-mid-year-manager-submit')
+      this.$emit('close-mid-year-manager-submit-dialog')
     },
     submit() {
       this.$axios

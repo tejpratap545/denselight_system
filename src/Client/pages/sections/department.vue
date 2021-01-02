@@ -22,6 +22,14 @@
         :appraisal-id="currentAppraisalId"
         @close-mid-year-manager-dialog="MidYearManagerReviewDialog = false"
       />
+      <MidYearManagerApprove
+        v-if="MidYearManagerSubmitDialog"
+        :dialog="MidYearManagerSubmitDialog"
+        :appraisal-id="currentAppraisalId"
+        @close-mid-year-manager-submit-dialog="
+          MidYearManagerSubmitDialog = false
+        "
+      />
       <EndYearManagerReview
         v-if="ENDYearManagerReviewDialog"
         :dialog="ENDYearManagerReviewDialog"
@@ -128,22 +136,42 @@
                           :loading="loading"
                         >
                           <template v-slot:[`item.action`]="{ item }">
-                            <v-btn
-                              v-model="item.action"
-                              color="transparent"
-                              elevation="0"
-                              @click="showMidReview(item)"
+                            <v-icon
+                              v-if="
+                                item.mid_year_completion == 'Completed' &&
+                                item.status == 'S1BManager'
+                              "
+                              color="success"
                             >
-                              <i class="fas fa-ellipsis-h"></i>
-                            </v-btn>
-                            <v-btn
-                              v-model="item.action"
-                              color="transparent"
-                              elevation="0"
-                              @click="showMidSubmit(item)"
+                              mdi-checkbox-marked-circle-outline</v-icon
                             >
-                              <i class="fas fa-ellipsis-h"></i>
-                            </v-btn>
+                            <div v-else>
+                              <v-btn
+                                v-if="
+                                  item.status == 'S1BReview' ||
+                                  item.status == 'S1BManager'
+                                "
+                                v-model="item.action"
+                                color="transparent"
+                                elevation="0"
+                                @click="showMidReview(item)"
+                              >
+                                <v-icon color="info"
+                                  >mdi-calendar-check
+                                </v-icon>
+                              </v-btn>
+                              <v-btn
+                                v-if="item.status == 'S1BManager'"
+                                v-model="item.action"
+                                color="transparent"
+                                elevation="0"
+                                @click="showMidSubmit(item)"
+                              >
+                                <v-icon color="info"
+                                  >mdi-checkbox-marked-circle-outline
+                                </v-icon>
+                              </v-btn>
+                            </div>
                           </template>
                         </v-data-table>
                       </v-card-text>
@@ -230,7 +258,7 @@ export default {
             id: appraisal.id,
             appraisal_name: appraisal.appraisal_name,
             employee: appraisal.employee.name,
-
+            mid_year_completion: appraisal.mid_year_completion,
             goals_count: appraisal.goals_count,
             core_values_count: appraisal.core_values_competencies_count,
 

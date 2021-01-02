@@ -45,7 +45,7 @@ class ManagerAppraisal(generics.ListAPIView):
             )
         )
 
-    @method_decorator(cache_page(60 * 2))
+    @method_decorator(cache_page(30))
     @method_decorator(vary_on_cookie)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -72,7 +72,7 @@ class UserAppraisal(generics.ListAPIView):
             )
         )
 
-    @method_decorator(cache_page(60 * 2))
+    @method_decorator(cache_page(30))
     @method_decorator(vary_on_cookie)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
