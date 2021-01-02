@@ -302,6 +302,10 @@ export default {
           value: 'goal_title',
         },
         {
+          text: 'Tracking Status',
+          value: 'tracking_status',
+        },
+        {
           text: 'Due',
           value: 'due',
         },
@@ -403,6 +407,7 @@ export default {
             { id: 2, data: goal.endyrcommentbox_set.reverse() },
           ],
           kpi_set: goal.kpi_set,
+          tracking_status: goal.tracking_status
         })
       })
 

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on">
+      <v-btn color="primary" elevation="0"  dark v-bind="attrs" v-on="on">
         Create Appraisal
       </v-btn>
     </template>

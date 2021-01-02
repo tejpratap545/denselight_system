@@ -22,13 +22,13 @@
         @close-end-year-dialog="endYearEmployeeReviewDialog = false"
       >
       </EndYearEmployeeReview>
-      <ApproveReviews
-        v-if="approveReviewDialog"
-        :dialog="approveReviewDialog"
+      <EndYearEmployeeApprove
+        v-if="endYearApproveDialog"
+        :dialog="endYearApproveDialog"
         :appraisal-id="appraisalSelectedIndex"
-        @close-approve-dialog="approveReviewDialog = false"
+        @close-approve-dialog="endYearApproveDialog = false"
       >
-      </ApproveReviews>
+      </EndYearEmployeeApprove>
       <MidYearEmployeeApprove
         v-if="midYearApproveDialog"
         :dialog="midYearApproveDialog"
@@ -81,20 +81,21 @@
             @click="midYearEmployeeReviewDialog = true"
             ><v-icon>mdi-message-draw</v-icon> Add Mid Year Review</v-btn
           >
-          <v-btn text @click="endYearEmployeeReviewDialog = true"
+          <v-btn
+            text
+            @click="endYearEmployeeReviewDialog = true"
             ><v-icon>mdi-message-draw</v-icon> Add End Year Review</v-btn
           >
           <v-btn
-            v-if="appraisalSelected.overall_appraisal.status === 'Stage 2'"
             class="success"
-            @click="approveReviewDialog = true"
-            ><v-icon>mdi-check-all</v-icon> Approve Reviews</v-btn
+            @click="endYearApproveDialog = true"
+            ><v-icon>mdi-check-all</v-icon> Approve Review</v-btn
           >
           <v-btn
             v-if="appraisalSelected.overall_appraisal.status === 'Stage 1B'"
             class="success"
             @click="midYearApproveDialog = true"
-            ><v-icon>mdi-check-all</v-icon> Submit Mid Year Reviews</v-btn
+            ><v-icon>mdi-check-all</v-icon> Approve Review</v-btn
           >
         </v-toolbar>
       </v-card>
@@ -132,7 +133,7 @@ export default {
       appraisalSelectedIndex: 0,
       midYearEmployeeReviewDialog: false,
       endYearEmployeeReviewDialog: false,
-      approveReviewDialog: false,
+      endYearApproveDialog: false,
       midYearApproveDialog: false,
     }
   },

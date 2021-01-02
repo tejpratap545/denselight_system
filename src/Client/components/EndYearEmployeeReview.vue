@@ -29,6 +29,18 @@
                   <div class="ma-2">
                     <div><b>Description : </b>{{ item.description }}</div>
                     <v-row>
+                      <v-col>Set tracking status</v-col>
+                      <v-col>
+                        {{ item.tracking_status }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year employee comments </v-col>
+                      <v-col>
+                        {{ item.MID_user_comments }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
                       <v-col>User rating</v-col>
                       <v-col>
                         <v-rating
@@ -98,6 +110,9 @@ export default {
           category: 'Organization Effectivness',
           user_comments: goal.user_comments,
           user_rating: goal.user_rating,
+
+          MID_user_comments: goal.MID_user_comments,
+          tracking_status: goal.tracking_status,
         })
       })
     },
