@@ -190,8 +190,8 @@
                           <template v-slot:[`item.action`]="{ item }">
                             <v-icon
                               v-if="
-                                item.mid_year_completion == 'Approved' &&
-                                item.status == 'MCompleted'
+                                item.status == 'Approved' &&
+                                item.completion == 'MCompleted'
                               "
                               color="success"
                             >
@@ -287,7 +287,7 @@ export default {
             mid_year_completion: appraisal.mid_year_completion,
             goals_count: appraisal.goals_count,
             core_values_count: appraisal.core_values_competencies_count,
-
+            completion: appraisal.completion,
             skills_count: 0,
             end_date: appraisal.overall_appraisal.goals_setting_end_date,
             status: appraisal.status,

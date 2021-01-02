@@ -23,13 +23,49 @@
                 >
                   <h3 class="title-topbar">
                     <b>{{ item.goal_title }}</b> <v-spacer />
-                    <small>{{ item.category }}</small>
+                    <small>{{ item.category.name }}</small>
                   </h3>
                 </v-expansion-panel-header>
 
                 <v-expansion-panel-content>
                   <div class="ma-2">
-                    <div><b>Description : </b>{{ item.description }}</div>
+                    <v-simple-table class="my-5">
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>KPI</th>
+                            <th>Progress</th>
+                            <th>Date Created</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="kpi in item.kpi_set" :key="kpi.id">
+                            <th>{{ kpi.description }}</th>
+                            <th>{{ kpi.progress }}</th>
+                            <td>{{ kpi.date_created }}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+
+                    <v-row>
+                      <v-col>Set tracking status</v-col>
+                      <v-col>
+                        {{ item.tracking_status }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year employee comments </v-col>
+                      <v-col>
+                        {{ item.MID_user_comments || 'NIL' }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year Manager comments </v-col>
+                      <v-col>
+                        {{ item.MID_manager_comments || 'NIL' }}
+                      </v-col>
+                    </v-row>
                     <v-row>
                       <v-col>User rating</v-col>
                       <v-col>
@@ -49,13 +85,10 @@
                     <v-row>
                       <v-col>End Year Employee Comment</v-col>
                       <v-col>
-                        <v-textarea
-                          v-model="item.user_comments"
-                          disabled
-                          outlined
-                        >
-                        </v-textarea
-                      ></v-col>
+                        {{ item.user_comments || 'NIL' }}
+
+                        ></v-col
+                      >
                     </v-row>
                     <v-row>
                       <v-col>Manager rating</v-col>
@@ -75,9 +108,13 @@
                     <v-row>
                       <v-col>End Year Manager Comment</v-col>
                       <v-col>
-                        <v-textarea v-model="item.manager_comments" outlined>
-                        </v-textarea
-                      ></v-col>
+                        <v-textarea
+                          v-model="item.manager_comments"
+                          outlined
+                        ></v-textarea>
+
+                        ></v-col
+                      >
                     </v-row>
                   </div>
                 </v-expansion-panel-content>
@@ -127,8 +164,8 @@ export default {
           category: 'Organization Effectivness',
           user_comments: goal.user_comments,
           user_rating: goal.user_rating,
-          manager_comments: goal.user_comments,
-          manager_rating: goal.user_rating,
+          manager_comments: goal.manager_comments,
+          manager_rating: goal.manager_rating,
         })
       })
     },

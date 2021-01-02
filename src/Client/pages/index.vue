@@ -74,27 +74,58 @@
           </div>
         </v-card-title>
 
-        <v-toolbar class="button-group mx-5" elevation="0" color="primary" dark rounded>
+        <v-toolbar
+          class="button-group mx-5"
+          elevation="0"
+          color="primary"
+          dark
+          rounded
+        >
+          {{ appraisalSelected.status }}
+          <!--          mid year buttons-->
           <v-btn
-            v-if="appraisalSelected.overall_appraisal.status === 'Stage 1B'"
+            v-if="
+              appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
+              (appraisalSelected.status === 'S1BEmployee' ||
+                appraisalSelected.status === 'S1BManager')
+            "
             text
             @click="midYearEmployeeReviewDialog = true"
             ><v-icon>mdi-message-draw</v-icon> Add Mid Year Review</v-btn
           >
           <v-btn
+            v-if="
+              appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
+              appraisalSelected.status === 'S1BEmployee'
+            "
+            class="success"
+            @click="midYearApproveDialog = true"
+            ><v-icon>mdi-check-all</v-icon> Approve Review</v-btn
+          >
+
+          <!--          end year buttons-->
+
+          <v-btn
+            v-if="
+              (appraisalSelected.overall_appraisal.status === 'Stage 2' &&
+                appraisalSelected.status === 'S1BManager' &&
+                appraisalSelected.mid_year_completion === 'completed') ||
+              (appraisalSelected.status === 'S2Employee' &&
+                appraisalSelected.completion === 'Ecompleted')
+            "
             text
             @click="endYearEmployeeReviewDialog = true"
             ><v-icon>mdi-message-draw</v-icon> Add End Year Review</v-btn
           >
+
           <v-btn
+            v-if="
+              appraisalSelected.overall_appraisal.status === 'Stage 2' &&
+              appraisalSelected.status === 'S2Employee' &&
+              appraisalSelected.completion === 'Ecompleted'
+            "
             class="success"
             @click="endYearApproveDialog = true"
-            ><v-icon>mdi-check-all</v-icon> Approve Review</v-btn
-          >
-          <v-btn
-            v-if="appraisalSelected.overall_appraisal.status === 'Stage 1B'"
-            class="success"
-            @click="midYearApproveDialog = true"
             ><v-icon>mdi-check-all</v-icon> Approve Review</v-btn
           >
         </v-toolbar>

@@ -113,6 +113,7 @@ class ShortAppraisalSerializer(serializers.ModelSerializer):
             "appraisal_name",
             "status",
             "overall_appraisal",
+            "completion",
         )
 
 

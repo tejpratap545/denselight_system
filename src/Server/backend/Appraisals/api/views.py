@@ -45,10 +45,11 @@ class ManagerAppraisal(generics.ListAPIView):
             )
         )
 
-    @method_decorator(cache_page(30))
-    @method_decorator(vary_on_cookie)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(cache_page(30))
+    # @method_decorator(vary_on_cookie)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
+    #
 
 
 class UserAppraisal(generics.ListAPIView):
@@ -72,10 +73,10 @@ class UserAppraisal(generics.ListAPIView):
             )
         )
 
-    @method_decorator(cache_page(30))
-    @method_decorator(vary_on_cookie)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(cache_page(30))
+    # @method_decorator(vary_on_cookie)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
 
 class DetailUserAppraisal(generics.ListAPIView):
@@ -104,10 +105,10 @@ class DetailUserAppraisal(generics.ListAPIView):
             "goals_set__goal_category",
         ).filter(employee=self.request.user.profile)
 
-    @method_decorator(cache_page(60 * 2))
-    @method_decorator(vary_on_cookie)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(cache_page(60 * 2))
+    # @method_decorator(vary_on_cookie)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
 
 class AppraisalCategoryViewSet(ModelViewSet):
@@ -127,9 +128,9 @@ class OverallAppraisalViewSet(ModelViewSet):
         .annotate(employee_count=Count("user_appraisal_list"))
     )
 
-    @method_decorator(cache_page(60 * 3))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(cache_page(60 * 3))
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
 
 class DetailAppraisal(generics.RetrieveAPIView):
@@ -158,9 +159,9 @@ class DetailAppraisal(generics.RetrieveAPIView):
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
 
-    @method_decorator(cache_page(60 * 3))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(cache_page(60 * 3))
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
 
 @api_view(["POST"])
@@ -298,7 +299,7 @@ def submit_endyear_employee(request, *args, **kwargs):
     app = get_object_or_404(User_Appraisal_List, id=id)
     if (
         app.overall_appraisal.status == "Stage 2"
-        and app.manager == request.user.profile
+        and app.employee == request.user.profile
     ):
         app.status = "S2Manager"
         app.completion = "Ecompleted"
@@ -317,7 +318,7 @@ def input_endyear_manager(request, *args, **kwargs):
     app = get_object_or_404(User_Appraisal_List, id=id)
     if (
         app.overall_appraisal.status == "Stage 2"
-        and app.employee == request.user.profile
+        and app.manager == request.user.profile
     ):
         app.status = "S2Manager"
         app.completion = "MCompleted"
@@ -337,7 +338,7 @@ def submit_endyear_manager(request, *args, **kwargs):
     app = get_object_or_404(User_Appraisal_List, id=id)
     if (
         app.overall_appraisal.status == "Stage 2"
-        and app.employee == request.user.profile
+        and app.manager == request.user.profile
     ):
         app.status = "Approved"
         app.completion = "MCompleted"

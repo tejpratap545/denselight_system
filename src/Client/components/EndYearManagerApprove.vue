@@ -87,6 +87,12 @@
                     </v-col>
                   </v-row>
                   <v-row>
+                    <v-col> Mid year employee comments </v-col>
+                    <v-col>
+                      {{ item.MID_manager_comments }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
                     <v-col>User rating</v-col>
                     <v-col>
                       <v-rating
@@ -105,6 +111,27 @@
                     <v-col>End Year Employee Comment</v-col>
                     <v-col>
                       {{ item.user_comments }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>Manager rating</v-col>
+                    <v-col>
+                      <v-rating
+                        v-model="item.manager_rating"
+                        background-color="grey lighten-2"
+                        color="primary"
+                        length="5"
+                        size="30"
+                        value="1"
+                        dense
+                        hover
+                      ></v-rating
+                    ></v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>End Year Manager Comment</v-col>
+                    <v-col>
+                      {{ item.manager_comments }}
                     </v-col>
                   </v-row>
                 </td>
@@ -200,7 +227,7 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('close-approve-dialog')
+      this.$emit('close-end-year-manager-submit-dialog')
     },
     init(appraisal) {
       this.appraisal = appraisal
@@ -209,9 +236,10 @@ export default {
     print() {
       print()
     },
+
     async submit() {
       await this.$axios
-        .post(`api/submit/employee/endyear/${this.appraisalId}`)
+        .post(`api/submit/manager/endyear/${this.appraisalId}`)
         .then(() => {
           this.$notifier.showMessage({
             content: 'You  have   Successfully confirmed end year review .',
