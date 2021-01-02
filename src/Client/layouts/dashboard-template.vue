@@ -9,7 +9,7 @@
         </v-list-item>
         <v-list-item two-line>
           <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/women/81.jpg" />
+            <img :src="`https://avatars.dicebear.com/api/identicon/${id}.svg`" />
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -53,6 +53,7 @@ export default {
   data() {
     return {
       name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
+      id: this.$auth.loggedIn ? this.$auth.user.id : 0,
       items: [
         {
           link: '/',
