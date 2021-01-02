@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -162,10 +162,14 @@ class DetailAppraisal(generics.RetrieveAPIView):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def submit_goals(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 1":
+    if (
+        app.overall_appraisal.status == "Stage 1"
+        and app.employee == request.user.profile
+    ):
         app.status = "Manager"
         app.save()
         return Response(
@@ -176,10 +180,14 @@ def submit_goals(request, *args, **kwargs):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def approve_goal(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 1":
+    if (
+        app.overall_appraisal.status == "Stage 1"
+        and app.manager == request.user.profile
+    ):
         app.status = "S1BEmployee"
         app.save()
         return Response(
@@ -190,10 +198,14 @@ def approve_goal(request, *args, **kwargs):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def input_midyear_employee(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 1B":
+    if (
+        app.overall_appraisal.status == "Stage 1B"
+        and app.employee == request.user.profile
+    ):
         app.status = "S1BManager"
         app.save()
         return Response(
@@ -204,10 +216,14 @@ def input_midyear_employee(request, *args, **kwargs):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def submit_midyear_employee(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 1B":
+    if (
+        app.overall_appraisal.status == "Stage 1B"
+        and app.employee == request.user.profile
+    ):
         app.status = "S1BReview"
         app.save()
         return Response(
@@ -218,10 +234,14 @@ def submit_midyear_employee(request, *args, **kwargs):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def input_midyear_manager(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 1B":
+    if (
+        app.overall_appraisal.status == "Stage 1B"
+        and app.manager == request.user.profile
+    ):
         app.status = "S1BManager"
         app.save()
         return Response(
@@ -232,10 +252,14 @@ def input_midyear_manager(request, *args, **kwargs):
 
 
 @api_view(["POST"])
-def approve_endyear_manager(request, *args, **kwargs):
+@permission_classes([IsAuthenticated])
+def approve_midyear_manager(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 1B":
+    if (
+        app.overall_appraisal.status == "Stage 1B"
+        and app.manager == request.user.profile
+    ):
         app.status = "S1BManager"
         app.mid_year_completion = "Completed"
         app.save()
@@ -247,10 +271,14 @@ def approve_endyear_manager(request, *args, **kwargs):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def input_endyear_employee(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 2":
+    if (
+        app.overall_appraisal.status == "Stage 2"
+        and app.employee == request.user.profile
+    ):
         app.status = "S2Employee"
         app.completion = "Ecompleted"
         app.save()
@@ -262,10 +290,14 @@ def input_endyear_employee(request, *args, **kwargs):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def submit_endyear_employee(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 2":
+    if (
+        app.overall_appraisal.status == "Stage 2"
+        and app.manager == request.user.profile
+    ):
         app.status = "S2Manager"
         app.completion = "Ecompleted"
         app.save()
@@ -277,10 +309,14 @@ def submit_endyear_employee(request, *args, **kwargs):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def input_endyear_manager(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 2":
+    if (
+        app.overall_appraisal.status == "Stage 2"
+        and app.employee == request.user.profile
+    ):
         app.status = "S2Manager"
         app.completion = "MCompleted"
         app.save()
@@ -293,10 +329,14 @@ def input_endyear_manager(request, *args, **kwargs):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def submit_endyear_manager(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
-    if app.overall_appraisal.status == "Stage 2":
+    if (
+        app.overall_appraisal.status == "Stage 2"
+        and app.employee == request.user.profile
+    ):
         app.status = "Approved"
         app.completion = "MCompleted"
         app.save()
