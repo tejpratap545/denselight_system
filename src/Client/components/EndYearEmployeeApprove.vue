@@ -1,12 +1,17 @@
 <template>
   <div>
     <v-row justify="center">
-      <v-dialog v-model="dialog" persistent fullscreen>
-        <div v-if="$fetchState.pending" style="height:100%; background: #fff">
+      <v-dialog v-model="dialog" persistent max-width="900">
+        <div v-if="$fetchState.pending">
           <v-skeleton-loader type="article, actions"></v-skeleton-loader>
         </div>
-        <div v-else-if="$fetchState.error" style="height:100%; background: #fff">An error occurred</div>
-        <v-card v-else>
+        <div
+          v-else-if="$fetchState.error"
+          style="height: 100px; background: #fff"
+        >
+          An error occurred
+        </div>
+        <v-card class="pa-10" v-else>
           <v-card-title class="headline">
             {{ appraisal.appraisal_name }}
 
@@ -46,32 +51,34 @@
                 <thead>
                   <tr>
                     <th>Goals</th>
-                    <th>
-                      Employee's Rating
-                    </th>
+                    <th>Employee's Rating</th>
+                    <th>Tracking</th>
                     <th>Comments</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="item in appraisal.goals_set" :key="item.id">
-                    <th>{{ item.summary }}</th>
-                    <th>
-                      <v-rating readonly value="item.user_rating"></v-rating>
-                    </th>
+                    <td>{{ item.summary }}</td>
+                    <td>
+                      <v-rating
+                        dense
+                        readonly
+                        value="item.user_rating"
+                      ></v-rating>
+                    </td>
+                    <td>{{ item.tracking_status }}</td>
                     <td>{{ item.user_comments }}</td>
                   </tr>
                 </tbody>
               </template>
             </v-simple-table>
 
-             <v-simple-table class="my-5">
+            <v-simple-table class="my-5">
               <template v-slot:default>
                 <thead>
                   <tr>
                     <th>Core values</th>
-                    <th>
-                      Employee's Rating
-                    </th>
+                    <th>Employee's Rating</th>
                     <th>Comments</th>
                   </tr>
                 </thead>
@@ -79,7 +86,7 @@
                   <tr v-for="item in appraisal.competencies_set" :key="item.id">
                     <th>{{ item.summary }}</th>
                     <th>
-                      <v-rating readonly value="item.user_rating"></v-rating>
+                      <v-rating dense readonly value="item.user_rating"></v-rating>
                     </th>
                     <td>{{ item.user_comments }}</td>
                   </tr>
@@ -87,22 +94,24 @@
               </template>
             </v-simple-table>
 
-             <v-simple-table class="my-5">
+            <v-simple-table class="my-5">
               <template v-slot:default>
                 <thead>
                   <tr>
                     <th>Skills</th>
-                    <th v-if="appraisal.overall_appraisal.status === 'Stage 2'">
-                      Employee's Rating
-                    </th>
+                    <th>Employee's Rating</th>
                     <th>Comments</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="item in appraisal.skills_set" :key="item.id">
                     <th>{{ item.description }}</th>
-                    <th v-if="appraisal.overall_appraisal.status === 'Stage 2'">
-                      <v-rating readonly value="item.user_rating"></v-rating>
+                    <th>
+                      <v-rating
+                        dense
+                        readonly
+                        value="item.user_rating"
+                      ></v-rating>
                     </th>
                     <td>{{ item.user_comments }}</td>
                   </tr>
