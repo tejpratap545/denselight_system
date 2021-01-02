@@ -27,7 +27,6 @@
 
                 <v-expansion-panel-content>
                   <div class="ma-2">
-
                     <v-simple-table class="my-5">
                       <template v-slot:default>
                         <thead>
@@ -38,10 +37,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr
-                            v-for="kpi in item.kpi_set"
-                            :key="kpi.id"
-                          >
+                          <tr v-for="kpi in item.kpi_set" :key="kpi.id">
                             <th>{{ kpi.description }}</th>
                             <th>{{ kpi.progress }}</th>
                             <td>{{ kpi.date_created }}</td>
@@ -60,6 +56,12 @@
                       <v-col> Mid year employee comments </v-col>
                       <v-col>
                         {{ item.MID_user_comments }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year Manager comments </v-col>
+                      <v-col>
+                        {{ item.MID_manager_comments }}
                       </v-col>
                     </v-row>
                     <v-row>

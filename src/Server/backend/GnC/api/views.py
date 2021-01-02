@@ -1,5 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -149,3 +151,31 @@ class EndYrCommentBoxViewSet(ModelViewSet):
     @method_decorator(cache_page(60 * 2))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def approved_goal(request, *args, **kwargs):
+
+    goal = get_object_or_404(Goals, id=kwargs.get("pk"))
+    if goal.appraisal.manager == request.user.profile:
+        goal.status = "APPROVED"
+        goal.save()
+        return Response(
+            {"msg": "Your goal is successfully approved"}, status=status.HTTP_200_OK
+        )
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def reject_goal(request, *args, **kwargs):
+
+    goal = get_object_or_404(Goals, id=kwargs.get("pk"))
+    if goal.appraisal.manager == request.user.profile:
+        goal.status = "REJECTED"
+        goal.save()
+        return Response(
+            {"msg": "Your goal is successfully rejected"}, status=status.HTTP_200_OK
+        )
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
