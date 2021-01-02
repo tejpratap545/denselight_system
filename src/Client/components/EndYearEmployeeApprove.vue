@@ -46,32 +46,70 @@
               </template>
             </v-simple-table>
 
-            <v-simple-table class="my-5">
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th>Goals</th>
-                    <th>Employee's Rating</th>
-                    <th>Tracking</th>
-                    <th>Comments</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in appraisal.goals_set" :key="item.id">
-                    <td>{{ item.summary }}</td>
-                    <td>
+            <v-data-table
+              :headers="goalHeaders"
+              :items="goals"
+              show-expand
+              class="my-5"
+              flat
+            >
+              <template v-slot:expanded-item="{ headers, item }">
+                <td :colspan="headers.length">
+                  <v-simple-table class="my-5">
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th>KPI</th>
+                          <th>Progress</th>
+                          <th>Date Created</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="kpi in item.kpi_set" :key="kpi.id">
+                          <th>{{ kpi.description }}</th>
+                          <th>{{ kpi.progress }}</th>
+                          <td>{{ kpi.date_created }}</td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+
+                  <v-row>
+                    <v-col>Set tracking status</v-col>
+                    <v-col>
+                      {{ item.tracking_status }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col> Mid year employee comments </v-col>
+                    <v-col>
+                      {{ item.MID_user_comments }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>User rating</v-col>
+                    <v-col>
                       <v-rating
+                        v-model="item.user_rating"
+                        background-color="grey lighten-2"
+                        color="primary"
+                        length="5"
+                        size="30"
+                        value="1"
                         dense
-                        readonly
-                        value="item.user_rating"
-                      ></v-rating>
-                    </td>
-                    <td>{{ item.tracking_status }}</td>
-                    <td>{{ item.user_comments }}</td>
-                  </tr>
-                </tbody>
+                        hover
+                      ></v-rating
+                    ></v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>End Year Employee Comment</v-col>
+                    <v-col>
+                      {{item.user_comments}}
+                    </v-col>
+                  </v-row>
+                </td>
               </template>
-            </v-simple-table>
+            </v-data-table>
 
             <v-simple-table class="my-5">
               <template v-slot:default>
@@ -86,7 +124,11 @@
                   <tr v-for="item in appraisal.competencies_set" :key="item.id">
                     <th>{{ item.summary }}</th>
                     <th>
-                      <v-rating dense readonly value="item.user_rating"></v-rating>
+                      <v-rating
+                        dense
+                        readonly
+                        value="item.user_rating"
+                      ></v-rating>
                     </th>
                     <td>{{ item.user_comments }}</td>
                   </tr>
@@ -144,6 +186,12 @@ export default {
   },
   data() {
     return {
+      goalHeaders: [
+        { text: 'Goal', value: 'summary' },
+        { text: 'Tracking', value: 'tracking_status' },
+        { text: 'Comments', value: 'user_comments' },
+        { text: '', value: 'data-table-expand' },
+      ],
       goals: [],
       appraisal: {},
     }
@@ -154,6 +202,7 @@ export default {
     },
     init(appraisal) {
       this.appraisal = appraisal
+      this.goals = appraisal.goals_set
     },
     print() {
       print()

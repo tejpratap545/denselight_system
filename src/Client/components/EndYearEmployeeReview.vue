@@ -21,7 +21,7 @@
                 >
                   <h3 class="title-topbar">
                     <b>{{ item.goal_title }}</b> <v-spacer />
-                    <small><b>Description : </b>{{ item.description }}</small>
+                    <small>{{ item.kpi_set }}</small>
                   </h3>
                 </v-expansion-panel-header>
 

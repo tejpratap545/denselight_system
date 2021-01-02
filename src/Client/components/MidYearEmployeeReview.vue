@@ -94,7 +94,7 @@ export default {
           goal_title: goal.summary,
           description: goal.description,
           due: goal.due,
-          category: 'Organization Effectivness',
+          category: goal.goal_category,
           weightage: `${goal.weightage}%`,
           MID_user_comments: goal.MID_user_comments,
           tracking_status: goal.tracking_status,
