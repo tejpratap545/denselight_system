@@ -233,7 +233,7 @@
                           mdi-checkbox-marked-circle-outline</v-icon
                         >
                         <v-icon v-else color="info" @click="approvedGaol(item)">
-                          mdi-calendar-blank</v-icon
+                          mdi-format-list-check</v-icon
                         >
 
                         <v-icon v-if="item.status == 'REJECTED'" color="error">
