@@ -292,15 +292,7 @@
                 :headers="myValuesTableHeader"
                 :items="myValuesTableItems"
                 :items-per-page="5"
-              >
-                <template v-slot:[`item.actions`]="{}">
-                  <div>
-                    <v-btn color="success" icon
-                      ><v-icon>mdi-circle-edit-outline</v-icon></v-btn
-                    >
-                  </div>
-                </template>
-              </v-data-table>
+              ></v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -319,15 +311,7 @@
                 :headers="mySkillsTableHeader"
                 :items="mySkillsTableItems"
                 :items-per-page="5"
-              >
-                <template v-slot:[`item.actions`]="{}">
-                  <div>
-                    <v-btn color="success" icon
-                      ><v-icon>mdi-circle-edit-outline</v-icon></v-btn
-                    >
-                  </div>
-                </template>
-              </v-data-table>
+              ></v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -395,11 +379,6 @@ export default {
           text: 'Weightage',
           value: 'weightage',
         },
-        {
-          text: 'Action',
-          align: 'center',
-          value: 'actions',
-        },
       ],
       mySkillsTableItems: [],
       myValuesTableHeader: [
@@ -414,11 +393,6 @@ export default {
         {
           text: 'Weightage',
           value: 'weightage',
-        },
-        {
-          text: 'Action',
-          align: 'center',
-          value: 'actions',
         },
       ],
       editable: this.appraisal.employee.email == this.$auth.user.email,
