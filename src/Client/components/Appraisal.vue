@@ -19,7 +19,6 @@
         <v-tab>Goals</v-tab>
         <v-tab>Core Values</v-tab>
         <v-tab>Skills</v-tab>
-        <v-tab>Rating</v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tabData">
@@ -27,12 +26,17 @@
           <v-card flat>
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Goals</b>
+              <v-spacer></v-spacer>
+              <v-btn v-if="editable" icon @click="addGoalsDialog = true">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
             </v-toolbar>
             <v-card-text>
               <v-data-table
                 :headers="myGoalsTableHeader"
                 :items="myGoalsTableItems"
                 :items-per-page="10"
+                show-expand
               >
                 <template v-slot:[`item.actions`]="{ item }">
                   <div>
@@ -152,20 +156,65 @@
                             </v-card-text>
                           </v-card>
                         </v-card-text>
-
-                        <v-card-actions>
-                          <v-container>
-                            <v-row>
-                              <v-text-field
-                                v-model="kpi"
-                                label="KPI description"
-                              ></v-text-field>
-                            </v-row>
-                          </v-container>
-                        </v-card-actions>
                       </v-card>
                     </v-dialog>
                   </div>
+                </template>
+
+                <template v-slot:expanded-item="{ headers, item }">
+                  <td :colspan="headers.length">
+                    <v-simple-table class="my-5">
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>KPI</th>
+                            <th>Progress</th>
+                            <th>Date Created</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="kpi in item.kpi_set" :key="kpi.id">
+                            <th>{{ kpi.description }}</th>
+                            <th>{{ kpi.progress }}</th>
+                            <td>{{ kpi.date_created }}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+
+                    <v-row>
+                      <v-col>Set tracking status</v-col>
+                      <v-col>
+                        {{ item.tracking_status }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year employee comments </v-col>
+                      <v-col>
+                        {{ item.MID_user_comments }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>User rating</v-col>
+                      <v-col>
+                        <v-rating
+                          background-color="grey lighten-2"
+                          color="primary"
+                          length="5"
+                          size="30"
+                          :value="item.user_rating"
+                          dense
+                          readonly
+                        ></v-rating
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>End Year Employee Comment</v-col>
+                      <v-col>
+                        {{ item.user_comments }}
+                      </v-col>
+                    </v-row>
+                  </td>
                 </template>
               </v-data-table>
             </v-card-text>
@@ -176,21 +225,17 @@
           <v-card flat>
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Core Values</b>
+              <v-spacer></v-spacer>
+              <v-btn v-if="editable" icon @click="addCoreValueDialog = true">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
             </v-toolbar>
             <v-card-text>
               <v-data-table
                 :headers="myValuesTableHeader"
                 :items="myValuesTableItems"
                 :items-per-page="5"
-              >
-                <template v-slot:[`item.actions`]="{}">
-                  <div>
-                    <v-btn color="success" icon
-                      ><v-icon>mdi-circle-edit-outline</v-icon></v-btn
-                    >
-                  </div>
-                </template>
-              </v-data-table>
+              ></v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -200,29 +245,16 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Skills</b>
               <v-spacer></v-spacer>
+              <v-btn v-if="editable" icon @click="addSkillsDialog = true">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
             </v-toolbar>
             <v-card-text>
               <v-data-table
                 :headers="mySkillsTableHeader"
                 :items="mySkillsTableItems"
                 :items-per-page="5"
-              >
-                <template v-slot:[`item.actions`]="{}">
-                  <div>
-                    <v-btn color="success" icon
-                      ><v-icon>mdi-circle-edit-outline</v-icon></v-btn
-                    >
-                  </div>
-                </template>
-              </v-data-table>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-
-        <v-tab-item>
-          <v-card flat>
-            <v-card-text class="text-center">
-              Ratings implementation coming soon
+              ></v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>

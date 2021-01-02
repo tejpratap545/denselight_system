@@ -15,6 +15,7 @@
         :appraisal-id="currentAppraisalId"
         @close-goal-approved-dialog="goalsApprovedDialog = false"
       />
+
       <MidYearManagerReview
         v-if="MidYearManagerReviewDialog"
         :dialog="MidYearManagerReviewDialog"
