@@ -49,6 +49,7 @@
                 :headers="myGoalsTableHeader"
                 :items="myGoalsTableItems"
                 :items-per-page="10"
+                show-expand
               >
                 <template v-slot:[`item.actions`]="{ item }">
                   <div>
@@ -212,6 +213,66 @@
                     </v-dialog>
                   </div>
                 </template>
+
+                <template v-slot:expanded-item="{ headers, item }">
+                  <td :colspan="headers.length">
+
+                    <v-simple-table class="my-5">
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>KPI</th>
+                            <th>Progress</th>
+                            <th>Date Created</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            v-for="kpi in item.kpi_set"
+                            :key="kpi.id"
+                          >
+                            <th>{{ kpi.description }}</th>
+                            <th>{{ kpi.progress }}</th>
+                            <td>{{ kpi.date_created }}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+
+                    <v-row>
+                      <v-col>Set tracking status</v-col>
+                      <v-col>
+                        {{ item.tracking_status }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year employee comments </v-col>
+                      <v-col>
+                        {{ item.MID_user_comments }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>User rating</v-col>
+                      <v-col>
+                        <v-rating
+                          background-color="grey lighten-2"
+                          color="primary"
+                          length="5"
+                          size="30"
+                          value="item.user_rating"
+                          dense
+                          readonly
+                        ></v-rating
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>End Year Employee Comment</v-col>
+                      <v-col>
+                        {{ item.user_comments }}
+                      </v-col>
+                    </v-row>
+                  </td>
+                </template>
               </v-data-table>
             </v-card-text>
           </v-card>
@@ -318,6 +379,7 @@ export default {
           align: 'center',
           value: 'actions',
         },
+        { text: '', value: 'data-table-expand' },
       ],
       myGoalsTableItems: [],
       mySkillsTableHeader: [
@@ -393,7 +455,7 @@ export default {
       appraisal.goals_set.forEach((goal) => {
         data.goals.push({
           id: goal.id,
-          category: 'Organization Effectivness',
+          category: goal.goal_category,
           goal_title: goal.summary,
           due: goal.due,
           weightage: `${goal.weightage}%`,
@@ -407,7 +469,10 @@ export default {
             { id: 2, data: goal.endyrcommentbox_set.reverse() },
           ],
           kpi_set: goal.kpi_set,
-          tracking_status: goal.tracking_status
+          tracking_status: goal.tracking_status,
+          MID_user_comments: goal.MID_user_comments,
+          user_rating: goal.user_rating,
+          user_comments: goal.user_comments
         })
       })
 
