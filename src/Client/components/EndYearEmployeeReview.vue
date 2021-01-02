@@ -21,13 +21,35 @@
                 >
                   <h3 class="title-topbar">
                     <b>{{ item.goal_title }}</b> <v-spacer />
-                    <small>{{ item.category }}</small>
+                    <small><b>Description : </b>{{ item.description }}</small>
                   </h3>
                 </v-expansion-panel-header>
 
                 <v-expansion-panel-content>
                   <div class="ma-2">
-                    <div><b>Description : </b>{{ item.description }}</div>
+
+                    <v-simple-table class="my-5">
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>KPI</th>
+                            <th>Progress</th>
+                            <th>Date Created</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            v-for="kpi in item.kpi_set"
+                            :key="kpi.id"
+                          >
+                            <th>{{ kpi.description }}</th>
+                            <th>{{ kpi.progress }}</th>
+                            <td>{{ kpi.date_created }}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+
                     <v-row>
                       <v-col>Set tracking status</v-col>
                       <v-col>
@@ -107,12 +129,13 @@ export default {
           goal_title: goal.summary,
           description: goal.description,
           due: goal.due,
-          category: 'Organization Effectivness',
+          category: goal.goal_category,
           user_comments: goal.user_comments,
           user_rating: goal.user_rating,
 
           MID_user_comments: goal.MID_user_comments,
           tracking_status: goal.tracking_status,
+          kpi_set: goal.kpi_set,
         })
       })
     },
