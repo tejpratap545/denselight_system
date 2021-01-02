@@ -21,6 +21,20 @@
         :appraisal-id="currentAppraisalId"
         @close-mid-year-manager-dialog="MidYearManagerReviewDialog = false"
       />
+      <EndYearManagerReview
+        v-if="ENDYearManagerReviewDialog"
+        :dialog="ENDYearManagerReviewDialog"
+        :appraisal-id="currentAppraisalId"
+        @close-end-year-manager-dialog="ENDYearManagerReviewDialog = false"
+      />
+      <EndYearManagerApprove
+        v-if="ENDYearManagerSubmitDialog"
+        :dialog="ENDYearManagerSubmitDialog"
+        :appraisal-id="currentAppraisalId"
+        @close-end-year-manager-submit-dialog="
+          ENDYearManagerSubmitDialog = false
+        "
+      />
     </div>
     <div class="d-flex justify-lg-space-between align-center">
       <v-btn color="success"> Create Department goal </v-btn>
@@ -121,6 +135,14 @@
                             >
                               <i class="fas fa-ellipsis-h"></i>
                             </v-btn>
+                            <v-btn
+                              v-model="item.action"
+                              color="transparent"
+                              elevation="0"
+                              @click="showMidSubmit(item)"
+                            >
+                              <i class="fas fa-ellipsis-h"></i>
+                            </v-btn>
                           </template>
                         </v-data-table>
                       </v-card-text>
@@ -141,6 +163,14 @@
                               v-model="item.action"
                               color="transparent"
                               elevation="0"
+                              @click="showEndReview(item)"
+                            >
+                            </v-btn>
+                            <v-btn
+                              v-model="item.action"
+                              color="transparent"
+                              elevation="0"
+                              @click="showEndSubmit(item)"
                             >
                               <i class="fas fa-ellipsis-h"></i>
                             </v-btn>
@@ -240,6 +270,9 @@ export default {
       currentAppraisalId: 0,
       goalsApprovedDialog: false,
       MidYearManagerReviewDialog: false,
+      MidYearManagerSubmitDialog: false,
+      ENDYearManagerReviewDialog: false,
+      ENDYearManagerSubmitDialog: false,
 
       employeesTableHeader: [
         {
@@ -331,6 +364,18 @@ export default {
     showMidReview(item) {
       this.currentAppraisalId = item.id
       this.MidYearManagerReviewDialog = true
+    },
+    showMidSubmit(item) {
+      this.currentAppraisalId = item.id
+      this.MidYearManagerSubmitDialog = true //
+    },
+    showEndReview(item) {
+      this.currentAppraisalId = item.id
+      this.ENDYearManagerReviewDialog = true
+    },
+    showEndSubmit(item) {
+      this.currentAppraisalId = item.id
+      this.ENDYearManagerSubmitDialog = true //
     },
   },
 }

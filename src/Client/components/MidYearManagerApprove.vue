@@ -15,18 +15,18 @@
 </template>
 <script>
 export default {
-  name: 'MidYearApprove',
+  name: 'MidYearManagerApprove',
   props: { dialog: Boolean, appraisalId: Number },
   methods: {
     close() {
-      this.$emit('close-mid-year-submit')
+      this.$emit('close-mid-year-manager-submit')
     },
     submit() {
       this.$axios
-        .post(`api/submit/employee/midyear/${this.appraisalId}`)
+        .post(`api/approve/manager/midyear/${this.appraisalId}`)
         .then(() => {
           this.$notifier.showMessage({
-            content: 'You  have   Successfully submitted mid year review',
+            content: 'You  have   Successfully approved mid year review',
             color: 'info',
           })
           this.close()

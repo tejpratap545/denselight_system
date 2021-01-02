@@ -29,13 +29,13 @@
         @close-approve-dialog="approveReviewDialog = false"
       >
       </ApproveReviews>
-      <MidYearApprove
+      <MidYearEmployeeApprove
         v-if="midYearApproveDialog"
         :dialog="midYearApproveDialog"
         :appraisal-id="appraisalSelectedIndex"
         @close-mid-year-submit="midYearApproveDialog = false"
       >
-      </MidYearApprove>
+      </MidYearEmployeeApprove>
       <v-card flat>
         <v-card-title class="d-flex justify-lg-space-between align-center">
           <v-menu rounded="lg">
