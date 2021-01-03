@@ -190,13 +190,19 @@ def approve_goal(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1"
         and app.manager == request.user.profile
-    ):
-        app.status = "S1BEmployee"
-        app.save()
+    ) and app.status == "Manager":
+        if app.goals_set.filter(status == "REJECTED").count == 0:
+            app.status = "S1BEmployee"
+            app.save()
+            return Response(
+                {"msg": "Goal are successfully approves by manager/supervisor"},
+                status=status.HTTP_202_ACCEPTED,
+            )
         return Response(
-            {"msg": "Goal are successfully approves by manager/supervisor"},
-            status=status.HTTP_202_ACCEPTED,
+            {"msg": "Approved all goals then approves appraisal"},
+            status=status.HTTP_400_BAD_REQUEST,
         )
+
     return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -208,7 +214,7 @@ def input_midyear_employee(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1B"
         and app.employee == request.user.profile
-    ):
+    ) and app.status == "S1BEmployee":
         app.status = "S1BManager"
         app.save()
         return Response(
@@ -226,7 +232,7 @@ def submit_midyear_employee(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1B"
         and app.employee == request.user.profile
-    ):
+    ) and app.status == "S1BManager":
         app.status = "S1BReview"
         app.save()
         return Response(
@@ -244,7 +250,7 @@ def input_midyear_manager(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1B"
         and app.manager == request.user.profile
-    ):
+    ) and (app.status == "S1BReview"):
         app.status = "S1BManager"
         app.save()
         return Response(
@@ -262,7 +268,7 @@ def approve_midyear_manager(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1B"
         and app.manager == request.user.profile
-    ):
+    ) and app.status == "S1BManager":
         app.status = "S1BManager"
         app.mid_year_completion = "Completed"
         app.save()
@@ -281,7 +287,7 @@ def input_endyear_employee(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 2"
         and app.employee == request.user.profile
-    ):
+    ) and (app.status == "S1BManager" and app.mid_year_completion == "Completed"):
         app.status = "S2Employee"
         app.completion = "Ecompleted"
         app.save()
@@ -300,7 +306,7 @@ def submit_endyear_employee(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 2"
         and app.employee == request.user.profile
-    ):
+    ) and (app.status == "S2Employee" and app.completion == "Ecompleted"):
         app.status = "S2Manager"
         app.completion = "Ecompleted"
         app.save()
@@ -319,7 +325,7 @@ def input_endyear_manager(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 2"
         and app.manager == request.user.profile
-    ):
+    ) and (app.status == "S2Manager" and app.completion == "Ecompleted"):
         app.status = "S2Manager"
         app.completion = "MCompleted"
         app.save()
@@ -339,7 +345,7 @@ def submit_endyear_manager(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 2"
         and app.manager == request.user.profile
-    ):
+    ) and (app.status == "S2Manager" and app.completion == "MCompleted"):
         app.status = "Approved"
         app.completion = "MCompleted"
         app.save()
