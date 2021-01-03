@@ -96,7 +96,7 @@
               appraisalSelected.status === 'Employee'
             "
             class="success"
-            @click="endYearApproveDialog = true"
+            @click="submitGoalsDialog = true"
             ><v-icon>mdi-check-all</v-icon> Submit Goals</v-btn
           >
           <!--          mid year buttons-->

@@ -191,7 +191,7 @@ def approve_goal(request, *args, **kwargs):
         app.overall_appraisal.status == "Stage 1"
         and app.manager == request.user.profile
     ) and app.status == "Manager":
-        if app.goals_set.filter(status == "REJECTED").count == 0:
+        if app.goals_set.filter(status="REJECTED").count() == 0:
             app.status = "S1BEmployee"
             app.save()
             return Response(
