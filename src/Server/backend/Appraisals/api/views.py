@@ -103,6 +103,11 @@ class DetailUserAppraisal(generics.ListAPIView):
             "skills_set",
             "skills_set__skill_category",
             "goals_set__goal_category",
+            "overall_appraisal__departmentalgoals_set",
+            "overall_appraisal__departmentalgoals_set__goal_category",
+            "overall_appraisal__departmentalgoals_set__manager",
+            "overall_appraisal__departmentalcompetencies_set",
+            "overall_appraisal__departmentalcompetencies_set__competency_category",
         ).filter(employee=self.request.user.profile)
 
     # @method_decorator(cache_page(60 * 2))
@@ -156,6 +161,11 @@ class DetailAppraisal(generics.RetrieveAPIView):
             "skills_set",
             "skills_set__skill_category",
             "goals_set__goal_category",
+            "overall_appraisal__departmentalgoals_set",
+            "overall_appraisal__departmentalgoals_set__goal_category",
+            "overall_appraisal__departmentalgoals_set__manager",
+            "overall_appraisal__departmentalcompetencies_set",
+            "overall_appraisal__departmentalcompetencies_set__competency_category",
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
 
@@ -262,6 +272,25 @@ def input_midyear_manager(request, *args, **kwargs):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
+def reject_midyear_manager(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if (
+        app.overall_appraisal.status == "Stage 1B"
+        and app.manager == request.user.profile
+    ) and (app.status == "S1BReview" or app.status == "S1BManager"):
+        app.status = "S1BReview"
+        app.mid_year_completion = "UnCompleted"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def approve_midyear_manager(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
@@ -339,7 +368,29 @@ def input_endyear_manager(request, *args, **kwargs):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def submit_endyear_manager(request, *args, **kwargs):
+def reject_endyear_manager(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if (
+        app.overall_appraisal.status == "Stage 2"
+        and app.manager == request.user.profile
+    ) and (
+        (app.status == "S2Manager" and app.completion == "Ecompleted")
+        or (app.status == "S2Manager" and app.completion == "MCompleted")
+    ):
+        app.status = "S1BReview"
+        app.mid_year_completion = "UnCompleted"
+        app.save()
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def approve_endyear_manager(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
     if (

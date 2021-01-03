@@ -3,6 +3,8 @@ from ..models import *
 
 from django.db.models import Sum
 
+from ...Profile.api.serializers import ShortProfileSerializer
+
 
 class GoalCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -65,9 +67,33 @@ class DepartmentGoalSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class DetailDepartmentGoalSerializer(serializers.ModelSerializer):
+    goal_category = GoalCategorySerializer()
+    manager = ShortProfileSerializer()
+
+    class Meta:
+        model = DepartmentalGoals
+        fields = "__all__"
+
+
 class CompetenciesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competencies
+        fields = "__all__"
+
+
+class DepartmentCompetenciesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DepartmentalCompetencies
+        fields = "__all__"
+
+
+class DetailDepartmentCompetenciesSerializer(serializers.ModelSerializer):
+    manager = ShortProfileSerializer()
+    competency_category = CompetencyCategorySerializer()
+
+    class Meta:
+        model = DepartmentalCompetencies
         fields = "__all__"
 
 

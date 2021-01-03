@@ -6,6 +6,8 @@ from ...GnC.api.serializers import (
     DetailGoalSerializer,
     CompetenciesSerializer,
     DetailCompetenciesSerializer,
+    DetailDepartmentGoalSerializer,
+    DepartmentCompetenciesSerializer,
 )
 from backend.Trainings.api.serializers import SkillsSerializer
 
@@ -13,6 +15,19 @@ from backend.Trainings.api.serializers import SkillsSerializer
 class AppraisalCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Appraisal_Category
+        fields = "__all__"
+
+
+class DetailOverallAppraisalSerializer(serializers.ModelSerializer):
+    employee_count = serializers.IntegerField(read_only=True)
+    individual_employees = serializers.ListField(write_only=True, required=False)
+    departments = serializers.ListField(write_only=True, required=False)
+    is_company = serializers.BooleanField(default=False)
+    departmentalgoals_set = DetailDepartmentGoalSerializer(many=True)
+    departmentalcompetencies_set = DepartmentCompetenciesSerializer(many=True)
+
+    class Meta:
+        model = Overall_Appraisal
         fields = "__all__"
 
 
@@ -134,13 +149,14 @@ class UserAppraisalListSerializer(serializers.ModelSerializer):
 class DetailAppraisalSerializer(serializers.ModelSerializer):
     manager = ShortProfileSerializer()
     employee = ShortProfileSerializer()
-    overall_appraisal = OverallAppraisalSerializer()
+    overall_appraisal = DetailOverallAppraisalSerializer()
     appraisal_category = AppraisalCategorySerializer()
     goals_set = DetailGoalSerializer(many=True)
     competencies_set = DetailCompetenciesSerializer(many=True)
     skills_set = SkillsSerializer(many=True)
 
     class Meta:
+
         model = User_Appraisal_List
         fields = "__all__"
 

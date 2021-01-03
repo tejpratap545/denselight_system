@@ -57,10 +57,6 @@ class ListEmployees(generics.ListAPIView):
         return super(ListEmployees, self).dispatch(*args, **kwargs)
 
 
-from django.core import serializers
-from django.shortcuts import get_list_or_404
-
-
 class ShortListEmployees(generics.ListAPIView):
     serializer_class = ShortEmployeeSerializer
     queryset = Profile.objects.only(

@@ -239,7 +239,7 @@ export default {
 
     async submit() {
       await this.$axios
-        .post(`api/submit/manager/endyear/${this.appraisalId}`)
+        .post(`api/approve/manager/endyear/${this.appraisalId}`)
         .then(() => {
           this.$notifier.showMessage({
             content: 'You  have   Successfully confirmed end year review .',
