@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       menu: false,
-      categories: '',
+      categories: [],
       competencies: {
         appraisal: this.appraisalId,
         summary: '',
