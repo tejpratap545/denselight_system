@@ -41,8 +41,8 @@ from backend.Appraisals.api.views import (
     PeerAppraisal,
     approve_midyear_manager,
     reject_endyear_manager,
-    reject_midyear_manager,
     OverallAppraisal,
+    MidYearRejection,
 )
 from backend.Trainings.api.views import SkillsApiView, CreateSkillsApiView
 
@@ -79,7 +79,7 @@ urlpatterns = [
     path("input/employee/midyear/<int:pk>", input_midyear_employee),
     path("submit/employee/midyear/<int:pk>", submit_midyear_employee),
     path("input/manager/midyear/<int:pk>", input_midyear_manager),
-    path("reject/manager/midyear/<int:pk>", reject_midyear_manager),
+    path("reject/manager/midyear/<int:pk>", MidYearRejection.as_view()),
     path("approve/manager/midyear/<int:pk>", approve_midyear_manager),
     #
     # end year stage

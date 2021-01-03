@@ -13,12 +13,14 @@
         :dialog="submitGoalsDialog"
         :appraisal-id="appraisalSelectedIndex"
         @close-goal-submit-dialog="submitGoalsDialog = false"
+        @reload="$fetch"
       />
       <MidYearEmployeeReview
         v-if="midYearEmployeeReviewDialog"
         :dialog="midYearEmployeeReviewDialog"
         :appraisal-id="appraisalSelectedIndex"
         @close-mid-year-dialog="midYearEmployeeReviewDialog = false"
+        @reload="$fetch"
       >
       </MidYearEmployeeReview>
       <EndYearEmployeeReview
@@ -26,6 +28,7 @@
         :dialog="endYearEmployeeReviewDialog"
         :appraisal-id="appraisalSelectedIndex"
         @close-end-year-dialog="endYearEmployeeReviewDialog = false"
+        @reload="$fetch"
       >
       </EndYearEmployeeReview>
       <EndYearEmployeeApprove
@@ -33,6 +36,7 @@
         :dialog="endYearApproveDialog"
         :appraisal-id="appraisalSelectedIndex"
         @close-approve-dialog="endYearApproveDialog = false"
+        @reload="$fetch"
       >
       </EndYearEmployeeApprove>
       <MidYearEmployeeApprove
@@ -40,6 +44,7 @@
         :dialog="midYearApproveDialog"
         :appraisal-id="appraisalSelectedIndex"
         @close-mid-year-submit="midYearApproveDialog = false"
+        @reload="$fetch"
       >
       </MidYearEmployeeApprove>
 
@@ -109,7 +114,7 @@
             appraisalSelected.status === 'Employee'
           "
           class="success"
-          @click="endYearApproveDialog = true"
+          @click="submitGoalsDialog = true"
           ><v-icon>mdi-check-all</v-icon> Submit</v-btn
         >
         <!--          mid year buttons-->

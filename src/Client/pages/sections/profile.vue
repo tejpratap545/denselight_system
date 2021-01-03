@@ -18,7 +18,7 @@
             </div>
 
             <div>
-              <h2 class="text-center">{{ profile.name }}</h2>
+              <h2 class="text-center">{{ profile.name || '' }}</h2>
               <p class="text-center">{{ profile.email }}</p>
             </div>
 
@@ -39,7 +39,7 @@
                   </tr>
                   <tr>
                     <th class="text-left">Second reporting officer</th>
-                    <td>{{ profile.second_Reporting_Manager.name }}</td>
+                    <td>{{ profile.second_Reporting_Manager.name || '' }}</td>
                   </tr>
                   <tr>
                     <th class="text-left">Job Title</th>
@@ -61,10 +61,24 @@
         <v-col>
           <div class="panel pa-5">
             <h3 class="my-5">Reset Password</h3>
-            <v-text-field v-model="passwordReset.old_password" label="Old Password" outlined></v-text-field>
-            <v-text-field v-model="passwordReset.password1" label="New Password" outlined></v-text-field>
-            <v-text-field v-model="passwordReset.password2" label="Confirm Password" outlined></v-text-field>
-            <v-btn elevation="0" color="primary" @click="changePassword"> Reset Password</v-btn>
+            <v-text-field
+              v-model="passwordReset.old_password"
+              label="Old Password"
+              outlined
+            ></v-text-field>
+            <v-text-field
+              v-model="passwordReset.password1"
+              label="New Password"
+              outlined
+            ></v-text-field>
+            <v-text-field
+              v-model="passwordReset.password2"
+              label="Confirm Password"
+              outlined
+            ></v-text-field>
+            <v-btn elevation="0" color="primary" @click="changePassword">
+              Reset Password</v-btn
+            >
           </div>
           <v-divider />
         </v-col>
@@ -96,7 +110,7 @@ export default {
         password2: '',
         old_password: '',
         profile: 0,
-      }
+      },
     }
   },
   methods: {
@@ -116,8 +130,8 @@ export default {
             color: 'error',
           })
         })
-    }
-  }
+    },
+  },
 }
 </script>
 

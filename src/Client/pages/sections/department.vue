@@ -49,7 +49,7 @@
         :appraisal-id="appraisalSelected.id"
         @close-goal-dialog="addGoalsDialog = false"
       />
-       <AddCoreValueDepartment
+      <AddCoreValueDepartment
         v-if="addCoreDialog"
         :dialog="addCoreDialog"
         :appraisal-id="appraisalSelected.id"
@@ -141,7 +141,7 @@
           </v-card>
 
           <div>
-            <v-card class="pt-5"  flat>
+            <v-card class="pt-5" flat>
               <v-toolbar
                 elevation="0"
                 class="ma-5"
@@ -154,8 +154,8 @@
 
                 <v-btn
                   v-if="appraisalSelected.status == 'Stage 1'"
-                  @click="addGoalsDialog = true"
                   icon
+                  @click="addGoalsDialog = true"
                 >
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
@@ -169,7 +169,7 @@
               </v-card-text>
             </v-card>
 
-            <v-card class="pt-5"  flat>
+            <v-card class="pt-5" flat>
               <v-toolbar
                 elevation="0"
                 class="ma-5"
@@ -182,8 +182,8 @@
 
                 <v-btn
                   v-if="appraisalSelected.status == 'Stage 1'"
-                  @click="addCoreDialog = true"
                   icon
+                  @click="addCoreDialog = true"
                 >
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
@@ -221,6 +221,13 @@
                           :items-per-page="10"
                           :loading="loading"
                         >
+                          <template v-slot:[`item.status`]="{ item }">
+                            <v-progress-circular
+                              v-if="item.status == 'Employee'"
+                              indeterminate
+                              color="primary"
+                            ></v-progress-circular>
+                          </template>
                           <template v-slot:[`item.action`]="{ item }">
                             <v-btn
                               v-model="item.action"
@@ -228,7 +235,9 @@
                               elevation="0"
                               @click="showGaolApproval(item)"
                             >
-                              <i class="fas fa-ellipsis-h"></i>
+                              <v-icon color="info"
+                                >mdi-format-list-checks
+                              </v-icon>
                             </v-btn>
                           </template>
                         </v-data-table>
@@ -268,7 +277,7 @@
                                 @click="showMidReview(item)"
                               >
                                 <v-icon color="info"
-                                  >mdi-calendar-check
+                                  >mdi-format-list-checks
                                 </v-icon>
                               </v-btn>
                               <v-btn
@@ -322,7 +331,7 @@
                                 @click="showEndReview(item)"
                               >
                                 <v-icon color="info"
-                                  >mdi-calendar-check
+                                  >mdi-format-list-checks
                                 </v-icon>
                               </v-btn>
                               <v-btn
@@ -377,7 +386,7 @@ export default {
   layout: 'dashboard-template',
   async fetch() {
     try {
-      var response = await this.$axios.$get('api/appraisals/list/manager')
+      let response = await this.$axios.$get('api/appraisals/list/manager')
 
       response.forEach(async (appraisal) => {
         this.employeesTableItems.push({
@@ -509,13 +518,13 @@ export default {
         {
           text: 'End Date',
           align: 'center',
-          sortable: true,
+
           value: 'end_date',
         },
         {
           text: 'Status',
           align: 'center',
-          sortable: true,
+
           value: 'status',
         },
         {
@@ -541,7 +550,7 @@ export default {
         { text: 'Description', value: 'description' },
         { text: 'Category', value: 'competency_category' },
       ],
-      departmentValuesItems: []
+      departmentValuesItems: [],
     }
   },
   methods: {
