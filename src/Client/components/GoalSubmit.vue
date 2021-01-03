@@ -435,10 +435,10 @@ export default {
     },
     submit() {
       this.$axios
-        .$post(`api/approve/manager/goal/${this.appraisalId}`)
+        .$post(`api/submit/employee/goal/${this.appraisalId}`)
         .then(() => {
           this.$notifier.showMessage({
-            content: 'Successfully Approved the goals ',
+            content: 'Successfully Submitted the goals ',
             color: 'info',
           })
           this.close()

@@ -5,7 +5,10 @@
         <div class="panel">
           <div style="justify-content: center; display: flex">
             <div class="profile-panel">
-              <img :src="`https://avatars.dicebear.com/api/identicon/${this.$auth.user.id}.svg`" alt="profile" />
+              <img
+                :src="`https://avatars.dicebear.com/api/identicon/${this.$auth.user.id}.svg`"
+                alt="profile"
+              />
             </div>
           </div>
 
@@ -47,7 +50,7 @@ export default {
   border-radius: 100%;
 }
 
-.profile-panel img{
+.profile-panel img {
   width: 100%;
   height: 100%;
   overflow: hidden;
