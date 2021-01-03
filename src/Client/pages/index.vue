@@ -14,7 +14,6 @@
         :appraisal-id="appraisalSelectedIndex"
         @close-goal-submit-dialog="submitGoalsDialog = false"
       />
-
       <MidYearEmployeeReview
         v-if="midYearEmployeeReviewDialog"
         :dialog="midYearEmployeeReviewDialog"
@@ -43,6 +42,7 @@
         @close-mid-year-submit="midYearApproveDialog = false"
       >
       </MidYearEmployeeApprove>
+
       <v-card flat>
         <v-card-title class="d-flex justify-lg-space-between align-center">
           <v-menu rounded="lg">
@@ -66,91 +66,92 @@
               {{ appraisalSelected.appraisal_name }} -
               {{ appraisalSelected.appraisal_category.name }}
             </h3>
-            <p class="ma-0">
-              Status:
-              {{
-                getStatus(
-                  appraisalSelected.overall_appraisal.status,
-                  appraisalSelected.status
-                )
-              }}
-            </p>
           </div>
           <div v-else>
             <h3 class="font-weight-medium">No Appraisal selected</h3>
           </div>
         </v-card-title>
-
-        <v-toolbar
-          class="button-group mx-5"
-          elevation="0"
-          color="primary"
-          dark
-          rounded
-        >
-          <!--          goal submit-->
-
-          <v-btn
-            v-if="
-              appraisalSelected.overall_appraisal.status === 'Stage 1' &&
-              appraisalSelected.status === 'Employee'
-            "
-            class="success"
-            @click="endYearApproveDialog = true"
-            ><v-icon>mdi-check-all</v-icon> Submit Goals</v-btn
-          >
-          <!--          mid year buttons-->
-          <v-btn
-            v-if="
-              appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
-              (appraisalSelected.status === 'S1BEmployee' ||
-                appraisalSelected.status === 'S1BManager')
-            "
-            text
-            @click="midYearEmployeeReviewDialog = true"
-            ><v-icon>mdi-message-draw</v-icon> Add Mid Year Review</v-btn
-          >
-          <v-btn
-            v-if="
-              appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
-              appraisalSelected.status === 'S1BEmployee'
-            "
-            class="success"
-            @click="midYearApproveDialog = true"
-            ><v-icon>mdi-check-all</v-icon> Submit Mid Year Review</v-btn
-          >
-
-          <!--          end year buttons-->
-
-          <v-btn
-            v-if="
-              (appraisalSelected.overall_appraisal.status === 'Stage 2' &&
-                appraisalSelected.status === 'S1BManager' &&
-                appraisalSelected.mid_year_completion === 'completed') ||
-              (appraisalSelected.status === 'S2Employee' &&
-                appraisalSelected.completion === 'Ecompleted')
-            "
-            text
-            @click="endYearEmployeeReviewDialog = true"
-            ><v-icon>mdi-message-draw</v-icon> Add End Year Review</v-btn
-          >
-
-          <v-btn
-            v-if="
-              appraisalSelected.overall_appraisal.status === 'Stage 2' &&
-              appraisalSelected.status === 'S2Employee' &&
-              appraisalSelected.completion === 'Ecompleted'
-            "
-            class="success"
-            @click="endYearApproveDialog = true"
-            ><v-icon>mdi-check-all</v-icon> Submit End Year Review</v-btn
-          >
-        </v-toolbar>
       </v-card>
+
+      <v-toolbar
+        class="button-group ma-5"
+        elevation="0"
+        color="primary"
+        dark
+        rounded
+      >
+        <p class="ma-0">
+          Status:
+          {{
+            getStatus(
+              appraisalSelected.overall_appraisal.status,
+              appraisalSelected.status
+            )
+          }}
+        </p>
+        <!--          goal submit-->
+
+        <v-btn
+          v-if="
+            appraisalSelected.overall_appraisal.status === 'Stage 1' &&
+            appraisalSelected.status === 'Employee'
+          "
+          class="success"
+          @click="endYearApproveDialog = true"
+          ><v-icon>mdi-check-all</v-icon> Submit</v-btn
+        >
+        <!--          mid year buttons-->
+        <v-btn
+          v-if="
+            appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
+            (appraisalSelected.status === 'S1BEmployee' ||
+              appraisalSelected.status === 'S1BManager')
+          "
+          text
+          @click="midYearEmployeeReviewDialog = true"
+          ><v-icon>mdi-message-draw</v-icon>Review</v-btn
+        >
+        <v-btn
+          v-if="
+            appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
+            appraisalSelected.status === 'S1BEmployee'
+          "
+          class="success"
+          @click="midYearApproveDialog = true"
+          ><v-icon>mdi-check-all</v-icon> Review</v-btn
+        >
+
+        <!--          end year buttons-->
+
+        <v-btn
+          v-if="
+            (appraisalSelected.overall_appraisal.status === 'Stage 2' &&
+              appraisalSelected.status === 'S1BManager' &&
+              appraisalSelected.mid_year_completion === 'completed') ||
+            (appraisalSelected.status === 'S2Employee' &&
+              appraisalSelected.completion === 'Ecompleted')
+          "
+          text
+          @click="endYearEmployeeReviewDialog = true"
+          ><v-icon>mdi-message-draw</v-icon> Review</v-btn
+        >
+
+        <v-btn
+          v-if="
+            appraisalSelected.overall_appraisal.status === 'Stage 2' &&
+            appraisalSelected.status === 'S2Employee' &&
+            appraisalSelected.completion === 'Ecompleted'
+          "
+          class="success"
+          @click="endYearApproveDialog = true"
+          ><v-icon>mdi-check-all</v-icon> Submit</v-btn
+        >
+      </v-toolbar>
 
       <AppraisalDetails
         v-if="appraisalSelectedIndex != 0"
         :appraisal="appraisalSelected"
+        @reload-mainvue="$fetch()"
       />
     </div>
   </div>

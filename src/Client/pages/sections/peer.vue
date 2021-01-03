@@ -18,11 +18,11 @@
       <v-card-title>
         <h3 class="my-5 text-center">My queries</h3>
       </v-card-title>
-      <v-data-table
-        :loading="loading"
-        :headers="headers"
-        :items="myqueries"
-      ></v-data-table>
+      <v-data-table :loading="loading" :headers="headers" :items="myqueries">
+        <template v-slot:[`item.actions`]="{ item }">
+          <PeerQueryResolve :id="item.id" :editMode="true" />
+        </template>
+      </v-data-table>
     </v-card>
   </div>
 </template>
@@ -51,10 +51,12 @@ export default {
 
       response.forEach((query) => {
         this.myqueries.push({
+          id: query.id,
           appraisal: query.appraisal.appraisal_name,
           employeeName: query.created_by.name,
           status: query.appraisal.status,
           due: query.appraisal.overall_appraisal.calibration_end_date,
+          dialog: false,
         })
       })
 

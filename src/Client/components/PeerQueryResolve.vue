@@ -37,7 +37,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="primary" @click="rQuery()"> Submit Query </v-btn>
+        <v-btn color="primary" v-if="editMode == null" @click="rQuery()"> Submit Query </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  props: ['id'],
+  props: ['id', 'editMode'],
   async fetch() {
     try {
       this.query = await this.$axios.$get(`/api/peerappraisal/${this.id}`)

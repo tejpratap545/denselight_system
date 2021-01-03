@@ -220,6 +220,15 @@
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
+
+                    <span
+                      v-if="
+                        appraisal.overall_appraisal.status == 'Stage 1' &&
+                        appraisal.status == 'Employee'
+                      "
+                    >
+                      <GoalRemove :id="item.id" @close-delete-dialog="reload" />
+                    </span>
                   </div>
                 </template>
 
@@ -509,6 +518,9 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    reload() {
+      this.$emit('reload-mainvue')
     },
   },
 }
