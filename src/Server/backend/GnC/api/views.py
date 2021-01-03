@@ -153,6 +153,28 @@ class EndYrCommentBoxViewSet(ModelViewSet):
         return super().dispatch(request, *args, **kwargs)
 
 
+class DepartmentalGoalsVieSet(ModelViewSet):
+    serializer_class = DepartmentGoalSerializer()
+    queryset = DepartmentalGoals.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(
+            manager=self.request.user.profile,
+            department=self.request.user.profile.department,
+        )
+
+
+class DepartmentalCompetenciesVieSet(ModelViewSet):
+    serializer_class = DepartmentCompetenciesSerializer()
+    queryset = DepartmentalCompetencies.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(
+            manager=self.request.user.profile,
+            department=self.request.user.profile.department,
+        )
+
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def approved_goal(request, *args, **kwargs):
