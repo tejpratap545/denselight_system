@@ -57,8 +57,15 @@ class ProfileInfoSerializer(serializers.ModelSerializer):
 
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(max_length=20)
+    username = serializers.CharField(max_length=20, write_only=True)
     password = serializers.CharField(max_length=20, write_only=True)
+    ROLE_CHOICES = (
+        ("HRManager", "HRManager"),
+        ("Hr", "Hr"),
+        ("Manager", "Manager"),
+        ("Employee", "Employee"),
+    )
+    role = serializers.ChoiceField(choices=ROLE_CHOICES, write_only=True)
 
     class Meta:
         model = Profile
@@ -68,8 +75,9 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
         email = validated_data.get("email")
         password = validated_data.get("password")
         username = validated_data.get("username")
+        role = validated_data.get("role")
         user = User.objects.create_user(
-            username=username, email=email, password=password
+            username=username, email=email, password=password, role=role
         )
         return Profile.objects.create(user=user, **validated_data)
 
