@@ -62,6 +62,11 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class DepartmentGoalSerializer(serializers.ModelSerializer):
+    manager = serializers.PrimaryKeyRelatedField(read_only=True)
+    department = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+    )
+
     class Meta:
         model = DepartmentalGoals
         fields = "__all__"
