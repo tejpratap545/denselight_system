@@ -14,9 +14,9 @@ from ..permissions import IsOwner
 from rest_framework.viewsets import ModelViewSet
 
 
-class ProfileView(generics.RetrieveAPIView):
+class ProfileInfoView(generics.RetrieveAPIView):
     permission_classes = [IsOwner]
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileInfoSerializer
 
     def get_object(self):
         return cache.get_or_set(
@@ -68,3 +68,13 @@ class ShortListEmployees(generics.ListAPIView):
     @method_decorator(cache_page(60 * 5))
     def dispatch(self, *args, **kwargs):
         return super(ShortListEmployees, self).dispatch(*args, **kwargs)
+
+
+class CreateProfile(generics.CreateAPIView):
+    serializer_class = ProfileCreateSerializer
+    queryset = Profile.objects.all()
+
+
+class ProfileView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ProfileInfoSerializer
+    queryset = Profile.objects.all()

@@ -10,7 +10,13 @@ from backend.GnC.api.views import (
     approved_goal,
     reject_goal,
 )
-from backend.Profile.api.views import ProfileView, ListEmployees, ShortListEmployees
+from backend.Profile.api.views import (
+    ProfileInfoView,
+    ListEmployees,
+    ShortListEmployees,
+    ProfileView,
+    CreateProfile,
+)
 from backend.Appraisals.api.views import (
     ManagerAppraisal,
     UserAppraisal,
@@ -39,7 +45,9 @@ from backend.Appraisals.api.views import (
 from backend.Trainings.api.views import SkillsApiView, CreateSkillsApiView
 
 urlpatterns = [
-    path("user/me/", ProfileView.as_view()),
+    path("user/me/", ProfileInfoView.as_view()),
+    path("profile/<int:pk>", ProfileView.as_view()),
+    path("profile/create", CreateProfile.as_view()),
     path("employee/list/", ListEmployees.as_view()),
     path("overallAppraisal/list", OverallAppraisal.as_view()),
     path("employee/short/list", ShortListEmployees.as_view()),
@@ -56,27 +64,28 @@ urlpatterns = [
     path("competencies/<int:pk>", CompetenciesAPIView.as_view()),
     path("skill/<int:pk>", SkillsApiView.as_view()),
     path("appraisals/detail/<int:pk>", DetailAppraisal.as_view()),
+    # goal setting stage
     path("submit/employee/goal/<int:pk>", submit_goals),
+    path("approve/goal/<int:pk>", approved_goal),
+    path("reject/goal/<int:pk>", reject_goal),
     path("approve/manager/goal/<int:pk>", approve_goal),
     path("reject/manager/goal/<int:pk>", RejectGoals.as_view()),
-    # goal setting stage
+    #
+    # mid year stage
     path("input/employee/midyear/<int:pk>", input_midyear_employee),
     path("submit/employee/midyear/<int:pk>", submit_midyear_employee),
     path("input/manager/midyear/<int:pk>", input_midyear_manager),
     path("reject/manager/midyear/<int:pk>", reject_midyear_manager),
     path("approve/manager/midyear/<int:pk>", approve_midyear_manager),
     #
-    # mid year stage
+    # end year stage
     path("input/employee/endyear/<int:pk>", input_endyear_employee),
     path("submit/employee/endyear/<int:pk>", submit_endyear_employee),
     path("input/manager/endyear/<int:pk>", input_endyear_manager),
     path("reject/manager/endyear/<int:pk>", reject_endyear_manager),
     path("approve/manager/endyear/<int:pk>", approve_endyear_manager),
-    # end year stage
     path("peerappraisal/create", CreatePeerAppraisal.as_view()),
     path("peerappraisal/me", EmployeePeerAppraisal.as_view()),
     path("peerappraisal/manager", ManagerPeerAppraisal.as_view()),
     path("peerappraisal/<int:pk>", PeerAppraisal.as_view()),
-    path("approve/goal/<int:pk>", approved_goal),
-    path("reject/goal/<int:pk>", reject_goal),
 ]
