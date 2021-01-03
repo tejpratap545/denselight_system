@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from backend.Profile.permissions import IsHrManager
 from .serializers import *
 from ..permissions import IsOwner
 from rest_framework.viewsets import ModelViewSet
@@ -89,3 +89,8 @@ class ProfileView(generics.RetrieveUpdateDestroyAPIView):
 class ChangePassword(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ChangePasswordSerializer
+
+
+class SetPassword(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated & IsHrManager]
+    serializer_class = SetPasswordSerializer
