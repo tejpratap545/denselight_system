@@ -225,27 +225,23 @@
                           </v-dialog>
                         </div>
                       </template>
+
                       <template v-slot:[`item.status`]="{ item }">
-                        {{ item.status }}
                         <v-icon
                           v-if="item.status == 'APPROVED'"
                           color="success"
                         >
                           mdi-checkbox-marked-circle-outline</v-icon
                         >
-
-                        <v-icon
-                          v-else-if="item.status == 'REJECTED'"
-                          color="error"
+                        <v-icon v-else color="info" @click="approvedGaol(item)">
+                          mdi-format-list-checks</v-icon
                         >
+
+                        <v-icon v-if="item.status == 'REJECTED'" color="error">
                           mdi-window-close</v-icon
                         >
-                        <v-progress-circular
-                          v-else
-                          indeterminate
-                          color="primary"
-                        ></v-progress-circular>
                       </template>
+
                       <template v-slot:expanded-item="{ headers, item }">
                         <td :colspan="headers.length">
                           <v-simple-table class="my-5">
