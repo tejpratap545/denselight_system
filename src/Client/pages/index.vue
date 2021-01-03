@@ -104,7 +104,8 @@
             v-if="
               appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
               (appraisalSelected.status === 'S1BEmployee' ||
-                appraisalSelected.status === 'S1BManager')
+                appraisalSelected.status === 'S1BManager') &&
+              appraisalSelected.mid_year_completion === 'Uncompleted'
             "
             text
             @click="midYearEmployeeReviewDialog = true"
@@ -113,7 +114,8 @@
           <v-btn
             v-if="
               appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
-              appraisalSelected.status === 'S1BEmployee'
+              appraisalSelected.status === 'S1BManager' &&
+              appraisalSelected.mid_year_completion === 'Uncompleted'
             "
             class="success"
             @click="midYearApproveDialog = true"

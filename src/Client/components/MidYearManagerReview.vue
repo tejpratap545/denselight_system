@@ -35,15 +35,13 @@
                       <v-col> tracking status</v-col>
                       <v-col>
                         {{ item.tracking_status }}
-                        ></v-col
-                      >
+                      </v-col>
                     </v-row>
                     <v-row>
                       <v-col> Mid year employee comments </v-col>
                       <v-col>
                         {{ item.MID_user_comments }}
-                        ></v-col
-                      >
+                      </v-col>
                     </v-row>
                     <v-row>
                       <v-col> Mid year Manager comments </v-col>
