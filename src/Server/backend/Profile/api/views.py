@@ -7,6 +7,7 @@ from django.views.decorators.cache import cache_page
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .serializers import *
@@ -27,6 +28,7 @@ class ProfileInfoView(generics.RetrieveAPIView):
 
 
 class DepartmentViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
     serializer_class = DepartmentSerializer
     queryset = Departments.objects.all()
 
@@ -36,6 +38,7 @@ class DepartmentViewSet(ModelViewSet):
 
 
 class ListEmployees(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = EmployeeSerializer
     queryset = Profile.objects.prefetch_related(
         "first_Reporting_Manager", "department", "first_Reporting_Manager__department"
@@ -58,6 +61,7 @@ class ListEmployees(generics.ListAPIView):
 
 
 class ShortListEmployees(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = ShortEmployeeSerializer
     queryset = Profile.objects.only(
         "id",
@@ -71,10 +75,17 @@ class ShortListEmployees(generics.ListAPIView):
 
 
 class CreateProfile(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = ProfileCreateSerializer
     queryset = Profile.objects.all()
 
 
 class ProfileView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = ProfileInfoSerializer
     queryset = Profile.objects.all()
+
+
+class ChangePassword(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangePasswordSerializer

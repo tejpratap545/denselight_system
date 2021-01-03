@@ -107,3 +107,27 @@ class EmployeeSerializer(serializers.ModelSerializer):
             "job_Title",
             "date_Of_Hire",
         )
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    password1 = serializers.CharField(max_length=50, write_only=True)
+    password2 = serializers.CharField(max_length=50, write_only=True)
+    old_password = serializers.CharField(max_length=50, write_only=True)
+    profile = serializers.PrimaryKeyRelatedField(
+        queryset=Profile.objects.all(),
+    )
+
+    def create(self, validated_data):
+        user = validated_data.get("profile").user
+        if user.check_password(validated_data.get("old_password")):
+            user.set_password(validated_data.get("password2"))
+            user.save()
+
+            return {"profile": validated_data.get("profile")}
+        raise serializers.ValidationError("password should be match")
+
+    def validate(self, data):
+        if data["password1"] != data["password2"]:
+            raise serializers.ValidationError("Both password should be match")
+
+        return data
