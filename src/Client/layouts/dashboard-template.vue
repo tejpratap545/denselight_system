@@ -9,7 +9,9 @@
         </v-list-item>
         <v-list-item two-line>
           <v-list-item-avatar>
-            <img :src="`https://avatars.dicebear.com/api/identicon/${id}.svg`" />
+            <img
+              :src="`https://avatars.dicebear.com/api/identicon/${id}.svg`"
+            />
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -26,13 +28,70 @@
       <v-divider></v-divider>
 
       <v-list dense rounded>
-        <v-list-item v-for="item in items" :key="item.title" :to="item.link">
+        <v-list-item to="/">
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>mdi-view-dashboard-outline</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="this.$auth.user.user.role != 'Employee'"
+          to="/sections/department"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-domain</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Department</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sections/peer">
+          <v-list-item-icon>
+            <v-icon>mdi-account-group-outline</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Peer</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="
+            this.$auth.user.user.role == 'HRManager' ||
+            this.$auth.user.user.role == 'Hr'
+          "
+          to="/sections/appraisal-status"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-list-status</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Appraisal Status</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="this.$auth.user.user.role == 'HRManager'"
+          to="/sections/employee-management"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-account-supervisor-outline</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Employee Management</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sections/records">
+          <v-list-item-icon>
+            <v-icon>mdi-book-open-outline</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Records</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -54,38 +113,6 @@ export default {
     return {
       name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
       id: this.$auth.loggedIn ? this.$auth.user.id : 0,
-      items: [
-        {
-          link: '/',
-          title: 'Dashboard',
-          icon: 'mdi-view-dashboard-outline',
-        },
-        {
-          link: '/sections/department',
-          title: 'Department',
-          icon: 'mdi-domain',
-        },
-        {
-          link: '/sections/peer',
-          title: 'Peer',
-          icon: 'mdi-account-group-outline',
-        },
-        {
-          link: '/sections/appraisal-status',
-          title: 'Appraisal Status',
-          icon: 'mdi-list-status',
-        },
-        {
-          link: '/sections/employee-management',
-          title: 'Employee Management',
-          icon: 'mdi-account-supervisor-outline',
-        },
-        {
-          link: '/sections/records',
-          title: 'Records',
-          icon: 'mdi-book-open-outline',
-        },
-      ],
     }
   },
   methods: {
