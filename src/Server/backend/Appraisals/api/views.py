@@ -172,7 +172,7 @@ def submit_goals(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1"
         and app.employee == request.user.profile
-    ):
+    ) and (app.status == "Employee"):
         app.status = "Manager"
         app.save()
         return Response(
