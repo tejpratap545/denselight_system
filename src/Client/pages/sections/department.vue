@@ -168,9 +168,7 @@
                 ></v-data-table>
               </v-card-text>
             </v-card>
-          </div>
 
-          <div>
             <v-card flat>
               <v-toolbar
                 elevation="0"

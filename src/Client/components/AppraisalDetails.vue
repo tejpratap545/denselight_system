@@ -363,6 +363,36 @@
           </v-card>
         </v-tab-item>
       </v-tabs-items>
+
+      <div>
+        <v-card class="pt-5" flat>
+          <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <b>Departmental Goals</b>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-card-text>
+            <v-data-table
+              :headers="departmentGoalsHeader"
+              :items="departmentGoalsItems"
+              :items-per-page="5"
+            ></v-data-table>
+          </v-card-text>
+        </v-card>
+
+        <v-card class="pt-5" flat>
+          <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <b>Departmental Core Values</b>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-card-text>
+            <v-data-table
+              :headers="departmentValuesHeader"
+              :items="departmentValuesItems"
+              :items-per-page="5"
+            ></v-data-table>
+          </v-card-text>
+        </v-card>
+      </div>
     </div>
   </div>
 </template>
@@ -439,6 +469,20 @@ export default {
       kpi: '',
       kpi_date: '',
       myValuesTableItems: [],
+
+      departmentGoalsHeader: [
+        { text: 'Summary', value: 'summary' },
+        { text: 'Description', value: 'description' },
+        { text: 'Due date', value: 'due' },
+        { text: 'Category', value: 'goal_category' },
+      ],
+      departmentGoalsItems: this.appraisal.departmentalgoals_set,
+      departmentValuesHeader: [
+        { text: 'Summary', value: 'summary' },
+        { text: 'Description', value: 'description' },
+        { text: 'Category', value: 'competency_category' },
+      ],
+      departmentValuesItems: this.appraisal.departmentalcompetencies_set,
     }
   },
 
