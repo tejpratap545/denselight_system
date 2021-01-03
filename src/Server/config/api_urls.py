@@ -16,6 +16,7 @@ from backend.Profile.api.views import (
     ShortListEmployees,
     ProfileView,
     CreateProfile,
+    ChangePassword,
 )
 from backend.Appraisals.api.views import (
     ManagerAppraisal,
@@ -48,6 +49,7 @@ urlpatterns = [
     path("user/me/", ProfileInfoView.as_view()),
     path("profile/<int:pk>", ProfileView.as_view()),
     path("profile/create", CreateProfile.as_view()),
+    path("profile/changepassword", ChangePassword.as_view()),
     path("employee/list/", ListEmployees.as_view()),
     path("overallAppraisal/list", OverallAppraisal.as_view()),
     path("employee/short/list", ShortListEmployees.as_view()),
