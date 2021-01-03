@@ -40,7 +40,16 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Goals</b>
               <v-spacer></v-spacer>
-              <v-btn v-if="editable" icon @click="addGoalsDialog = true">
+
+              <v-btn
+                v-if="
+                  editable &&
+                  appraisal.overall_appraisal.status == 'Stage 1' &&
+                  appraisal.status == 'Employee'
+                "
+                icon
+                @click="addGoalsDialog = true"
+              >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -216,7 +225,6 @@
 
                 <template v-slot:expanded-item="{ headers, item }">
                   <td :colspan="headers.length">
-
                     <v-simple-table class="my-5">
                       <template v-slot:default>
                         <thead>
@@ -227,10 +235,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr
-                            v-for="kpi in item.kpi_set"
-                            :key="kpi.id"
-                          >
+                          <tr v-for="kpi in item.kpi_set" :key="kpi.id">
                             <th>{{ kpi.description }}</th>
                             <th>{{ kpi.progress }}</th>
                             <td>{{ kpi.date_created }}</td>
@@ -283,7 +288,14 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Core Values</b>
               <v-spacer></v-spacer>
-              <v-btn v-if="editable" icon @click="addCoreValueDialog = true">
+              <v-btn
+                v-if="
+                  appraisal.overall_appraisal.status == 'Stage 1' &&
+                  appraisal.status == 'Employee'
+                "
+                icon
+                @click="addCoreValueDialog = true"
+              >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -302,7 +314,16 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Skills</b>
               <v-spacer></v-spacer>
-              <v-btn v-if="editable" icon @click="addSkillsDialog = true">
+
+              <v-btn
+                v-if="
+                  editable &&
+                  appraisal.overall_appraisal.status == 'Stage 1' &&
+                  appraisal.status == 'Employee'
+                "
+                icon
+                @click="addSkillsDialog = true"
+              >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -419,6 +440,7 @@ export default {
         status: appraisal.status,
         editable: appraisal.employee.email == this.$auth.user.email,
         completion: appraisal.completion,
+        overall_appraisal_status: appraisal.overall_appraisal.status,
         start_date: appraisal.start_date,
         end_date: appraisal.end_date,
         goals: [],
@@ -446,7 +468,7 @@ export default {
           tracking_status: goal.tracking_status,
           MID_user_comments: goal.MID_user_comments,
           user_rating: goal.user_rating,
-          user_comments: goal.user_comments
+          user_comments: goal.user_comments,
         })
       })
 

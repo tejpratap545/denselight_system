@@ -8,12 +8,13 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <div v-else>
-      <goalSubmit
+      <GoalSubmit
         v-if="submitGoalsDialog"
         :dialog="submitGoalsDialog"
         :appraisal-id="appraisalSelectedIndex"
         @close-goal-submit-dialog="submitGoalsDialog = false"
-      >
+      />
+
       <MidYearEmployeeReview
         v-if="midYearEmployeeReviewDialog"
         :dialog="midYearEmployeeReviewDialog"
@@ -87,7 +88,7 @@
           dark
           rounded
         >
-<!--          goal submit-->
+          <!--          goal submit-->
 
           <v-btn
             v-if="
@@ -96,7 +97,7 @@
             "
             class="success"
             @click="endYearApproveDialog = true"
-          ><v-icon>mdi-check-all</v-icon> Submit Goals</v-btn
+            ><v-icon>mdi-check-all</v-icon> Submit Goals</v-btn
           >
           <!--          mid year buttons-->
           <v-btn
@@ -116,7 +117,7 @@
             "
             class="success"
             @click="midYearApproveDialog = true"
-            ><v-icon>mdi-check-all</v-icon> Submit Mid Year  Review</v-btn
+            ><v-icon>mdi-check-all</v-icon> Submit Mid Year Review</v-btn
           >
 
           <!--          end year buttons-->
@@ -142,7 +143,7 @@
             "
             class="success"
             @click="endYearApproveDialog = true"
-            ><v-icon>mdi-check-all</v-icon> Submit End Year  Review</v-btn
+            ><v-icon>mdi-check-all</v-icon> Submit End Year Review</v-btn
           >
         </v-toolbar>
       </v-card>
@@ -178,7 +179,7 @@ export default {
       appraisalData: [],
       appraisalSelected: {},
       appraisalSelectedIndex: 0,
-      submitGoalsDialog:false,
+      submitGoalsDialog: false,
       midYearEmployeeReviewDialog: false,
       endYearEmployeeReviewDialog: false,
       endYearApproveDialog: false,
