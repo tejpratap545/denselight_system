@@ -1,7 +1,7 @@
 <template>
   <div  class="pa-5">
     <div class="d-flex justify-lg-space-between align-center">
-      <v-btn elevation="0" color="primary"> Add Employee </v-btn>
+      <AddEmployee />
       <h3 class="font-weight-medium">Employee Managment</h3>
     </div>
     <v-card flat class="ma-5">

@@ -143,7 +143,7 @@
                 rounded
                 dark
               >
-                <b>Departmental Business Objectives</b>
+                <b>Departmental Goals</b>
                 <v-spacer></v-spacer>
 
                 <v-btn
@@ -158,6 +158,28 @@
                 <v-data-table
                   :headers="departmentGoalsHeader"
                   :items="departmentGoalsItems"
+                  :items-per-page="5"
+                ></v-data-table>
+              </v-card-text>
+            </v-card>
+          </div>
+
+          <div>
+            <v-card flat>
+              <v-toolbar
+                elevation="0"
+                class="ma-5"
+                color="primary"
+                rounded
+                dark
+              >
+                <b>Departmental Core Values</b>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+              <v-card-text>
+                <v-data-table
+                  :headers="departmentValuesHeader"
+                  :items="departmentValuesItems"
                   :items-per-page="5"
                 ></v-data-table>
               </v-card-text>
@@ -501,6 +523,12 @@ export default {
         { text: 'Category', value: 'goal_category' },
       ],
       departmentGoalsItems: [],
+      departmentValuesHeader: [
+        { text: 'Summary', value: 'summary' },
+        { text: 'Description', value: 'description' },
+        { text: 'Category', value: 'competency_category' },
+      ],
+      departmentValuesItems: []
     }
   },
   methods: {
@@ -528,6 +556,7 @@ export default {
       this.appraisalSelected = i
       this.appraisalSelectedIndex = this.appraisalSelected.id
       this.departmentGoalsItems = this.appraisalSelected.departmentalgoals_set
+      this.departmentValuesItems = this.appraisalSelected.departmentalcompetencies_set
     },
   },
 }

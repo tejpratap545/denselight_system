@@ -1,12 +1,15 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" elevation="0"  dark v-bind="attrs" v-on="on">
+      <v-btn color="primary" elevation="0" dark v-bind="attrs" v-on="on">
         Create Appraisal
       </v-btn>
     </template>
-
-    <v-card>
+    <div v-if="$fetchState.pending">
+      <v-skeleton-loader type="article, actions"></v-skeleton-loader>
+    </div>
+    <div v-else-if="$fetchState.error">An error occurred</div>
+    <v-card v-else>
       <v-card-title class="headline py-5"> Create Appraisal </v-card-title>
 
       <v-card-text>
@@ -322,26 +325,16 @@
 <script>
 export default {
   porps: ['appraisal'],
-  fetch() {
-    this.$axios
-      .$get('/api/employee/short/list')
-      .then((response) => {
-        response.forEach((employee) => {
-          this.employees.push({
-            id: employee.id,
-            name: employee.name,
-          })
-        })
-      })
-      .catch((error) => console.log(error))
-    this.$axios
-      .$get('/api/department/')
-      .then((response) => (this.departments = response))
-      .catch((error) => console.log(error))
-    this.$axios
-      .$get('/api/category/appraisal/')
-      .then((response) => (this.categories = response))
-      .catch((error) => console.log(error))
+  async fetch() {
+    try {
+      this.employees = await this.$axios.$get('/api/employee/short/list')
+
+      this.departments = await this.$axios.$get('/api/department/')
+
+      this.categories = await this.$axios.$get('/api/category/appraisal/')
+    } catch (error) {
+      console.log(error)
+    }
   },
   data() {
     return {

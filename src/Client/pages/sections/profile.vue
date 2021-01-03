@@ -1,10 +1,7 @@
 <template>
   <div class="pa-5">
     <div v-if="$fetchState.pending">
-      <v-skeleton-loader
-        class="px-10 my-5"
-        type="card@2"
-      ></v-skeleton-loader>
+      <v-skeleton-loader class="px-10 my-5" type="card@2"></v-skeleton-loader>
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <div v-else class="pa-10">
@@ -62,7 +59,14 @@
           </div>
         </v-col>
         <v-col>
-          <div class="panel"></div>
+          <div class="panel pa-5">
+            <h3 class="my-5">Reset Password</h3>
+            <v-text-field v-model="passwordReset.old_password" label="Old Password" outlined></v-text-field>
+            <v-text-field v-model="passwordReset.password1" label="New Password" outlined></v-text-field>
+            <v-text-field v-model="passwordReset.password2" label="Confirm Password" outlined></v-text-field>
+            <v-btn elevation="0" color="primary" @click="changePassword"> Reset Password</v-btn>
+          </div>
+          <v-divider />
         </v-col>
       </v-row>
       <v-row class="lighten-1 pa-10"> </v-row>
@@ -79,6 +83,7 @@ export default {
       this.profile = await this.$axios.$get(
         `/api/profile/${this.$auth.user.id}`
       )
+      this.passwordReset.profile = this.profile.id
     } catch (error) {
       console.log(error)
     }
@@ -86,8 +91,33 @@ export default {
   data() {
     return {
       profile: {},
+      passwordReset: {
+        password1: '',
+        password2: '',
+        old_password: '',
+        profile: 0,
+      }
     }
   },
+  methods: {
+    changePassword() {
+      this.$axios
+        .$post('/api/profile/changepassword', this.passwordReset)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Password changed successully',
+            color: 'info',
+          })
+          this.close()
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error changing password',
+            color: 'error',
+          })
+        })
+    }
+  }
 }
 </script>
 
