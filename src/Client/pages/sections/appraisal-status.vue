@@ -37,9 +37,7 @@
                           :loading="loading"
                         >
                           <template v-slot:[`item.actions`]="{ item }">
-                            <AppraisalEdit
-                              :appraisal="item.overallAppraisal"
-                            />
+                            <AppraisalEdit :appraisal="item.overallAppraisal" />
                             <v-btn
                               color="error"
                               icon
@@ -138,27 +136,7 @@
                     </v-card>
                   </v-tab-item>
                   <!-- END-YEAR REVIEW -->
-                  <v-tab-item>
-                    <v-card flat>
-                      <v-card-text>
-                        <v-data-table
-                          :headers="goalsLaunchingTableHeader"
-                          :items="endYearTableItems"
-                          :items-per-page="10"
-                        >
-                          <template v-slot:[`item.action`]="{ item }">
-                            <v-btn
-                              v-model="item.action"
-                              color="transparent"
-                              elevation="0"
-                            >
-                              <i class="fas fa-ellipsis-h"></i>
-                            </v-btn>
-                          </template>
-                        </v-data-table>
-                      </v-card-text>
-                    </v-card>
-                  </v-tab-item>
+
                   <v-tab-item>
                     <v-card flat>
                       <v-card-text> </v-card-text>

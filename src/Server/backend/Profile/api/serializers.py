@@ -45,12 +45,36 @@ class ShortProfileSerializer(serializers.ModelSerializer):
         )
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class ProfileInfoSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     department = DepartmentSerializer()
     first_Reporting_Manager = ShortProfileSerializer()
     second_Reporting_Manager = ShortProfileSerializer()
 
+    class Meta:
+        model = Profile
+        fields = "__all__"
+
+
+class ProfileCreateSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(max_length=20)
+    password = serializers.CharField(max_length=20, write_only=True)
+
+    class Meta:
+        model = Profile
+        fields = "__all__"
+
+    def create(self, validated_data):
+        email = validated_data.get("email")
+        password = validated_data.get("password")
+        username = validated_data.get("username")
+        user = User.objects.create_user(
+            username=username, email=email, password=password
+        )
+        return Profile.objects.create(user=user, **validated_data)
+
+
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
