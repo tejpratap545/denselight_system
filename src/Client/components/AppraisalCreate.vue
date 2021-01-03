@@ -410,7 +410,6 @@ export default {
           break
 
         default:
-          this.appraisal.is_company = true
           break
       }
 
