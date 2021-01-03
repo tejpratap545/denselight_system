@@ -66,14 +66,28 @@ class DepartmentGoalSerializer(serializers.ModelSerializer):
         model = DepartmentalGoals
         fields = "__all__"
 
+        extra_kwargs = {
+            "manager": {
+                "read_only": True,
+            },
+            "department": {
+                "read_only": True,
+            },
+        }
+
 
 class DetailDepartmentGoalSerializer(serializers.ModelSerializer):
-    goal_category = GoalCategorySerializer()
-    manager = ShortProfileSerializer()
-
     class Meta:
         model = DepartmentalGoals
         fields = "__all__"
+        extra_kwargs = {
+            "manager": {
+                "read_only": True,
+            },
+            "department": {
+                "read_only": True,
+            },
+        }
 
 
 class CompetenciesSerializer(serializers.ModelSerializer):
@@ -83,6 +97,9 @@ class CompetenciesSerializer(serializers.ModelSerializer):
 
 
 class DepartmentCompetenciesSerializer(serializers.ModelSerializer):
+    manager = serializers.PrimaryKeyRelatedField(read_only=True)
+    department = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = DepartmentalCompetencies
         fields = "__all__"
