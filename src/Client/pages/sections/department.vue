@@ -49,6 +49,12 @@
         :appraisal-id="appraisalSelected.id"
         @close-goal-dialog="addGoalsDialog = false"
       />
+       <AddCoreValueDepartment
+        v-if="addCoreDialog"
+        :dialog="addCoreDialog"
+        :appraisal-id="appraisalSelected.id"
+        @close-core-dialog="addCoreDialog = false"
+      />
     </div>
     <div class="d-flex justify-lg-space-between align-center">
       <span />
@@ -175,6 +181,13 @@
               >
                 <b>Departmental Core Values</b>
                 <v-spacer></v-spacer>
+
+                <v-btn
+                  v-if="appraisalSelected.status == 'Stage 1'"
+                  @click="addCoreDialog = true"
+                  icon
+                >
+                  <v-icon>mdi-plus</v-icon>
               </v-toolbar>
               <v-card-text>
                 <v-data-table
@@ -425,6 +438,7 @@ export default {
       departmentData: '',
       currentAppraisalId: 0,
       addGoalsDialog: false,
+      addCoreDialog: false,
       goalsApprovedDialog: false,
       MidYearManagerReviewDialog: false,
       MidYearManagerSubmitDialog: false,
