@@ -10,6 +10,7 @@ from ..models import *
 from .serializers import *
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
+from backend.Profile.permissions import IsHr, IsHrManager
 
 
 class ManagerAppraisal(generics.ListAPIView):
@@ -50,6 +51,20 @@ class ManagerAppraisal(generics.ListAPIView):
     # def dispatch(self, request, *args, **kwargs):
     #     return super().dispatch(request, *args, **kwargs)
     #
+
+
+class OverallAppraisal(generics.ListAPIView):
+    permission_classes = [IsHr or IsHrManager]
+    queryset = Overall_Appraisal.objects.prefetch_related(
+        "appraisal_category",
+        "departmentalgoals_set",
+        "departmentalgoals_set__goal_category",
+        "departmentalgoals_set__manager",
+        "departmentalgoals_set__manager__department",
+        "departmentalcompetencies_set",
+        "departmentalcompetencies_set__competency_category",
+    ).all()
+    serializer_class = DetailOverallAppraisalSerializer
 
 
 class UserAppraisal(generics.ListAPIView):
@@ -106,6 +121,7 @@ class DetailUserAppraisal(generics.ListAPIView):
             "overall_appraisal__departmentalgoals_set",
             "overall_appraisal__departmentalgoals_set__goal_category",
             "overall_appraisal__departmentalgoals_set__manager",
+            "overall_appraisal__departmentalgoals_set__manager__department",
             "overall_appraisal__departmentalcompetencies_set",
             "overall_appraisal__departmentalcompetencies_set__competency_category",
         ).filter(employee=self.request.user.profile)

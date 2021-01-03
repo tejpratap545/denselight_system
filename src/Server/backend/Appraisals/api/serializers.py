@@ -25,6 +25,7 @@ class DetailOverallAppraisalSerializer(serializers.ModelSerializer):
     is_company = serializers.BooleanField(default=False)
     departmentalgoals_set = DetailDepartmentGoalSerializer(many=True)
     departmentalcompetencies_set = DepartmentCompetenciesSerializer(many=True)
+    appraisal_category = AppraisalCategorySerializer()
 
     class Meta:
         model = Overall_Appraisal

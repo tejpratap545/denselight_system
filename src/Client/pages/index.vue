@@ -102,14 +102,7 @@
           <!--          {{ appraisalSelected.completion }}-->
         </p>
         <!--          goal submit-->
-        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-        <lottie-player
-          src="https://assets8.lottiefiles.com/packages/lf20_XyXWSI.json"
-          speed="1"
-          style="width: 40px; height: 40px"
-          loop
-          autoplay
-        ></lottie-player>
+
         <v-btn
           v-if="
             appraisalSelected.overall_appraisal.status === 'Stage 1' &&
@@ -120,8 +113,7 @@
           ><v-icon>mdi-check-all</v-icon> Submit</v-btn
         >
         <!--          mid year buttons-->
-        {{ appraisalSelected.status }}
-        {{ appraisalSelected.mid_year_completion }}
+
         <v-btn
           v-if="
             appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
