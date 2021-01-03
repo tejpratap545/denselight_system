@@ -141,7 +141,7 @@
           </v-card>
 
           <div>
-            <v-card flat>
+            <v-card class="pt-5"  flat>
               <v-toolbar
                 elevation="0"
                 class="ma-5"
@@ -169,7 +169,7 @@
               </v-card-text>
             </v-card>
 
-            <v-card flat>
+            <v-card class="pt-5"  flat>
               <v-toolbar
                 elevation="0"
                 class="ma-5"
