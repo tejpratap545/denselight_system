@@ -60,6 +60,15 @@
                 :items-per-page="10"
                 show-expand
               >
+                <template v-slot:[`item.status`]="{ item }">
+                  <v-icon v-if="item.status == 'APPROVED'" color="success">
+                    mdi-checkbox-marked-circle-outline</v-icon
+                  >
+
+                  <v-icon v-if="item.status == 'REJECTED'" color="error">
+                    mdi-window-close</v-icon
+                  >
+                </template>
                 <template v-slot:[`item.actions`]="{ item }">
                   <div>
                     <v-dialog v-model="item.dialog" scrollable max-width="800">
@@ -254,7 +263,7 @@
                     </v-simple-table>
 
                     <v-row>
-                      <v-col>Set tracking status</v-col>
+                      <v-col>Tracking status</v-col>
                       <v-col>
                         {{ item.tracking_status }}
                       </v-col>
@@ -377,8 +386,8 @@ export default {
           value: 'goal_title',
         },
         {
-          text: 'Tracking Status',
-          value: 'tracking_status',
+          text: 'Status',
+          value: 'status',
         },
         {
           text: 'Due',
@@ -463,6 +472,7 @@ export default {
           category: goal.goal_category.name,
           goal_title: goal.summary,
           due: goal.due,
+          status: goal.status,
           weightage: `${goal.weightage}%`,
           dialog: false,
           kpi_dialog: false,
