@@ -59,6 +59,12 @@ class GoalSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class DepartmentGoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DepartmentalGoals
+        fields = "__all__"
+
+
 class CompetenciesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competencies

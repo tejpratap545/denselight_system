@@ -53,8 +53,13 @@
             </template>
 
             <v-list>
-              <v-list-item v-for="(x, y) in appraisalData" :key="y" link>
-                <v-list-item-title @click="changeAppraisal(x)">
+              <v-list-item
+                v-for="(x, y) in appraisalData"
+                :key="y"
+                link
+                @click="changeAppraisal(x)"
+              >
+                <v-list-item-title>
                   {{ x.appraisal_name }}
                 </v-list-item-title>
               </v-list-item>
@@ -85,12 +90,26 @@
           {{
             getStatus(
               appraisalSelected.overall_appraisal.status,
-              appraisalSelected.status
+              appraisalSelected.status,
+              appraisalSelected.mid_year_completion,
+              appraisalSelected.completion
             )
           }}
+
+          <!--          {{ appraisalSelected.overall_appraisal.status }}-->
+          <!--          {{ appraisalSelected.status }},-->
+          <!--          {{ appraisalSelected.mid_year_completion }}-->
+          <!--          {{ appraisalSelected.completion }}-->
         </p>
         <!--          goal submit-->
-
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        <lottie-player
+          src="https://assets8.lottiefiles.com/packages/lf20_XyXWSI.json"
+          speed="1"
+          style="width: 40px; height: 40px"
+          loop
+          autoplay
+        ></lottie-player>
         <v-btn
           v-if="
             appraisalSelected.overall_appraisal.status === 'Stage 1' &&
@@ -101,6 +120,8 @@
           ><v-icon>mdi-check-all</v-icon> Submit</v-btn
         >
         <!--          mid year buttons-->
+        {{ appraisalSelected.status }}
+        {{ appraisalSelected.mid_year_completion }}
         <v-btn
           v-if="
             appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
@@ -118,7 +139,7 @@
           "
           class="success"
           @click="midYearApproveDialog = true"
-          ><v-icon>mdi-check-all</v-icon> Review</v-btn
+          ><v-icon>mdi-check-all</v-icon> Submit</v-btn
         >
 
         <!--          end year buttons-->
