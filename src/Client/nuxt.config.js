@@ -48,6 +48,11 @@ export default {
         '@nuxtjs/vuetify',
     ],
 
+    loading: {
+        color: 'blue',
+        height: '5px'
+    },
+
     // Modules (https://go.nuxtjs.dev/config-modules)
     modules: [
         // https://go.nuxtjs.dev/axios

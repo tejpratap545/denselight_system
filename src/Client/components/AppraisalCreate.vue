@@ -85,12 +85,6 @@
                         :disabled="data.disabled"
                         @click:close="data.parent.selectItem(data.item.id)"
                       >
-                        <v-avatar
-                          v-if="data.item != null"
-                          class="accent white--text"
-                          left
-                          v-text="data.item.name.slice(0, 1).toUpperCase()"
-                        ></v-avatar>
                         {{ data.item.name }}
                       </v-chip>
                     </template>
