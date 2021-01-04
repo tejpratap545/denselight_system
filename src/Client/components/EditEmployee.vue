@@ -14,15 +14,10 @@
       <v-card-title class="headline py-5"> Edit Employee </v-card-title>
 
       <v-card-text style="height: 500px overflow-y:scroll">
-        <v-text-field
-          label="Username"
-          v-model="user.user.username"
-          outlined
-        ></v-text-field>
 
         <v-select
           :items="role"
-          v-model="user.user.role"
+          v-model="user.role"
           label="Role"
           outlined
         ></v-select>
@@ -83,7 +78,20 @@ export default {
   async fetch() {
     try {
       this.employees = await this.$axios.$get('/api/employee/short/list')
-      this.user = await this.$axios.$get(`/api/profile/${this.id}`)
+      const response = await this.$axios.$get(`/api/profile/${this.id}`)
+
+      this.user = {
+        id: this.id,
+        role: response.user.role,
+        name: response.name,
+        email: response.email,
+        gender: response.gender,
+        date_Of_Hire: response.date_Of_Hire,
+        job_Title: response.job_Title,
+        first_Reporting_Manager: response.first_Reporting_Manager.id,
+        second_Reporting_Manager: response.second_Reporting_Manager.id,
+      }
+
     } catch (error) {
       console.log(error)
     }
