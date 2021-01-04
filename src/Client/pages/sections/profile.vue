@@ -22,6 +22,10 @@
               <p class="text-center">{{ profile.email }}</p>
             </div>
 
+            <div style="justify-content: center; display: flex" class="my-5">
+              <EditEmployee :id="this.$auth.user.id" />
+            </div>
+
             <v-simple-table>
               <template v-slot:default>
                 <tbody>
@@ -66,7 +70,6 @@
             <v-text-field v-model="passwordReset.password2" label="Confirm Password" outlined></v-text-field>
             <v-btn elevation="0" color="primary" @click="changePassword"> Reset Password</v-btn>
           </div>
-          <v-divider />
         </v-col>
       </v-row>
       <v-row class="lighten-1 pa-10"> </v-row>
@@ -123,7 +126,7 @@ export default {
 
 <style>
 .panel {
-  height: 600px;
+  height: 650px;
   margin: 0 50px;
   padding: 20px 10px;
   background: #222;

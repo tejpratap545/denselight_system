@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
       <v-btn elevation="0" color="primary" dark v-bind="attrs" v-on="on">
-        Add Employee
+        Update Profile
       </v-btn>
     </template>
 
@@ -11,23 +11,18 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <v-card v-else>
-      <v-card-title class="headline py-5"> Add Employee </v-card-title>
+      <v-card-title class="headline py-5"> Edit Employee </v-card-title>
 
       <v-card-text style="height: 500px overflow-y:scroll">
         <v-text-field
           label="Username"
-          v-model="user.username"
-          outlined
-        ></v-text-field>
-        <v-text-field
-          label="Password"
-          v-model="user.password"
+          v-model="user.user.username"
           outlined
         ></v-text-field>
 
         <v-select
           :items="role"
-          v-model="user.role"
+          v-model="user.user.role"
           label="Role"
           outlined
         ></v-select>
@@ -75,7 +70,7 @@
         ></v-select>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" @click="createUser"> Create </v-btn>
+        <v-btn color="primary" @click="createUser"> Save </v-btn>
         <v-btn text @click="dialog = false"> Close </v-btn>
       </v-card-actions>
     </v-card>
@@ -84,9 +79,11 @@
 
 <script>
 export default {
+  props: ['id'],
   async fetch() {
     try {
       this.employees = await this.$axios.$get('/api/employee/short/list')
+      this.user = await this.$axios.$get(`/api/profile/${this.id}`)
     } catch (error) {
       console.log(error)
     }
@@ -97,28 +94,16 @@ export default {
       role: ['HRManager', 'Hr', 'Manager', 'Employee'],
       gender: ['Male', 'Female'],
       employees: [],
-      user: {
-        username: '',
-        password: '',
-        typeOfEmployee: 'INDIRECT',
-        role: '',
-        name: '',
-        email: '',
-        gender: '',
-        date_Of_Hire: new Date().toISOString().substr(0, 10),
-        job_Title: '',
-        first_Reporting_Manager: 0,
-        second_Reporting_Manager: 0,
-      },
+      user: {},
     }
   },
   methods: {
     createUser() {
       this.$axios
-        .$post('api/profile/create', this.user)
+        .patch(`/api/profile/${this.id}`, this.user)
         .then((res) => {
           this.$notifier.showMessage({
-            content: 'Success creating user',
+            content: 'Success updating user',
             color: 'info',
           })
 
@@ -126,7 +111,7 @@ export default {
         })
         .catch((error) => {
           this.$notifier.showMessage({
-            content: 'Error creating user',
+            content: 'Error updating user',
             color: 'error',
           })
         })
