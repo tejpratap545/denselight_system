@@ -442,6 +442,7 @@ export default {
             color: 'info',
           })
           this.close()
+          this.$emit('reload')
         })
         .catch((error) => {
           console.log(error)

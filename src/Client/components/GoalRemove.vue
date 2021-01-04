@@ -1,21 +1,21 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="500">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="error" icon dark v-bind="attrs" v-on="on">
-          <v-icon>mdi-delete-outline</v-icon>
-        </v-btn>
-      </template>
+  <v-dialog v-model="dialog" persistent max-width="500">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn color="error" icon dark v-bind="attrs" v-on="on">
+        <v-icon>mdi-delete-outline</v-icon>
+      </v-btn>
+    </template>
 
-      <v-card>
-        <v-card-title class="headline">Delete Goal </v-card-title>
+    <v-card>
+      <v-card-title class="headline">Delete Goal </v-card-title>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="close"> Cancel </v-btn>
-          <v-btn color="green darken-1" text @click="submit"> Submit </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="green darken-1" text @click="close"> Cancel </v-btn>
+        <v-btn color="green darken-1" text @click="submit"> Submit </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 export default {

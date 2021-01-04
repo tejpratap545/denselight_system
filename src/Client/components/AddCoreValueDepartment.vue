@@ -1,10 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="500"
-    >
+    <v-dialog v-model="dialog" persistent max-width="500">
       <v-card>
         <v-card-title class="headline">
           Create Core Values Competencies</v-card-title
@@ -26,7 +22,6 @@
             v-model="competencies.description"
             label="Description"
           ></v-textarea>
-
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -75,6 +70,7 @@ export default {
             color: 'info',
           })
           this.close()
+          this.$emit('reload')
         })
         .catch((error) => {
           this.$notifier.showMessage({

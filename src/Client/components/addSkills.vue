@@ -1,10 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="700"
-    >
+    <v-dialog v-model="dialog" persistent max-width="700">
       <v-card>
         <v-card-title class="headline">Create Skills </v-card-title>
         <v-col cols="10">
@@ -75,6 +71,7 @@ export default {
             color: 'info',
           })
           this.close()
+          this.$emit('reload')
         })
         .catch((error) => {
           this.$notifier.showMessage({

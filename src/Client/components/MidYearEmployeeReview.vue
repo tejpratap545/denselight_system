@@ -40,11 +40,9 @@
                       ></v-col>
                     </v-row>
                     <v-row>
+                      <v-col> Mid year employee comments </v-col>
                       <v-col>
-                        Mid year employee comments
-                      </v-col>
-                      <v-col>
-                        <v-textarea outlined v-model="item.MID_user_comments">
+                        <v-textarea v-model="item.MID_user_comments" outlined>
                         </v-textarea
                       ></v-col>
                     </v-row>
@@ -121,6 +119,7 @@ export default {
               color: 'info',
             })
             this.close()
+            this.$emit('reload')
           })
           .catch(() => {
             this.$notifier.showMessage({

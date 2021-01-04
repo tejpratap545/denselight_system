@@ -99,6 +99,7 @@ export default {
             color: 'info',
           })
           this.close()
+          this.$emit('reload')
         })
         .catch((error) => {
           this.$notifier.showMessage({

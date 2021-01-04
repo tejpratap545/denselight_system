@@ -225,6 +225,7 @@
                           </v-dialog>
                         </div>
                       </template>
+
                       <template v-slot:[`item.status`]="{ item }">
                         <v-icon
                           v-if="item.status == 'APPROVED'"
@@ -240,6 +241,7 @@
                           mdi-window-close</v-icon
                         >
                       </template>
+
                       <template v-slot:expanded-item="{ headers, item }">
                         <td :colspan="headers.length">
                           <v-simple-table class="my-5">

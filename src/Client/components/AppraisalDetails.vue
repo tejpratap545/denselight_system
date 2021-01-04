@@ -36,6 +36,19 @@
 
       <v-tabs-items v-model="tabData">
         <v-tab-item>
+          <v-card class="pt-5" flat>
+            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+              <b>Departmental Goals</b>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+            <v-card-text>
+              <v-data-table
+                :headers="departmentGoalsHeader"
+                :items="departmentGoalsItems"
+                :items-per-page="5"
+              ></v-data-table>
+            </v-card-text>
+          </v-card>
           <v-card flat>
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Goals</b>
@@ -65,9 +78,14 @@
                     mdi-checkbox-marked-circle-outline</v-icon
                   >
 
-                  <v-icon v-if="item.status == 'REJECTED'" color="error">
+                  <v-icon v-else-if="item.status == 'REJECTED'" color="error">
                     mdi-window-close</v-icon
                   >
+                  <v-progress-circular
+                    v-else
+                    indeterminate
+                    color="primary"
+                  ></v-progress-circular>
                 </template>
                 <template v-slot:[`item.actions`]="{ item }">
                   <div>
@@ -302,6 +320,19 @@
         </v-tab-item>
 
         <v-tab-item>
+          <v-card class="pt-5" flat>
+            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+              <b>Departmental Core Values</b>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+            <v-card-text>
+              <v-data-table
+                :headers="departmentValuesHeader"
+                :items="departmentValuesItems"
+                :items-per-page="5"
+              ></v-data-table>
+            </v-card-text>
+          </v-card>
           <v-card flat>
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Core Values</b>
@@ -363,36 +394,6 @@
           </v-card>
         </v-tab-item>
       </v-tabs-items>
-
-      <div>
-        <v-card class="pt-5" flat>
-          <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
-            <b>Departmental Goals</b>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-          <v-card-text>
-            <v-data-table
-              :headers="departmentGoalsHeader"
-              :items="departmentGoalsItems"
-              :items-per-page="5"
-            ></v-data-table>
-          </v-card-text>
-        </v-card>
-
-        <v-card class="pt-5" flat>
-          <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
-            <b>Departmental Core Values</b>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-          <v-card-text>
-            <v-data-table
-              :headers="departmentValuesHeader"
-              :items="departmentValuesItems"
-              :items-per-page="5"
-            ></v-data-table>
-          </v-card-text>
-        </v-card>
-      </div>
     </div>
   </div>
 </template>

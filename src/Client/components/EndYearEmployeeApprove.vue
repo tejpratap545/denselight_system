@@ -218,6 +218,7 @@ export default {
             color: 'info',
           })
           this.close()
+          this.$emit('reload')
         })
         .catch(() => {
           this.$notifier.showMessage({

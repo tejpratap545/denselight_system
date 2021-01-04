@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from django.db.models import Window, Count
+from django.db.models import Window, Count, Q
 from ..models import *
 from .serializers import *
 from rest_framework import generics, status
@@ -63,7 +63,7 @@ class OverallAppraisal(generics.ListAPIView):
         "departmentalgoals_set__manager__department",
         "departmentalcompetencies_set",
         "departmentalcompetencies_set__competency_category",
-    ).all()
+    ).filter(Q(status="Stage 1") | Q(status="Stage 2"))
     serializer_class = DetailOverallAppraisalSerializer
 
 
@@ -288,25 +288,6 @@ def input_midyear_manager(request, *args, **kwargs):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def reject_midyear_manager(request, *args, **kwargs):
-    id = kwargs.get("pk")
-    app = get_object_or_404(User_Appraisal_List, id=id)
-    if (
-        app.overall_appraisal.status == "Stage 1B"
-        and app.manager == request.user.profile
-    ) and (app.status == "S1BReview" or app.status == "S1BManager"):
-        app.status = "S1BReview"
-        app.mid_year_completion = "UnCompleted"
-        app.save()
-        return Response(
-            {"msg": "Goal are successfully approves by manager/supervisor"},
-            status=status.HTTP_202_ACCEPTED,
-        )
-    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
 def approve_midyear_manager(request, *args, **kwargs):
     id = kwargs.get("pk")
     app = get_object_or_404(User_Appraisal_List, id=id)
@@ -426,6 +407,11 @@ def approve_endyear_manager(request, *args, **kwargs):
 
 class RejectGoals(generics.UpdateAPIView):
     serializer_class = GoalsSettingRejectionSerializer
+    queryset = User_Appraisal_List.objects.all()
+
+
+class MidYearRejection(generics.UpdateAPIView):
+    serializer_class = MidYearRejectionSerializer
     queryset = User_Appraisal_List.objects.all()
 
 
