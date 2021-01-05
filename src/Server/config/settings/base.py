@@ -52,7 +52,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "django_filters",
     "corsheaders",
-    #"channels",
+    # "channels",
 ]
 LOCAL_APPS = [
     "backend.Profile.apps.ProfilesConfig",
@@ -158,6 +158,8 @@ ADMINS = [("""Tejpratap Singh""", "Tejpratapsingh545@outlook.com")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
+
+OFFICIAL_MAIL = "dummy@denselight.com"
 # LOGGING
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#logging

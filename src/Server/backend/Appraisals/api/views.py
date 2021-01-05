@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
@@ -11,6 +12,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from backend.Profile.permissions import IsHr, IsHrManager
+from ...Profile.models import Notification
 
 
 class ManagerAppraisal(generics.ListAPIView):
@@ -190,6 +192,9 @@ class DetailAppraisal(generics.RetrieveAPIView):
     #     return super().dispatch(request, *args, **kwargs)
 
 
+from django.conf import settings
+
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def submit_goals(request, *args, **kwargs):
@@ -201,6 +206,18 @@ def submit_goals(request, *args, **kwargs):
     ) and (app.status == "Employee"):
         app.status = "Manager"
         app.save()
+        title = f"{app.employee.name} submit goals of {app.appraisal_name}"
+        description = (
+            f"Hi {app.manager.name} Employee {app.employee.name} submit goals of {app.appraisal_name} . "
+            f"Please approve all goals and then approve appraisal "
+        )
+        Notification.objects.create(
+            user=app.manager, title=title, description=description, color="info"
+        )
+        try:
+            send_mail(title, description, settings.OFFICIAL_MAIL, [app.manager.email])
+        except:
+            pass
         return Response(
             {"msg": "Goal are successfully submitted to manager/supervisor"},
             status=status.HTTP_202_ACCEPTED,
@@ -220,6 +237,17 @@ def approve_goal(request, *args, **kwargs):
         if app.goals_set.filter(status="REJECTED").count() == 0:
             app.status = "S1BEmployee"
             app.save()
+            title = f"{app.manager.name} approve goals of {app.appraisal_name}"
+            description = f"Hi {app.employee.name} Manager {app.manager.name} approve goals of {app.appraisal_name} . "
+            Notification.objects.create(
+                user=app.employee, title=title, description=description, color="success"
+            )
+            try:
+                send_mail(
+                    title, description, settings.OFFICIAL_MAIL, [app.employee.email]
+                )
+            except:
+                pass
             return Response(
                 {"msg": "Goal are successfully approves by manager/supervisor"},
                 status=status.HTTP_202_ACCEPTED,
@@ -261,6 +289,18 @@ def submit_midyear_employee(request, *args, **kwargs):
     ) and app.status == "S1BManager":
         app.status = "S1BReview"
         app.save()
+        title = f"{app.employee.name} submit mid year review of {app.appraisal_name}"
+        description = (
+            f"Hi {app.manager.name} Employee {app.employee.name} submit mid year review of {app.appraisal_name} . "
+            f"Please approve or reject mid year review . "
+        )
+        Notification.objects.create(
+            user=app.manager, title=title, description=description, color="info"
+        )
+        try:
+            send_mail(title, description, settings.OFFICIAL_MAIL, [app.manager.email])
+        except:
+            pass
         return Response(
             {"msg": "Goal are successfully approves by manager/supervisor"},
             status=status.HTTP_202_ACCEPTED,
@@ -298,6 +338,15 @@ def approve_midyear_manager(request, *args, **kwargs):
         app.status = "S1BManager"
         app.mid_year_completion = "Completed"
         app.save()
+        title = f"{app.manager.name} approve midyear review of {app.appraisal_name}"
+        description = f"Hi {app.employee.name} Manager {app.manager.name} approve midyear review of{app.appraisal_name} . "
+        Notification.objects.create(
+            user=app.employee, title=title, description=description, color="success"
+        )
+        try:
+            send_mail(title, description, settings.OFFICIAL_MAIL, [app.employee.email])
+        except:
+            pass
         return Response(
             {"msg": "Goal are successfully approves by manager/supervisor"},
             status=status.HTTP_202_ACCEPTED,
@@ -335,7 +384,20 @@ def submit_endyear_employee(request, *args, **kwargs):
     ) and (app.status == "S2Employee" and app.completion == "Ecompleted"):
         app.status = "S2Manager"
         app.completion = "Ecompleted"
+
         app.save()
+        title = f"{app.employee.name} submit end year review of {app.appraisal_name}"
+        description = (
+            f"Hi {app.manager.name} Employee {app.employee.name} submit end year review of {app.appraisal_name} . "
+            f"Please approve or reject end year review . "
+        )
+        Notification.objects.create(
+            user=app.manager, title=title, description=description, color="info"
+        )
+        try:
+            send_mail(title, description, settings.OFFICIAL_MAIL, [app.manager.email])
+        except:
+            pass
         return Response(
             {"msg": "Goal are successfully approves by manager/supervisor"},
             status=status.HTTP_202_ACCEPTED,
@@ -378,6 +440,7 @@ def reject_endyear_manager(request, *args, **kwargs):
         app.status = "S1BReview"
         app.mid_year_completion = "UnCompleted"
         app.save()
+
         return Response(
             {"msg": "Goal are successfully approves by manager/supervisor"},
             status=status.HTTP_202_ACCEPTED,
@@ -397,6 +460,15 @@ def approve_endyear_manager(request, *args, **kwargs):
         app.status = "Approved"
         app.completion = "MCompleted"
         app.save()
+        title = f"{app.manager.name} approve endyear review of {app.appraisal_name}"
+        description = f"Hi {app.employee.name} Manager {app.manager.name} approve endyear review of{app.appraisal_name} . "
+        Notification.objects.create(
+            user=app.employee, title=title, description=description, color="success"
+        )
+        try:
+            send_mail(title, description, settings.OFFICIAL_MAIL, [app.employee.email])
+        except:
+            pass
         return Response(
             {"msg": "Goal are successfully approves by manager/supervisor"},
             status=status.HTTP_202_ACCEPTED,
