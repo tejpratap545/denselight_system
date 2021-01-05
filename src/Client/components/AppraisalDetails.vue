@@ -581,7 +581,7 @@ export default {
       this.newcomment.goal = item.id
       item.dialog = false
 
-      var url = ''
+      let url = ''
       switch (cid) {
         case 0:
           url = 'api/comment/goals/'
