@@ -163,3 +163,10 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = "__all__"
+
+
+class StatusSerializer(serializers.Serializer):
+    a1 = serializers.IntegerField()
+    a2 = serializers.IntegerField()
+    a3 = serializers.IntegerField()
+    a4 = serializers.IntegerField()

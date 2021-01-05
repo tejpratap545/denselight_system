@@ -133,7 +133,7 @@
                           </v-toolbar>
                           <Appraisal
                             v-if="appraisal.appraisal_dialog"
-                            :appraisalId="appraisal.dat.id"
+                            :appraisal-id="appraisal.dat.id"
                           />
                         </v-card>
                       </v-dialog>
@@ -204,7 +204,7 @@
                           </v-toolbar>
                           <Appraisal
                             v-if="appraisal.appraisal_dialog"
-                            :appraisalId="appraisal.dat.id"
+                            :appraisal-id="appraisal.dat.id"
                           />
                         </v-card>
                       </v-dialog>
@@ -394,7 +394,7 @@
                                   v-bind="attrs"
                                   v-on="on"
                                 >
-                                  <v-icon>mdi-item.appraisal_dialog</v-icon>
+                                  <v-icon>mdi-eye-circle</v-icon>
                                 </v-btn>
                               </template>
                               <v-card>
@@ -410,7 +410,7 @@
                                 </v-toolbar>
                                 <Appraisal
                                   v-if="item.appraisal_dialog"
-                                  :appraisalId="item.id"
+                                  :appraisal-id="item.id"
                                 />
                               </v-card>
                             </v-dialog>
@@ -479,7 +479,7 @@
                                   v-bind="attrs"
                                   v-on="on"
                                 >
-                                  <v-icon>mdi-item.appraisal_dialog</v-icon>
+                                  <v-icon>mdi-eye-circle</v-icon>
                                 </v-btn>
                               </template>
                               <v-card>
@@ -495,7 +495,7 @@
                                 </v-toolbar>
                                 <Appraisal
                                   v-if="item.appraisal_dialog"
-                                  :appraisalId="item.id"
+                                  :appraisal-id="item.id"
                                 />
                               </v-card>
                             </v-dialog>
@@ -584,7 +584,7 @@
                                 </v-toolbar>
                                 <Appraisal
                                   v-if="item.appraisal_dialog"
-                                  :appraisalId="item.id"
+                                  :appraisal-id="item.id"
                                 />
                               </v-card>
                             </v-dialog>
@@ -615,7 +615,7 @@
                                   v-bind="attrs"
                                   v-on="on"
                                 >
-                                  <v-icon>mdi-item.appraisal_dialog</v-icon>
+                                  <v-icon>mdi-eye-circle</v-icon>
                                 </v-btn>
                               </template>
                               <v-card>
@@ -631,7 +631,7 @@
                                 </v-toolbar>
                                 <Appraisal
                                   v-if="item.appraisal_dialog"
-                                  :appraisalId="item.id"
+                                  :appraisal-id="item.id"
                                 />
                               </v-card>
                             </v-dialog>
@@ -676,7 +676,7 @@
                                     <v-icon>mdi-close</v-icon>
                                   </v-btn>
                                 </v-toolbar>
-                                <Appraisal :appraisalId="item.id" />
+                                <Appraisal :appraisal-id="item.id" />
                               </v-card>
                             </v-dialog>
                           </template>
@@ -704,9 +704,9 @@ import Appraisal from '~/components/Appraisal.vue'
 import global from '~/mixins/global'
 
 export default {
+  name: 'Department',
   components: { Appraisal },
   title: 'Department',
-  name: 'Department',
   layout: 'dashboard-template',
   mixins: [global],
   async fetch() {
@@ -761,7 +761,7 @@ export default {
 
       response = await this.$axios.$get('api/appraisals/list/short/hod')
       response.forEach((employee) => {
-        var data = {
+        const data = {
           name: employee.name,
           department: employee.department.name,
           user_appraisals: [],
@@ -779,7 +779,7 @@ export default {
 
       response = await this.$axios.$get('api/appraisals/list/short/manager')
       response.forEach((employee) => {
-        var data = {
+        const data = {
           name: employee.name,
           department: employee.department.name,
           user_appraisals: [],

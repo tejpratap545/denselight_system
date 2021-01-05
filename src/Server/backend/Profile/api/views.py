@@ -109,3 +109,27 @@ class NotificationViewSet(ModelViewSet):
     @method_decorator(cache_page(15))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+
+class StatusView(generics.RetrieveAPIView):
+    serializer_class = StatusSerializer
+
+    def get_object(self):
+        return Profile.objects.filter(user=self.request.user).aggregate(
+            a1=Count(
+                "user_appraisal_list",
+                filter=Q(user_appraisal_list__overall_appraisal__status="Stage 1"),
+            ),
+            a2=Count(
+                "user_appraisal_list",
+                filter=Q(user_appraisal_list__overall_appraisal__status="Stage 1B"),
+            ),
+            a3=Count(
+                "user_appraisal_list",
+                filter=Q(user_appraisal_list__overall_appraisal__status="Stage 2"),
+            ),
+            a4=Count(
+                "user_appraisal_list",
+                filter=Q(managersPA__completion="Uncompleted"),
+            ),
+        )

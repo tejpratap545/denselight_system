@@ -127,8 +127,8 @@ class CompetencyCategoryViewSet(ModelViewSet):
 
 
 class GoalCommentViewSet(ModelViewSet):
-    serializer_class = CommentBoxSerializer
-    queryset = CommentBox.objects.all()
+    serializer_class = GoalCommentSerializer
+    queryset = GoalComment.objects.all()
 
     @method_decorator(cache_page(60 * 2))
     def dispatch(self, request, *args, **kwargs):
