@@ -103,7 +103,22 @@
 
       <v-spacer></v-spacer>
 
-     <Notifications />
+      <v-item-group>
+        <v-badge color="amber" :content="status.a1">
+          <v-icon>mdi-rocket-launch-outline</v-icon>
+        </v-badge>
+        <v-badge color="amber" :content="status.a2">
+          <v-icon>mdi-calendar</v-icon>
+        </v-badge>
+        <v-badge color="amber" :content="status.a3">
+          <v-icon>mdi-calendar</v-icon>
+        </v-badge>
+        <v-badge color="amber" :content="status.a4">
+          <v-icon>mdi-account-clock-outline</v-icon>
+        </v-badge>
+      </v-item-group>
+
+      <Notifications />
     </v-app-bar>
 
     <v-main>
@@ -123,7 +138,19 @@ export default {
       drawer: null,
       name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
       id: this.$auth.loggedIn ? this.$auth.user.id : 0,
+      status: {
+        a1: 0,
+        a2: 0,
+        a3: 0,
+        a4: 0,
+      },
     }
+  },
+  mounted() {
+    this.$axios
+      .get('api/status')
+      .then((res) => (this.status = res))
+      .catch((err) => console.log(err))
   },
   methods: {
     logout() {
