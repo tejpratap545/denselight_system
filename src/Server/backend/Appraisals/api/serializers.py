@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from ..models import *
 from django.db import transaction
-from backend.Profile.api.serializers import ShortProfileSerializer
+from backend.Profile.api.serializers import ShortProfileSerializer, DepartmentSerializer
 from ...GnC.api.serializers import (
     DetailGoalSerializer,
     CompetenciesSerializer,
@@ -109,12 +109,16 @@ class ShortOverallAppraisalSerSerializer(serializers.ModelSerializer):
 
 
 class ShortAppraisal2Serializer(serializers.ModelSerializer):
+    overall_appraisal = ShortOverallAppraisalSerSerializer()
+
     class Meta:
         model = User_Appraisal_List
 
         fields = (
             "id",
             "appraisal_name",
+            "overall_appraisal",
+            "status",
         )
 
 
@@ -247,3 +251,19 @@ class PeerAppraisalSerializer(serializers.ModelSerializer):
     class Meta:
         model = peerAppraisal
         fields = "__all__"
+
+
+class ShortAppraisal2HodSerializer(serializers.ModelSerializer):
+    department = DepartmentSerializer()
+    user_appraisal_list_set = ShortAppraisal2Serializer(many=True)
+    # manager = ShortProfileSerializer()
+
+    class Meta:
+        model = Profile
+        fields = (
+            "id",
+            "name",
+            "email",
+            "department",
+            "user_appraisal_list_set",
+        )

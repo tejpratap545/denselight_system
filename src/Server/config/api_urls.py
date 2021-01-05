@@ -43,6 +43,7 @@ from backend.Appraisals.api.views import (
     reject_endyear_manager,
     OverallAppraisal,
     MidYearRejection,
+    ShortHodAppraisal,
 )
 from backend.Trainings.api.views import SkillsApiView, CreateSkillsApiView
 
@@ -57,6 +58,7 @@ urlpatterns = [
     path("employee/short/list", ShortListEmployees.as_view()),
     path("appraisals/list/manager", ManagerAppraisal.as_view()),
     path("appraisals/list/short/manager", ShortManagerAppraisal.as_view()),
+    path("appraisals/list/short/hod", ShortHodAppraisal.as_view()),
     path("appraisals/list/me", UserAppraisal.as_view()),
     path("appraisals/list/detail/me", DetailUserAppraisal.as_view()),
     path("goal/create", CreateGoalView.as_view(), name="create_goal"),
