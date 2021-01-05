@@ -72,10 +72,85 @@
         <v-tab-item>
           <v-card class="my-5" flat>
             <h3 class="my-5 text-center">Employee Details</h3>
+            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+              <b>First Reporting Employees</b>
+            </v-toolbar>
+
+            <v-data-table
+              :headers="employeesTableHeader"
+              :items="myemployeesTableItems"
+              :items-per-page="5"
+              :loading="loading"
+              dense
+            >
+              <template v-slot:[`item.user_appraisals`]="{ item }">
+                <v-list dense>
+                  <v-list-item
+                    v-for="appraisal in item.user_appraisals"
+                    :key="appraisal.id"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-html="appraisal.dat.appraisal_name"
+                      ></v-list-item-title>
+                      <v-list-item-subtitle
+                        v-html="
+                          getStatus(
+                            appraisal.dat.overall_appraisal.status,
+                            appraisal.dat.status,
+                            'Uncompleted',
+                            ''
+                          )
+                        "
+                      ></v-list-item-subtitle>
+                    </v-list-item-content>
+                    <v-list-item-action>
+                      <v-dialog
+                        v-model="appraisal.appraisal_dialog"
+                        scrollable
+                        max-width="800"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            color="grey lighten-1"
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            <v-icon>mdi-eye-circle</v-icon>
+                          </v-btn>
+                        </template>
+                        <v-card>
+                          <v-toolbar color="primary" dark>
+                            <b>{{ appraisal.dat.appraisal_name }}</b>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              icon
+                              @click="appraisal.appraisal_dialog = false"
+                            >
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                          </v-toolbar>
+                          <Appraisal
+                            v-if="appraisal.appraisal_dialog"
+                            :appraisalId="appraisal.dat.id"
+                          />
+                        </v-card>
+                      </v-dialog>
+                    </v-list-item-action>
+                  </v-list-item>
+                </v-list>
+              </template>
+            </v-data-table>
+
+            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+              <b>Second Reporting Employees</b>
+            </v-toolbar>
+
             <v-data-table
               :headers="employeesTableHeader"
               :items="employeesTableItems"
-              :items-per-page="10"
+              :items-per-page="5"
               :loading="loading"
               dense
             >
@@ -701,6 +776,24 @@ export default {
 
         this.employeesTableItems.push(data)
       })
+
+      response = await this.$axios.$get('api/appraisals/list/short/manager')
+      response.forEach((employee) => {
+        var data = {
+          name: employee.name,
+          department: employee.department.name,
+          user_appraisals: [],
+        }
+
+        employee.user_appraisal_list_set.forEach((e) => {
+          data.user_appraisals.push({
+            dat: e,
+            appraisal_dialog: false,
+          })
+        })
+
+        this.myemployeesTableItems.push(data)
+      })
     } catch (error) {
       console.log(error)
     }
@@ -740,6 +833,7 @@ export default {
         },
       ],
       employeesTableItems: [],
+      myemployeesTableItems: [],
       goalsLaunchingTableHeader: [
         {
           text: 'Appraisal Name',
