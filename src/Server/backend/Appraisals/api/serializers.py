@@ -62,7 +62,10 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
             is_company = validated_data.pop("is_company", False)
             individual_employees = validated_data.pop("individual_employees", [])
             departments = validated_data.pop("departments", [])
-            overall_appraisal = Overall_Appraisal.objects.create(**validated_data)
+            overall_appraisal = Overall_Appraisal.objects.create(
+                **validated_data,
+                status="Stage 1",
+            )
             if is_company:
                 for profile in Profile.objects.all():
                     User_Appraisal_List.objects.get_or_create(
@@ -112,7 +115,7 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                 return serializers.ValidationError("Something went wrong")
 
     def update(self, instance, validated_data):
-        super(OverallAppraisalSerializer, self).update(validated_data, instance)
+        super(OverallAppraisalSerializer, self).update(instance, validated_data)
         a = int_status(validated_data.get("status"))
         b = int_status(instance.status)
         if a < b:
