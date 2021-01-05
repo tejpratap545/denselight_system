@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Profile, User, Departments
+from ..models import Profile, User, Departments, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -155,3 +155,11 @@ class SetPasswordSerializer(serializers.Serializer):
         if data["password1"] != data["password2"]:
             raise serializers.ValidationError("Both password should be match")
         return data
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    unseen = serializers.IntegerField(read_only=True, required=False)
+
+    class Meta:
+        model = Notification
+        fields = "__all__"

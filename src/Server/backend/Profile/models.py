@@ -282,3 +282,19 @@ class RefreshToken(models.Model):
             "token",
             "revoked",
         )
+
+
+class Notification(models.Model):
+    COLOR_CHOICES = (
+        ("info", "info"),
+        ("error", "error"),
+        ("success", "success"),
+    )
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(null=True, blank=True)
+    color = models.CharField(
+        max_length=20, blank=True, null=True, choices=COLOR_CHOICES
+    )
+    seen = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)

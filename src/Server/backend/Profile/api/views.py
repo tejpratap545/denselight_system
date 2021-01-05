@@ -1,6 +1,7 @@
 import json
 
 from django.core.cache import cache
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -94,3 +95,17 @@ class ChangePassword(generics.CreateAPIView):
 class SetPassword(generics.CreateAPIView):
     permission_classes = [IsAuthenticated & IsHrManager]
     serializer_class = SetPasswordSerializer
+
+
+class NotificationViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = NotificationSerializer
+
+    def get_queryset(self):
+        return Notification.objects.filter(user=self.request.user.profile).annotate(
+            unseen=Count("seen", filter=Q(seen=False))
+        )
+
+    @method_decorator(cache_page(15))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)

@@ -14,7 +14,7 @@ from backend.GnC.api.views import (
     DepartmentalGoalsVieSet,
     DepartmentalCompetenciesVieSet,
 )
-from backend.Profile.api.views import DepartmentViewSet
+from backend.Profile.api.views import DepartmentViewSet, NotificationViewSet
 from backend.Trainings.api.views import SkillsCategoryViewSet
 
 if settings.DEBUG:
@@ -24,6 +24,7 @@ else:
 
 
 router.register(r"department", DepartmentViewSet)
+router.register(r"notification", NotificationViewSet, basename="Notification")
 router.register(r"category/appraisal", AppraisalCategoryViewSet)
 router.register(r"category/goal", GoalCategoryViewSet)
 router.register(r"category/skill", SkillsCategoryViewSet)
