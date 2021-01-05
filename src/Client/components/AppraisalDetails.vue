@@ -150,18 +150,18 @@
                                   </v-card-text>
                                   <v-card-actions>
                                     <v-textarea
+                                      v-model="newcomment.comment"
                                       label="Write your comment here"
                                       outlined
                                     ></v-textarea>
-                                    <div class="justify-end">
-                                      <v-btn
-                                        color="primary"
-                                        fab
-                                        @click="item.dialog = false"
-                                        ><v-icon>mdi-send-outline</v-icon>
-                                      </v-btn>
-                                    </div>
                                   </v-card-actions>
+                                  <div>
+                                    <v-btn
+                                      color="primary"
+                                      @click="comment(comment.id, item)"
+                                      >Send Message
+                                    </v-btn>
+                                  </div>
                                 </v-card>
                               </v-tab-item>
                             </v-tabs-items>
@@ -169,6 +169,7 @@
                         </v-card-text>
                       </v-card>
                     </v-dialog>
+
                     <v-dialog
                       v-model="item.kpi_dialog"
                       scrollable
@@ -401,6 +402,11 @@ export default {
   props: ['appraisal'],
   data() {
     return {
+      newcomment: {
+        comment: '',
+        goal: 0,
+        created_by: this.$auth.user.id,
+      },
       addGoalsDialog: false,
       addSkillsDialog: false,
       addCoreValueDialog: false,
@@ -484,7 +490,6 @@ export default {
       departmentValuesItems: this.appraisal.departmentalcompetencies_set,
     }
   },
-
   watch: {
     appraisal(newVal, _) {
       this.init(newVal)
@@ -571,6 +576,45 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    comment(cid, item) {
+      this.newcomment.goal = item.id
+      item.dialog = false
+
+      var url = ''
+      switch (cid) {
+        case 0:
+          url = 'api/comment/goals/'
+          break
+
+        case 1:
+          url = 'api/comment/goals/midyear/'
+          break
+
+        case 2:
+          url = 'api/comment/goals/endyear/'
+          break
+
+        default:
+          break
+      }
+
+      if (url != '')
+        this.$axios
+          .$post(url, this.newcomment)
+          .then((res) => {
+            this.$notifier.showMessage({
+              content: 'Success commenting',
+              color: 'info',
+            })
+            this.reload()
+          })
+          .catch((error) => {
+            this.$notifier.showMessage({
+              content: 'Error commenting',
+              color: 'error',
+            })
+          })
     },
     reload() {
       this.$emit('reload-mainvue')
