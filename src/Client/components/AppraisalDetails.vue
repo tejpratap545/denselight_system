@@ -81,11 +81,9 @@
                   <v-icon v-else-if="item.status == 'REJECTED'" color="error">
                     mdi-window-close</v-icon
                   >
-                  <v-progress-circular
-                    v-else
-                    indeterminate
-                    color="primary"
-                  ></v-progress-circular>
+                  <v-icon v-else indeterminate color="primary"
+                    >mdi-account-clock</v-icon
+                  >
                 </template>
                 <template v-slot:[`item.actions`]="{ item }">
                   <div>
