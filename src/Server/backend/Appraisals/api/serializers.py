@@ -32,6 +32,21 @@ class DetailOverallAppraisalSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+def int_status(a):
+    if a == "Stage 1":
+        return 0
+    elif a == "Stage 1B":
+        return 1
+    elif a == "Stage 2":
+        return 2
+    elif a == "Stage 3":
+        return 3
+    elif a == "Stage 4":
+        return 4
+    else:
+        return 5
+
+
 class OverallAppraisalSerializer(serializers.ModelSerializer):
     employee_count = serializers.IntegerField(read_only=True)
     individual_employees = serializers.ListField(write_only=True, required=False)
@@ -95,6 +110,31 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
 
             else:
                 return serializers.ValidationError("Something went wrong")
+
+    def update(self, instance, validated_data):
+        super(OverallAppraisalSerializer, self).update(validated_data, instance)
+        a = int_status(validated_data.get("status"))
+        b = int_status(instance.status)
+        if a < b:
+            if a == 0:
+                User_Appraisal_List.objects.filter(Overall_Appraisal=instance).update(
+                    status="Employee",
+                    completion="null",
+                    mid_year_completion="Uncompleted",
+                )
+            if a == 1:
+                User_Appraisal_List.objects.filter(Overall_Appraisal=instance).update(
+                    status="S1BEmployee",
+                    completion="null",
+                    mid_year_completion="Uncompleted",
+                )
+            if a == 2:
+                User_Appraisal_List.objects.filter(Overall_Appraisal=instance).update(
+                    status="S2Employee",
+                    completion="null",
+                )
+
+        return instance
 
 
 class ShortOverallAppraisalSerSerializer(serializers.ModelSerializer):
@@ -161,7 +201,6 @@ class DetailAppraisalSerializer(serializers.ModelSerializer):
     skills_set = SkillsSerializer(many=True)
 
     class Meta:
-
         model = User_Appraisal_List
         fields = "__all__"
 
@@ -256,6 +295,7 @@ class PeerAppraisalSerializer(serializers.ModelSerializer):
 class ShortAppraisal2HodSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer()
     user_appraisal_list_set = ShortAppraisal2Serializer(many=True)
+
     # manager = ShortProfileSerializer()
 
     class Meta:
