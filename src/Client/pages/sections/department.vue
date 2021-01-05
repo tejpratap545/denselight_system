@@ -56,12 +56,6 @@
         @close-core-dialog="addCoreDialog = false"
       />
     </div>
-    <div class="d-flex justify-lg-space-between align-center">
-      <span />
-      <h3 class="font-weight-medium">
-        <b>{{ this.$auth.user.department.name }}</b> Department
-      </h3>
-    </div>
     <div class="px-10 my-5">
       <v-tabs
         v-model="tabData"
@@ -83,9 +77,32 @@
               :items="employeesTableItems"
               :items-per-page="10"
               :loading="loading"
-              group-by="name"
-              show-group-by
+              dense
             >
+              <template v-slot:[`item.user_appraisals`]="{ item }">
+                <v-list dense>
+                  <v-list-item
+                    v-for="appraisal in item.user_appraisals"
+                    :key="appraisal.id"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-html="appraisal.appraisal_name"
+                      ></v-list-item-title>
+                      <v-list-item-subtitle
+                        v-html="
+                          getStatus(
+                            appraisal.overall_appraisal.status,
+                            appraisal.status,
+                            'Uncompleted',
+                            ''
+                          )
+                        "
+                      ></v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </template>
             </v-data-table>
           </v-card>
         </v-tab-item>
@@ -373,12 +390,90 @@
                   </v-tab-item>
                   <v-tab-item>
                     <v-card flat>
-                      <v-card-text> </v-card-text>
+                      <v-card-text>
+                        <v-data-table
+                          :headers="goalsLaunchingTableHeader"
+                          :items="reportsTableItems"
+                          :items-per-page="10"
+                          :loading="loading"
+                        >
+                          <template v-slot:[`item.action`]="{ item }">
+                            <v-dialog
+                              v-model="item.appraisal_dialog"
+                              scrollable
+                              max-width="800"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                  color="primary"
+                                  icon
+                                  v-bind="attrs"
+                                  v-on="on"
+                                >
+                                  <v-icon>mdi-item.appraisal_dialog</v-icon>
+                                </v-btn>
+                              </template>
+                              <v-card>
+                                <v-toolbar color="primary" dark>
+                                  <b>{{ item.appraisal_name }}</b>
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                    icon
+                                    @click="item.appraisal_dialog = false"
+                                  >
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-btn>
+                                </v-toolbar>
+                                <Appraisal :appraisalId="item.id" />
+                              </v-card>
+                            </v-dialog>
+                          </template>
+                        </v-data-table>
+                      </v-card-text>
                     </v-card>
                   </v-tab-item>
                   <v-tab-item>
                     <v-card flat>
-                      <v-card-text> </v-card-text>
+                      <v-card-text>
+                        <v-data-table
+                          :headers="goalsLaunchingTableHeader"
+                          :items="calibrationTableItems"
+                          :items-per-page="10"
+                          :loading="loading"
+                        >
+                          <template v-slot:[`item.action`]="{ item }">
+                            <v-dialog
+                              v-model="item.appraisal_dialog"
+                              scrollable
+                              max-width="800"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                  color="primary"
+                                  icon
+                                  v-bind="attrs"
+                                  v-on="on"
+                                >
+                                  <v-icon>mdi-item.appraisal_dialog</v-icon>
+                                </v-btn>
+                              </template>
+                              <v-card>
+                                <v-toolbar color="primary" dark>
+                                  <b>{{ item.appraisal_name }}</b>
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                    icon
+                                    @click="item.appraisal_dialog = false"
+                                  >
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-btn>
+                                </v-toolbar>
+                                <Appraisal :appraisalId="item.id" />
+                              </v-card>
+                            </v-dialog>
+                          </template>
+                        </v-data-table>
+                      </v-card-text>
                     </v-card>
                   </v-tab-item>
                   <v-tab-item>
@@ -397,25 +492,20 @@
 </template>
 
 <script>
+import Appraisal from '~/components/Appraisal.vue'
+import global from '~/mixins/global'
+
 export default {
+  components: { Appraisal },
   title: 'Department',
   name: 'Department',
   layout: 'dashboard-template',
+  mixins: [global],
   async fetch() {
     try {
       let response = await this.$axios.$get('api/appraisals/list/manager')
 
-      response.forEach(async (appraisal) => {
-        this.employeesTableItems.push({
-          id: appraisal.id,
-          department: appraisal.employee.department.name,
-          stage: appraisal.overall_appraisal.status,
-          name: appraisal.employee.name,
-          date_of_hire: appraisal.employee.date_Of_Hire,
-          appraisal_name: appraisal.appraisal_name,
-          appraisal_stage: appraisal.stage,
-        })
-
+      response.forEach((appraisal) => {
         const tableData = {
           id: appraisal.id,
           appraisal_name: appraisal.appraisal_name,
@@ -427,6 +517,7 @@ export default {
           skills_count: 0,
           end_date: appraisal.overall_appraisal.goals_setting_end_date,
           status: appraisal.status,
+          appraisal_dialog: false,
         }
 
         switch (appraisal.overall_appraisal.status) {
@@ -442,6 +533,14 @@ export default {
             this.endYearTableItems.push(tableData)
             break
 
+          case 'Stage 3':
+            this.reportsTableItems.push(tableData)
+            break
+
+          case 'Stage 4':
+            this.calibrationTableItems.push(tableData)
+            break
+
           default:
             break
         }
@@ -451,6 +550,15 @@ export default {
       this.loading = false
       this.appraisalData = response
       this.changeAppraisal(this.appraisalData[0])
+
+      response = await this.$axios.$get('api/appraisals/list/short/hod')
+      response.forEach((employee) => {
+        this.employeesTableItems.push({
+          name: employee.name,
+          department: employee.department.name,
+          user_appraisals: employee.user_appraisal_list_set,
+        })
+      })
     } catch (error) {
       console.log(error)
     }
@@ -460,6 +568,7 @@ export default {
       loading: true,
       tabData: null,
       tabData2: null,
+      viewAppraisal: false,
       departmentData: '',
       currentAppraisalId: 0,
       addGoalsDialog: false,
@@ -477,27 +586,15 @@ export default {
       employeesTableHeader: [
         {
           text: 'Name',
-          align: 'center',
-          sortable: true,
           value: 'name',
         },
         {
           text: 'Department',
-          align: 'center',
-          sortable: true,
           value: 'department',
         },
         {
-          text: 'Date of hire',
-          align: 'center',
-          sortable: true,
-          value: 'date_of_hire',
-        },
-        {
-          text: 'Appraisal Stage',
-          align: 'center',
-          sortable: true,
-          value: 'stage',
+          text: 'Appraisal',
+          value: 'user_appraisals',
         },
       ],
       employeesTableItems: [],
@@ -554,6 +651,8 @@ export default {
       goalsLaunchingTableItems: [],
       midYearTableItems: [],
       endYearTableItems: [],
+      reportsTableItems: [],
+      calibrationTableItems: [],
 
       departmentGoalsHeader: [
         { text: 'Summary', value: 'summary' },

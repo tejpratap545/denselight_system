@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-5">
+  <div>
     <div v-if="$fetchState.pending">
       <v-skeleton-loader
         class="px-10 my-5"

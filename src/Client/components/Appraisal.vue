@@ -33,141 +33,7 @@
                 :headers="myGoalsTableHeader"
                 :items="myGoalsTableItems"
                 :items-per-page="10"
-              >
-                <template v-slot:[`item.actions`]="{ item }">
-                  <div>
-                    <v-dialog v-model="item.dialog" scrollable max-width="800">
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn color="primary" icon v-bind="attrs" v-on="on">
-                          <v-icon>mdi-chat-outline</v-icon>
-                        </v-btn>
-                      </template>
-
-                      <v-card>
-                        <v-toolbar color="primary" dark>
-                          <b>{{ item.goal_title }}</b> : Comments
-                          <v-spacer></v-spacer>
-                          <v-btn icon @click="item.dialog = false">
-                            <v-icon>mdi-close</v-icon>
-                          </v-btn>
-                        </v-toolbar>
-
-                        <v-card-text>
-                          <v-tabs v-model="item.tabs" vertical class="mt-5">
-                            <v-tab>GOAL SETTING</v-tab>
-                            <v-tab>MID YEAR</v-tab>
-                            <v-tab>END YEAR</v-tab>
-
-                            <v-tabs-items v-model="item.tabs">
-                              <v-tab-item
-                                v-for="comment in item.comments"
-                                :key="comment.id"
-                                class="pa-5"
-                              >
-                                <v-card flat class="chat-ui">
-                                  <v-card-text class="chat-container">
-                                    <p
-                                      v-if="comment.data == null"
-                                      class="text-center"
-                                    >
-                                      No comments yet
-                                    </p>
-                                    <v-card
-                                      v-for="c in comment.data"
-                                      :key="c.id"
-                                      flat
-                                      :class="
-                                        c.created_by == $auth.user.id
-                                          ? 'my-4 my-chat'
-                                          : 'my-4 manager-chat'
-                                      "
-                                      raised
-                                    >
-                                      <v-card-title class="subtitle-2">{{
-                                        c.comment
-                                      }}</v-card-title>
-                                      <v-card-text
-                                        v-if="c.created_by == $auth.user.id"
-                                      >
-                                        ~My response
-                                      </v-card-text>
-
-                                      <v-card-text v-else>
-                                        ~Manager's Comment
-                                      </v-card-text>
-                                    </v-card>
-                                  </v-card-text>
-                                  <v-card-actions>
-                                    <v-textarea
-                                      label="Write your comment here"
-                                      outlined
-                                    ></v-textarea>
-                                    <div class="justify-end">
-                                      <v-btn
-                                        color="primary"
-                                        fab
-                                        @click="item.dialog = false"
-                                        ><v-icon>mdi-send-outline</v-icon>
-                                      </v-btn>
-                                    </div>
-                                  </v-card-actions>
-                                </v-card>
-                              </v-tab-item>
-                            </v-tabs-items>
-                          </v-tabs>
-                        </v-card-text>
-                      </v-card>
-                    </v-dialog>
-                    <v-dialog
-                      v-model="item.kpi_dialog"
-                      scrollable
-                      max-width="800"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn icon v-bind="attrs" v-on="on">
-                          <v-icon>mdi-information-outline</v-icon>
-                        </v-btn>
-                      </template>
-
-                      <v-card>
-                        <v-toolbar color="primary" dark>
-                          <b>{{ item.goal_title }}</b> : KPI
-                          <v-spacer></v-spacer>
-                          <v-btn icon @click="item.kpi_dialog = false">
-                            <v-icon>mdi-close</v-icon>
-                          </v-btn>
-                        </v-toolbar>
-
-                        <v-card-text>
-                          <v-card
-                            v-for="kpi in item.kpi_set"
-                            :key="kpi.id"
-                            class="my-5"
-                          >
-                            <v-card-text>
-                              <p>{{ kpi.description }}</p>
-                              <small
-                                >Progress : <b>{{ kpi.progress }}</b></small
-                              >
-                            </v-card-text>
-                          </v-card>
-                        </v-card-text>
-
-                        <v-card-actions>
-                          <v-container>
-                            <v-row>
-                              <v-text-field
-                                v-model="kpi"
-                                label="KPI description"
-                              ></v-text-field>
-                            </v-row>
-                          </v-container>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </div>
-                </template>
-              </v-data-table>
+              ></v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -182,15 +48,7 @@
                 :headers="myValuesTableHeader"
                 :items="myValuesTableItems"
                 :items-per-page="5"
-              >
-                <template v-slot:[`item.actions`]="{}">
-                  <div>
-                    <v-btn color="success" icon
-                      ><v-icon>mdi-circle-edit-outline</v-icon></v-btn
-                    >
-                  </div>
-                </template>
-              </v-data-table>
+              ></v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -206,15 +64,7 @@
                 :headers="mySkillsTableHeader"
                 :items="mySkillsTableItems"
                 :items-per-page="5"
-              >
-                <template v-slot:[`item.actions`]="{}">
-                  <div>
-                    <v-btn color="success" icon
-                      ><v-icon>mdi-circle-edit-outline</v-icon></v-btn
-                    >
-                  </div>
-                </template>
-              </v-data-table>
+              ></v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
