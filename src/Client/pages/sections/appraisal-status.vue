@@ -214,12 +214,6 @@ export default {
           value: 'appraisal_name',
         },
         {
-          text: 'Employee',
-          align: 'center',
-          sortable: true,
-          value: 'employee',
-        },
-        {
           text: 'Start Date',
           align: 'center',
           sortable: true,
@@ -304,21 +298,20 @@ export default {
   methods: {
     async init() {
       try {
-        const response = await this.$axios.$get('api/appraisals/list/manager')
+        const response = await this.$axios.$get('api/overallAppraisal/')
 
         response.forEach((appraisal) => {
           const tableData = {
             id: appraisal.id,
-            appraisal_name: appraisal.appraisal_name,
-            employee: appraisal.employee.name,
+            appraisal_name: appraisal.name,
 
-            end_date: appraisal.overall_appraisal.goals_setting_end_date,
+            end_date: appraisal.goals_setting_end_date,
             status: appraisal.status,
             dialog: false,
-            overallAppraisal: appraisal.overall_appraisal || {},
+            overallAppraisal: appraisal || {},
           }
 
-          switch (appraisal.overall_appraisal.status) {
+          switch (appraisal.status) {
             case 'ReviewCompleted':
               this.completedTableItems.push(tableData)
               break

@@ -19,6 +19,7 @@
           <v-textarea
             v-model="createGoal.description"
             label="Goal Objective "
+            outlined
           ></v-textarea>
           <v-menu
             ref="menu"

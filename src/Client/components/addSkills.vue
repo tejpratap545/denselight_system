@@ -16,6 +16,7 @@
           <v-textarea
             v-model="skills.description"
             label="Skill Description "
+            outlined
           ></v-textarea>
 
           <v-text-field

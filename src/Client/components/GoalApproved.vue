@@ -6,7 +6,7 @@
           Manager rejection Comment
         </v-card-title>
         <v-card-text>
-          <v-textarea v-model="goals_settingM_rejection"> </v-textarea>
+          <v-textarea v-model="goals_settingM_rejection" outlined> </v-textarea>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -168,7 +168,7 @@
                                         <v-card-actions>
                                           <v-textarea
                                             label="Write your comment here"
-                                            flat
+                                            outlined
                                           ></v-textarea>
                                           <div class="justify-end">
                                             <v-btn

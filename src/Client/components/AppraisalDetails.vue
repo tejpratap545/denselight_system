@@ -151,7 +151,7 @@
                                   <v-card-actions>
                                     <v-textarea
                                       label="Write your comment here"
-                                      flat
+                                      outlined
                                     ></v-textarea>
                                     <div class="justify-end">
                                       <v-btn

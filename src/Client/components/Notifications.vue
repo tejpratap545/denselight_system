@@ -38,6 +38,8 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
+      <p class="text-center" v-if="notifications.length == 0">No Notifications yet</p>
     </v-card>
   </v-menu>
 </template>

@@ -21,6 +21,7 @@
           <v-textarea
             v-model="competencies.description"
             label="Description"
+            outlined
           ></v-textarea>
 
           <v-text-field

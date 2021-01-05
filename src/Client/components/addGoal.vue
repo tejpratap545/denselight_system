@@ -19,6 +19,7 @@
           <v-textarea
             v-model="createGoal.description"
             label="Goal Objective "
+            outlined
           ></v-textarea>
           <v-text-field label="Tracking Source/Documents "></v-text-field>
           <v-text-field
