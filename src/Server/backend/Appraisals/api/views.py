@@ -528,12 +528,12 @@ class ManagerPeerAppraisal(generics.ListAPIView):
 
 class ShortManagerAppraisal(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = ShortAppraisal2Serializer
+    serializer_class = ShortAppraisal2HodSerializer
 
     def get_queryset(self):
-        return User_Appraisal_List.objects.prefetch_related("overall_appraisal").filter(
-            manager=self.request.user.profile
-        )
+        return Profile.objects.prefetch_related(
+            "user_appraisal_list_set", "user_appraisal_list_set__overall_appraisal"
+        ).filter(first_Reporting_Manager=self.request.user.profile)
 
 
 class ShortHodAppraisal(generics.ListAPIView):

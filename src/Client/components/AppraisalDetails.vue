@@ -581,18 +581,18 @@ export default {
       this.newcomment.goal = item.id
       item.dialog = false
 
-      var url = ''
+      let url = ''
       switch (cid) {
         case 0:
           url = 'api/comment/goals/'
           break
 
         case 1:
-          url = 'api/comment/goals/midyear/'
+          url = 'api/comment/midyear/'
           break
 
         case 2:
-          url = 'api/comment/goals/endyear/'
+          url = 'api/comment/endyear/'
           break
 
         default:
