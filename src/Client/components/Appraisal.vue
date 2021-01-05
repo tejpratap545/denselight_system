@@ -33,7 +33,64 @@
                 :headers="myGoalsTableHeader"
                 :items="myGoalsTableItems"
                 :items-per-page="10"
-              ></v-data-table>
+                show-expand
+              >
+                <template v-slot:expanded-item="{ headers, item }">
+                  <td :colspan="headers.length">
+                    <v-simple-table class="my-5">
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>KPI</th>
+                            <th>Progress</th>
+                            <th>Date Created</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="kpi in item.kpi_set" :key="kpi.id">
+                            <th>{{ kpi.description }}</th>
+                            <th>{{ kpi.progress }}</th>
+                            <td>{{ kpi.date_created }}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+
+                    <v-row>
+                      <v-col>Tracking status</v-col>
+                      <v-col>
+                        {{ item.tracking_status }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year employee comments </v-col>
+                      <v-col>
+                        {{ item.MID_user_comments }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>User rating</v-col>
+                      <v-col>
+                        <v-rating
+                          background-color="grey lighten-2"
+                          color="primary"
+                          length="5"
+                          size="30"
+                          :value="item.user_rating"
+                          dense
+                          readonly
+                        ></v-rating
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>End Year Employee Comment</v-col>
+                      <v-col>
+                        {{ item.user_comments }}
+                      </v-col>
+                    </v-row>
+                  </td>
+                </template>
+              </v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>

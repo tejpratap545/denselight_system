@@ -527,9 +527,9 @@ export default {
           tabs: null,
           date_menu: false,
           comments: [
-            { id: 0, date: goal.commentbox_set.reverse() },
-            { id: 1, data: goal.midyrcommentbox_set.reverse() },
-            { id: 2, data: goal.endyrcommentbox_set.reverse() },
+            { id: 0, date: goal.commentbox_set },
+            { id: 1, data: goal.midyrcommentbox_set },
+            { id: 2, data: goal.endyrcommentbox_set },
           ],
           kpi_set: goal.kpi_set,
           tracking_status: goal.tracking_status,
