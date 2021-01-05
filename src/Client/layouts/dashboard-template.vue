@@ -2,11 +2,8 @@
   <v-app>
     <Snackbar></Snackbar>
 
-    <v-navigation-drawer app>
+    <v-navigation-drawer v-model="drawer" app>
       <template v-slot:prepend>
-        <v-list-item style="margin: 50px 0">
-          <img src="~/assets/logo.svg" width="220" />
-        </v-list-item>
         <v-list-item two-line>
           <v-list-item-avatar>
             <img
@@ -97,6 +94,27 @@
       </v-list>
     </v-navigation-drawer>
 
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>
+        <img src="~/assets/logo.svg" style="margin-top: 20px" width="220" />
+      </v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" icon>
+            <v-icon>mdi-bell-outline</v-icon>
+          </v-btn>
+        </template>
+        <div class="notification-body">
+          
+        </div>
+      </v-menu>
+    </v-app-bar>
+
     <v-main>
       <v-container fluid>
         <nuxt />
@@ -111,6 +129,7 @@
 export default {
   data() {
     return {
+      drawer: null,
       name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
       id: this.$auth.loggedIn ? this.$auth.user.id : 0,
     }
@@ -137,5 +156,12 @@ a.muted {
 
 a.danger {
   color: #ff5252;
+}
+
+.notification-body{
+  width: 300px;
+  padding: 20px;
+  height: 400px;
+  background: #fff;
 }
 </style>
