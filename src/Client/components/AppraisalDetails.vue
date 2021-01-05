@@ -158,7 +158,7 @@
                                   <div>
                                     <v-btn
                                       color="primary"
-                                      @click="comment(comment.id, item)"
+                                      @click="postcomment(comment.id, item)"
                                       >Send Message
                                     </v-btn>
                                   </div>
@@ -577,7 +577,7 @@ export default {
         console.log(error)
       }
     },
-    comment(cid, item) {
+    postcomment(cid, item) {
       this.newcomment.goal = item.id
       item.dialog = false
 
