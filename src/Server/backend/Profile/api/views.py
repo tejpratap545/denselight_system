@@ -15,6 +15,8 @@ from .serializers import *
 from ..permissions import IsOwner
 from rest_framework.viewsets import ModelViewSet
 
+from ...Appraisals.models import User_Appraisal_List, peerAppraisal
+
 
 class ProfileInfoView(generics.RetrieveAPIView):
     permission_classes = [IsOwner]
@@ -113,23 +115,20 @@ class NotificationViewSet(ModelViewSet):
 
 class StatusView(generics.RetrieveAPIView):
     serializer_class = StatusSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        return Profile.objects.filter(user=self.request.user).aggregate(
-            a1=Count(
-                "user_appraisal_list",
-                filter=Q(user_appraisal_list__overall_appraisal__status="Stage 1"),
-            ),
-            a2=Count(
-                "user_appraisal_list",
-                filter=Q(user_appraisal_list__overall_appraisal__status="Stage 1B"),
-            ),
-            a3=Count(
-                "user_appraisal_list",
-                filter=Q(user_appraisal_list__overall_appraisal__status="Stage 2"),
-            ),
-            a4=Count(
-                "user_appraisal_list",
-                filter=Q(managersPA__completion="Uncompleted"),
-            ),
-        )
+        return {
+            "a1": User_Appraisal_List.objects.filter(
+                employee=self.request.user.profile, overall_appraisal__status="Stage 1"
+            ).count(),
+            "a2": User_Appraisal_List.objects.filter(
+                employee=self.request.user.profile, overall_appraisal__status="Stage 1B"
+            ).count(),
+            "a3": User_Appraisal_List.objects.filter(
+                employee=self.request.user.profile, overall_appraisal__status="Stage 2"
+            ).count(),
+            "a4": peerAppraisal.objects.filter(
+                manager=self.request.user.profile, completion="Uncompleted"
+            ).count(),
+        }
