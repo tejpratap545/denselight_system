@@ -49,7 +49,7 @@ export default {
     ],
 
     loading: {
-        color: 'blue',
+        color: 'amber',
         height: '5px'
     },
 

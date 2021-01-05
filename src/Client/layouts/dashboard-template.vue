@@ -103,16 +103,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" v-on="on" icon>
-            <v-icon>mdi-bell-outline</v-icon>
-          </v-btn>
-        </template>
-        <div class="notification-body">
-          
-        </div>
-      </v-menu>
+     <Notifications />
     </v-app-bar>
 
     <v-main>
@@ -156,12 +147,5 @@ a.muted {
 
 a.danger {
   color: #ff5252;
-}
-
-.notification-body{
-  width: 300px;
-  padding: 20px;
-  height: 400px;
-  background: #fff;
 }
 </style>
