@@ -588,11 +588,11 @@ export default {
           break
 
         case 1:
-          url = 'api/comment/goals/midyear/'
+          url = 'api/comment/midyear/'
           break
 
         case 2:
-          url = 'api/comment/goals/endyear/'
+          url = 'api/comment/endyear/'
           break
 
         default:
