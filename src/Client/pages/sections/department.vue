@@ -222,15 +222,32 @@
                           :loading="loading"
                         >
                           <template v-slot:[`item.status`]="{ item }">
-                            <v-progress-circular
+                            <v-icon
                               v-if="item.status == 'Employee'"
                               indeterminate
                               color="primary"
-                            ></v-progress-circular>
+                            >
+                              mdi-account-clock</v-icon
+                            >
+
+                            <v-icon
+                              v-if="item.status == 'Manager'"
+                              indeterminate
+                              color="info"
+                            >
+                              mdi-account-clock</v-icon
+                            >
+                            <v-icon
+                              v-if="item.status == 'S1BEmployee'"
+                              indeterminate
+                              color="success"
+                            >
+                              mdi-checkbox-marked-circle-outline</v-icon
+                            >
                           </template>
                           <template v-slot:[`item.action`]="{ item }">
                             <v-btn
-                              v-model="item.action"
+                              v-if="item.status !== 'Employee'"
                               color="transparent"
                               elevation="0"
                               @click="showGaolApproval(item)"
