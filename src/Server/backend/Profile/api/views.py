@@ -5,8 +5,8 @@ from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from rest_framework import generics
-from rest_framework.decorators import api_view
+from rest_framework import generics, status
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -78,14 +78,14 @@ class ShortListEmployees(generics.ListAPIView):
 
 
 class CreateProfile(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsHrManager]
     serializer_class = ProfileCreateSerializer
     queryset = Profile.objects.all()
 
 
 class ProfileView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = ProfileInfoSerializer
+    permission_classes = [IsHrManager]
+    serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
 
 
@@ -95,7 +95,7 @@ class ChangePassword(generics.CreateAPIView):
 
 
 class SetPassword(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated & IsHrManager]
+    permission_classes = [IsHrManager]
     serializer_class = SetPasswordSerializer
 
 
@@ -132,3 +132,16 @@ class StatusView(generics.RetrieveAPIView):
                 manager=self.request.user.profile, completion="Uncompleted"
             ).count(),
         }
+
+
+@api_view(["POST"])
+@permission_classes([IsHrManager])
+def change_role(request):
+    try:
+
+        User.objects.filter(profile__id=request.data.get("id")).update(
+            role=request.data.get("role")
+        )
+        return Response(id)
+    except:
+        return Response("Errors", status=status.HTTP_400_BAD_REQUEST)
