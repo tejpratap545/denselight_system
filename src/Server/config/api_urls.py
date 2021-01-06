@@ -20,6 +20,7 @@ from backend.Profile.api.views import (
     SetPassword,
     StatusView,
     change_role,
+    set_profile_picture,
 )
 from backend.Appraisals.api.views import (
     ManagerAppraisal,
@@ -54,6 +55,7 @@ urlpatterns = [
     path("status", StatusView.as_view()),
     path("profile/<int:pk>", ProfileView.as_view()),
     path("profile/changerole", change_role),
+    path("profile/change_profile_picture", set_profile_picture),
     path("profile/create", CreateProfile.as_view()),
     path("profile/changepassword", ChangePassword.as_view()),
     path("profile/setpassword", SetPassword.as_view()),
