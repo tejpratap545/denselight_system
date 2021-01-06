@@ -1,5 +1,5 @@
 <template>
-  <div v-else class="pa-5">
+  <div class="pa-5">
     <v-row class="lighten-1 pa-5">
       <v-col>
         <div class="panel">
