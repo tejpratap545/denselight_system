@@ -86,8 +86,20 @@ class CreateProfile(generics.CreateAPIView):
 
 class ProfileView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsHrManager]
-    serializer_class = ProfileSerializer
-    queryset = Profile.objects.all()
+
+    queryset = Profile.objects.prefetch_related(
+        "user",
+        "department",
+        "first_Reporting_Manager",
+        "second_Reporting_Manager",
+        "first_Reporting_Manager__department",
+        "second_Reporting_Manager__department",
+    ).all()
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return ProfileInfoSerializer
+        return ProfileSerializer
 
 
 class ChangePassword(generics.CreateAPIView):
