@@ -48,11 +48,10 @@ class ManagerAppraisal(generics.ListAPIView):
             )
         )
 
-    # @method_decorator(cache_page(30))
-    # @method_decorator(vary_on_cookie)
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super().dispatch(request, *args, **kwargs)
-    #
+    @method_decorator(cache_page(15))
+    @method_decorator(vary_on_cookie)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 class OverallAppraisal(generics.ListAPIView):
@@ -90,10 +89,10 @@ class UserAppraisal(generics.ListAPIView):
             )
         )
 
-    # @method_decorator(cache_page(30))
-    # @method_decorator(vary_on_cookie)
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super().dispatch(request, *args, **kwargs)
+    @method_decorator(cache_page(15))
+    @method_decorator(vary_on_cookie)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 class DetailUserAppraisal(generics.ListAPIView):
@@ -128,14 +127,15 @@ class DetailUserAppraisal(generics.ListAPIView):
             "overall_appraisal__departmentalcompetencies_set__competency_category",
         ).filter(employee=self.request.user.profile)
 
-    # @method_decorator(cache_page(60 * 2))
-    # @method_decorator(vary_on_cookie)
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super().dispatch(request, *args, **kwargs)
+    @method_decorator(cache_page(15))
+    @method_decorator(vary_on_cookie)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 class AppraisalCategoryViewSet(ModelViewSet):
     serializer_class = AppraisalCategorySerializer
+    permission_classes = [IsAuthenticated]
     queryset = Appraisal_Category.objects.all()
 
     @method_decorator(cache_page(60 * 2))
@@ -145,19 +145,21 @@ class AppraisalCategoryViewSet(ModelViewSet):
 
 class OverallAppraisalViewSet(ModelViewSet):
     serializer_class = OverallAppraisalSerializer
+    permission_classes = [IsAuthenticated]
     queryset = (
         Overall_Appraisal.objects.prefetch_related("appraisal_category")
         .all()
         .annotate(employee_count=Count("user_appraisal_list"))
     )
 
-    # @method_decorator(cache_page(60 * 3))
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super().dispatch(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 3))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 class DetailAppraisal(generics.RetrieveAPIView):
     serializer_class = DetailAppraisalSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         queryset = User_Appraisal_List.objects.prefetch_related(
@@ -187,9 +189,9 @@ class DetailAppraisal(generics.RetrieveAPIView):
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
 
-    # @method_decorator(cache_page(60 * 3))
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super().dispatch(request, *args, **kwargs)
+    @method_decorator(cache_page(30))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 from django.conf import settings
@@ -478,21 +480,25 @@ def approve_endyear_manager(request, *args, **kwargs):
 
 
 class RejectGoals(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = GoalsSettingRejectionSerializer
     queryset = User_Appraisal_List.objects.all()
 
 
 class MidYearRejection(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = MidYearRejectionSerializer
     queryset = User_Appraisal_List.objects.all()
 
 
 class EndYearRejection(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = EndRejectionSerializer
     queryset = User_Appraisal_List.objects.all()
 
 
 class CreatePeerAppraisal(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = CreatePeerAppraisalSerializer
 
     def post(self, request, *args, **kwargs):
