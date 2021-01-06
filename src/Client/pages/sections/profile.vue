@@ -27,14 +27,14 @@
             </div>
 
             <div>
-                <v-file-input
-                  label="Upload new picture"
-                  filled
-                  prepend-icon="mdi-camera"
-                  name="profilePicture"
-                  v-model="file"
-                  @change="uploadPicture"
-                ></v-file-input>
+              <v-file-input
+                label="Upload new picture"
+                filled
+                prepend-icon="mdi-camera"
+                name="profilePicture"
+                v-model="file"
+                @change="uploadPicture"
+              ></v-file-input>
             </div>
 
             <v-simple-table>
@@ -43,6 +43,18 @@
                   <tr>
                     <th class="text-left">Employee ID</th>
                     <th class="text-left">{{ profile.employee_ID }}</th>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Type of employee</th>
+                    <th class="text-left">{{ profile.typeOfEmployee }}</th>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Address</th>
+                    <th class="text-left">{{ profile.address_1 }}</th>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Phone</th>
+                    <th class="text-left">{{ profile.phone }}</th>
                   </tr>
                   <tr>
                     <th class="text-left">First reporting officer</th>
@@ -63,6 +75,20 @@
                   <tr>
                     <th class="text-left">Citizenship status</th>
                     <th class="text-left">{{ profile.citizenship_Status }}</th>
+                  </tr>
+                  <tr>
+                    <th class="text-left">NRIC</th>
+                    <th class="text-left">{{ profile.nric }}</th>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Date of Passport Expiry</th>
+                    <th class="text-left">
+                      {{ profile.date_Of_Passport_Expiry }}
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Employment Type</th>
+                    <th class="text-left">{{ profile.employment_Type }}</th>
                   </tr>
                 </tbody>
               </template>
@@ -102,24 +128,14 @@
 export default {
   name: 'Profile',
   layout: 'dashboard-template',
-  async fetch() {
-    try {
-      this.profile = await this.$axios.$get(
-        `/api/profile/${this.$auth.user.id}`
-      )
-      this.passwordReset.profile = this.profile.id
-    } catch (error) {
-      console.log(error)
-    }
-  },
   data() {
     return {
-      profile: {},
+      profile: this.$auth.user,
       passwordReset: {
         password1: '',
         password2: '',
         old_password: '',
-        profile: 0,
+        profile: this.$auth.user.id,
       },
       file: null,
     }
@@ -168,7 +184,7 @@ export default {
 
 <style>
 .panel {
-  height: 650px;
+  min-height: 650px;
   margin: 0 30px;
   padding: 20px 10px;
   background: rgba(0, 0, 0, 0.2);

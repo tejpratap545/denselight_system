@@ -236,6 +236,11 @@ export default {
   data() {
     return {
       tabData: null,
+      newcomment: {
+        comment: '',
+        goal: 0,
+        created_by: this.$auth.user.id,
+      },
       myGoalsTableHeader: [
         {
           text: 'Category',
@@ -403,7 +408,7 @@ export default {
           })
     },
     reload() {
-      this.$emit('reload-mainvue')
+      this.$fetch()
     },
   },
 }

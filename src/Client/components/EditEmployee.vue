@@ -20,7 +20,10 @@
           <v-tab>Change Role</v-tab>
         </v-tabs>
 
-        <v-tabs-items v-model="tab" style="height: 600px; overflow-y:scroll; padding:20px 5px">
+        <v-tabs-items
+          v-model="tab"
+          style="height: 600px; overflow-y: scroll; padding: 20px 5px"
+        >
           <v-tab-item>
             <v-text-field
               label="Full Name"
@@ -28,10 +31,37 @@
               outlined
             ></v-text-field>
             <v-text-field
-              label="email"
+              label="Email"
               v-model="user.email"
               outlined
             ></v-text-field>
+
+             <v-text-field
+              label="Citizenship status"
+              v-model="user.citizenship_Status"
+              outlined
+            ></v-text-field>
+
+             <v-text-field
+              label="Divison center"
+              v-model="user.division_Centre"
+              outlined
+            ></v-text-field>
+
+             <v-text-field
+              label="NRIC"
+              v-model="user.nric"
+              outlined
+            ></v-text-field>
+
+            <v-text-field
+              label="Phone"
+              v-model="user.phone"
+              outlined
+            ></v-text-field>
+
+            <textarea label="Address" v-model="user.address_1" outlined>
+            </textarea>
 
             <v-select
               :items="gender"
@@ -110,18 +140,7 @@ export default {
       this.employees = await this.$axios.$get('/api/employee/short/list')
       const response = await this.$axios.$get(`/api/profile/${this.id}`)
 
-      this.user = {
-        id: this.id,
-        name: response.name,
-        email: response.email,
-        gender: response.gender,
-        date_Of_Hire: response.date_Of_Hire,
-        job_Title: response.job_Title,
-        first_Reporting_Manager: response.first_Reporting_Manager.id,
-        second_Reporting_Manager: response.second_Reporting_Manager.id,
-      }
-
-      this.newRole.role = response.role
+      this.user = response
     } catch (error) {
       console.log(error)
     }
