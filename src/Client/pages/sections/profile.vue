@@ -51,10 +51,6 @@
                     <th class="text-left">{{ profile.employee_ID }}</th>
                   </tr>
                   <tr>
-                    <th class="text-left">Department</th>
-                    <th class="text-left">{{ profile.department.name }}</th>
-                  </tr>
-                  <tr>
                     <th class="text-left">First reporting officer</th>
                     <td>{{ profile.first_Reporting_Manager.name }}</td>
                   </tr>
