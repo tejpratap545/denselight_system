@@ -232,7 +232,7 @@ class MidYearRejectionSerializer(serializers.ModelSerializer):
         return instance
 
 
-class EndYearRejectionSerializer(serializers.ModelSerializer):
+class EndRejectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User_Appraisal_List
         fields = ("end_yearM_rejection",)
