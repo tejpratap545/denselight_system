@@ -37,23 +37,23 @@
               <tbody>
                 <tr>
                   <th class="text-left">Employee ID</th>
-                  <th class="text-left">{{ profile.employee_ID }}</th>
+                  <th class="text-left">{{ profile.employee_ID || '' }}</th>
                 </tr>
                 <tr>
                   <th class="text-left">Type of employee</th>
-                  <th class="text-left">{{ profile.typeOfEmployee }}</th>
+                  <th class="text-left">{{ profile.typeOfEmployee || '' }}</th>
                 </tr>
                 <tr>
                   <th class="text-left">Address</th>
-                  <th class="text-left">{{ profile.address_1 }}</th>
+                  <th class="text-left">{{ profile.address_1 || '' }}</th>
                 </tr>
                 <tr>
                   <th class="text-left">Phone</th>
-                  <th class="text-left">{{ profile.phone }}</th>
+                  <th class="text-left">{{ profile.phone || '' }}</th>
                 </tr>
                 <tr>
                   <th class="text-left">First reporting officer</th>
-                  <td>{{ profile.first_Reporting_Manager.name }}</td>
+                  <td>{{ profile.first_Reporting_Manager.name || ''}}</td>
                 </tr>
                 <tr>
                   <th class="text-left">Second reporting officer</th>
@@ -61,29 +61,29 @@
                 </tr>
                 <tr>
                   <th class="text-left">Job Title</th>
-                  <th class="text-left">{{ profile.job_Title }}</th>
+                  <th class="text-left">{{ profile.job_Title || '' }}</th>
                 </tr>
                 <tr>
                   <th class="text-left">Date of hire</th>
-                  <th class="text-left">{{ profile.date_Of_Hire }}</th>
+                  <th class="text-left">{{ profile.date_Of_Hire || '' }}</th>
                 </tr>
                 <tr>
                   <th class="text-left">Citizenship status</th>
-                  <th class="text-left">{{ profile.citizenship_Status }}</th>
+                  <th class="text-left">{{ profile.citizenship_Status || '' }}</th>
                 </tr>
                 <tr>
                   <th class="text-left">NRIC</th>
-                  <th class="text-left">{{ profile.nric }}</th>
+                  <th class="text-left">{{ profile.nric || '' }}</th>
                 </tr>
                 <tr>
                   <th class="text-left">Date of Passport Expiry</th>
                   <th class="text-left">
-                    {{ profile.date_Of_Passport_Expiry }}
+                    {{ profile.date_Of_Passport_Expiry || '' }}
                   </th>
                 </tr>
                 <tr>
                   <th class="text-left">Employment Type</th>
-                  <th class="text-left">{{ profile.employment_Type }}</th>
+                  <th class="text-left">{{ profile.employment_Type  || ''}}</th>
                 </tr>
               </tbody>
             </template>

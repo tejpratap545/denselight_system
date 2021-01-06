@@ -13,12 +13,13 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <v-card v-else class="notification-body">
-      <v-list three-line>
-        <v-list-item
+      <div>
+        <v-row
           v-for="notification in notifications"
           :key="notification.id"
+          class="mx-2"
         >
-          <v-list-item-avatar>
+          <v-col class="mx-2" cols="2">
             <v-btn
               @click="handleNotification(notification)"
               :color="notification.seen ? 'error' : 'primary'"
@@ -28,16 +29,18 @@
               <v-icon v-if="!notification.seen">mdi-check-outline</v-icon>
               <v-icon v-else>mdi-delete-outline</v-icon>
             </v-btn>
-          </v-list-item-avatar>
+          </v-col>
 
-          <v-list-item-content>
-            <v-list-item-title v-text="notification.title"></v-list-item-title>
-            <v-list-item-subtitle
-              v-text="notification.description"
-            ></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+          <v-col cols="9">
+            <div class="subtitle-1">
+              {{ notification.title }}
+            </div>
+            <small class="caption text--secondary">
+              {{ notification.description }}
+            </small>
+          </v-col>
+        </v-row>
+      </div>
 
       <p class="text-center" v-if="notifications.length == 0">No Notifications yet</p>
     </v-card>
@@ -50,7 +53,7 @@ export default {
     try {
       this.notifications = await this.$axios.$get('/api/notification/')
       this.notifications.forEach((r) => {
-        if (!r.seen) badge = true
+        if (!r.seen) this.badge = true
       })
     } catch (error) {
       console.log(error)

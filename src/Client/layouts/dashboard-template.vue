@@ -17,7 +17,7 @@
 
           <v-list-item-content>
             <NLink to="/sections/profile">
-              <v-list-item-title>{{ name }}</v-list-item-title>
+              <v-list-item-title class="text--secondary"><b>{{ name }}</b></v-list-item-title>
             </NLink>
             <v-list-item-subtitle>
               <a class="danger" @click="logout">Logout</a>
