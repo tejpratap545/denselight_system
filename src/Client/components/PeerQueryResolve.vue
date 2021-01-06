@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" scrollable max-width="800">
+  <v-dialog v-model="dialog" max-width="800">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" icon v-bind="attrs" v-on="on">
         <v-icon>mdi-chat-outline</v-icon>

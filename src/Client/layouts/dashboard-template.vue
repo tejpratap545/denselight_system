@@ -4,6 +4,8 @@
 
     <v-navigation-drawer v-model="drawer" app>
       <template v-slot:prepend>
+        <img src="~/assets/logo.svg" style="margin: 40px 20px" width="220" />
+
         <v-list-item two-line>
           <v-list-item-avatar>
             <img
@@ -17,7 +19,9 @@
 
           <v-list-item-content>
             <NLink to="/sections/profile">
-              <v-list-item-title class="text--secondary"><b>{{ name }}</b></v-list-item-title>
+              <v-list-item-title class="text--secondary"
+                ><b>{{ name }}</b></v-list-item-title
+              >
             </NLink>
             <v-list-item-subtitle>
               <a class="danger" @click="logout">Logout</a>
@@ -101,10 +105,6 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>
-        <img src="~/assets/logo.svg" style="margin-top: 20px" width="220" />
-      </v-toolbar-title>
-
       <v-spacer></v-spacer>
 
       <div>
@@ -127,7 +127,7 @@
         </v-btn>
 
         <v-btn icon>
-          <v-badge  :content="statusEffect.a4">
+          <v-badge :content="statusEffect.a4">
             <v-icon>mdi-account-clock-outline</v-icon>
           </v-badge>
         </v-btn>

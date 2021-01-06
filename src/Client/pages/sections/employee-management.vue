@@ -1,8 +1,7 @@
 <template>
-  <div  class="pa-5">
-    <div class="d-flex justify-lg-space-between align-center">
+  <div>
+    <div class="ma-5">
       <AddEmployee />
-      <h3 class="font-weight-medium">Employee Managment</h3>
     </div>
     <v-card flat class="ma-5">
       <v-card-title>

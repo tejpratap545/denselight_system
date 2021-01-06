@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-5">
+  <div>
     <v-row class="lighten-1 pa-5">
       <v-col>
         <div class="panel">
@@ -179,8 +179,7 @@ export default {
 <style>
 .panel {
   min-height: 650px;
-  margin: 0 30px;
-  padding: 20px 10px;
+  padding: 20px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }

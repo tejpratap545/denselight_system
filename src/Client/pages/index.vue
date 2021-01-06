@@ -2,7 +2,7 @@
   <div>
     <div v-if="$fetchState.pending">
       <v-skeleton-loader
-        class="px-10 my-5"
+        class="my-5"
         type=" table-thead, card-heading, card"
       ></v-skeleton-loader>
     </div>
@@ -48,40 +48,59 @@
       >
       </MidYearEmployeeApprove>
 
-      <v-card flat>
-        <v-card-title class="d-flex justify-lg-space-between align-center">
-          <v-menu rounded="lg">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn elevation="0" color="primary" v-bind="attrs" v-on="on">
-                Change Appraisal
-              </v-btn>
-            </template>
+      <div class="ma-5">
+        <v-row>
+          <v-col>
+            <v-menu rounded="lg">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn elevation="0" color="primary" v-bind="attrs" v-on="on">
+                  Change Appraisal
+                </v-btn>
+              </template>
 
-            <v-list>
-              <v-list-item
-                v-for="(x, y) in appraisalData"
-                :key="y"
-                link
-                @click="changeAppraisal(x)"
-              >
-                <v-list-item-title>
-                  {{ x.appraisal_name }}
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+              <v-list>
+                <v-list-item
+                  v-for="(x, y) in appraisalData"
+                  :key="y"
+                  link
+                  @click="changeAppraisal(x)"
+                >
+                  <v-list-item-title>
+                    {{ x.appraisal_name }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-col>
 
-          <div v-if="appraisalSelectedIndex != 0">
-            <h3 class="font-weight-medium">
-              {{ appraisalSelected.appraisal_name }} -
-              {{ appraisalSelected.appraisal_category.name }}
-            </h3>
-          </div>
-          <div v-else>
-            <h3 class="font-weight-medium">No Appraisal selected</h3>
-          </div>
-        </v-card-title>
-      </v-card>
+          <v-col>
+            <div v-if="appraisalSelectedIndex != 0">
+              <h3 class="font-weight-medium">
+                {{ appraisalSelected.appraisal_name }} -
+                {{ appraisalSelected.appraisal_category.name }}
+              </h3>
+            </div>
+            <div v-else>
+              <h3 class="font-weight-medium">No Appraisal selected</h3>
+            </div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <small class="ma-0">
+              Status:
+              {{
+                getStatus(
+                  appraisalSelected.overall_appraisal.status,
+                  appraisalSelected.status,
+                  appraisalSelected.mid_year_completion,
+                  appraisalSelected.completion
+                )
+              }}
+            </small>
+          </v-col>
+        </v-row>
+      </div>
 
       <v-toolbar
         v-if="appraisalSelectedIndex != 0"
@@ -91,22 +110,6 @@
         dark
         rounded
       >
-        <p class="ma-0">
-          Status:
-          {{
-            getStatus(
-              appraisalSelected.overall_appraisal.status,
-              appraisalSelected.status,
-              appraisalSelected.mid_year_completion,
-              appraisalSelected.completion
-            )
-          }}
-
-          <!--          {{ appraisalSelected.overall_appraisal.status }}-->
-          <!--          {{ appraisalSelected.status }},-->
-          <!--          {{ appraisalSelected.mid_year_completion }}-->
-          <!--          {{ appraisalSelected.completion }}-->
-        </p>
         <!--          goal submit-->
 
         <v-btn

@@ -1,12 +1,10 @@
 <template>
   <div class="pa-5">
-    <div class="d-flex justify-lg-space-between align-center">
+    <div>
       <AppraisalCreate />
-
-      <h3 class="font-weight-medium">Appraisal Status</h3>
     </div>
 
-    <div class="px-10 my-5">
+    <div class="my-5">
       <v-tabs
         v-model="tabData"
         background-color="transparent"
@@ -23,7 +21,7 @@
           <v-card flat>
             <v-card-text>
               <div class="my-5">
-                <v-tabs vertical background-color="transparent" color="#2952A4">
+                <v-tabs background-color="transparent" color="#2952A4">
                   <v-tab class="justify-start">ONGOING APPRAISALS</v-tab>
                   <v-tab class="justify-start">COMPLETED APPRAISALS</v-tab>
 
@@ -82,7 +80,7 @@
           <v-card flat>
             <v-card-text>
               <div class="my-5">
-                <v-tabs vertical background-color="transparent" color="#2952A4">
+                <v-tabs background-color="transparent" color="#2952A4">
                   <v-tab class="justify-start">GOALS LAUNCHING</v-tab>
                   <v-tab class="justify-start">MID-YEAR REVIEW</v-tab>
                   <v-tab class="justify-start">YEAR-END REVIEW</v-tab>
