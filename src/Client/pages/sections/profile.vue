@@ -22,10 +22,6 @@
               <p class="text-center">{{ profile.email }}</p>
             </div>
 
-            <div style="justify-content: center; display: flex" class="my-5">
-              <EditEmployee :id="this.$auth.user.id" />
-            </div>
-
             <v-simple-table>
               <template v-slot:default>
                 <tbody>

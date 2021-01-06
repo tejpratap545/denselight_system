@@ -22,7 +22,7 @@
       >
         <template v-slot:[`item.action`]="{ item }">
           <v-btn v-model="item.action" color="transparent" elevation="3">
-            <v-icon>mdi-dots-horizontal</v-icon>
+             <EditEmployee :id="item.id" />
           </v-btn>
         </template>
       </v-data-table>
@@ -42,6 +42,7 @@ export default {
 
       response.forEach((employee) => {
         this.employees.push({
+          id:employee.id,
           name: employee.name,
           department: employee.department.name,
           position: employee.job_Title,

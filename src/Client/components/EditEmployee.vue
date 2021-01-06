@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn elevation="0" color="primary" dark v-bind="attrs" v-on="on">
-        Update Profile
+      <v-btn color="success" dark v-bind="attrs" v-on="on" icon>
+        <v-icon>mdi-circle-edit-outline</v-icon>
       </v-btn>
     </template>
 
