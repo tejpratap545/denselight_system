@@ -17,6 +17,7 @@ from ...Profile.models import Notification
 class CreateGoalView(generics.CreateAPIView):
     # queryset = Goals.objects.all()
     serializer_class = CreateGoalSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         if serializer.is_valid(raise_exception=True):
@@ -50,6 +51,7 @@ class CreateGoalView(generics.CreateAPIView):
 
 class CreateCompetenciesView(generics.CreateAPIView):
     serializer_class = CreateCompetenciesSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
 
@@ -77,6 +79,7 @@ class CreateCompetenciesView(generics.CreateAPIView):
 
 
 class CreateKPI(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
 
     serializer_class = CreateKPISerializer
     queryset = KPI.objects.all()
@@ -85,6 +88,7 @@ class CreateKPI(generics.CreateAPIView):
 class GoalApiView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Goals.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "POST":
@@ -93,7 +97,7 @@ class GoalApiView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class KPIApiView(generics.RetrieveUpdateDestroyAPIView):
-
+    permission_classes = [IsAuthenticated]
     queryset = KPI.objects.all()
 
     def get_serializer_class(self):
@@ -104,6 +108,7 @@ class KPIApiView(generics.RetrieveUpdateDestroyAPIView):
 
 class CompetenciesAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Competencies.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "POST":
@@ -114,6 +119,7 @@ class CompetenciesAPIView(generics.RetrieveUpdateDestroyAPIView):
 class GoalCategoryViewSet(ModelViewSet):
     serializer_class = GoalCategorySerializer
     queryset = GoalCategory.objects.all()
+    permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(60 * 2))
     def dispatch(self, request, *args, **kwargs):
@@ -123,6 +129,7 @@ class GoalCategoryViewSet(ModelViewSet):
 class CompetencyCategoryViewSet(ModelViewSet):
     serializer_class = CompetencyCategorySerializer
     queryset = CompetencyCategory.objects.all()
+    permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(60 * 2))
     def dispatch(self, request, *args, **kwargs):
@@ -132,6 +139,7 @@ class CompetencyCategoryViewSet(ModelViewSet):
 class GoalCommentViewSet(ModelViewSet):
     serializer_class = GoalCommentSerializer
     queryset = GoalComment.objects.all()
+    permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(60 * 2))
     def dispatch(self, request, *args, **kwargs):
@@ -141,6 +149,7 @@ class GoalCommentViewSet(ModelViewSet):
 class MidYrCommentBoxViewSet(ModelViewSet):
     serializer_class = MidYrCommentBoxSerializer
     queryset = MidYrCommentBox.objects.all()
+    permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(60 * 2))
     def dispatch(self, request, *args, **kwargs):
@@ -150,6 +159,7 @@ class MidYrCommentBoxViewSet(ModelViewSet):
 class EndYrCommentBoxViewSet(ModelViewSet):
     serializer_class = EndYrCommentBoxSerializer
     queryset = EndYrCommentBox.objects.all()
+    permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(60 * 2))
     def dispatch(self, request, *args, **kwargs):
@@ -159,6 +169,7 @@ class EndYrCommentBoxViewSet(ModelViewSet):
 class DepartmentalGoalsVieSet(ModelViewSet):
     serializer_class = DepartmentGoalSerializer()
     queryset = DepartmentalGoals.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(
@@ -170,6 +181,7 @@ class DepartmentalGoalsVieSet(ModelViewSet):
 class DepartmentalCompetenciesVieSet(ModelViewSet):
     serializer_class = DepartmentCompetenciesSerializer()
     queryset = DepartmentalCompetencies.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(
