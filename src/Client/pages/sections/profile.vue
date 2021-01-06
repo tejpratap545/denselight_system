@@ -11,7 +11,11 @@
             <div style="justify-content: center; display: flex">
               <div class="profile-panel">
                 <img
-                  :src="`https://avatars.dicebear.com/api/identicon/${this.$auth.user.id}.svg`"
+                  :src="
+                    profile.profile_Profile
+                      ? profile.profile_Profile
+                      : `https://avatars.dicebear.com/api/identicon/${this.$auth.user.id}.svg`
+                  "
                   alt="profile"
                 />
               </div>
@@ -21,6 +25,23 @@
               <h2 class="text-center">{{ profile.name || '' }}</h2>
               <p class="text-center">{{ profile.email }}</p>
             </div>
+
+            <v-row>
+              <v-col>
+                <v-file-input
+                  label="File input"
+                  filled
+                  prepend-icon="mdi-camera"
+                  name="profilePicture"
+                  v-model="file"
+                ></v-file-input>
+              </v-col>
+              <v-col>
+                <v-btn @click="uploadPicture" elevation="0" color="primary">
+                  Upload Picture
+                </v-btn>
+              </v-col>
+            </v-row>
 
             <v-simple-table>
               <template v-slot:default>
@@ -110,6 +131,7 @@ export default {
         old_password: '',
         profile: 0,
       },
+      file: null,
     }
   },
   methods: {
@@ -119,6 +141,26 @@ export default {
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Password changed successully',
+            color: 'info',
+          })
+          this.close()
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error changing password',
+            color: 'error',
+          })
+        })
+    },
+    uploadPicture() {
+      var bodyFormData = new FormData()
+      bodyFormData.append('profilePicture', this.file)
+
+      this.$axios
+        .$post('/api/profile/change_profile_picture', bodyFormData)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Profile picture uploaded success',
             color: 'info',
           })
           this.close()

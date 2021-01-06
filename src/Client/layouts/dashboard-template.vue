@@ -7,7 +7,9 @@
         <v-list-item two-line>
           <v-list-item-avatar>
             <img
-              :src="`https://avatars.dicebear.com/api/identicon/${id}.svg`"
+              :src="profile_Profile
+                      ? profile_Profile
+                      : `https://avatars.dicebear.com/api/identicon/${id}.svg`"
             />
           </v-list-item-avatar>
 
@@ -143,6 +145,7 @@ export default {
       drawer: null,
       name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
       id: this.$auth.loggedIn ? this.$auth.user.id : 0,
+      profile_Profile: this.$auth.user.profile_Profile ? this.$auth.user.profile_Profile : 0,
       status: {
         a1: 0,
         a2: 0,
