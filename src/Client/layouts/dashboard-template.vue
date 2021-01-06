@@ -116,6 +116,11 @@
         <v-badge color="amber" :content="status.a4">
           <v-icon>mdi-account-clock-outline</v-icon>
         </v-badge>
+
+        <v-btn @click="toggleDarkTheme()" icon>
+          <v-icon>theme-light-dark</v-icon>
+        </v-btn>
+
       </v-item-group>
 
       <Notifications />
@@ -159,6 +164,9 @@ export default {
       this.$axios.setHeader('Authorization', false)
       this.$auth.logout()
     },
+    toggleDarkTheme() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+},
   },
 }
 </script>
