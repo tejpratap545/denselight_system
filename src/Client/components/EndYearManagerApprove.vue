@@ -12,6 +12,13 @@
           An error occurred
         </div>
         <v-card v-else class="pa-10">
+          <EndyearRejection
+            v-if="rejectDialog"
+            :dialog="rejectDialog"
+            :appraisal-id="appraisalId"
+            @close-reject-endyear="rejectDialog = false"
+          >
+          </EndyearRejection>
           <v-card-title class="headline">
             {{ appraisal.appraisal_name }}
 
@@ -192,6 +199,9 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="close"> Close </v-btn>
+            <v-btn text color="error" @click="rejectDialog = true">
+              reject
+            </v-btn>
             <v-btn color="primary" elevation="0" @click="submit">
               Submit
             </v-btn>
@@ -215,6 +225,7 @@ export default {
   },
   data() {
     return {
+      rejectDialog: false,
       goalHeaders: [
         { text: 'Goal', value: 'summary' },
         { text: 'Tracking', value: 'tracking_status' },

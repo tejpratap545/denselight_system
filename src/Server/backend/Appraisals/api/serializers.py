@@ -232,6 +232,19 @@ class MidYearRejectionSerializer(serializers.ModelSerializer):
         return instance
 
 
+class EndYearRejectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Appraisal_List
+        fields = ("end_yearM_rejection",)
+
+    def update(self, instance, validated_data):
+        super(EndYearRejectionSerializer, self).update(instance, validated_data)
+        instance.status = "S2Employee"
+        instance.completion = "null"
+        instance.save()
+        return instance
+
+
 class AppraisalRejectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User_Appraisal_List

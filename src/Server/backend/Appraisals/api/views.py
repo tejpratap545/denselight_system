@@ -487,6 +487,11 @@ class MidYearRejection(generics.UpdateAPIView):
     queryset = User_Appraisal_List.objects.all()
 
 
+class EndYearRejection(generics.UpdateAPIView):
+    serializer_class = EndRejectionSerializer
+    queryset = User_Appraisal_List.objects.all()
+
+
 class CreatePeerAppraisal(generics.CreateAPIView):
     serializer_class = CreatePeerAppraisalSerializer
 
