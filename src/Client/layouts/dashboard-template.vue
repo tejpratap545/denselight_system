@@ -145,7 +145,7 @@ export default {
       drawer: null,
       name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
       id: this.$auth.loggedIn ? this.$auth.user.id : 0,
-      profile_Profile: this.$auth.user.profile_Profile ? this.$auth.user.profile_Profile : 0,
+      profile_Profile: this.$auth.user.profile_Profile ? this.$auth.user.profile_Profile : null,
       status: {
         a1: 0,
         a2: 0,
