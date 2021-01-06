@@ -145,3 +145,14 @@ def change_role(request):
         return Response("Success")
     except:
         return Response("Errors", status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def set_profile_picture(request):
+    try:
+        request.user.profile.profile_Picture = request.FILES["profilePicture"]
+        request.user.profile.save()
+        return Response("Success")
+    except:
+        return Response("Errors", status=status.HTTP_400_BAD_REQUEST)
