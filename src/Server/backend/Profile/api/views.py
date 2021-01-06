@@ -142,6 +142,6 @@ def change_role(request):
         User.objects.filter(profile__id=request.data.get("id")).update(
             role=request.data.get("role")
         )
-        return Response(id)
+        return Response("Success")
     except:
         return Response("Errors", status=status.HTTP_400_BAD_REQUEST)
