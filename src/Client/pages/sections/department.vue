@@ -430,17 +430,49 @@
                           :items-per-page="10"
                           :loading="loading"
                         >
-                          <template v-slot:[`item.action`]="{ item }">
+                          <template v-slot:[`item.status`]="{ item }">
                             <v-icon
-                              v-if="
-                                item.mid_year_completion == 'Completed' &&
-                                item.status == 'S1BManager'
+                              v-if="item.status == 'S1BEmployee'"
+                              indeterminate
+                              color="primary"
+                            >
+                              mdi-account-clock</v-icon
+                            >
+
+                            <v-icon
+                              v-else-if="
+                                item.status == 'S1BManager' &&
+                                item.mid_year_completion == 'Uncompleted'
                               "
+                              indeterminate
+                              color="info"
+                            >
+                              mdi-account-clock</v-icon
+                            >
+                            <v-icon
+                              v-else-if="
+                                item.mid_year_completion == 'Completed'
+                              "
+                              indeterminate
                               color="success"
                             >
                               mdi-checkbox-marked-circle-outline</v-icon
                             >
-                            <div v-else>
+                            <v-icon v-else indeterminate color="error">
+                              mdi-cancel
+                            </v-icon>
+                          </template>
+                          <template v-slot:[`item.action`]="{ item }">
+                            <!--                            <v-icon-->
+                            <!--                              v-if="-->
+                            <!--                                item.mid_year_completion == 'Completed' &&-->
+                            <!--                                item.status == 'S1BManager'-->
+                            <!--                              "-->
+                            <!--                              color="success"-->
+                            <!--                            >-->
+                            <!--                              mdi-checkbox-marked-circle-outline</v-icon-->
+                            <!--                            >-->
+                            <div v-if="item.mid_year_completion != 'Completed'">
                               <v-btn
                                 v-if="
                                   item.status == 'S1BReview' ||
@@ -514,17 +546,41 @@
                           :items-per-page="10"
                           :loading="loading"
                         >
-                          <template v-slot:[`item.action`]="{ item }">
+                          <template v-slot:[`item.status`]="{ item }">
                             <v-icon
                               v-if="
                                 item.status == 'Approved' &&
                                 item.completion == 'MCompleted'
                               "
+                              indeterminate
+                              color="primary"
+                            >
+                              mdi-account-clock</v-icon
+                            >
+
+                            <v-icon
+                              v-else-if="
+                                item.status == 'S2Manager' &&
+                                items.completion == 'ECompleted'
+                              "
+                              indeterminate
+                              color="info"
+                            >
+                              mdi-account-clock</v-icon
+                            >
+                            <v-icon
+                              v-else-if="item.status == 'S2Manager'"
+                              indeterminate
                               color="success"
                             >
                               mdi-checkbox-marked-circle-outline</v-icon
                             >
-                            <div v-else>
+                            <v-icon v-else indeterminate color="error">
+                              mdi-cancel
+                            </v-icon>
+                          </template>
+                          <template v-slot:[`item.action`]="{ item }">
+                            <div v-if="item.status != 'Approved'">
                               <v-btn
                                 v-if="
                                   (item.status == 'S2Manager' &&
@@ -568,7 +624,7 @@
                                   v-bind="attrs"
                                   v-on="on"
                                 >
-                                  <v-icon>mdi-item.appraisal_dialog</v-icon>
+                                  <v-icon>mdi-eye-circle</v-icon>
                                 </v-btn>
                               </template>
                               <v-card>
@@ -662,7 +718,7 @@
                                   v-bind="attrs"
                                   v-on="on"
                                 >
-                                  <v-icon>mdi-item.appraisal_dialog</v-icon>
+                                  <v-icon>mdi-eye-circle</v-icon>
                                 </v-btn>
                               </template>
                               <v-card>
