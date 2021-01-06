@@ -4,8 +4,8 @@
       <v-skeleton-loader class="px-10 my-5" type="card@2"></v-skeleton-loader>
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
-    <div v-else class="pa-10">
-      <v-row class="lighten-1 pa-10">
+    <div v-else class="pa-5">
+      <v-row class="lighten-1 pa-5">
         <v-col>
           <div class="panel">
             <div style="justify-content: center; display: flex">
@@ -169,9 +169,9 @@ export default {
 <style>
 .panel {
   height: 650px;
-  margin: 0 50px;
+  margin: 0 30px;
   padding: 20px 10px;
-  background: #222;
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
 
