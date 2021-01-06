@@ -1,5 +1,12 @@
 <template>
   <v-row justify="center">
+    <MidyearRejection
+      v-if="rejectDialog"
+      :dialog="rejectDialog"
+      :appraisal-id="appraisalId"
+      @close-reject-midyear="rejectDialog = false"
+    >
+    </MidyearRejection>
     <v-dialog v-model="dialog" persistent max-width="500">
       <v-card>
         <v-card-title class="headline"> Submit Mid Year Review </v-card-title>
@@ -7,6 +14,9 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" text @click="close"> Cancel </v-btn>
+          <v-btn text color="error" @click="rejectDialog = true">
+            reject
+          </v-btn>
           <v-btn color="green darken-1" text @click="submit"> Submit </v-btn>
         </v-card-actions>
       </v-card>
@@ -17,6 +27,11 @@
 export default {
   name: 'MidYearManagerApprove',
   props: { dialog: Boolean, appraisalId: Number },
+  data() {
+    return {
+      rejectDialog: false,
+    }
+  },
   methods: {
     close() {
       this.$emit('close-mid-year-manager-submit-dialog')

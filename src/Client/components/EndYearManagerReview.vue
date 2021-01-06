@@ -7,6 +7,13 @@
         </div>
         <div v-else-if="$fetchState.error">An error occurred</div>
         <v-card v-else>
+          <EndyearRejection
+            v-if="rejectDialog"
+            :dialog="rejectDialog"
+            :appraisal-id="appraisalId"
+            @close-reject-endyear="rejectDialog = false"
+          >
+          </EndyearRejection>
           <v-card-title class="headline">
             End Manager/Supervisor Year Review
           </v-card-title>
@@ -125,6 +132,9 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="close"> Close </v-btn>
+            <v-btn text color="error" @click="rejectDialog = true">
+              reject
+            </v-btn>
             <v-btn color="primary" elevation="0" @click="submit">
               Submit
             </v-btn>
@@ -136,8 +146,10 @@
 </template>
 
 <script>
+import EndyearRejection from '~/components/EndyearRejection'
 export default {
   name: 'EndYearManagerReviewVue',
+  components: { EndyearRejection },
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {
     await this.$axios
@@ -148,6 +160,7 @@ export default {
   },
   data() {
     return {
+      rejectDialog: false,
       goals: [],
     }
   },

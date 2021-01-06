@@ -349,6 +349,9 @@ class User_Appraisal_List(models.Model):
     mid_yearM_rejection = models.CharField(
         max_length=3000, blank=False, null=False, default="NIL"
     )
+    end_yearM_rejection = models.CharField(
+        max_length=3000, blank=False, null=False, default="NIL"
+    )
     appraisalHR_rejection = models.CharField(
         max_length=3000, blank=False, null=False, default="NIL"
     )
