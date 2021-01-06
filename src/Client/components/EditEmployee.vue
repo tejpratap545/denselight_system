@@ -14,60 +14,77 @@
       <v-card-title class="headline py-5"> Edit Employee </v-card-title>
 
       <v-card-text style="height: 500px overflow-y:scroll">
+        <div>
+          <h3>Update basic details</h3>
+          <v-select
+            :items="role"
+            v-model="user.role"
+            label="Role"
+            outlined
+          ></v-select>
 
-        <v-select
-          :items="role"
-          v-model="user.role"
-          label="Role"
-          outlined
-        ></v-select>
+          <v-text-field
+            label="Full Name"
+            v-model="user.name"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            label="email"
+            v-model="user.email"
+            outlined
+          ></v-text-field>
 
-        <v-text-field
-          label="Full Name"
-          v-model="user.name"
-          outlined
-        ></v-text-field>
-        <v-text-field
-          label="email"
-          v-model="user.email"
-          outlined
-        ></v-text-field>
+          <v-select
+            :items="gender"
+            v-model="user.gender"
+            label="Gender"
+            outlined
+          ></v-select>
 
-        <v-select
-          :items="gender"
-          v-model="user.gender"
-          label="Gender"
-          outlined
-        ></v-select>
+          <v-text-field
+            label="Job Title"
+            v-model="user.job_Title"
+            outlined
+          ></v-text-field>
 
-        <v-text-field
-          label="Job Title"
-          v-model="user.job_Title"
-          outlined
-        ></v-text-field>
+          <v-select
+            :items="employees"
+            item-text="name"
+            item-value="id"
+            v-model="user.first_Reporting_Manager"
+            label="First reporting manager"
+            outlined
+          ></v-select>
 
-        <v-select
-          :items="employees"
-          item-text="name"
-          item-value="id"
-          v-model="user.first_Reporting_Manager"
-          label="First reporting manager"
-          outlined
-        ></v-select>
+          <v-select
+            :items="employees"
+            item-text="name"
+            item-value="id"
+            v-model="user.second_Reporting_Manager"
+            label="Second reporting manager"
+            outlined
+          ></v-select>
 
-        <v-select
-          :items="employees"
-          item-text="name"
-          item-value="id"
-          v-model="user.second_Reporting_Manager"
-          label="Second reporting manager"
-          outlined
-        ></v-select>
+          <v-btn color="primary" @click="createUser"> Save </v-btn>
+          <v-btn text @click="dialog = false"> Close </v-btn>
+        </div>
+        <div>
+          <h3 class="my-5">Reset Password</h3>
+          <v-text-field
+            v-model="passwordReset.password1"
+            label="New Password"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            v-model="passwordReset.password2"
+            label="Confirm Password"
+            outlined
+          ></v-text-field>
+          <v-btn elevation="0" color="primary" @click="changePassword">
+            Reset Password</v-btn
+          >
+        </div>
       </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary" @click="createUser"> Save </v-btn>
-        <v-btn text @click="dialog = false"> Close </v-btn>
-      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -91,7 +108,6 @@ export default {
         first_Reporting_Manager: response.first_Reporting_Manager.id,
         second_Reporting_Manager: response.second_Reporting_Manager.id,
       }
-
     } catch (error) {
       console.log(error)
     }
@@ -103,6 +119,11 @@ export default {
       gender: ['Male', 'Female'],
       employees: [],
       user: {},
+      passwordReset: {
+        password1: '',
+        password2: '',
+        profile: this.id,
+      },
     }
   },
   methods: {
@@ -124,6 +145,24 @@ export default {
           })
         })
     },
+    changePassword() {
+       this.$axios
+        .$post('/api/profile/setpassword', this.passwordReset)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Password changed successully',
+            color: 'info',
+          })
+
+           dialog = false
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error changing password',
+            color: 'error',
+          })
+        })
+    }
   },
 }
 </script>

@@ -26,22 +26,16 @@
               <p class="text-center">{{ profile.email }}</p>
             </div>
 
-            <v-row>
-              <v-col>
+            <div>
                 <v-file-input
-                  label="File input"
+                  label="Upload new picture"
                   filled
                   prepend-icon="mdi-camera"
                   name="profilePicture"
                   v-model="file"
+                  @change="uploadPicture"
                 ></v-file-input>
-              </v-col>
-              <v-col>
-                <v-btn @click="uploadPicture" elevation="0" color="primary">
-                  Upload Picture
-                </v-btn>
-              </v-col>
-            </v-row>
+            </div>
 
             <v-simple-table>
               <template v-slot:default>
@@ -163,7 +157,7 @@ export default {
         })
         .catch((error) => {
           this.$notifier.showMessage({
-            content: 'Error changing password',
+            content: 'Profile picture uploaded failed',
             color: 'error',
           })
         })
