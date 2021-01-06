@@ -20,7 +20,7 @@
         @close-skills-dialog="addSkillsDialog = false"
       />
     </div>
-    <div class="px-10 my-5">
+    <div class="ma-5">
       <v-tabs
         v-model="tabData"
         background-color="transparent"

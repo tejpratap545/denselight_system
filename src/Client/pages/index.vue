@@ -73,7 +73,7 @@
             </v-menu>
           </v-col>
 
-          <v-col>
+          <v-col style="display: flex; justify-content: flex-end;">
             <div v-if="appraisalSelectedIndex != 0">
               <h3 class="font-weight-medium">
                 {{ appraisalSelected.appraisal_name }} -
@@ -86,7 +86,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col style="display: flex; justify-content: center;">
             <small class="ma-0">
               Status:
               {{
@@ -106,7 +106,6 @@
         v-if="appraisalSelectedIndex != 0"
         class="button-group ma-5"
         elevation="0"
-        color="primary"
         dark
         rounded
       >
