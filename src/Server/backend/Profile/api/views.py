@@ -8,6 +8,7 @@ from django.views.decorators.cache import cache_page
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from backend.Profile.permissions import IsHrManager
@@ -102,10 +103,13 @@ class SetPassword(generics.CreateAPIView):
 class NotificationViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = NotificationSerializer
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        return Notification.objects.filter(user=self.request.user.profile).annotate(
-            unseen=Count("seen", filter=Q(seen=False))
+        return (
+            Notification.objects.filter(user=self.request.user.profile)
+            .order_by("-created_at")
+            .annotate(unseen=Count("seen", filter=Q(seen=False)))
         )
 
     @method_decorator(cache_page(15))

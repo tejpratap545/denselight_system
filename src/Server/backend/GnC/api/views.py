@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework.decorators import api_view, permission_classes
@@ -9,6 +10,8 @@ from ..models import *
 from .serializers import *
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
+
+from ...Profile.models import Notification
 
 
 class CreateGoalView(generics.CreateAPIView):
@@ -180,9 +183,20 @@ class DepartmentalCompetenciesVieSet(ModelViewSet):
 def approved_goal(request, *args, **kwargs):
 
     goal = get_object_or_404(Goals, id=kwargs.get("pk"))
+    app = goal.appraisal
     if goal.appraisal.manager == request.user.profile:
         goal.status = "APPROVED"
+
         goal.save()
+        title = f"{app.manager.name} approve goal  of  {app.appraisal_name}"
+        description = f"Hi {app.employee.name} Manager {app.manager.name} approve goal  {goal.summary}  of{app.appraisal_name} . "
+        Notification.objects.create(
+            user=app.employee, title=title, description=description, color="success"
+        )
+        try:
+            send_mail(title, description, settings.OFFICIAL_MAIL, [app.employee.email])
+        except:
+            pass
         return Response(
             {"msg": "Your goal is successfully approved"}, status=status.HTTP_200_OK
         )
@@ -194,9 +208,20 @@ def approved_goal(request, *args, **kwargs):
 def reject_goal(request, *args, **kwargs):
 
     goal = get_object_or_404(Goals, id=kwargs.get("pk"))
+    app = goal.appraisal
     if goal.appraisal.manager == request.user.profile:
         goal.status = "REJECTED"
         goal.save()
+        title = f"{app.manager.name} reject goal  of  {app.appraisal_name}"
+        description = f"Hi {app.employee.name} Manager {app.manager.name} reject goal  {goal.summary}  of{app.appraisal_name} . "
+        Notification.objects.create(
+            user=app.employee, title=title, description=description, color="success"
+        )
+        try:
+            send_mail(title, description, settings.OFFICIAL_MAIL, [app.employee.email])
+        except:
+            pass
+
         return Response(
             {"msg": "Your goal is successfully rejected"}, status=status.HTTP_200_OK
         )

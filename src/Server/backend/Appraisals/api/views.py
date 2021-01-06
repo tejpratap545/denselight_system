@@ -510,6 +510,20 @@ class CreatePeerAppraisal(generics.CreateAPIView):
                     title3=validated_data.get("title3"),
                     created_by=request.user.profile,
                 )
+                title = "invitation for peerAppraisal"
+                description = f"Hi {profile.name} {self.request.user.profile.name} invited you  for peer appraisal review  . "
+                Notification.objects.create(
+                    user=profile,
+                    title=title,
+                    description=description,
+                    color="info",
+                )
+                try:
+                    send_mail(
+                        title, description, settings.OFFICIAL_MAIL, [profile.email]
+                    )
+                except:
+                    pass
 
             return Response(employee, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

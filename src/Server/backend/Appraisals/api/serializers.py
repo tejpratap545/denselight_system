@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from rest_framework import serializers
 from ..models import *
 from django.db import transaction
@@ -10,6 +12,7 @@ from ...GnC.api.serializers import (
     DepartmentCompetenciesSerializer,
 )
 from backend.Trainings.api.serializers import SkillsSerializer
+from ...Profile.models import Notification
 
 
 class AppraisalCategorySerializer(serializers.ModelSerializer):
@@ -229,6 +232,20 @@ class MidYearRejectionSerializer(serializers.ModelSerializer):
         super(MidYearRejectionSerializer, self).update(instance, validated_data)
         instance.status = "S1BReview"
         instance.save()
+        title = f"{instance.manager.name} reject mid year review  of  {instance.appraisal_name}"
+        description = f"Hi {instance.employee.name} Manager {instance.manager.name} reject mid year review  of{instance.appraisal_name} . Manager mid year rejection comment is {instance.mid_yearM_rejection} "
+        Notification.objects.create(
+            user=instance.employee,
+            title=title,
+            description=description,
+            color="error",
+        )
+        try:
+            send_mail(
+                title, description, settings.OFFICIAL_MAIL, [instance.employee.email]
+            )
+        except:
+            pass
         return instance
 
 
@@ -241,6 +258,20 @@ class EndRejectionSerializer(serializers.ModelSerializer):
         super(EndRejectionSerializer, self).update(instance, validated_data)
         instance.status = "S2Employee"
         instance.completion = "null"
+        title = f"{instance.manager.name} reject end year review  of  {instance.appraisal_name}"
+        description = f"Hi {instance.employee.name} Manager {instance.manager.name} reject end year review  of{instance.appraisal_name} . Manager end year rejection comment is {instance.end_yearM_rejection} "
+        Notification.objects.create(
+            user=instance.employee,
+            title=title,
+            description=description,
+            color="error",
+        )
+        try:
+            send_mail(
+                title, description, settings.OFFICIAL_MAIL, [instance.employee.email]
+            )
+        except:
+            pass
         instance.save()
         return instance
 

@@ -10,19 +10,19 @@ class IsOwner(permissions.BasePermission):
 
 class IsEmployee(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return request.user.ROLE_TYPE == "Employee"
+        return request.user.role == "Employee"
 
 
 class IsManager(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return request.user.ROLE_TYPE == "Manager"
+        return request.user.role == "Manager"
 
 
 class IsHr(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return request.user.ROLE_TYPE == "Hr"
+        return request.user.role == "Hr"
 
 
 class IsHrManager(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return request.user.ROLE_TYPE == "HRManager"
+        return request.user.role == "HRManager"
