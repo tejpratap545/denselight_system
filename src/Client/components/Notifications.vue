@@ -13,7 +13,7 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <v-card v-else class="notification-body">
-      <v-list>
+      <v-list three-line>
         <v-list-item
           v-for="notification in notifications"
           :key="notification.id"
