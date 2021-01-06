@@ -68,6 +68,9 @@
           <v-btn color="primary" @click="createUser"> Save </v-btn>
           <v-btn text @click="dialog = false"> Close </v-btn>
         </div>
+
+        <v-divider class="my-10"></v-divider>
+
         <div>
           <h3 class="my-5">Reset Password</h3>
           <v-text-field
@@ -83,6 +86,7 @@
           <v-btn elevation="0" color="primary" @click="changePassword">
             Reset Password</v-btn
           >
+          <v-btn text @click="dialog = false"> Close </v-btn>
         </div>
       </v-card-text>
     </v-card>
@@ -146,7 +150,7 @@ export default {
         })
     },
     changePassword() {
-       this.$axios
+      this.$axios
         .$post('/api/profile/setpassword', this.passwordReset)
         .then((res) => {
           this.$notifier.showMessage({
@@ -154,7 +158,7 @@ export default {
             color: 'info',
           })
 
-           dialog = false
+          dialog = false
         })
         .catch((error) => {
           this.$notifier.showMessage({
@@ -162,7 +166,7 @@ export default {
             color: 'error',
           })
         })
-    }
+    },
   },
 }
 </script>
