@@ -417,6 +417,10 @@ export default {
           value: 'category',
         },
         {
+          text: 'Description',
+          value: 'description',
+        },
+        {
           text: 'Goal Title',
           value: 'goal_title',
         },
@@ -519,6 +523,7 @@ export default {
           id: goal.id,
           category: goal.goal_category.name,
           goal_title: goal.summary,
+          description: goal.description,
           due: goal.due,
           status: goal.status,
           weightage: `${goal.weightage}%`,

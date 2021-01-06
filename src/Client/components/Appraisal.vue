@@ -291,6 +291,10 @@ export default {
       },
       goalHeaders: [
         { text: 'Goal', value: 'goal_title' },
+        {
+          text: 'Description',
+          value: 'description',
+        },
         { text: 'Tracking', value: 'tracking_status' },
         { text: 'Comments', value: 'user_comments' },
         { text: 'Actions', value: 'actions' },
@@ -310,6 +314,7 @@ export default {
           id: goal.id,
           category: goal.goal_category.name,
           goal_title: goal.summary,
+          description: goal.description,
           due: goal.due,
           status: goal.status,
           weightage: `${goal.weightage}%`,

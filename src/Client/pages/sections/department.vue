@@ -108,7 +108,7 @@
                       <v-dialog
                         v-model="appraisal.appraisal_dialog"
                         scrollable
-                        max-width="800"
+                        max-width="1200"
                       >
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
