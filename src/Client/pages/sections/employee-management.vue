@@ -71,6 +71,7 @@ export default {
         { text: 'Department', value: 'department', sortable: true },
         { text: 'Position', value: 'position', sortable: true },
         { text: 'Supervisor', value: 'supervisor', sortable: true },
+        { text: 'Action', value: 'action'},
       ],
       employees: [],
     }
