@@ -35,6 +35,91 @@
                 :items-per-page="10"
                 show-expand
               >
+                <template v-slot:[`item.actions`]="{ item }">
+                  <v-dialog v-model="item.dialog" scrollable max-width="800">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn color="primary" icon v-bind="attrs" v-on="on">
+                        <v-icon>mdi-chat-outline</v-icon>
+                      </v-btn>
+                    </template>
+
+                    <v-card>
+                      <v-toolbar color="primary" dark>
+                        <b>{{ item.goal_title }}</b> : Comments
+                        <v-spacer></v-spacer>
+                        <v-btn icon @click="item.dialog = false">
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </v-toolbar>
+
+                      <v-card-text>
+                        <v-tabs v-model="item.tabs" vertical class="mt-5">
+                          <v-tab>GOAL SETTING</v-tab>
+                          <v-tab>MID YEAR</v-tab>
+                          <v-tab>END YEAR</v-tab>
+
+                          <v-tabs-items v-model="item.tabs">
+                            <v-tab-item
+                              v-for="comment in item.comments"
+                              :key="comment.id"
+                              class="pa-5"
+                            >
+                              <v-card flat class="chat-ui">
+                                <v-card-text class="chat-container">
+                                  <p
+                                    v-if="comment.data == null"
+                                    class="text-center"
+                                  >
+                                    No comments yet
+                                  </p>
+                                  <v-card
+                                    v-for="c in comment.data"
+                                    :key="c.id"
+                                    flat
+                                    :class="
+                                      c.created_by == $auth.user.id
+                                        ? 'my-4 my-chat'
+                                        : 'my-4 manager-chat'
+                                    "
+                                    raised
+                                  >
+                                    <v-card-title class="subtitle-2">{{
+                                      c.comment
+                                    }}</v-card-title>
+                                    <v-card-text
+                                      v-if="c.created_by == $auth.user.id"
+                                    >
+                                      ~My response
+                                    </v-card-text>
+
+                                    <v-card-text v-else>
+                                      ~Manager's Comment
+                                    </v-card-text>
+                                  </v-card>
+                                </v-card-text>
+                                <v-card-actions>
+                                  <v-textarea
+                                    v-model="newcomment.comment"
+                                    label="Write your comment here"
+                                    outlined
+                                  ></v-textarea>
+                                </v-card-actions>
+                                <div>
+                                  <v-btn
+                                    color="primary"
+                                    @click="postcomment(comment.id, item)"
+                                    >Send Message
+                                  </v-btn>
+                                </div>
+                              </v-card>
+                            </v-tab-item>
+                          </v-tabs-items>
+                        </v-tabs>
+                      </v-card-text>
+                    </v-card>
+                  </v-dialog>
+                </template>
+
                 <template v-slot:expanded-item="{ headers, item }">
                   <td :colspan="headers.length">
                     <v-simple-table class="my-5">
@@ -173,6 +258,7 @@ export default {
           align: 'center',
           value: 'actions',
         },
+        { text: '', value: 'data-table-expand' },
       ],
       myGoalsTableItems: [],
       mySkillsTableHeader: [
@@ -244,7 +330,6 @@ export default {
           due: goal.due,
           weightage: `${goal.weightage}%`,
           dialog: false,
-          kpi_dialog: false,
           tabs: null,
           date_menu: false,
           comments: [
@@ -277,6 +362,48 @@ export default {
       this.mySkillsTableItems = data.skills
 
       this.name = `${appraisal.employee.name}'s`
+    },
+    postcomment(cid, item) {
+      this.newcomment.goal = item.id
+      item.dialog = false
+
+      let url = ''
+      switch (cid) {
+        case 0:
+          url = 'api/comment/goals/'
+          break
+
+        case 1:
+          url = 'api/comment/midyear/'
+          break
+
+        case 2:
+          url = 'api/comment/endyear/'
+          break
+
+        default:
+          break
+      }
+
+      if (url != '')
+        this.$axios
+          .$post(url, this.newcomment)
+          .then((res) => {
+            this.$notifier.showMessage({
+              content: 'Success commenting',
+              color: 'info',
+            })
+            this.reload()
+          })
+          .catch((error) => {
+            this.$notifier.showMessage({
+              content: 'Error commenting',
+              color: 'error',
+            })
+          })
+    },
+    reload() {
+      this.$emit('reload-mainvue')
     },
   },
 }
