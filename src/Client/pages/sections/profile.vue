@@ -18,7 +18,7 @@
 
           <div>
             <h2 class="text-center">{{ profile.name || '' }}</h2>
-            <p class="text-center">{{ profile.email }}</p>
+            <p class="text-center">{{ profile.email || '' }}</p>
           </div>
 
           <div>
@@ -53,11 +53,11 @@
                 </tr>
                 <tr>
                   <th class="text-left">First reporting officer</th>
-                  <td>{{ profile.first_Reporting_Manager.name || ''}}</td>
+                  <td>{{ profile.first_Reporting_Manager? profile.first_Reporting_Manager.name : ''}}</td>
                 </tr>
                 <tr>
                   <th class="text-left">Second reporting officer</th>
-                  <td>{{ profile.second_Reporting_Manager.name || '' }}</td>
+                  <td>{{ profile.second_Reporting_Manager? profile.second_Reporting_Manager.name : '' }}</td>
                 </tr>
                 <tr>
                   <th class="text-left">Job Title</th>

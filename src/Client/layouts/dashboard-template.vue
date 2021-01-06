@@ -173,7 +173,6 @@ export default {
       .$get('api/status')
       .then((res) => {
         this.statusEffect = res
-        console.log(res)
       })
       .catch((err) => console.log(err))
   },
