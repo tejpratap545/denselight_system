@@ -238,7 +238,7 @@ class EndRejectionSerializer(serializers.ModelSerializer):
         fields = ("end_yearM_rejection",)
 
     def update(self, instance, validated_data):
-        super(EndYearRejectionSerializer, self).update(instance, validated_data)
+        super(EndRejectionSerializer, self).update(instance, validated_data)
         instance.status = "S2Employee"
         instance.completion = "null"
         instance.save()
