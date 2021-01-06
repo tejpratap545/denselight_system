@@ -7,9 +7,11 @@
         <v-list-item two-line>
           <v-list-item-avatar>
             <img
-              :src="profile_Profile
-                      ? profile_Profile
-                      : `https://avatars.dicebear.com/api/identicon/${id}.svg`"
+              :src="
+                profile_Profile
+                  ? profile_Profile
+                  : `https://avatars.dicebear.com/api/identicon/${id}.svg`
+              "
             />
           </v-list-item-avatar>
 
@@ -105,25 +107,35 @@
 
       <v-spacer></v-spacer>
 
-      <v-item-group>
-        <v-badge color="amber" :content="status.a1">
-          <v-icon>mdi-rocket-launch-outline</v-icon>
-        </v-badge>
-        <v-badge color="amber" :content="status.a2">
-          <v-icon>mdi-calendar</v-icon>
-        </v-badge>
-        <v-badge color="amber" :content="status.a3">
-          <v-icon>mdi-calendar</v-icon>
-        </v-badge>
-        <v-badge color="amber" :content="status.a4">
-          <v-icon>mdi-account-clock-outline</v-icon>
-        </v-badge>
-
-        <v-btn @click="toggleDarkTheme()" icon>
-          <v-icon>theme-light-dark</v-icon>
+      <div>
+        <v-btn icon>
+          <v-badge :content="statusEffect.a1"
+            ><v-icon>mdi-rocket-launch-outline</v-icon>
+          </v-badge>
         </v-btn>
 
-      </v-item-group>
+        <v-btn icon>
+          <v-badge :content="statusEffect.a2"
+            ><v-icon>mdi-calendar</v-icon>
+          </v-badge>
+        </v-btn>
+
+        <v-btn icon>
+          <v-badge :content="statusEffect.a3">
+            <v-icon>mdi-calendar</v-icon>
+          </v-badge>
+        </v-btn>
+
+        <v-btn icon>
+          <v-badge  :content="statusEffect.a4">
+            <v-icon>mdi-account-clock-outline</v-icon>
+          </v-badge>
+        </v-btn>
+
+        <v-btn @click="toggleDarkTheme()" icon>
+          <v-icon>mdi-theme-light-dark</v-icon>
+        </v-btn>
+      </div>
 
       <Notifications />
     </v-app-bar>
@@ -145,8 +157,10 @@ export default {
       drawer: null,
       name: this.$auth.loggedIn ? this.$auth.user.name : 'John Doe',
       id: this.$auth.loggedIn ? this.$auth.user.id : 0,
-      profile_Profile: this.$auth.user.profile_Profile ? this.$auth.user.profile_Profile : null,
-      status: {
+      profile_Profile: this.$auth.user.profile_Profile
+        ? this.$auth.user.profile_Profile
+        : null,
+      statusEffect: {
         a1: 0,
         a2: 0,
         a3: 0,
@@ -154,10 +168,13 @@ export default {
       },
     }
   },
-  mounted() {
+  fetch() {
     this.$axios
-      .get('api/status')
-      .then((res) => (this.status = res))
+      .$get('api/status')
+      .then((res) => {
+        this.statusEffect = res
+        console.log(this.statusEffect)
+      })
       .catch((err) => console.log(err))
   },
   methods: {
@@ -168,8 +185,8 @@ export default {
       this.$auth.logout()
     },
     toggleDarkTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-},
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+    },
   },
 }
 </script>

@@ -84,6 +84,7 @@
       </v-card>
 
       <v-toolbar
+        v-if="appraisalSelectedIndex != 0"
         class="button-group ma-5"
         elevation="0"
         color="primary"
