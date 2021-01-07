@@ -100,18 +100,18 @@
                                             :key="c.id"
                                             flat
                                             :class="
-                                              c.created_by == $auth.user.id
+                                              c.cid == 0
                                                 ? 'my-4 my-chat'
                                                 : 'my-4 manager-chat'
                                             "
                                             raised
                                           >
                                             <v-card-title class="subtitle-2">{{
-                                              c.comment
+                                              c.cc
                                             }}</v-card-title>
                                             <v-card-text
                                               v-if="
-                                                c.created_by == $auth.user.id
+                                                c.cid == 0
                                               "
                                             >
                                               ~My response
@@ -399,10 +399,28 @@ export default {
           tabs: null,
           status: goal.status,
           date_menu: false,
-          comments: [
-            { id: 0, date: goal.commentbox_set.reverse() },
-            { id: 1, data: goal.midyrcommentbox_set.reverse() },
-            { id: 2, data: goal.endyrcommentbox_set.reverse() },
+         comments: [
+            {
+              id: 0,
+              data: [
+                { cid: 0, cc: goal.goal_employees_comment },
+                { cid: 1, cc: goal.goal_manager_comment },
+              ],
+            },
+            {
+              id: 1,
+              data: [
+                { cid: 0, cc: goal.MID_user_comments },
+                { cid: 1, cc: goal.MID_manager_comments },
+              ],
+            },
+            {
+              id: 2,
+              data: [
+                { cid: 0, cc: goal.user_comments },
+                { cid: 1, cc: goal.manager_comments },
+              ],
+            },
           ],
           kpi_set: goal.kpi_set,
         })
