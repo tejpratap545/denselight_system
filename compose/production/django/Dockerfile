@@ -25,8 +25,8 @@ COPY ./compose/production/django/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
-# copy django file
-COPY ./src/server /app
+## copy django file
+#COPY ./src/server /app
 
 WORKDIR /app
 
