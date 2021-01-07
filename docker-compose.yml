@@ -60,14 +60,14 @@ services:
       - denselightnuxt:/app
     ports:
       - 3005:3000
-    command: bash -c "npm install && npm run dev"
+    command: bash -c "npm install && npm run build && npm start"
 
   nginx:
     build:
       context: .
       dockerfile: ./compose/production/nginx/Dockerfile
     image: shopit_nginx_image
-    container_name: shopit_nginx
+    container_name: denselight_nginx
     ports:
       - 80:80
       - 443:443
@@ -78,6 +78,10 @@ services:
 
   redis:
     image: redis:5.0
+    ports:
+      - 6379:6379
+
+
 
 #  celeryworker:
 #    <<: *denselightdjango
