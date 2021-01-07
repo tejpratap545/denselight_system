@@ -176,6 +176,13 @@ export default {
       })
       .catch((err) => console.log(err))
   },
+  mounted() {
+    if(window.localStorage.getItem('app-theme-dark') == 'false') {
+      this.$vuetify.theme.dark = false
+    } else {
+      this.$vuetify.theme.dark = true
+    }
+  },
   methods: {
     logout() {
       this.$auth.setToken(false)
@@ -185,6 +192,7 @@ export default {
     },
     toggleDarkTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+      window.localStorage.setItem('app-theme-dark', this.$vuetify.theme.dark)
     },
   },
 }

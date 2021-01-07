@@ -63,7 +63,7 @@
                   v-for="(x, y) in appraisalData"
                   :key="y"
                   link
-                  @click="changeAppraisal(x)"
+                  @click="changeAppraisal(y)"
                 >
                   <v-list-item-title>
                     {{ x.appraisal_name }}
@@ -187,10 +187,16 @@ export default {
       this.appraisalData = await this.$axios.$get(
         '/api/appraisals/list/detail/me'
       )
-      this.changeAppraisal(this.appraisalData[0])
     } catch (error) {
       console.log(error)
     }
+  },
+  mounted() {
+    if (window.localStorage.getItem('selected-appraisal') != null)
+      this.changeAppraisal(
+        parseInt(window.localStorage.getItem('selected-appraisal'))
+      )
+    else this.changeAppraisal(0)
   },
   data() {
     return {
@@ -214,7 +220,9 @@ export default {
   },
   methods: {
     changeAppraisal(i) {
-      this.appraisalSelected = i
+      window.localStorage.setItem('selected-appraisal', i)
+
+      this.appraisalSelected = this.appraisalData[i]
       this.appraisalSelectedIndex = this.appraisalSelected.id
     },
   },
