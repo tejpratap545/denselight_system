@@ -102,12 +102,10 @@
         </v-row>
       </div>
 
-      <v-toolbar
+      <div
         v-if="appraisalSelectedIndex != 0"
         class="button-group ma-5"
         elevation="0"
-        dark
-        rounded
       >
         <!--          goal submit-->
 
@@ -167,7 +165,7 @@
           @click="endYearApproveDialog = true"
           ><v-icon>mdi-check-all</v-icon> Submit</v-btn
         >
-      </v-toolbar>
+      </div>
 
       <AppraisalDetails
         v-if="appraisalSelectedIndex != 0"

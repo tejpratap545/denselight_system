@@ -383,6 +383,8 @@ export default {
     createAppraisal() {
       this.dialog = false
 
+      this.selected_data = this.selected_data.filter(x=> x != null)
+
       switch (this.appraisal_for) {
         case 0 || '0':
           this.appraisal.is_company = true
