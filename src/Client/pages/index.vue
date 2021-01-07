@@ -73,7 +73,7 @@
             </v-menu>
           </v-col>
 
-          <v-col style="display: flex; justify-content: flex-end;">
+          <v-col style="display: flex; justify-content: flex-end">
             <div v-if="appraisalSelectedIndex != 0">
               <h3 class="font-weight-medium">
                 {{ appraisalSelected.appraisal_name }} -
@@ -86,7 +86,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col style="display: flex; justify-content: center;">
+          <v-col style="display: flex; justify-content: center">
             <small class="ma-0">
               Status:
               {{
@@ -119,7 +119,7 @@
           ><v-icon>mdi-check-all</v-icon> Submit</v-btn
         >
         <!--          mid year buttons-->
-        {{ appraisalSelected.mid_year_completion }}
+
         <div v-if="(appraisalSelected.mid_year_completion = 'Uncompleted')">
           <v-btn
             v-if="
@@ -143,19 +143,24 @@
         </div>
 
         <!--          end year buttons-->
-
-        <v-btn
-          v-if="
-            (appraisalSelected.overall_appraisal.status === 'Stage 2' &&
-              appraisalSelected.status === 'S1BManager' &&
-              appraisalSelected.mid_year_completion === 'completed') ||
-            (appraisalSelected.status === 'S2Employee' &&
-              appraisalSelected.completion === 'Ecompleted')
-          "
-          text
-          @click="endYearEmployeeReviewDialog = true"
-          ><v-icon>mdi-message-draw</v-icon> Review</v-btn
-        >
+        <v-tooltip right>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="primary" dark v-bind="attrs" v-on="on">
+              End Year Review
+            </v-btn>
+          </template>
+          <v-btn
+            v-if="
+              (appraisalSelected.overall_appraisal.status === 'Stage 2' &&
+                appraisalSelected.status === 'S1BManager') ||
+              (appraisalSelected.status === 'S2Employee' &&
+                appraisalSelected.completion === 'Ecompleted')
+            "
+            text
+            @click="endYearEmployeeReviewDialog = true"
+            ><v-icon>mdi-message-draw</v-icon> Review</v-btn
+          >
+        </v-tooltip>
 
         <v-btn
           v-if="

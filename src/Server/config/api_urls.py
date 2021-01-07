@@ -21,6 +21,7 @@ from backend.Profile.api.views import (
     StatusView,
     change_role,
     set_profile_picture,
+    get_supervisor,
 )
 from backend.Appraisals.api.views import (
     ManagerAppraisal,
@@ -53,6 +54,7 @@ from backend.Trainings.api.views import SkillsApiView, CreateSkillsApiView
 urlpatterns = [
     path("user/me/", ProfileInfoView.as_view()),
     path("status", StatusView.as_view()),
+    path("get_supervisor", get_supervisor),
     path("profile/<int:pk>", ProfileView.as_view()),
     path("profile/changerole", change_role),
     path("profile/change_profile_picture", set_profile_picture),

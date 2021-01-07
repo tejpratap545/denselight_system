@@ -172,3 +172,9 @@ def set_profile_picture(request):
         return Response("Success")
     except:
         return Response("Errors", status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def get_supervisor(request):
+    profile = get_object_or_404(Profile, user__username=request.data.get("username"))
+    return Response({"Supervisor": profile.first_Reporting_Manager.name})

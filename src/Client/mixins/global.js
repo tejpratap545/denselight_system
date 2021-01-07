@@ -16,29 +16,8 @@ export default {
                 return 'Goals Setting Stage Gaols Approved'
             }
             // mid year status
-            else if (
-                overallAppraisalStatus === 'Stage 1B' &&
-                appraisalStatus.status === 'S1BEmployee'
-            ) {
-                return 'Mid Year Assessment: My Reviews Stage'
-            } else if (
-                overallAppraisalStatus === 'Stage 1B' &&
-                appraisalStatus.status === 'S1BManager'
-            ) {
-                return 'Mid Year Assessment: My Reviews Submission Stage'
-            } else if (
-                overallAppraisalStatus === 'Stage 1B' &&
-                appraisalStatus.status === 'S1BReview'
-            ) {
-                return 'Mid Year Assessment: My Reviews Submission Stage'
-            } else if (
-                overallAppraisalStatus === 'Stage 1B' &&
-                appraisalStatus.status === 'S1BManager' &&
-                midYearCompletion === 'Uncompleted'
-            ) {
-                return 'End Year Assessment: Manager/Supervisor Reviews Stage'
-            } else if (overallAppraisalStatus === 'Stage 1B' && midYearCompletion === 'Completed') {
-                return 'Mid Year Completed'
+            else if (overallAppraisalStatus === 'Stage 1B') {
+                return 'Mid Year Pending Manager/Supervisor input'
             }
 
             // end year stage
