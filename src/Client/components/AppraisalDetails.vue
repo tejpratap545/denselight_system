@@ -150,7 +150,7 @@
                                   </v-card-text>
                                   <v-card-actions>
                                     <v-textarea
-                                      v-model="newcomment.comment"
+                                      v-model="newComment"
                                       label="Write your comment here"
                                       outlined
                                     ></v-textarea>
@@ -402,11 +402,8 @@ export default {
   props: ['appraisal'],
   data() {
     return {
-      newcomment: {
-        comment: '',
-        goal: 0,
-        created_by: this.$auth.user.id,
-      },
+      newComment: '',
+
       addGoalsDialog: false,
       addSkillsDialog: false,
       addCoreValueDialog: false,
@@ -601,30 +598,13 @@ export default {
       }
     },
     postcomment(cid, item) {
-      this.newcomment.goal = item.id
       item.dialog = false
 
-      let url = ''
-      switch (cid) {
-        case 0:
-          url = 'api/comment/goals/'
-          break
-
-        case 1:
-          url = 'api/comment/midyear/'
-          break
-
-        case 2:
-          url = 'api/comment/endyear/'
-          break
-
-        default:
-          break
-      }
-
-      if (url != '')
+      if (cid === 0) {
         this.$axios
-          .$post(url, this.newcomment)
+          .patch(`api/goal/${item.id}`, {
+            goal_employees_comment: this.newComment,
+          })
           .then((res) => {
             this.$notifier.showMessage({
               content: 'Success commenting',
@@ -638,6 +618,45 @@ export default {
               color: 'error',
             })
           })
+      }
+      if (cid === 1) {
+        this.$axios
+          .patch(`api/goal/${item.id}`, {
+            MID_user_comments: this.newComment,
+          })
+          .then((res) => {
+            this.$notifier.showMessage({
+              content: 'Success commenting',
+              color: 'info',
+            })
+            this.reload()
+          })
+          .catch((error) => {
+            this.$notifier.showMessage({
+              content: 'Error commenting',
+              color: 'error',
+            })
+          })
+      }
+      if (cid === 2) {
+        this.$axios
+          .patch(`api/goal/${item.id}`, {
+            user_comments: this.newComment,
+          })
+          .then((res) => {
+            this.$notifier.showMessage({
+              content: 'Success commenting',
+              color: 'info',
+            })
+            this.reload()
+          })
+          .catch((error) => {
+            this.$notifier.showMessage({
+              content: 'Error commenting',
+              color: 'error',
+            })
+          })
+      }
     },
     reload() {
       this.$emit('reload-mainvue')
