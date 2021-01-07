@@ -171,7 +171,7 @@
       <AppraisalDetails
         v-if="appraisalSelectedIndex != 0"
         :appraisal="appraisalSelected"
-        @reload-mainvue="refetch()"
+        @reload-mainvue="this.$fetch()"
       />
     </div>
   </div>
@@ -193,6 +193,7 @@ export default {
       if (i != null) {
         if (parseInt(i) < this.appraisalData.length)
           this.changeAppraisal(parseInt(i))
+        else this.changeAppraisal(0)
       } else this.changeAppraisal(0)
     } catch (error) {
       console.log(error)
@@ -222,22 +223,7 @@ export default {
       this.appraisalSelected = this.appraisalData[i]
       this.appraisalSelectedIndex = this.appraisalSelected.id
 
-      if (!this.$fetchState.pending) {
-        window.localStorage.setItem('selected-appraisal', i)
-      }
-    },
-    async refetch() {
-      try {
-        this.appraisalData = await this.$axios.$get(
-          '/api/appraisals/list/detail/me'
-        )
-
-        this.changeAppraisal(
-          parseInt(window.localStorage.getItem('selected-appraisal'))
-        )
-      } catch (error) {
-        console.log(error)
-      }
+      window.localStorage.setItem('selected-appraisal', i)
     },
   },
   fetchOnServer: false,
