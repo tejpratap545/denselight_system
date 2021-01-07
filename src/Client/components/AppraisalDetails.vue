@@ -270,7 +270,18 @@
                         </tbody>
                       </template>
                     </v-simple-table>
-
+                    <v-row>
+                      <v-col> Goal Setting Stage Employee comments </v-col>
+                      <v-col>
+                        {{ item.goal_employees_comment }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Goal Setting Stage Manager comments </v-col>
+                      <v-col>
+                        {{ item.goal_manager_comment }}
+                      </v-col>
+                    </v-row>
                     <v-row>
                       <v-col>Tracking status</v-col>
                       <v-col>
@@ -281,6 +292,12 @@
                       <v-col> Mid year employee comments </v-col>
                       <v-col>
                         {{ item.MID_user_comments }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Mid year manager comments </v-col>
+                      <v-col>
+                        {{ item.MID_manager_comments }}
                       </v-col>
                     </v-row>
                     <v-row>
@@ -301,6 +318,12 @@
                       <v-col>End Year Employee Comment</v-col>
                       <v-col>
                         {{ item.user_comments }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>End Year Manager Comment</v-col>
+                      <v-col>
+                        {{ item.manager_comments }}
                       </v-col>
                     </v-row>
                   </td>
@@ -545,9 +568,14 @@ export default {
           ],
           kpi_set: goal.kpi_set,
           tracking_status: goal.tracking_status,
+          goal_manager_comment: goal.goal_manager_comment,
+
+          goal_employees_comment: goal.goal_employees_comment,
           MID_user_comments: goal.MID_user_comments,
+          MID_manager_comments: goal.MID_manager_comments,
           user_rating: goal.user_rating,
           user_comments: goal.user_comments,
+          manager_comments: goal.manager_comments,
         })
       })
 
