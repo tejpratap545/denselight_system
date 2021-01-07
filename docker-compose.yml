@@ -24,6 +24,10 @@ services:
     container_name: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: denselight
+      POSTGRES_DB: denselight_db
+      POSTGRES_USER: denselight
     ports:
       - 5432:5432
 
