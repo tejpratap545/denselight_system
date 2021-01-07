@@ -50,7 +50,7 @@
 
       <div class="ma-5">
         <v-row>
-          <v-col cols="2">
+          <v-col cols="3">
             <v-menu rounded="lg">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" fab v-bind="attrs" v-on="on">
@@ -73,31 +73,33 @@
             </v-menu>
           </v-col>
 
-          <v-col style="display: flex; justify-content: flex-end;">
+          <v-col
+            cols="9"
+            style="
+              display: flex;
+              justify-content: flex-end;
+            "
+          >
             <div v-if="appraisalSelectedIndex != 0">
               <h3 class="font-weight-medium">
                 {{ appraisalSelected.appraisal_name }} -
                 {{ appraisalSelected.appraisal_category.name }}
               </h3>
+              <small class="ma-0">
+                Status:
+                {{
+                  getStatus(
+                    appraisalSelected.overall_appraisal.status,
+                    appraisalSelected.status,
+                    appraisalSelected.mid_year_completion,
+                    appraisalSelected.completion
+                  )
+                }}
+              </small>
             </div>
             <div v-else>
               <h3 class="font-weight-medium">No Appraisal selected</h3>
             </div>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col style="display: flex; justify-content: center;">
-            <small class="ma-0">
-              Status:
-              {{
-                getStatus(
-                  appraisalSelected.overall_appraisal.status,
-                  appraisalSelected.status,
-                  appraisalSelected.mid_year_completion,
-                  appraisalSelected.completion
-                )
-              }}
-            </small>
           </v-col>
         </v-row>
       </div>
@@ -106,6 +108,7 @@
         v-if="appraisalSelectedIndex != 0"
         class="button-group ma-5"
         elevation="0"
+        style="display: flex; justify-content: center"
       >
         <!--          goal submit-->
 
@@ -119,7 +122,6 @@
           ><v-icon>mdi-check-all</v-icon> Submit</v-btn
         >
         <!--          mid year buttons-->
-        {{ appraisalSelected.mid_year_completion }}
         <div v-if="(appraisalSelected.mid_year_completion = 'Uncompleted')">
           <v-btn
             v-if="

@@ -117,29 +117,21 @@
                               >
                                 <v-card flat class="chat-ui">
                                   <v-card-text class="chat-container">
-                                    <p
-                                      v-if="comment.data == null"
-                                      class="text-center"
-                                    >
-                                      No comments yet
-                                    </p>
                                     <v-card
                                       v-for="c in comment.data"
-                                      :key="c.id"
+                                      :key="c.cid"
                                       flat
                                       :class="
-                                        c.created_by == $auth.user.id
+                                        c.cid == 0
                                           ? 'my-4 my-chat'
                                           : 'my-4 manager-chat'
                                       "
                                       raised
                                     >
                                       <v-card-title class="subtitle-2">{{
-                                        c.comment
+                                        c.cc
                                       }}</v-card-title>
-                                      <v-card-text
-                                        v-if="c.created_by == $auth.user.id"
-                                      >
+                                      <v-card-text v-if="c.cid == 0">
                                         ~My response
                                       </v-card-text>
 
@@ -532,22 +524,22 @@ export default {
             {
               id: 0,
               data: [
-                { comment: goal.goal_employees_comment },
-                { comment: goal.goal_manager_comment },
+                { cid: 0, cc: goal.goal_employees_comment },
+                { cid: 1, cc: goal.goal_manager_comment },
               ],
             },
             {
               id: 1,
               data: [
-                { comment: goal.MID_user_comments },
-                { comment: goal.MID_manager_comments },
+                { cid: 0, cc: goal.MID_user_comments },
+                { cid: 1, cc: goal.MID_manager_comments },
               ],
             },
             {
               id: 2,
               data: [
-                { comment: goal.user_comments },
-                { comment: goal.manager_comments },
+                { cid: 0, cc: goal.user_comments },
+                { cid: 1, cc: goal.manager_comments },
               ],
             },
           ],

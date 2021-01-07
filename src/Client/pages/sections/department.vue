@@ -229,13 +229,8 @@
                 >
                   <v-menu rounded="lg">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        elevation="0"
-                        color="primary"
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        Change Appraisal
+                      <v-btn color="primary" fab v-bind="attrs" v-on="on">
+                        <v-icon>mdi-cached</v-icon>
                       </v-btn>
                     </template>
 
@@ -653,6 +648,7 @@
                       </v-card-text>
                     </v-card>
                   </v-tab-item>
+
                   <v-tab-item>
                     <v-card flat>
                       <v-card-text>
@@ -700,6 +696,7 @@
                       </v-card-text>
                     </v-card>
                   </v-tab-item>
+
                   <v-tab-item>
                     <v-card flat>
                       <v-card-text>
@@ -744,6 +741,7 @@
                       </v-card-text>
                     </v-card>
                   </v-tab-item>
+
                   <v-tab-item>
                     <v-card flat>
                       <v-card-text> </v-card-text>
