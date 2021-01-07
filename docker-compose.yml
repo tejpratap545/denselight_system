@@ -59,7 +59,7 @@ services:
     env_file:
       - ./.env/production/.nuxt
     volumes:
-      - denselightnuxt:/app
+      - ./src/Client:/app
     ports:
       - 3000:3000
     command: bash -c "npm install && npm run build && npm start"
