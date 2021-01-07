@@ -51,8 +51,15 @@ services:
       - redis
     volumes:
       - ./src/Server:/app
-    env_file:
-      - ./.env/production/.django
+    environment:
+      DB_NAME: denselight
+      DB_PASSWORD: denselight
+      DB_HOST: postgres
+      DB_PORT: 5432
+      RABBITMQ_URL: amqp://denselight:denselight@127.0.0.1/asgi
+      CELERY_BROKER_URL: amqp://denselight:denselight@127.0.0.1/asgi
+      DJANGO_SECRET_KEY: SBMCBmoKAdESRGbT0HVTFvhUehfI6ALJLYa4UaHsDvwSBMCBmoKAdESRGbT0HVTFvhUehfI6ALJLYa4UaHsDvw
+      REDIS_URL: redis://redis:6379/1
     ports:
       - 8000:8000
     command: /start
@@ -62,8 +69,8 @@ services:
       context: .
       dockerfile: ./compose/production/nuxt/Dockerfile
     container_name: denselight_nuxt
-    env_file:
-      - ./.env/production/.nuxt
+    environment:
+      API_BASE_URL: https://68:183:189:117:8001/
     volumes:
       - ./src/Client:/app
     ports:
