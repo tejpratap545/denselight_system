@@ -1,181 +1,192 @@
 <template>
-  <div class="pa-5">
-    <div>
-      <AppraisalCreate />
+  <div>
+    <div v-if="$fetchState.pending">
+      <v-skeleton-loader
+        class="my-5"
+        type=" table-thead, card-heading, card"
+      ></v-skeleton-loader>
     </div>
+    <div v-else-if="$fetchState.error">An error occurred</div>
+    <div class="ma-5" v-else>
+      <div>
+        <AppraisalCreate @reload-appraisals="$fetch()" />
+      </div>
 
-    <div class="my-5">
-      <v-tabs
-        v-model="tabData"
-        background-color="transparent"
-        color="#2952A4"
-        centered
-        grow
-      >
-        <v-tab>Overall Appraisal</v-tab>
-        <v-tab>User Appraisal</v-tab>
-        <v-tab>Reports</v-tab>
-      </v-tabs>
-      <v-tabs-items v-model="tabData">
-        <v-tab-item>
-          <v-card flat>
-            <v-card-text>
-              <div class="my-5">
-                <v-tabs background-color="transparent" color="#2952A4">
-                  <v-tab class="justify-start">ONGOING APPRAISALS</v-tab>
-                  <v-tab class="justify-start">COMPLETED APPRAISALS</v-tab>
+      <div class="my-5">
+        <v-tabs
+          v-model="tabData"
+          background-color="transparent"
+          color="#2952A4"
+          centered
+          grow
+        >
+          <v-tab>Overall Appraisal</v-tab>
+          <v-tab>User Appraisal</v-tab>
+          <v-tab>Reports</v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tabData">
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <div class="my-5">
+                  <v-tabs background-color="transparent" color="#2952A4">
+                    <v-tab class="justify-start">ONGOING APPRAISALS</v-tab>
+                    <v-tab class="justify-start">COMPLETED APPRAISALS</v-tab>
 
-                  <v-tab-item>
-                    <v-card flat>
-                      <v-card-text>
-                        <v-data-table
-                          :headers="onGoingTableHeader"
-                          :items="onGoingTableItems"
-                          :items-per-page="10"
-                          :loading="loading"
-                        >
-                          <template v-slot:[`item.status`]="{ item }">
-                            <div v-if="item.status == 'Stage 1'">
-                              Goal Setting Stage
-                            </div>
-                            <div v-else-if="item.status == 'Stage 1B'">
-                              Mid Year Stage
-                            </div>
-                            <div v-else-if="item.status == 'Stage 2'">
-                              End Year Stage
-                            </div>
-                            <div v-else-if="item.status == 'Stage 3'">
-                              Report Stage
-                            </div>
-                            <div v-else-if="item.status == 'Stage 4'">
-                              Celebration Stage
-                            </div>
-                            <div v-else>Unknown Stage</div>
-                          </template>
-                          <template v-slot:[`item.actions`]="{ item }">
-                            <AppraisalEdit :appraisal="item.overallAppraisal" />
-                            <v-btn
-                              color="error"
-                              icon
-                              @click="deleteAppraisal(item.id)"
-                            >
-                              <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                          </template>
-                        </v-data-table>
-                      </v-card-text>
-                    </v-card>
-                  </v-tab-item>
+                    <v-tab-item>
+                      <v-card flat>
+                        <v-card-text>
+                          <v-data-table
+                            :headers="onGoingTableHeader"
+                            :items="onGoingTableItems"
+                            :items-per-page="10"
+                            :loading="loading"
+                          >
+                            <template v-slot:[`item.status`]="{ item }">
+                              <div v-if="item.status == 'Stage 1'">
+                                Goal Setting Stage
+                              </div>
+                              <div v-else-if="item.status == 'Stage 1B'">
+                                Mid Year Stage
+                              </div>
+                              <div v-else-if="item.status == 'Stage 2'">
+                                End Year Stage
+                              </div>
+                              <div v-else-if="item.status == 'Stage 3'">
+                                Report Stage
+                              </div>
+                              <div v-else-if="item.status == 'Stage 4'">
+                                Celebration Stage
+                              </div>
+                              <div v-else>Unknown Stage</div>
+                            </template>
+                            <template v-slot:[`item.actions`]="{ item }">
+                              <AppraisalEdit
+                                :appraisal="item.overallAppraisal"
+                              />
+                              <v-btn
+                                color="error"
+                                icon
+                                @click="deleteAppraisal(item.id)"
+                              >
+                                <v-icon>mdi-close</v-icon>
+                              </v-btn>
+                            </template>
+                          </v-data-table>
+                        </v-card-text>
+                      </v-card>
+                    </v-tab-item>
 
-                  <v-tab-item>
-                    <v-card flat>
-                      <v-card-text>
-                        <v-data-table
-                          :headers="completedTableHeader"
-                          :items="completedTableItems"
-                          :items-per-page="10"
-                        >
-                          <template v-slot:[`item.action`]="{ item }">
-                            <v-btn
-                              v-model="item.action"
-                              color="transparent"
-                              elevation="0"
-                            >
-                              <i class="fas fa-ellipsis-h"></i>
-                            </v-btn>
-                          </template>
-                        </v-data-table>
-                      </v-card-text>
-                    </v-card>
-                  </v-tab-item>
-                </v-tabs>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
+                    <v-tab-item>
+                      <v-card flat>
+                        <v-card-text>
+                          <v-data-table
+                            :headers="completedTableHeader"
+                            :items="completedTableItems"
+                            :items-per-page="10"
+                          >
+                            <template v-slot:[`item.action`]="{ item }">
+                              <v-btn
+                                v-model="item.action"
+                                color="transparent"
+                                elevation="0"
+                              >
+                                <i class="fas fa-ellipsis-h"></i>
+                              </v-btn>
+                            </template>
+                          </v-data-table>
+                        </v-card-text>
+                      </v-card>
+                    </v-tab-item>
+                  </v-tabs>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
 
-        <v-tab-item>
-          <v-card flat>
-            <v-card-text>
-              <div class="my-5">
-                <v-tabs background-color="transparent" color="#2952A4">
-                  <v-tab class="justify-start">GOALS LAUNCHING</v-tab>
-                  <v-tab class="justify-start">MID-YEAR REVIEW</v-tab>
-                  <v-tab class="justify-start">YEAR-END REVIEW</v-tab>
-                  <v-tab class="justify-start">REPORTS</v-tab>
-                  <v-tab class="justify-start">CALBRATION</v-tab>
-                  <v-tab class="justify-start">LOGS</v-tab>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <div class="my-5">
+                  <v-tabs background-color="transparent" color="#2952A4">
+                    <v-tab class="justify-start">GOALS LAUNCHING</v-tab>
+                    <v-tab class="justify-start">MID-YEAR REVIEW</v-tab>
+                    <v-tab class="justify-start">YEAR-END REVIEW</v-tab>
+                    <v-tab class="justify-start">REPORTS</v-tab>
+                    <v-tab class="justify-start">CALBRATION</v-tab>
+                    <v-tab class="justify-start">LOGS</v-tab>
 
-                  <!-- GOALS LAUNCHING -->
-                  <v-tab-item>
-                    <v-card flat>
-                      <v-card-text>
-                        <v-data-table
-                          :headers="goalsLaunchingTableHeader"
-                          :items="goalsLaunchingTableItems"
-                          :items-per-page="10"
-                        >
-                          <template v-slot:[`item.action`]="{ item }">
-                            <v-btn
-                              v-model="item.action"
-                              color="transparent"
-                              elevation="0"
-                            >
-                              <i class="fas fa-ellipsis-h"></i>
-                            </v-btn>
-                          </template>
-                        </v-data-table>
-                      </v-card-text>
-                    </v-card>
-                  </v-tab-item>
+                    <!-- GOALS LAUNCHING -->
+                    <v-tab-item>
+                      <v-card flat>
+                        <v-card-text>
+                          <v-data-table
+                            :headers="goalsLaunchingTableHeader"
+                            :items="goalsLaunchingTableItems"
+                            :items-per-page="10"
+                          >
+                            <template v-slot:[`item.action`]="{ item }">
+                              <v-btn
+                                v-model="item.action"
+                                color="transparent"
+                                elevation="0"
+                              >
+                                <i class="fas fa-ellipsis-h"></i>
+                              </v-btn>
+                            </template>
+                          </v-data-table>
+                        </v-card-text>
+                      </v-card>
+                    </v-tab-item>
 
-                  <!-- MID-YEAR REVIEW -->
-                  <v-tab-item>
-                    <v-card flat>
-                      <v-card-text>
-                        <v-data-table
-                          :headers="goalsLaunchingTableHeader"
-                          :items="midYearTableItems"
-                          :items-per-page="10"
-                        >
-                          <template v-slot:[`item.action`]="{ item }">
-                            <v-btn
-                              v-model="item.action"
-                              color="transparent"
-                              elevation="0"
-                            >
-                              <i class="fas fa-ellipsis-h"></i>
-                            </v-btn>
-                          </template>
-                        </v-data-table>
-                      </v-card-text>
-                    </v-card>
-                  </v-tab-item>
-                  <!-- END-YEAR REVIEW -->
+                    <!-- MID-YEAR REVIEW -->
+                    <v-tab-item>
+                      <v-card flat>
+                        <v-card-text>
+                          <v-data-table
+                            :headers="goalsLaunchingTableHeader"
+                            :items="midYearTableItems"
+                            :items-per-page="10"
+                          >
+                            <template v-slot:[`item.action`]="{ item }">
+                              <v-btn
+                                v-model="item.action"
+                                color="transparent"
+                                elevation="0"
+                              >
+                                <i class="fas fa-ellipsis-h"></i>
+                              </v-btn>
+                            </template>
+                          </v-data-table>
+                        </v-card-text>
+                      </v-card>
+                    </v-tab-item>
+                    <!-- END-YEAR REVIEW -->
 
-                  <v-tab-item>
-                    <v-card flat>
-                      <v-card-text> </v-card-text>
-                    </v-card>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-card flat>
-                      <v-card-text> </v-card-text>
-                    </v-card>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-card flat>
-                      <v-card-text> </v-card-text>
-                    </v-card>
-                  </v-tab-item>
-                </v-tabs>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
+                    <v-tab-item>
+                      <v-card flat>
+                        <v-card-text> </v-card-text>
+                      </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                      <v-card flat>
+                        <v-card-text> </v-card-text>
+                      </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                      <v-card flat>
+                        <v-card-text> </v-card-text>
+                      </v-card>
+                    </v-tab-item>
+                  </v-tabs>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
 
-        <v-tab-item> </v-tab-item>
-      </v-tabs-items>
+          <v-tab-item> </v-tab-item>
+        </v-tabs-items>
+      </div>
     </div>
   </div>
 </template>
@@ -344,9 +355,12 @@ export default {
       }
     },
     deleteAppraisal(id) {
-      this.$axios.delete(`api/overallAppraisal/${id}/`).then(() => {
-        this.init()
-      })
+      this.$axios
+        .$delete(`api/overallAppraisal/${id}/`)
+        .then((res) => {
+          this.$fetch()
+        })
+        .catch((error) => console.log(error))
     },
   },
 }

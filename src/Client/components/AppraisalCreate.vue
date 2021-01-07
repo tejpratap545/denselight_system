@@ -58,7 +58,7 @@
               </div>
 
               <v-btn color="primary" @click="e1 = 2"> Continue </v-btn>
-              <v-btn text @click="dialog = false"> Close </v-btn>
+              <v-btn text @click="reset(); dialog = false"> Close </v-btn>
             </v-stepper-content>
 
             <v-stepper-content step="2">
@@ -380,10 +380,38 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.dialog = false
+      this.emit('reload-appraisals')
+    },
+    reset() {
+      this.appraisal = {
+        name: '',
+        is_company: false,
+
+        goal_weightage: 0,
+        competency_weightage: 0,
+        skill_weightage: 0,
+
+        start_date: new Date().toISOString().substr(0, 10),
+        goals_setting_end_date: new Date().toISOString().substr(0, 10),
+        mid_year_start_date: new Date().toISOString().substr(0, 10),
+        mid_year_end_date: new Date().toISOString().substr(0, 10),
+        end_year_start_date: new Date().toISOString().substr(0, 10),
+        appraisal_end_date: new Date().toISOString().substr(0, 10),
+        reports_end_date: new Date().toISOString().substr(0, 10),
+        calibration_end_date: new Date().toISOString().substr(0, 10),
+
+        individual_employees: [],
+        departments: [],
+
+        appraisal_category: 0,
+      }
+    },
     createAppraisal() {
       this.dialog = false
 
-      this.selected_data = this.selected_data.filter(x=> x != null)
+      this.selected_data = this.selected_data.filter((x) => x != null)
 
       switch (this.appraisal_for) {
         case 0 || '0':
@@ -409,6 +437,8 @@ export default {
             content: 'Success creating appraisal',
             color: 'info',
           })
+
+          this.close()
         })
         .catch((error) => {
           this.$notifier.showMessage({
