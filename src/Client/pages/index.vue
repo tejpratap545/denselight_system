@@ -189,18 +189,14 @@ export default {
       this.appraisalData = await this.$axios.$get(
         '/api/appraisals/list/detail/me'
       )
-
-      this.changeAppraisal(0)
+      var i = window.localStorage.getItem('selected-appraisal')
+      if (i != null) {
+        if (parseInt(i) < this.appraisalData.length)
+          this.changeAppraisal(parseInt(i))
+      } else this.changeAppraisal(0)
     } catch (error) {
       console.log(error)
     }
-  },
-  mounted() {
-    if (window.localStorage.getItem('selected-appraisal') != null)
-      this.changeAppraisal(
-        parseInt(window.localStorage.getItem('selected-appraisal'))
-      )
-    else this.changeAppraisal(0)
   },
   data() {
     return {
@@ -220,20 +216,15 @@ export default {
     if (this.$fetchState.timestamp <= Date.now() - 30000) {
       this.$fetch()
     }
-
-    if (window.localStorage.getItem('selected-appraisal') != null)
-      this.changeAppraisal(
-        parseInt(window.localStorage.getItem('selected-appraisal'))
-      )
-    else this.changeAppraisal(0)
   },
   methods: {
     changeAppraisal(i) {
       this.appraisalSelected = this.appraisalData[i]
       this.appraisalSelectedIndex = this.appraisalSelected.id
 
-      if (!this.$fetchState.pending)
+      if (!this.$fetchState.pending) {
         window.localStorage.setItem('selected-appraisal', i)
+      }
     },
     async refetch() {
       try {
@@ -249,6 +240,7 @@ export default {
       }
     },
   },
+  fetchOnServer: false,
 }
 </script>
 
