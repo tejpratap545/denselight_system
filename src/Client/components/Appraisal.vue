@@ -88,9 +88,7 @@
                             :key="c.cid"
                             flat
                             :class="
-                              c.cid == 0
-                                ? 'my-4 my-chat'
-                                : 'my-4 manager-chat'
+                              c.cid == 0 ? 'my-4 my-chat' : 'my-4 manager-chat'
                             "
                             raised
                           >
@@ -151,6 +149,18 @@
             </v-simple-table>
 
             <v-row>
+              <v-col> Goal Setting Stage Employee comment </v-col>
+              <v-col>
+                {{ item.goal_employees_comment }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col> Goal Setting Stage Manager comment </v-col>
+              <v-col>
+                {{ item.goal_manager_comment }}
+              </v-col>
+            </v-row>
+            <v-row>
               <v-col> tracking status</v-col>
               <v-col>
                 {{ item.tracking_status }}
@@ -163,7 +173,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col> Mid year employee comments </v-col>
+              <v-col> Mid year Manager comments </v-col>
               <v-col>
                 {{ item.MID_manager_comments }}
               </v-col>
@@ -180,6 +190,7 @@
                   value="1"
                   dense
                   hover
+                  readonly
                 ></v-rating
               ></v-col>
             </v-row>
@@ -201,6 +212,7 @@
                   value="1"
                   dense
                   hover
+                  readonly
                 ></v-rating
               ></v-col>
             </v-row>
@@ -333,6 +345,8 @@ export default {
             },
           ],
           kpi_set: goal.kpi_set,
+          goal_employees_comment: goal.goal_employees_comment,
+          goal_manager_comment: goal.goal_manager_comment,
           tracking_status: goal.tracking_status,
           MID_user_comments: goal.MID_user_comments,
           user_rating: goal.user_rating,

@@ -20,15 +20,11 @@ from ...Appraisals.models import User_Appraisal_List, peerAppraisal
 
 
 class ProfileInfoView(generics.RetrieveAPIView):
-    permission_classes = [IsOwner]
+    permission_classes = [IsAuthenticated]
     serializer_class = ProfileInfoSerializer
 
     def get_object(self):
-        return cache.get_or_set(
-            self.request.user.email,
-            get_object_or_404(Profile, user=self.request.user),
-            100,
-        )
+        return self.request.user.profile
 
 
 class DepartmentViewSet(ModelViewSet):

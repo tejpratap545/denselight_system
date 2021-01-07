@@ -34,6 +34,24 @@
                           :items-per-page="10"
                           :loading="loading"
                         >
+                          <template v-slot:[`item.status`]="{ item }">
+                            <div v-if="item.status == 'Stage 1'">
+                              Goal Setting Stage
+                            </div>
+                            <div v-else-if="item.status == 'Stage 1B'">
+                              Mid Year Stage
+                            </div>
+                            <div v-else-if="item.status == 'Stage 2'">
+                              End Year Stage
+                            </div>
+                            <div v-else-if="item.status == 'Stage 3'">
+                              Report Stage
+                            </div>
+                            <div v-else-if="item.status == 'Stage 4'">
+                              Celebration Stage
+                            </div>
+                            <div v-else>Unknown Stage</div>
+                          </template>
                           <template v-slot:[`item.actions`]="{ item }">
                             <AppraisalEdit :appraisal="item.overallAppraisal" />
                             <v-btn

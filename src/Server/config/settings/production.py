@@ -7,7 +7,7 @@ import logging
 import sentry_sdk
 
 
-DEBUG = False
+DEBUG = True
 
 
 # GENERAL
@@ -29,7 +29,7 @@ DATABASES["default"]["CONN_MAX_AGE"] = os.environ.get(
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.environ.get("REDIS_URL"),
+        "LOCATION": os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/1"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # Mimicing memcache behavior.
@@ -92,7 +92,7 @@ LOGGING = {
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "backend.Profile.authentication.JWTAuthentication"
+        "backend.Profile.authentication.JWTAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [],
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],

@@ -79,38 +79,38 @@ services:
   redis:
     image: redis:5.0
 
-  celeryworker:
-    <<: *denselightdjango
-    image: denselightdjango_celeryworker
-    container_name: denselight_django_celery_worker
-    command: /start-celeryworker
+#  celeryworker:
+#    <<: *denselightdjango
+#    image: denselightdjango_celeryworker
+#    container_name: denselight_django_celery_worker
+#    command: /start-celeryworker
+#
+#    env_file:
+#      - ./env/production/.celeryworker
+#
+#    depends_on:
+#      - denselightdjango
 
-    env_file:
-      - ./env/production/.celeryworker
+#  celerybeat:
+#    <<: *denselightdjango
+#    image: denselightdjango_celerybeat
+#    container_name: denselight_django_celery_beat
+#    command: /start-celerybeat
+#
+#    env_file:
+#      - ./env/production/.celerybeat
+#
+#    depends_on:
+#      - denselightdjango
 
-    depends_on:
-      - denselightdjango
-
-  celerybeat:
-    <<: *denselightdjango
-    image: denselightdjango_celerybeat
-    container_name: denselight_django_celery_beat
-    command: /start-celerybeat
-
-    env_file:
-      - ./env/production/.celerybeat
-
-    depends_on:
-      - denselightdjango
-
-  flower:
-    <<: *denselightdjango
-    image: denselightdjango_flower
-    container_name: denselight_django_flower_beat
-    command: /start-flower
-
-    env_file:
-      - ./env/production/.celeryflower
-
-    depends_on:
-      - denselightdjango
+#  flower:
+#    <<: *denselightdjango
+#    image: denselightdjango_flower
+#    container_name: denselight_django_flower_beat
+#    command: /start-flower
+#
+#    env_file:
+#      - ./env/production/.celeryflower
+#
+#    depends_on:
+#      - denselightdjango

@@ -3,5 +3,4 @@ set -o pipefail
 set -o nounset
 
 export DJANGO_SETTINGS_MODULE=config.settings.production
-python manage.py migrate
 daphne -e ssl:8000:privateKey=private.key:certKey=certificate.crt config.asgi:application

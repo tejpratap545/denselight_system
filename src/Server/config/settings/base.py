@@ -48,7 +48,6 @@ DJANGO_APPS = [
     "django.contrib.sessions",
 ]
 THIRD_PARTY_APPS = [
-    "django_celery_beat",
     "rest_framework",
     "django_filters",
     "corsheaders",
@@ -185,37 +184,37 @@ LOGGING = {
 }
 
 # django-channel
-
-CHANNEL_LAYERS = {  # https://pypi.org/project/channels-rabbitmq/#Usage
-    "default": {
-        "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
-        "CONFIG": {
-            "host": os.environ.get(
-                "RABBITMQ_URL", default="amqp://guest:guest@127.0.0.1/asgi"
-            ),
-            # "ssl_context": ... (optional)
-        },
-    },
-}
-
-
-# Celery
-# ------------------------------------------------------------------------------
-# http://docs.celeryproject.org/en/latest/userguide/configuration
-CELERY_TIMEZONE = TIME_ZONE
-CELERY_BROKER_URL = os.environ.get(
-    "CELERY_BROKER_URL", default="amqp://guest:guest@localhost:5672//"
-)
-CELERY_RESULT_BACKEND = os.environ.get(
-    "CELERY_RESULT_BACKEND", default="db+sqlite:///results.db"
-)
-CELERY_CACHE_BACKEND = "django-cache"
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TASK_TIME_LIMIT = 5 * 60
-CELERY_TASK_SOFT_TIME_LIMIT = 60
-CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+#
+# CHANNEL_LAYERS = {  # https://pypi.org/project/channels-rabbitmq/#Usage
+#     "default": {
+#         "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
+#         "CONFIG": {
+#             "host": os.environ.get(
+#                 "RABBITMQ_URL", default="amqp://guest:guest@127.0.0.1/asgi"
+#             ),
+#             # "ssl_context": ... (optional)
+#         },
+#     },
+# }
 
 
-CORS_ALLOW_ALL_ORIGINS = True
+# # Celery
+# # ------------------------------------------------------------------------------
+# # http://docs.celeryproject.org/en/latest/userguide/configuration
+# CELERY_TIMEZONE = TIME_ZONE
+# CELERY_BROKER_URL = os.environ.get(
+#     "CELERY_BROKER_URL", default="amqp://guest:guest@localhost:5672//"
+# )
+# CELERY_RESULT_BACKEND = os.environ.get(
+#     "CELERY_RESULT_BACKEND", default="db+sqlite:///results.db"
+# )
+# CELERY_CACHE_BACKEND = "django-cache"
+# CELERY_ACCEPT_CONTENT = ["json"]
+# CELERY_TASK_SERIALIZER = "json"
+# CELERY_RESULT_SERIALIZER = "json"
+# CELERY_TASK_TIME_LIMIT = 5 * 60
+# CELERY_TASK_SOFT_TIME_LIMIT = 60
+# CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+#
+#
+# CORS_ALLOW_ALL_ORIGINS = True

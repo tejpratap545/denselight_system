@@ -109,11 +109,7 @@
                                             <v-card-title class="subtitle-2">{{
                                               c.cc
                                             }}</v-card-title>
-                                            <v-card-text
-                                              v-if="
-                                                c.cid == 0
-                                              "
-                                            >
+                                            <v-card-text v-if="c.cid == 0">
                                               ~My response
                                             </v-card-text>
 
@@ -399,7 +395,7 @@ export default {
           tabs: null,
           status: goal.status,
           date_menu: false,
-         comments: [
+          comments: [
             {
               id: 0,
               data: [
