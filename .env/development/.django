@@ -1,5 +1,5 @@
 DEBUG=True
-DB_NAME=denselight_db
+DB_NAME=denselight
 DB_USER=denselight
 DB_PASSWORD=denselight
 DB_HOST=postgres
