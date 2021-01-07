@@ -46,7 +46,7 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - denselightdjangoapp:/app
+      - ./src/Server:/app
     env_file:
       - ./.env/production/.django
     ports:
