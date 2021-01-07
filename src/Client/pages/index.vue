@@ -8,45 +8,47 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <div v-else>
-      <GoalSubmit
-        v-if="submitGoalsDialog"
-        :dialog="submitGoalsDialog"
-        :appraisal-id="appraisalSelectedIndex"
-        @close-goal-submit-dialog="submitGoalsDialog = false"
-        @reload="$fetch"
-      />
-      <MidYearEmployeeReview
-        v-if="midYearEmployeeReviewDialog"
-        :dialog="midYearEmployeeReviewDialog"
-        :appraisal-id="appraisalSelectedIndex"
-        @close-mid-year-dialog="midYearEmployeeReviewDialog = false"
-        @reload="$fetch"
-      >
-      </MidYearEmployeeReview>
-      <EndYearEmployeeReview
-        v-if="endYearEmployeeReviewDialog"
-        :dialog="endYearEmployeeReviewDialog"
-        :appraisal-id="appraisalSelectedIndex"
-        @close-end-year-dialog="endYearEmployeeReviewDialog = false"
-        @reload="$fetch"
-      >
-      </EndYearEmployeeReview>
-      <EndYearEmployeeApprove
-        v-if="endYearApproveDialog"
-        :dialog="endYearApproveDialog"
-        :appraisal-id="appraisalSelectedIndex"
-        @close-approve-dialog="endYearApproveDialog = false"
-        @reload="$fetch"
-      >
-      </EndYearEmployeeApprove>
-      <MidYearEmployeeApprove
-        v-if="midYearApproveDialog"
-        :dialog="midYearApproveDialog"
-        :appraisal-id="appraisalSelectedIndex"
-        @close-mid-year-submit="midYearApproveDialog = false"
-        @reload="$fetch"
-      >
-      </MidYearEmployeeApprove>
+      <div class="dialogs">
+        <GoalSubmit
+          v-if="submitGoalsDialog"
+          :dialog="submitGoalsDialog"
+          :appraisal-id="appraisalSelectedIndex"
+          @close-goal-submit-dialog="submitGoalsDialog = false"
+          @reload="$fetch"
+        />
+        <MidYearEmployeeReview
+          v-if="midYearEmployeeReviewDialog"
+          :dialog="midYearEmployeeReviewDialog"
+          :appraisal-id="appraisalSelectedIndex"
+          @close-mid-year-dialog="midYearEmployeeReviewDialog = false"
+          @reload="$fetch"
+        >
+        </MidYearEmployeeReview>
+        <EndYearEmployeeReview
+          v-if="endYearEmployeeReviewDialog"
+          :dialog="endYearEmployeeReviewDialog"
+          :appraisal-id="appraisalSelectedIndex"
+          @close-end-year-dialog="endYearEmployeeReviewDialog = false"
+          @reload="$fetch"
+        >
+        </EndYearEmployeeReview>
+        <EndYearEmployeeApprove
+          v-if="endYearApproveDialog"
+          :dialog="endYearApproveDialog"
+          :appraisal-id="appraisalSelectedIndex"
+          @close-approve-dialog="endYearApproveDialog = false"
+          @reload="$fetch"
+        >
+        </EndYearEmployeeApprove>
+        <MidYearEmployeeApprove
+          v-if="midYearApproveDialog"
+          :dialog="midYearApproveDialog"
+          :appraisal-id="appraisalSelectedIndex"
+          @close-mid-year-submit="midYearApproveDialog = false"
+          @reload="$fetch"
+        >
+        </MidYearEmployeeApprove>
+      </div>
 
       <div class="ma-5">
         <v-row>
@@ -114,6 +116,8 @@
               "
               class="success"
               @click="submitGoalsDialog = true"
+              v-bind="attrs"
+              v-on="on"
               ><v-icon>mdi-check-all</v-icon> Submit</v-btn
             >
           </template>
@@ -132,6 +136,8 @@
                 "
                 text
                 @click="midYearEmployeeReviewDialog = true"
+                v-bind="attrs"
+                v-on="on"
                 ><v-icon>mdi-message-draw</v-icon>Review</v-btn
               >
             </template>
@@ -147,6 +153,8 @@
                 "
                 class="success"
                 @click="midYearApproveDialog = true"
+                v-bind="attrs"
+                v-on="on"
                 ><v-icon>mdi-check-all</v-icon> Submit</v-btn
               >
             </template>
@@ -167,6 +175,8 @@
               "
               text
               @click="endYearEmployeeReviewDialog = true"
+              v-bind="attrs"
+              v-on="on"
               ><v-icon>mdi-message-draw</v-icon> Review</v-btn
             >
           </template>
@@ -183,6 +193,8 @@
               "
               class="success"
               @click="endYearApproveDialog = true"
+              v-bind="attrs"
+              v-on="on"
               ><v-icon>mdi-check-all</v-icon> Submit</v-btn
             >
           </template>
@@ -211,6 +223,8 @@ export default {
       this.appraisalData = await this.$axios.$get(
         '/api/appraisals/list/detail/me'
       )
+
+      this.changeAppraisal(0)
     } catch (error) {
       console.log(error)
     }
@@ -235,7 +249,6 @@ export default {
       midYearApproveDialog: false,
     }
   },
-
   activated() {
     // Call fetch again if last fetch more than 30 sec ago
     if (this.$fetchState.timestamp <= Date.now() - 30000) {
@@ -244,10 +257,11 @@ export default {
   },
   methods: {
     changeAppraisal(i) {
-      window.localStorage.setItem('selected-appraisal', i)
-
       this.appraisalSelected = this.appraisalData[i]
       this.appraisalSelectedIndex = this.appraisalSelected.id
+
+      if(!this.$fetchState.pending)
+        window.localStorage.setItem('selected-appraisal', i)
     },
   },
 }
