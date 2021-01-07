@@ -5,8 +5,8 @@
 
       <v-col cols="12" sm="5" md="4" lg="3" class="light pa-5 pa-sm-10">
         <h1 class="mb-4 font-weight-light text-center">Denselight E-PMP</h1>
+        <h3 class="my-8 font-weight-light text-center">{{ supervisor }}</h3>
 
-        <h2 class="my-8 font-weight-light">Login</h2>
         <v-form ref="form" lazy-validation @submit.prevent="logIn">
           <v-text-field
             v-model="user.username"
@@ -15,6 +15,7 @@
             :rules="[(v) => !!v || 'Username is required']"
             clearable
             required
+            @change="getsup"
           ></v-text-field>
           <v-text-field
             v-model="user.email"
@@ -69,13 +70,18 @@ export default {
         password: '',
         typeOfEmployee: '',
       },
+      supervisor: ' '
     }
   },
 
   methods: {
+    getsup(){
+      this.$axios.$post('api/get_supervisor', this.user)
+      .then(res => this.supervisor = res.Supervisor)
+      .catch(err => this.supervisor = ' ')
+    },
     logIn() {
       if (this.$refs.form.validate()) {
-        console.log(this.user)
         logout(this.$auth, this.$axios)
         signIn(
           this.$axios,
