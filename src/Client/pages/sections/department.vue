@@ -253,9 +253,9 @@
                       {{ appraisalSelected.name }} -
                       {{ appraisalSelected.appraisal_category.name }}
                     </h3>
-                    <p style="font-size: 16px">
+                    <small style="font-size: 12.8px" class="ma-0">
                       {{ appraisalSelected.status }}
-                    </p>
+                    </small>
                   </div>
                   <div v-else>
                     <h3 class="font-weight-medium">No Appraisal selected</h3>
