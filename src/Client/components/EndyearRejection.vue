@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('close-reject-midyear')
+      this.$emit('close-reject-endyear')
     },
     reject() {
       this.$axios

@@ -560,7 +560,7 @@
                             <v-icon
                               v-else-if="
                                 item.status == 'S2Manager' &&
-                                items.completion == 'ECompleted'
+                                item.completion == 'ECompleted'
                               "
                               indeterminate
                               color="info"

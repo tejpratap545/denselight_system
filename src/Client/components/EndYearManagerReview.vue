@@ -93,9 +93,7 @@
                       <v-col>End Year Employee Comment</v-col>
                       <v-col>
                         {{ item.user_comments || 'NIL' }}
-
-                        ></v-col
-                      >
+                      </v-col>
                     </v-row>
                     <v-row>
                       <v-col>Manager rating</v-col>
@@ -120,9 +118,7 @@
                           v-model="item.manager_comments"
                           outlined
                         ></v-textarea>
-
-                        ></v-col
-                      >
+                      </v-col>
                     </v-row>
                   </div>
                 </v-expansion-panel-content>
