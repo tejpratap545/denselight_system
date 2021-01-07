@@ -54,7 +54,9 @@ services:
     command: /start
 
   denselightnuxt:
-    image: node:12.20.0-alpine3.10
+    build:
+      context: .
+      dockerfile: ./compose/production/nuxt/Dockerfile
     container_name: denselight_nuxt
     env_file:
       - ./.env/production/.nuxt
@@ -62,7 +64,7 @@ services:
       - ./src/Client:/app
     ports:
       - 3000:3000
-    command: bash -c "npm install && npm run build && npm start"
+    command: /start
 
   nginx:
     build:
