@@ -127,7 +127,8 @@ class Goals(models.Model):
         null=False,
     )
     metrics_Used = models.TextField(blank=True, null=True)
-
+    goal_employees_comment = models.TextField(null=True)
+    goal_manager_comment = models.TextField(null=True)
     MID_user_comments = models.TextField(
         max_length=2000, blank=False, null=False, default="NIL"
     )

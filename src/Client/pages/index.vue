@@ -119,26 +119,28 @@
           ><v-icon>mdi-check-all</v-icon> Submit</v-btn
         >
         <!--          mid year buttons-->
-
-        <v-btn
-          v-if="
-            appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
-            (appraisalSelected.status === 'S1BEmployee' ||
-              appraisalSelected.status === 'S1BManager')
-          "
-          text
-          @click="midYearEmployeeReviewDialog = true"
-          ><v-icon>mdi-message-draw</v-icon>Review</v-btn
-        >
-        <v-btn
-          v-if="
-            appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
-            appraisalSelected.status === 'S1BEmployee'
-          "
-          class="success"
-          @click="midYearApproveDialog = true"
-          ><v-icon>mdi-check-all</v-icon> Submit</v-btn
-        >
+        {{ appraisalSelected.mid_year_completion }}
+        <div v-if="(appraisalSelected.mid_year_completion = 'Uncompleted')">
+          <v-btn
+            v-if="
+              appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
+              (appraisalSelected.status === 'S1BEmployee' ||
+                appraisalSelected.status === 'S1BManager')
+            "
+            text
+            @click="midYearEmployeeReviewDialog = true"
+            ><v-icon>mdi-message-draw</v-icon>Review</v-btn
+          >
+          <v-btn
+            v-if="
+              appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
+              appraisalSelected.status === 'S1BManager'
+            "
+            class="success"
+            @click="midYearApproveDialog = true"
+            ><v-icon>mdi-check-all</v-icon> Submit</v-btn
+          >
+        </div>
 
         <!--          end year buttons-->
 

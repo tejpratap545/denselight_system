@@ -532,9 +532,27 @@ export default {
           tabs: null,
           date_menu: false,
           comments: [
-            { id: 0, date: goal.commentbox_set },
-            { id: 1, data: goal.midyrcommentbox_set },
-            { id: 2, data: goal.endyrcommentbox_set },
+            {
+              id: 0,
+              data: [
+                { comment: goal.goal_employees_comment },
+                { comment: goal.goal_manager_comment },
+              ],
+            },
+            {
+              id: 1,
+              data: [
+                { comment: goal.MID_user_comments },
+                { comment: goal.MID_manager_comments },
+              ],
+            },
+            {
+              id: 2,
+              data: [
+                { comment: goal.user_comments },
+                { comment: goal.manager_comments },
+              ],
+            },
           ],
           kpi_set: goal.kpi_set,
           tracking_status: goal.tracking_status,

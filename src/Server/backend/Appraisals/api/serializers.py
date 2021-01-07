@@ -118,7 +118,7 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                 return serializers.ValidationError("Something went wrong")
 
     def update(self, instance, validated_data):
-        super(OverallAppraisalSerializer, self).update(instance, validated_data)
+
         a = int_status(validated_data.get("status"))
         b = int_status(instance.status)
         if a < b:
@@ -139,6 +139,8 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     status="S2Employee",
                     completion="null",
                 )
+        super(OverallAppraisalSerializer, self).update(instance, validated_data)
+        instance.save()
 
         return instance
 
@@ -258,6 +260,7 @@ class EndRejectionSerializer(serializers.ModelSerializer):
         super(EndRejectionSerializer, self).update(instance, validated_data)
         instance.status = "S2Employee"
         instance.completion = "null"
+        instance.save()
         title = f"{instance.manager.name} reject end year review  of  {instance.appraisal_name}"
         description = f"Hi {instance.employee.name} Manager {instance.manager.name} reject end year review  of{instance.appraisal_name} . Manager end year rejection comment is {instance.end_yearM_rejection} "
         Notification.objects.create(

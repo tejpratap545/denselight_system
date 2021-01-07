@@ -296,7 +296,7 @@ export default {
           value: 'description',
         },
         { text: 'Tracking', value: 'tracking_status' },
-        { text: 'Comments', value: 'user_comments' },
+
         { text: 'Actions', value: 'actions' },
         { text: '', value: 'data-table-expand' },
       ],
@@ -306,6 +306,9 @@ export default {
   },
 
   methods: {
+    print() {
+      print()
+    },
     init(appraisal) {
       this.appraisal = appraisal
 

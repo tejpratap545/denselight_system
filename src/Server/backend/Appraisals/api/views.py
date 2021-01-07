@@ -111,10 +111,6 @@ class DetailUserAppraisal(generics.ListAPIView):
             "goals_set",
             "competencies_set",
             "goals_set__kpi_set",
-            "goals_set__goalcomment_set",
-            "goals_set__midyrcommentbox_set",
-            "goals_set__commentbox_set",
-            "goals_set__endyrcommentbox_set",
             "competencies_set__competencycomment_set",
             "skills_set",
             "skills_set__skill_category",
@@ -173,10 +169,6 @@ class DetailAppraisal(generics.RetrieveAPIView):
             "goals_set",
             "competencies_set",
             "goals_set__kpi_set",
-            "goals_set__goalcomment_set",
-            "goals_set__midyrcommentbox_set",
-            "goals_set__commentbox_set",
-            "goals_set__endyrcommentbox_set",
             "competencies_set__competencycomment_set",
             "skills_set",
             "skills_set__skill_category",
@@ -424,29 +416,6 @@ def input_endyear_manager(request, *args, **kwargs):
             status=status.HTTP_202_ACCEPTED,
         )
 
-    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-def reject_endyear_manager(request, *args, **kwargs):
-    id = kwargs.get("pk")
-    app = get_object_or_404(User_Appraisal_List, id=id)
-    if (
-        app.overall_appraisal.status == "Stage 2"
-        and app.manager == request.user.profile
-    ) and (
-        (app.status == "S2Manager" and app.completion == "Ecompleted")
-        or (app.status == "S2Manager" and app.completion == "MCompleted")
-    ):
-        app.status = "S1BReview"
-        app.mid_year_completion = "UnCompleted"
-        app.save()
-
-        return Response(
-            {"msg": "Goal are successfully approves by manager/supervisor"},
-            status=status.HTTP_202_ACCEPTED,
-        )
     return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
 
 
