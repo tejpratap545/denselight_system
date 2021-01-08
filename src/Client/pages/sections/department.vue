@@ -224,42 +224,51 @@
           <v-card flat>
             <v-card-text>
               <v-card flat>
-                <v-card-title
-                  class="d-flex justify-lg-space-between align-center"
-                >
-                  <v-menu rounded="lg">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn color="primary" fab v-bind="attrs" v-on="on">
-                        <v-icon>mdi-cached</v-icon>
-                      </v-btn>
-                    </template>
+                <v-card-title>
+                  <v-row>
+                    <v-col cols="3">
+                      <v-menu rounded="lg">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn color="primary" fab v-bind="attrs" v-on="on">
+                            <v-icon>mdi-cached</v-icon>
+                          </v-btn>
+                        </template>
 
-                    <v-list>
-                      <v-list-item
-                        v-for="(x, y) in appraisalData"
-                        :key="y"
-                        link
-                        @click="changeAppraisal(x)"
-                      >
-                        <v-list-item-title>
-                          {{ x.name }}
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-menu>
+                        <v-list>
+                          <v-list-item
+                            v-for="(x, y) in appraisalData"
+                            :key="y"
+                            link
+                            @click="changeAppraisal(x)"
+                          >
+                            <v-list-item-title>
+                              {{ x.name }}
+                            </v-list-item-title>
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+                    </v-col>
 
-                  <div v-if="appraisalSelectedIndex != 0">
-                    <h3 class="font-weight-medium">
-                      {{ appraisalSelected.name }} -
-                      {{ appraisalSelected.appraisal_category.name }}
-                    </h3>
-                    <small style="font-size: 12.8px" class="ma-0">
-                      {{ appraisalSelected.status }}
-                    </small>
-                  </div>
-                  <div v-else>
-                    <h3 class="font-weight-medium">No Appraisal selected</h3>
-                  </div>
+                    <v-col
+                      cols="9"
+                      style="display: flex; justify-content: flex-end"
+                    >
+                      <div v-if="appraisalSelectedIndex != 0">
+                        <h3 class="font-weight-medium">
+                          {{ appraisalSelected.name }} -
+                          {{ appraisalSelected.appraisal_category.name }}
+                        </h3>
+                        <small style="font-size: 12.8px" class="ma-0">
+                          {{ appraisalSelected.status }}
+                        </small>
+                      </div>
+                      <div v-else>
+                        <h3 class="font-weight-medium">
+                          No Appraisal selected
+                        </h3>
+                      </div>
+                    </v-col>
+                  </v-row>
                 </v-card-title>
               </v-card>
             </v-card-text>
