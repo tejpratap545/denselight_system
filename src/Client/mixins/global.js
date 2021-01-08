@@ -21,7 +21,7 @@ export default {
             }
 
             // end year stage
-            else if (overallAppraisalStatus === 'Stage 2' && appraisalStatus === 'S2Employee') {
+            else if (overallAppraisalStatus === 'Stage 2' && appraisalStatus === 'S1BManager') {
                 return 'End Year Assessment: My Rating Stage'
             } else if (overallAppraisalStatus === 'Stage 2' && appraisalStatus === 'S2Manager') {
                 return 'End Year Assessment: Manager/Supervisor Rating Stage'

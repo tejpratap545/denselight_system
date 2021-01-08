@@ -146,9 +146,9 @@
         <v-btn
           v-if="
             (appraisalSelected.overall_appraisal.status === 'Stage 2' &&
-              appraisalSelected.status === 'S1BManager' &&
-              appraisalSelected.mid_year_completion === 'completed') ||
-            (appraisalSelected.status === 'S2Employee' &&
+              appraisalSelected.status === 'S1BManager') ||
+            ((appraisalSelected.overall_appraisal.status === 'Stage 2' &&
+              appraisalSelected.status) === 'S2Employee' &&
               appraisalSelected.completion === 'Ecompleted')
           "
           text
