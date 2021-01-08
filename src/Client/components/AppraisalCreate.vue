@@ -409,7 +409,7 @@ export default {
         appraisal_category: 0,
       }
     },
-    createAppraisal() {
+    async createAppraisal() {
       this.dialog = false
 
       this.selected_data = this.selected_data.filter((x) => x != null)
@@ -431,7 +431,7 @@ export default {
           break
       }
 
-      this.$axios
+      await this.$axios
         .$post('/api/overallAppraisal/', this.appraisal)
         .then((res) => {
           this.$notifier.showMessage({

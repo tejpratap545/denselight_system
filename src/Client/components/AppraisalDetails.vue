@@ -5,19 +5,19 @@
         v-if="addGoalsDialog"
         :dialog="addGoalsDialog"
         :appraisal-id="appraisal.id"
-        @close-goal-dialog="addGoalsDialog = false"
+        @close-goal-dialog="close"
       />
       <AddCoreValue
         v-if="addCoreValueDialog"
         :dialog="addCoreValueDialog"
         :appraisal-id="appraisal.id"
-        @close-core-dialog="addCoreValueDialog = false"
+        @close-core-dialog="close"
       />
       <AddSkills
         v-if="addSkillsDialog"
         :dialog="addSkillsDialog"
         :appraisal-id="appraisal.id"
-        @close-skills-dialog="addSkillsDialog = false"
+        @close-skills-dialog="close"
       />
     </div>
     <div class="ma-5">
@@ -677,6 +677,12 @@ export default {
             })
           })
       }
+    },
+    close() {
+      this.addGoalsDialog = false
+      this.addCoreValueDialog = false
+      this.addSkillsDialog = false
+      this.reload()
     },
     reload() {
       this.$emit('reload-mainvue')
