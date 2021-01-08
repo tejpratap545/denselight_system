@@ -58,7 +58,7 @@
               </div>
 
               <v-btn color="primary" @click="e1 = 2"> Continue </v-btn>
-              <v-btn text @click="reset(); dialog = false"> Close </v-btn>
+              <v-btn text @click="close"> Close </v-btn>
             </v-stepper-content>
 
             <v-stepper-content step="2">
@@ -382,6 +382,7 @@ export default {
   methods: {
     close() {
       this.dialog = false
+      this.reset()
       this.emit('reload-appraisals')
     },
     reset() {
