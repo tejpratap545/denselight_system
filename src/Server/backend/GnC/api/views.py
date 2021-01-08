@@ -197,21 +197,26 @@ def approved_goal(request, *args, **kwargs):
     goal = get_object_or_404(Goals, id=kwargs.get("pk"))
     app = goal.appraisal
     if goal.appraisal.manager == request.user.profile:
-        goal.status = "APPROVED"
+        if goal.kpi_set.count() != 0:
+            goal.status = "APPROVED"
 
-        goal.save()
-        title = f"{app.manager.name} approve goal  of  {app.appraisal_name}"
-        description = f"Hi {app.employee.name} Manager {app.manager.name} approve goal  {goal.summary}  of{app.appraisal_name} . "
-        Notification.objects.create(
-            user=app.employee, title=title, description=description, color="success"
-        )
-        try:
-            send_mail(title, description, settings.OFFICIAL_MAIL, [app.employee.email])
-        except:
-            pass
-        return Response(
-            {"msg": "Your goal is successfully approved"}, status=status.HTTP_200_OK
-        )
+            goal.save()
+            title = f"{app.manager.name} approve goal  of  {app.appraisal_name}"
+            description = f"Hi {app.employee.name} Manager {app.manager.name} approve goal  {goal.summary}  of{app.appraisal_name} . "
+            Notification.objects.create(
+                user=app.employee, title=title, description=description, color="success"
+            )
+            try:
+                send_mail(
+                    title, description, settings.OFFICIAL_MAIL, [app.employee.email]
+                )
+            except:
+                pass
+            return Response(
+                {"msg": "Your goal is successfully approved"}, status=status.HTTP_200_OK
+            )
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
     return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 

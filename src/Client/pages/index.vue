@@ -118,7 +118,7 @@
         >
 
         <!--          mid year buttons-->
-        <div v-if="(appraisalSelected.mid_year_completion = 'Uncompleted')">
+        <div v-if="appraisalSelected.mid_year_completion === 'Uncompleted'">
           <v-btn
             v-if="
               appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
@@ -189,7 +189,7 @@ export default {
       this.appraisalData = await this.$axios.$get(
         '/api/appraisals/list/detail/me'
       )
-      var i = window.localStorage.getItem('selected-appraisal')
+      const i = window.localStorage.getItem('selected-appraisal')
       if (i != null) {
         if (parseInt(i) < this.appraisalData.length)
           this.changeAppraisal(parseInt(i))
@@ -220,6 +220,7 @@ export default {
   },
   methods: {
     changeAppraisal(i) {
+      console.log(this.appraisalData, this.appraisalData[i])
       this.appraisalSelected = this.appraisalData[i]
       this.appraisalSelectedIndex = this.appraisalSelected.id
 
