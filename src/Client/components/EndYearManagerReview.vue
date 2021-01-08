@@ -107,7 +107,6 @@
                           value="1"
                           dense
                           hover
-                          readonly
                         ></v-rating
                       ></v-col>
                     </v-row>
