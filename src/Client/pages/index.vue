@@ -171,7 +171,7 @@
       <AppraisalDetails
         v-if="appraisalSelectedIndex != 0"
         :appraisal="appraisalSelected"
-        @reload-mainvue="this.$fetch()"
+        @reload-mainvue="$fetch()"
       />
     </div>
   </div>
@@ -220,7 +220,6 @@ export default {
   },
   methods: {
     changeAppraisal(i) {
-      console.log(this.appraisalData, this.appraisalData[i])
       this.appraisalSelected = this.appraisalData[i]
       this.appraisalSelectedIndex = this.appraisalSelected.id
 

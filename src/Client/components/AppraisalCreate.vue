@@ -383,7 +383,7 @@ export default {
     close() {
       this.dialog = false
       this.reset()
-      this.emit('reload-appraisals')
+      this.$emit('reload-appraisals')
     },
     reset() {
       this.appraisal = {
