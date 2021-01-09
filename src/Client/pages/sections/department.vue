@@ -53,12 +53,14 @@
         :dialog="addGoalsDialog"
         :appraisal-id="appraisalSelected.id"
         @close-goal-dialog="addGoalsDialog = false"
+        @reload="departmentalAppraisal"
       />
       <AddCoreValueDepartment
         v-if="addCoreDialog"
         :dialog="addCoreDialog"
         :appraisal-id="appraisalSelected.id"
         @close-core-dialog="addCoreDialog = false"
+        @reload="departmentalAppraisal"
       />
     </div>
     <div class="my-5">
@@ -788,44 +790,9 @@ export default {
   mixins: [global],
   async fetch() {
     try {
+      await this.department()
+      await this.departmentalAppraisal()
       await this.subordinateAppraisal()
-      let response = await this.$axios.$get('api/appraisals/list/short/hod')
-      response.forEach((employee) => {
-        const data = {
-          name: employee.name,
-          department: employee.department.name,
-          email: employee.email,
-          user_appraisals: [],
-        }
-
-        employee.user_appraisal_list_set.forEach((e) => {
-          data.user_appraisals.push({
-            dat: e,
-            appraisal_dialog: false,
-          })
-        })
-
-        this.employeesTableItems.push(data)
-      })
-
-      response = await this.$axios.$get('api/appraisals/list/short/manager')
-      response.forEach((employee) => {
-        const data = {
-          name: employee.name,
-          department: employee.department.name,
-          email: employee.email,
-          user_appraisals: [],
-        }
-
-        employee.user_appraisal_list_set.forEach((e) => {
-          data.user_appraisals.push({
-            dat: e,
-            appraisal_dialog: false,
-          })
-        })
-
-        this.myemployeesTableItems.push(data)
-      })
     } catch (error) {
       console.log(error)
     }
@@ -939,8 +906,54 @@ export default {
     }
   },
   methods: {
+    async department() {
+      let response = await this.$axios.$get('api/appraisals/list/short/hod')
+      response.forEach((employee) => {
+        const data = {
+          name: employee.name,
+          department: employee.department.name,
+          email: employee.email,
+          user_appraisals: [],
+        }
+
+        employee.user_appraisal_list_set.forEach((e) => {
+          data.user_appraisals.push({
+            dat: e,
+            appraisal_dialog: false,
+          })
+        })
+
+        this.employeesTableItems.push(data)
+      })
+
+      response = await this.$axios.$get('api/appraisals/list/short/manager')
+      response.forEach((employee) => {
+        const data = {
+          name: employee.name,
+          department: employee.department.name,
+          email: employee.email,
+          user_appraisals: [],
+        }
+
+        employee.user_appraisal_list_set.forEach((e) => {
+          data.user_appraisals.push({
+            dat: e,
+            appraisal_dialog: false,
+          })
+        })
+
+        this.myemployeesTableItems.push(data)
+      })
+    },
+    async departmentalAppraisal() {
+      const response = await this.$axios.$get('api/overallAppraisal/list')
+
+      this.loading = false
+      this.appraisalData = response
+      this.changeAppraisal(this.appraisalData[0])
+    },
     async subordinateAppraisal() {
-      let response = await this.$axios.$get('api/appraisals/list/manager')
+      const response = await this.$axios.$get('api/appraisals/list/manager')
 
       response.forEach((appraisal) => {
         const tableData = {
@@ -982,11 +995,6 @@ export default {
             break
         }
       })
-      response = await this.$axios.$get('api/overallAppraisal/list')
-
-      this.loading = false
-      this.appraisalData = response
-      this.changeAppraisal(this.appraisalData[0])
     },
     showGaolApproval(item) {
       this.currentAppraisalId = item.id
