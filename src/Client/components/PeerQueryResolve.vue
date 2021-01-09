@@ -1,12 +1,16 @@
 <template>
   <v-dialog v-model="dialog" max-width="800">
-    <template v-slot:activator="{ on, attrs }">
+       <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" icon v-bind="attrs" v-on="on">
         <v-icon>mdi-chat-outline</v-icon>
       </v-btn>
     </template>
+    <div v-if="$fetchState.pending">
+      <v-skeleton-loader type="article, actions"></v-skeleton-loader>
+    </div>
+    <div v-else-if="$fetchState.error">An error occurred</div>
 
-    <v-card>
+    <v-card v-else>
       <v-toolbar color="primary" dark>
         <b>Peer Queries</b>
         <v-spacer></v-spacer>
@@ -37,7 +41,9 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="primary" v-if="editMode == null" @click="rQuery()"> Submit Query </v-btn>
+        <v-btn color="primary" v-if="editMode == null && query.completion !='Completed'" @click="rQuery()">
+          Submit Query
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -49,7 +55,6 @@ export default {
   async fetch() {
     try {
       this.query = await this.$axios.$get(`/api/peerappraisal/${this.id}`)
-      console.log(this.query)
     } catch (error) {
       console.log(error)
     }
@@ -72,6 +77,8 @@ export default {
             content: 'Success resolving query',
             color: 'info',
           })
+
+          this.$emit('reload-mainvue')
         })
         .catch((error) => {
           this.$notifier.showMessage({
