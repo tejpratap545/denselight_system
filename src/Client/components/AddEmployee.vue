@@ -37,6 +37,7 @@
           label="Full Name"
           outlined
         ></v-text-field>
+
         <v-text-field
           v-model="user.email"
           label="email"
@@ -50,11 +51,42 @@
           outlined
         ></v-select>
 
+        <v-select
+          v-model="user.typeOfEmployee"
+          :items="['DIRECT', 'INDIRECT']"
+          label="Type of employee"
+          outlined
+        ></v-select>
+
         <v-text-field
           v-model="user.job_Title"
           label="Job Title"
           outlined
         ></v-text-field>
+
+        <v-text-field v-model="user.nric" label="NRIC" outlined></v-text-field>
+        <v-text-field
+          v-model="user.address_1"
+          label="Address"
+          outlined
+        ></v-text-field>
+        <v-text-field
+          v-model="user.division_Centre"
+          label="Division center"
+          outlined
+        ></v-text-field>
+        <v-text-field
+          v-model="user.department"
+          label="Department"
+          outlined
+        ></v-text-field>
+
+        <v-select
+          v-model="user.employment_Type"
+          :items="['Contractor', 'Full-time', 'Part-time', 'Internship']"
+          label="Type of employee"
+          outlined
+        ></v-select>
 
         <v-select
           v-model="user.first_Reporting_Manager"
@@ -104,6 +136,13 @@ export default {
         role: '',
         name: '',
         email: '',
+
+        nric: '',
+        address_1: '',
+        employment_Type: '',
+        division_Centre: '',
+        department: '',
+
         gender: '',
         date_Of_Hire: new Date().toISOString().substr(0, 10),
         job_Title: '',
