@@ -296,12 +296,14 @@ export default {
             content: 'Appraisal saved',
             color: 'info',
           })
+          this.$emit('reload-mainvue')
         })
         .catch((error) => {
           this.$notifier.showMessage({
             content: 'Error saving',
             color: 'error',
           })
+          this.$emit('reload-mainvue')
           console.log(error, this.appraisal)
         })
     },

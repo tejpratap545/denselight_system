@@ -64,6 +64,7 @@
                               <div>
                                 <AppraisalEdit
                                   :appraisal="item.overallAppraisal"
+                                  @reload-mainvue="$fetch()"
                                 />
 
                                 <v-dialog
