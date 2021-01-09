@@ -71,7 +71,7 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
             )
             if is_company:
                 for profile in Profile.objects.all():
-                    User_Appraisal_List.objects.get_or_create(
+                    app = User_Appraisal_List.objects.get_or_create(
                         employee=profile,
                         manager=profile.first_Reporting_Manager,
                         overall_appraisal=overall_appraisal,
@@ -82,11 +82,33 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                         end_date=overall_appraisal.calibration_end_date,
                         completion="null",
                     )
+                    title = f"{overall_appraisal.name} appraisal created"
+                    description = (
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} created "
+                        f"overall_appraisal.name "
+                        f"Please go to dashboard and then add goals , kpis , core values and skills and then "
+                        f"submitted to manager "
+                    )
+                    Notification.objects.create(
+                        user=app.employee,
+                        title=title,
+                        description=description,
+                        color="info",
+                    )
+                    try:
+                        send_mail(
+                            title,
+                            description,
+                            settings.OFFICIAL_MAIL,
+                            [app.employee.email],
+                        )
+                    except:
+                        pass
                 return overall_appraisal
 
             elif len(departments) > 0:
                 for profile in Profile.objects.filter(department__in=departments):
-                    User_Appraisal_List.objects.create(
+                    app = User_Appraisal_List.objects.create(
                         employee=profile,
                         manager=profile.first_Reporting_Manager,
                         overall_appraisal=overall_appraisal,
@@ -97,11 +119,33 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                         end_date=overall_appraisal.calibration_end_date,
                         completion="null",
                     )
+                    title = f"{overall_appraisal.name} appraisal created"
+                    description = (
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} created "
+                        f"overall_appraisal.name "
+                        f"Please go to dashboard and then add goals , kpis , core values and skills and then "
+                        f"submitted to manager "
+                    )
+                    Notification.objects.create(
+                        user=app.employee,
+                        title=title,
+                        description=description,
+                        color="info",
+                    )
+                    try:
+                        send_mail(
+                            title,
+                            description,
+                            settings.OFFICIAL_MAIL,
+                            [app.employee.email],
+                        )
+                    except:
+                        pass
                 return overall_appraisal
 
             elif len(individual_employees) > 0:
                 for profile in Profile.objects.filter(id__in=individual_employees):
-                    User_Appraisal_List.objects.create(
+                    app = User_Appraisal_List.objects.create(
                         employee=profile,
                         manager=profile.first_Reporting_Manager,
                         overall_appraisal=overall_appraisal,
@@ -112,6 +156,28 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                         end_date=overall_appraisal.calibration_end_date,
                         completion="null",
                     )
+                    title = f"{overall_appraisal.name} appraisal created"
+                    description = (
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} created "
+                        f"overall_appraisal.name "
+                        f"Please go to dashboard and then add goals , kpis , core values and skills and then "
+                        f"submitted to manager "
+                    )
+                    Notification.objects.create(
+                        user=app.manager,
+                        title=title,
+                        description=description,
+                        color="info",
+                    )
+                    try:
+                        send_mail(
+                            title,
+                            description,
+                            settings.OFFICIAL_MAIL,
+                            [app.manager.email],
+                        )
+                    except:
+                        pass
                 return overall_appraisal
 
             else:
@@ -128,17 +194,138 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     completion="null",
                     mid_year_completion="Uncompleted",
                 )
+                for app in instance.user_appraisal_list_set.all():
+                    title = f"{app.name} shifted back to goal settings stage "
+                    description = (
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"goal back to goal settings stage "
+                        f"Please resubmit goals to manager"
+                    )
+                    Notification.objects.create(
+                        user=app.employee,
+                        title=title,
+                        description=description,
+                        color="info",
+                    )
+                    try:
+                        send_mail(
+                            title,
+                            description,
+                            settings.OFFICIAL_MAIL,
+                            [app.employee.email],
+                        )
+                    except:
+                        pass
             if a == 1:
                 User_Appraisal_List.objects.filter(overall_appraisal=instance).update(
                     status="S1BEmployee",
                     completion="null",
                     mid_year_completion="Uncompleted",
                 )
+                for app in instance.user_appraisal_list_set.all():
+                    title = (
+                        f"{app.name} shifted back to mid year review settings stage "
+                    )
+                    description = (
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"goal back to mid year review stage  "
+                        f"Please resubmit mid year review to manager"
+                    )
+                    Notification.objects.create(
+                        user=app.employee,
+                        title=title,
+                        description=description,
+                        color="info",
+                    )
+                    try:
+                        send_mail(
+                            title,
+                            description,
+                            settings.OFFICIAL_MAIL,
+                            [app.employee.email],
+                        )
+                    except:
+                        pass
             if a == 2:
                 User_Appraisal_List.objects.filter(overall_appraisal=instance).update(
                     status="S2Employee",
                     completion="null",
                 )
+                for app in instance.user_appraisal_list_set.all():
+                    title = (
+                        f"{app.name} shifted back to end year review settings stage "
+                    )
+                    description = (
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"goal back to end year review stage  "
+                        f"Please resubmit end year review to manager"
+                    )
+                    Notification.objects.create(
+                        user=app.employee,
+                        title=title,
+                        description=description,
+                        color="info",
+                    )
+                    try:
+                        send_mail(
+                            title,
+                            description,
+                            settings.OFFICIAL_MAIL,
+                            [app.employee.email],
+                        )
+                    except:
+                        pass
+        else:
+            if a == "Stage 1B":
+                for app in instance.user_appraisal_list_set.all():
+                    title = f"{app.name} shifted from goal settings stage to mid year review"
+                    description = (
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"goal settings stage to mid year review"
+                        f"If your goals approved then please fill mid year review then submitted to manager"
+                    )
+                    Notification.objects.create(
+                        user=app.employee,
+                        title=title,
+                        description=description,
+                        color="info",
+                    )
+                    try:
+                        send_mail(
+                            title,
+                            description,
+                            settings.OFFICIAL_MAIL,
+                            [app.employee.email],
+                        )
+                    except:
+                        pass
+            if a == "Stage 2":
+                for app in instance.user_appraisal_list_set.all():
+                    title = (
+                        f"{app.name} shifted from mid year review to end  year review"
+                    )
+                    description = (
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"from mid year review to end  year review"
+                        f"If your  mid year review  approved then please fill end year review then submitted to "
+                        f"manager "
+                    )
+                    Notification.objects.create(
+                        user=app.employee,
+                        title=title,
+                        description=description,
+                        color="info",
+                    )
+                    try:
+                        send_mail(
+                            title,
+                            description,
+                            settings.OFFICIAL_MAIL,
+                            [app.employee.email],
+                        )
+                    except:
+                        pass
+
         super(OverallAppraisalSerializer, self).update(instance, validated_data)
         instance.save()
 

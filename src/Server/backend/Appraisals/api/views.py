@@ -148,7 +148,7 @@ class OverallAppraisalViewSet(ModelViewSet):
         .annotate(employee_count=Count("user_appraisal_list"))
     )
 
-    @method_decorator(cache_page(60 * 3))
+    @method_decorator(cache_page(15))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -181,7 +181,7 @@ class DetailAppraisal(generics.RetrieveAPIView):
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
 
-    @method_decorator(cache_page(30))
+    @method_decorator(cache_page(15))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
