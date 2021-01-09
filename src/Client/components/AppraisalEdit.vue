@@ -303,7 +303,6 @@ export default {
             content: 'Error saving',
             color: 'error',
           })
-          this.$emit('reload-mainvue')
           console.log(error, this.appraisal)
         })
     },

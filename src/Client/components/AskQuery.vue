@@ -1,10 +1,16 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn elevation="0" color="primary" dark v-bind="attrs" v-on="on"> Ask Query </v-btn>
+      <v-btn color="primary" elevation="0" dark v-bind="attrs" v-on="on">
+        Create Appraisal
+      </v-btn>
     </template>
+    <div v-if="$fetchState.pending">
+      <v-skeleton-loader type="article, actions"></v-skeleton-loader>
+    </div>
+    <div v-else-if="$fetchState.error">An error occurred</div>
 
-    <v-card>
+    <v-card v-else>
       <v-card-title class="headline py-5"> Ask Query </v-card-title>
 
       <v-card-text>
@@ -50,7 +56,12 @@
               </div>
 
               <v-btn color="primary" @click="e1 = 2"> Continue </v-btn>
-              <v-btn text @click="dialog = false"> Close </v-btn>
+              <v-btn
+                text
+                @click="this.reset()"
+              >
+                Close
+              </v-btn>
             </v-stepper-content>
 
             <v-stepper-content step="2">
@@ -63,25 +74,7 @@
                   label="Select Employee(s)"
                   multiple
                   chips
-                >
-                  <template v-slot:selection="data">
-                    <v-chip
-                      :key="data.item.id"
-                      v-bind="data.attrs"
-                      :input-value="data.selected"
-                      :disabled="data.disabled"
-                      @click:close="data.parent.selectItem(data.item.id)"
-                    >
-                      <v-avatar
-                        v-if="data.item != null"
-                        class="accent white--text"
-                        left
-                        v-text="data.item.name.slice(0, 1).toUpperCase()"
-                      ></v-avatar>
-                      {{ data.item.name }}
-                    </v-chip>
-                  </template>
-                </v-combobox>
+                ></v-combobox>
               </div>
 
               <v-btn color="primary" @click="askQuery"> Save query </v-btn>
@@ -96,29 +89,30 @@
 
 <script>
 export default {
-  fetch() {
-    this.$axios
-      .$get('/api/appraisals/list/short/manager')
-      .then((response) => {
-        response.forEach((appraisal) => {
+  async fetch() {
+    try {
+      var response = await this.$axios.$get(
+        '/api/appraisals/list/short/manager'
+      )
+      response.forEach((user) => {
+        user.user_appraisal_list_set.forEach((appraisal) => {
           this.appraisals.push({
             id: appraisal.id,
             name: appraisal.appraisal_name,
           })
         })
       })
-      .catch((error) => console.log(error))
-    this.$axios
-      .$get('/api/employee/short/list')
-      .then((response) => {
-        response.forEach((employee) => {
-          this.employees.push({
-            id: employee.id,
-            name: employee.name,
-          })
+
+      response = await this.$axios.$get('/api/employee/short/list')
+      response.forEach((employee) => {
+        this.employees.push({
+          id: employee.id,
+          name: employee.name,
         })
       })
-      .catch((error) => console.log(error))
+    } catch (error) {
+      console.log(error)
+    }
   },
   data() {
     return {
@@ -136,22 +130,41 @@ export default {
     }
   },
   methods: {
-    askQuery() {
+    reset() {
       this.dialog = false
 
-       this.$axios
+      this.e1 = 1
+      this.peerappraisal = {
+        appraisal: 0,
+        title1: '',
+        title2: '',
+        title3: '',
+        employee_list: [],
+      }
+    },
+    askQuery() {
+      this.peerappraisal.employee_list = this.peerappraisal.employee_list.map(
+        (i) => i.id
+      )
+
+      this.$axios
         .$post('/api/peerappraisal/create', this.peerappraisal)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Success asking query',
             color: 'info',
           })
+
+          this.reset()
         })
         .catch((error) => {
           this.$notifier.showMessage({
             content: 'Error asking query',
             color: 'error',
           })
+
+          this.reset()
+
           console.log(error, this.appraisal)
         })
     },

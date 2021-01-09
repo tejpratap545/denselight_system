@@ -9,7 +9,7 @@
       </v-card-title>
       <v-data-table :loading="loading" :headers="headers" :items="peerqueries">
         <template v-slot:[`item.actions`]="{ item }">
-          <PeerQueryResolve :id="item.id" />
+          <PeerQueryResolve :id="item.id" @reload-mainvue="$fetch()" />
         </template>
       </v-data-table>
     </v-card>
