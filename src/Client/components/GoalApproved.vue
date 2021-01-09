@@ -152,11 +152,7 @@
                                             <v-card-title class="subtitle-2">{{
                                               c.cc
                                             }}</v-card-title>
-                                            <v-card-text
-                                              v-if="
-                                                c.cid == 0
-                                              "
-                                            >
+                                            <v-card-text v-if="c.cid == 0">
                                               ~My response
                                             </v-card-text>
 
@@ -510,6 +506,7 @@ export default {
             content: 'Successfully Approved the goals ',
             color: 'info',
           })
+          this.$emit('reload')
           this.close()
         })
         .catch((error) => {
@@ -553,9 +550,8 @@ export default {
             content: `Successfully approved  ${this.current_goal.goal_title} the goals `,
             color: 'info',
           })
-          this.goalsApprovedDialog = false
-          this.current_goal.status = 'APPROVED'
-          this.close()
+
+          this.$fetch()
         })
         .catch((error) => {
           console.log(error)
@@ -563,6 +559,9 @@ export default {
             content: 'Error approved goals',
             color: 'error',
           })
+        })
+        .finally(() => {
+          this.goalsApprovedDialog = false
         })
     },
     rejectGoal() {
@@ -573,9 +572,8 @@ export default {
             content: `Successfully rejected  ${this.current_goal.goal_title} the goals `,
             color: 'info',
           })
-          this.goalsApprovedDialog = false
-          this.current_goal.status = 'REJECTED'
-          this.close()
+
+          this.$fetch()
         })
         .catch((error) => {
           console.log(error)
@@ -583,6 +581,9 @@ export default {
             content: 'Error rejection goals',
             color: 'error',
           })
+        })
+        .finally(() => {
+          this.rejectionDialog = false
         })
     },
   },

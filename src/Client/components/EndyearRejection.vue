@@ -37,7 +37,7 @@ export default {
             content: 'Successfully rejected the goals ',
             color: 'info',
           })
-          this.rejectionDialog = false
+          this.$emit('reload')
           this.close()
         })
         .catch((error) => {

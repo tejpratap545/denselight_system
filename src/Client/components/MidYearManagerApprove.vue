@@ -5,6 +5,7 @@
       :dialog="rejectDialog"
       :appraisal-id="appraisalId"
       @close-reject-midyear="rejectDialog = false"
+      @reload="$fetch"
     >
     </MidyearRejection>
     <v-dialog v-model="dialog" persistent max-width="500">
@@ -44,6 +45,7 @@ export default {
             content: 'You  have   Successfully approved mid year review',
             color: 'info',
           })
+          this.$emit('reload')
           this.close()
         })
         .catch(() => {

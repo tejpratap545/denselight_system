@@ -195,9 +195,9 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     mid_year_completion="Uncompleted",
                 )
                 for app in instance.user_appraisal_list_set.all():
-                    title = f"{app.name} shifted back to goal settings stage "
+                    title = f"{app.appraisal_name} shifted back to goal settings stage "
                     description = (
-                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.appraisal_name}  "
                         f"goal back to goal settings stage "
                         f"Please resubmit goals to manager"
                     )
@@ -223,11 +223,9 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     mid_year_completion="Uncompleted",
                 )
                 for app in instance.user_appraisal_list_set.all():
-                    title = (
-                        f"{app.name} shifted back to mid year review settings stage "
-                    )
+                    title = f"{app.appraisal_name} shifted back to mid year review settings stage "
                     description = (
-                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.appraisal_name}  "
                         f"goal back to mid year review stage  "
                         f"Please resubmit mid year review to manager"
                     )
@@ -252,11 +250,9 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     completion="null",
                 )
                 for app in instance.user_appraisal_list_set.all():
-                    title = (
-                        f"{app.name} shifted back to end year review settings stage "
-                    )
+                    title = f"{app.appraisal_name} shifted back to end year review settings stage "
                     description = (
-                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.appraisal_name}  "
                         f"goal back to end year review stage  "
                         f"Please resubmit end year review to manager"
                     )
@@ -278,9 +274,9 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
         else:
             if a == "Stage 1B":
                 for app in instance.user_appraisal_list_set.all():
-                    title = f"{app.name} shifted from goal settings stage to mid year review"
+                    title = f"{app.appraisal_name} shifted from goal settings stage to mid year review"
                     description = (
-                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.appraisal_name}  "
                         f"goal settings stage to mid year review"
                         f"If your goals approved then please fill mid year review then submitted to manager"
                     )
@@ -301,11 +297,9 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                         pass
             if a == "Stage 2":
                 for app in instance.user_appraisal_list_set.all():
-                    title = (
-                        f"{app.name} shifted from mid year review to end  year review"
-                    )
+                    title = f"{app.appraisal_name} shifted from mid year review to end  year review"
                     description = (
-                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.name}  "
+                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} shifted  {app.appraisal_name}  "
                         f"from mid year review to end  year review"
                         f"If your  mid year review  approved then please fill end year review then submitted to "
                         f"manager "
