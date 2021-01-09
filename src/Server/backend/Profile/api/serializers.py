@@ -73,9 +73,9 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         email = validated_data.get("email")
-        password = validated_data.get("password")
-        username = validated_data.get("username")
-        role = validated_data.get("role")
+        password = validated_data.pop("password")
+        username = validated_data.pop("username")
+        role = validated_data.pop("role")
         user = User.objects.create_user(
             username=username, email=email, password=password, role=role
         )
