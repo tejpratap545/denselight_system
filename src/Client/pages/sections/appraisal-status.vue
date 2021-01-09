@@ -7,7 +7,7 @@
       ></v-skeleton-loader>
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
-    <div class="ma-5" v-else>
+    <div v-else class="ma-5">
       <div>
         <AppraisalCreate @reload-appraisals="$fetch()" />
       </div>
@@ -77,8 +77,8 @@
                                       color="error"
                                       dark
                                       v-bind="attrs"
-                                      v-on="on"
                                       icon
+                                      v-on="on"
                                     >
                                       <v-icon>mdi-close</v-icon>
                                     </v-btn>
@@ -397,9 +397,20 @@ export default {
       this.$axios
         .$delete(`api/overallAppraisal/${id}/`)
         .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Successfully deleted appraisal',
+            color: 'info',
+          })
           this.$fetch()
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error deleting appraisal',
+            color: 'error',
+          })
+          this.$fetch()
+          console.log(error)
+        })
     },
   },
 }

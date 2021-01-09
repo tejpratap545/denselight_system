@@ -383,7 +383,6 @@ export default {
     close() {
       this.dialog = false
       this.reset()
-      this.$emit('reload-appraisals')
     },
     reset() {
       this.appraisal = {
@@ -440,6 +439,7 @@ export default {
           })
 
           this.close()
+          this.$emit('reload-appraisals')
         })
         .catch((error) => {
           this.$notifier.showMessage({
