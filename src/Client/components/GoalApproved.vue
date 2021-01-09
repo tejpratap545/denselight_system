@@ -506,8 +506,8 @@ export default {
             content: 'Successfully Approved the goals ',
             color: 'info',
           })
+
           this.$emit('reload')
-          this.close()
         })
         .catch((error) => {
           console.log(error)

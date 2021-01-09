@@ -363,6 +363,8 @@ export default {
   methods: {
     async init() {
       try {
+        this.completedTableItems = []
+        this.onGoingTableItems = []
         const response = await this.$axios.$get('api/overallAppraisal/')
 
         response.forEach((appraisal) => {

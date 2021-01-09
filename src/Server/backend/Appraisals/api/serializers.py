@@ -84,13 +84,13 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     )
                     title = f"{overall_appraisal.name} appraisal created"
                     description = (
-                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} created "
-                        f"overall_appraisal.name "
+                        f"Hi {profile.name}  {self.context['request'].user.profile.name} created "
+                        f"{overall_appraisal.name} "
                         f"Please go to dashboard and then add goals , kpis , core values and skills and then "
                         f"submitted to manager "
                     )
                     Notification.objects.create(
-                        user=app.employee,
+                        user=profile,
                         title=title,
                         description=description,
                         color="info",
@@ -100,7 +100,7 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                             title,
                             description,
                             settings.OFFICIAL_MAIL,
-                            [app.employee.email],
+                            [profile.email],
                         )
                     except:
                         pass
@@ -121,13 +121,13 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     )
                     title = f"{overall_appraisal.name} appraisal created"
                     description = (
-                        f"Hi {app.employee.name}  {self.context['request'].user.profile.name} created "
-                        f"overall_appraisal.name "
+                        f"Hi {profile.name}  {self.context['request'].user.profile.name} created "
+                        f"{overall_appraisal.name} "
                         f"Please go to dashboard and then add goals , kpis , core values and skills and then "
                         f"submitted to manager "
                     )
                     Notification.objects.create(
-                        user=app.employee,
+                        user=profile,
                         title=title,
                         description=description,
                         color="info",
@@ -137,7 +137,7 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                             title,
                             description,
                             settings.OFFICIAL_MAIL,
-                            [app.employee.email],
+                            [profile.email],
                         )
                     except:
                         pass
@@ -159,12 +159,12 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     title = f"{overall_appraisal.name} appraisal created"
                     description = (
                         f"Hi {app.employee.name}  {self.context['request'].user.profile.name} created "
-                        f"overall_appraisal.name "
+                        f"{overall_appraisal.name} "
                         f"Please go to dashboard and then add goals , kpis , core values and skills and then "
                         f"submitted to manager "
                     )
                     Notification.objects.create(
-                        user=app.manager,
+                        user=profile,
                         title=title,
                         description=description,
                         color="info",
@@ -174,7 +174,7 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                             title,
                             description,
                             settings.OFFICIAL_MAIL,
-                            [app.manager.email],
+                            [app.profile.email],
                         )
                     except:
                         pass
