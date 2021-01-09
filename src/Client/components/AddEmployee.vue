@@ -75,11 +75,14 @@
           label="Division center"
           outlined
         ></v-text-field>
-        <v-text-field
+        <v-select
           v-model="user.department"
+          :items="departments"
           label="Department"
+          item-text="name"
+          item-value="id"
           outlined
-        ></v-text-field>
+        ></v-select>
 
         <v-select
           v-model="user.employment_Type"
@@ -119,6 +122,7 @@ export default {
   async fetch() {
     try {
       this.employees = await this.$axios.$get('/api/employee/short/list')
+      this.departments = await this.$axios.$get('/api/department/')
     } catch (error) {
       console.log(error)
     }
@@ -127,6 +131,7 @@ export default {
     return {
       dialog: false,
       role: ['HRManager', 'Hr', 'Manager', 'Employee'],
+      departments: [],
       gender: ['Male', 'Female'],
       employees: [],
       user: {
@@ -153,6 +158,8 @@ export default {
   },
   methods: {
     createUser() {
+      this.dialog = false
+
       this.$axios
         .$post('api/profile/create', this.user)
         .then((res) => {
@@ -160,6 +167,7 @@ export default {
             content: 'Success creating user',
             color: 'info',
           })
+
           this.$emit('reload')
         })
         .catch((error) => {
