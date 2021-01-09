@@ -61,16 +61,53 @@
                               <div v-else>Unknown Stage</div>
                             </template>
                             <template v-slot:[`item.actions`]="{ item }">
-                              <AppraisalEdit
-                                :appraisal="item.overallAppraisal"
-                              />
-                              <v-btn
-                                color="error"
-                                icon
-                                @click="deleteAppraisal(item.id)"
-                              >
-                                <v-icon>mdi-close</v-icon>
-                              </v-btn>
+                              <div>
+                                <AppraisalEdit
+                                  :appraisal="item.overallAppraisal"
+                                />
+
+                                <v-dialog
+                                  v-model="item.dialog_delete"
+                                  persistent
+                                  max-width="400"
+                                >
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      color="error"
+                                      dark
+                                      v-bind="attrs"
+                                      v-on="on"
+                                      icon
+                                    >
+                                      <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <v-card>
+                                    <v-card-title class="headline">
+                                      Permanently delete appraisal ?
+                                    </v-card-title>
+                                    <v-card-actions>
+                                      <v-spacer></v-spacer>
+                                      <v-btn
+                                        text
+                                        @click="item.dialog_delete = false"
+                                      >
+                                        Cancel
+                                      </v-btn>
+                                      <v-btn
+                                        color="green darken-1"
+                                        text
+                                        @click="
+                                          item.dialog_delete = false
+                                          deleteAppraisal(item.id)
+                                        "
+                                      >
+                                        OK
+                                      </v-btn>
+                                    </v-card-actions>
+                                  </v-card>
+                                </v-dialog>
+                              </div>
                             </template>
                           </v-data-table>
                         </v-card-text>
@@ -334,7 +371,8 @@ export default {
 
             end_date: appraisal.goals_setting_end_date,
             status: appraisal.status,
-            dialog: false,
+            dialog_delete: false,
+
             overallAppraisal: appraisal || {},
           }
 
