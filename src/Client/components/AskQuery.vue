@@ -58,7 +58,7 @@
               <v-btn color="primary" @click="e1 = 2"> Continue </v-btn>
               <v-btn
                 text
-                @click="this.reset()"
+                @click="reset()"
               >
                 Close
               </v-btn>
