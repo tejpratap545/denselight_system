@@ -98,6 +98,7 @@ export default {
   methods: {
     close() {
       this.$emit('close-goal-dialog')
+      this.$emit('reload')
     },
     submit() {
       this.$axios

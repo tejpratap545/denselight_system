@@ -60,6 +60,7 @@ export default {
   methods: {
     close() {
       this.$emit('close-core-dialog')
+      this.$emit('reload')
     },
     submit() {
       this.$axios
@@ -71,7 +72,6 @@ export default {
             color: 'info',
           })
           this.close()
-          this.$emit('reload')
         })
         .catch((error) => {
           this.$notifier.showMessage({

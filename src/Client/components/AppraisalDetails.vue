@@ -5,19 +5,22 @@
         v-if="addGoalsDialog"
         :dialog="addGoalsDialog"
         :appraisal-id="appraisal.id"
-        @close-goal-dialog="close"
+        @close-goal-dialog="addGoalsDialog = false"
+        @reload="reload"
       />
       <AddCoreValue
         v-if="addCoreValueDialog"
         :dialog="addCoreValueDialog"
         :appraisal-id="appraisal.id"
-        @close-core-dialog="close"
+        @close-core-dialog="addCoreValueDialog = false"
+        @reload="reload"
       />
       <AddSkills
         v-if="addSkillsDialog"
         :dialog="addSkillsDialog"
         :appraisal-id="appraisal.id"
-        @close-skills-dialog="close"
+        @close-skills-dialog="addSkillsDialog = false"
+        @reload="reload"
       />
     </div>
     <div class="ma-5">
@@ -140,7 +143,10 @@
                                       </v-card-text>
                                     </v-card>
                                   </v-card-text>
-                                  <v-card-actions>
+
+                                  <v-card-actions
+                                    v-if="checkCommentDisable(comment.id)"
+                                  >
                                     <v-textarea
                                       v-model="newComment"
                                       label="Write your comment here"
@@ -149,6 +155,7 @@
                                   </v-card-actions>
                                   <div>
                                     <v-btn
+                                      v-if="checkCommentDisable(comment.id)"
                                       color="primary"
                                       @click="postcomment(comment.id, item)"
                                       >Send Message
@@ -678,12 +685,24 @@ export default {
           })
       }
     },
-    close() {
-      this.addGoalsDialog = false
-      this.addCoreValueDialog = false
-      this.addSkillsDialog = false
-      this.reload()
+    checkCommentDisable(id) {
+      if (this.appraisal.overall_appraisal.status === 'Stage 1' && id === 0) {
+        return true
+      } else if (
+        this.appraisal.overall_appraisal.status === 'Stage 1B' &&
+        id === 1
+      ) {
+        return true
+      } else if (
+        this.appraisal.overall_appraisal.status === 'Stage 2' &&
+        id === 2
+      ) {
+        return true
+      } else {
+        return false
+      }
     },
+
     reload() {
       this.$emit('reload-mainvue')
     },

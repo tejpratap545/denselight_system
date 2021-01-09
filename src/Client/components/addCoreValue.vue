@@ -67,6 +67,7 @@ export default {
   methods: {
     close() {
       this.$emit('close-core-dialog')
+      this.$emit('reload')
     },
     submit() {
       this.$axios

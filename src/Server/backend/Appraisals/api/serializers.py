@@ -123,19 +123,19 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
         b = int_status(instance.status)
         if a < b:
             if a == 0:
-                User_Appraisal_List.objects.filter(Overall_Appraisal=instance).update(
+                User_Appraisal_List.objects.filter(overall_appraisal=instance).update(
                     status="Employee",
                     completion="null",
                     mid_year_completion="Uncompleted",
                 )
             if a == 1:
-                User_Appraisal_List.objects.filter(Overall_Appraisal=instance).update(
+                User_Appraisal_List.objects.filter(overall_appraisal=instance).update(
                     status="S1BEmployee",
                     completion="null",
                     mid_year_completion="Uncompleted",
                 )
             if a == 2:
-                User_Appraisal_List.objects.filter(Overall_Appraisal=instance).update(
+                User_Appraisal_List.objects.filter(overall_appraisal=instance).update(
                     status="S2Employee",
                     completion="null",
                 )

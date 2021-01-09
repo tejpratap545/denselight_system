@@ -15,61 +15,61 @@
 
       <v-card-text style="height: 500px overflow-y:scroll">
         <v-text-field
-          label="Username"
           v-model="user.username"
+          label="Username"
           outlined
         ></v-text-field>
         <v-text-field
-          label="Password"
           v-model="user.password"
+          label="Password"
           outlined
         ></v-text-field>
 
         <v-select
-          :items="role"
           v-model="user.role"
+          :items="role"
           label="Role"
           outlined
         ></v-select>
 
         <v-text-field
-          label="Full Name"
           v-model="user.name"
+          label="Full Name"
           outlined
         ></v-text-field>
         <v-text-field
-          label="email"
           v-model="user.email"
+          label="email"
           outlined
         ></v-text-field>
 
         <v-select
-          :items="gender"
           v-model="user.gender"
+          :items="gender"
           label="Gender"
           outlined
         ></v-select>
 
         <v-text-field
-          label="Job Title"
           v-model="user.job_Title"
+          label="Job Title"
           outlined
         ></v-text-field>
 
         <v-select
+          v-model="user.first_Reporting_Manager"
           :items="employees"
           item-text="name"
           item-value="id"
-          v-model="user.first_Reporting_Manager"
           label="First reporting manager"
           outlined
         ></v-select>
 
         <v-select
+          v-model="user.second_Reporting_Manager"
           :items="employees"
           item-text="name"
           item-value="id"
-          v-model="user.second_Reporting_Manager"
           label="Second reporting manager"
           outlined
         ></v-select>
@@ -121,14 +121,16 @@ export default {
             content: 'Success creating user',
             color: 'info',
           })
-
-          dialog = false
+          this.$emit('reload')
         })
         .catch((error) => {
           this.$notifier.showMessage({
             content: 'Error creating user',
             color: 'error',
           })
+        })
+        .finally(() => {
+          this.$emit('close')
         })
     },
   },
