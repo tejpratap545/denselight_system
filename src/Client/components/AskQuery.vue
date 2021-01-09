@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" elevation="0" dark v-bind="attrs" v-on="on">
-        Create Appraisal
+        Ask Query
       </v-btn>
     </template>
     <div v-if="$fetchState.pending">
@@ -10,7 +10,7 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
 
-    <v-card v-else>
+    <v-card m v-else>
       <v-card-title class="headline py-5"> Ask Query </v-card-title>
 
       <v-card-text>
@@ -56,12 +56,7 @@
               </div>
 
               <v-btn color="primary" @click="e1 = 2"> Continue </v-btn>
-              <v-btn
-                text
-                @click="reset()"
-              >
-                Close
-              </v-btn>
+              <v-btn text @click="reset()"> Close </v-btn>
             </v-stepper-content>
 
             <v-stepper-content step="2">
@@ -141,8 +136,12 @@ export default {
         title3: '',
         employee_list: [],
       }
+
+      this.$emit('reload-mainvue')
     },
     askQuery() {
+      this.dialog = false
+
       this.peerappraisal.employee_list = this.peerappraisal.employee_list.map(
         (i) => i.id
       )
