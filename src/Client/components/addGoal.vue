@@ -98,7 +98,6 @@ export default {
   methods: {
     close() {
       this.$emit('close-goal-dialog')
-      this.$emit('reload')
     },
     submit() {
       this.$axios
@@ -108,7 +107,9 @@ export default {
             content: 'Success creating goal',
             color: 'info',
           })
+
           this.close()
+          this.$emit('reload')
         })
         .catch((error) => {
           this.$notifier.showMessage({
