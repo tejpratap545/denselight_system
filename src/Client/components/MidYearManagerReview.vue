@@ -12,6 +12,7 @@
             :dialog="rejectDialog"
             :appraisal-id="appraisalId"
             @close-reject-midyear="rejectDialog = false"
+            @reload="$fetch"
           >
           </MidyearRejection>
           <v-card-title class="headline">
@@ -161,6 +162,7 @@ export default {
               color: 'info',
             })
             this.close()
+            this.$emit('reload')
           })
           .catch(() => {
             this.$notifier.showMessage({

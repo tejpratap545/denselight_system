@@ -14,12 +14,14 @@
         :dialog="goalsApprovedDialog"
         :appraisal-id="currentAppraisalId"
         @close-goal-approved-dialog="goalsApprovedDialog = false"
+        @reload="subordinateAppraisal"
       />
       <MidYearManagerReview
         v-if="MidYearManagerReviewDialog"
         :dialog="MidYearManagerReviewDialog"
         :appraisal-id="currentAppraisalId"
         @close-mid-year-manager-dialog="MidYearManagerReviewDialog = false"
+        @reload="subordinateAppraisal"
       />
       <MidYearManagerApprove
         v-if="MidYearManagerSubmitDialog"
@@ -28,12 +30,14 @@
         @close-mid-year-manager-submit-dialog="
           MidYearManagerSubmitDialog = false
         "
+        @reload="subordinateAppraisal"
       />
       <EndYearManagerReview
         v-if="ENDYearManagerReviewDialog"
         :dialog="ENDYearManagerReviewDialog"
         :appraisal-id="currentAppraisalId"
         @close-end-year-manager-dialog="ENDYearManagerReviewDialog = false"
+        @reload="subordinateAppraisal"
       />
       <EndYearManagerApprove
         v-if="ENDYearManagerSubmitDialog"
@@ -42,6 +46,7 @@
         @close-end-year-manager-submit-dialog="
           ENDYearManagerSubmitDialog = false
         "
+        @reload="subordinateAppraisal"
       />
       <AddGoalDepartment
         v-if="addGoalsDialog"
@@ -778,55 +783,8 @@ export default {
   mixins: [global],
   async fetch() {
     try {
-      let response = await this.$axios.$get('api/appraisals/list/manager')
-
-      response.forEach((appraisal) => {
-        const tableData = {
-          id: appraisal.id,
-          appraisal_name: appraisal.appraisal_name,
-          employee: appraisal.employee.name,
-          mid_year_completion: appraisal.mid_year_completion,
-          goals_count: appraisal.goals_count,
-          core_values_count: appraisal.core_values_competencies_count,
-          completion: appraisal.completion,
-          skills_count: 0,
-          end_date: appraisal.overall_appraisal.goals_setting_end_date,
-          status: appraisal.status,
-          appraisal_dialog: false,
-        }
-
-        switch (appraisal.overall_appraisal.status) {
-          case 'Stage 1':
-            this.goalsLaunchingTableItems.push(tableData)
-            break
-
-          case 'Stage 1B':
-            this.midYearTableItems.push(tableData)
-            break
-
-          case 'Stage 2':
-            this.endYearTableItems.push(tableData)
-            break
-
-          case 'Stage 3':
-            this.reportsTableItems.push(tableData)
-            break
-
-          case 'Stage 4':
-            this.calibrationTableItems.push(tableData)
-            break
-
-          default:
-            break
-        }
-      })
-      response = await this.$axios.$get('api/overallAppraisal/list')
-
-      this.loading = false
-      this.appraisalData = response
-      this.changeAppraisal(this.appraisalData[0])
-
-      response = await this.$axios.$get('api/appraisals/list/short/hod')
+      await this.subordinateAppraisal()
+      let response = await this.$axios.$get('api/appraisals/list/short/hod')
       response.forEach((employee) => {
         const data = {
           name: employee.name,
@@ -976,6 +934,55 @@ export default {
     }
   },
   methods: {
+    async subordinateAppraisal() {
+      let response = await this.$axios.$get('api/appraisals/list/manager')
+
+      response.forEach((appraisal) => {
+        const tableData = {
+          id: appraisal.id,
+          appraisal_name: appraisal.appraisal_name,
+          employee: appraisal.employee.name,
+          mid_year_completion: appraisal.mid_year_completion,
+          goals_count: appraisal.goals_count,
+          core_values_count: appraisal.core_values_competencies_count,
+          completion: appraisal.completion,
+          skills_count: 0,
+          end_date: appraisal.overall_appraisal.goals_setting_end_date,
+          status: appraisal.status,
+          appraisal_dialog: false,
+        }
+
+        switch (appraisal.overall_appraisal.status) {
+          case 'Stage 1':
+            this.goalsLaunchingTableItems.push(tableData)
+            break
+
+          case 'Stage 1B':
+            this.midYearTableItems.push(tableData)
+            break
+
+          case 'Stage 2':
+            this.endYearTableItems.push(tableData)
+            break
+
+          case 'Stage 3':
+            this.reportsTableItems.push(tableData)
+            break
+
+          case 'Stage 4':
+            this.calibrationTableItems.push(tableData)
+            break
+
+          default:
+            break
+        }
+      })
+      response = await this.$axios.$get('api/overallAppraisal/list')
+
+      this.loading = false
+      this.appraisalData = response
+      this.changeAppraisal(this.appraisalData[0])
+    },
     showGaolApproval(item) {
       this.currentAppraisalId = item.id
       this.goalsApprovedDialog = true
