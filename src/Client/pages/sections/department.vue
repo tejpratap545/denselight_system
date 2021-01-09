@@ -445,7 +445,10 @@
                         >
                           <template v-slot:[`item.status`]="{ item }">
                             <v-icon
-                              v-if="item.status == 'S1BEmployee'"
+                              v-if="
+                                item.status === 'S1BEmployee' ||
+                                item.status === 'S1BManager'
+                              "
                               indeterminate
                               color="primary"
                             >
@@ -454,8 +457,9 @@
 
                             <v-icon
                               v-else-if="
-                                item.status == 'S1BManager' &&
-                                item.mid_year_completion == 'Uncompleted'
+                                item.status === 'S1BReview' ||
+                                (item.status === 'S1BManager' &&
+                                  item.mid_year_completion === 'Completed')
                               "
                               indeterminate
                               color="info"
@@ -464,7 +468,7 @@
                             >
                             <v-icon
                               v-else-if="
-                                item.mid_year_completion == 'Completed'
+                                item.mid_year_completion === 'Completed'
                               "
                               indeterminate
                               color="success"
@@ -562,8 +566,9 @@
                           <template v-slot:[`item.status`]="{ item }">
                             <v-icon
                               v-if="
-                                item.status == 'Approved' &&
-                                item.completion == 'MCompleted'
+                                (item.status === 'S2Manager' ||
+                                  item.status === 'S2Employee') &&
+                                item.completion === 'Ecompleted'
                               "
                               indeterminate
                               color="primary"
@@ -573,8 +578,8 @@
 
                             <v-icon
                               v-else-if="
-                                item.status == 'S2Manager' &&
-                                item.completion == 'ECompleted'
+                                item.status === 'S2Manager' &&
+                                item.completion === 'MCompleted'
                               "
                               indeterminate
                               color="info"
@@ -582,7 +587,7 @@
                               mdi-account-clock</v-icon
                             >
                             <v-icon
-                              v-else-if="item.status == 'S2Manager'"
+                              v-else-if="item.status == 'Approved'"
                               indeterminate
                               color="success"
                             >
