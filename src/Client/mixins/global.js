@@ -16,10 +16,8 @@ export default {
                 return 'Goals Setting Stage Gaols Approved'
             }
             // mid year status
-            else if (overallAppraisalStatus === 'Stage 1B' && midYearCompletion === 'Uncompleted') {
+            else if (overallAppraisalStatus === 'Stage 1B') {
                 return 'Mid Year Pending Manager/Supervisor input'
-            } else if (overallAppraisalStatus === 'Stage 1B' && midYearCompletion === 'Completed') {
-                return 'Mid Year Completed'
             }
 
             // end year stage

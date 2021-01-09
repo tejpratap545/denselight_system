@@ -207,10 +207,11 @@
                         <v-card-actions>
                           <v-container>
                             <v-row>
-                              <v-text-field
+                              <v-textarea
                                 v-model="kpi"
+                                outlined
                                 label="KPI description"
-                              ></v-text-field>
+                              ></v-textarea>
                             </v-row>
 
                             <v-row>
@@ -619,7 +620,7 @@ export default {
         const appraisal = await this.$axios.$post(`api/KPI/create`, data)
 
         goal.kpi_dialog = false
-        await this.init()
+        this.reload()
       } catch (error) {
         console.log(error)
       }

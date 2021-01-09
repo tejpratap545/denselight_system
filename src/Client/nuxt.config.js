@@ -50,7 +50,7 @@ export default {
 
     loading: {
         color: 'amber',
-        height: '5px'
+        height: '5px',
     },
 
     // Modules (https://go.nuxtjs.dev/config-modules)
@@ -58,7 +58,7 @@ export default {
         // https://go.nuxtjs.dev/axios
         '@nuxtjs/axios',
         // https://go.nuxtjs.dev/pwa
-     //   '@nuxtjs/pwa',
+        //   '@nuxtjs/pwa',
         '@nuxtjs/axios',
         '@nuxtjs/auth',
     ],

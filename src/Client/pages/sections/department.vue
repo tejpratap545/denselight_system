@@ -106,8 +106,8 @@
                             getStatus(
                               appraisal.dat.overall_appraisal.status,
                               appraisal.dat.status,
-                              'Uncompleted',
-                              ''
+                              appraisal.dat.mid_year_completion,
+                              appraisal.completion
                             )
                           "
                         ></v-list-item-subtitle>
@@ -142,6 +142,7 @@
                             <Appraisal
                               v-if="appraisal.appraisal_dialog"
                               :appraisal-id="appraisal.dat.id"
+                              is-editable="true"
                             />
                           </v-card>
                         </v-dialog>
@@ -179,8 +180,8 @@
                             getStatus(
                               appraisal.dat.overall_appraisal.status,
                               appraisal.dat.status,
-                              'Uncompleted',
-                              ''
+                              appraisal.dat.mid_year_completion,
+                              appraisal.completion
                             )
                           "
                         ></v-list-item-subtitle>

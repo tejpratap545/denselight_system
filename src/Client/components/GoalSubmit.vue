@@ -118,12 +118,23 @@
                                             </v-card-text>
                                           </v-card>
                                         </v-card-text>
-                                        <v-card-actions>
+                                        <v-card-actions
+                                          v-if="
+                                            checkCommentDisable(comment.id) &&
+                                            isEditable
+                                          "
+                                        >
                                           <v-textarea
                                             label="Write your comment here"
                                             outlined
                                           ></v-textarea>
-                                          <div class="justify-end">
+                                          <div
+                                            v-if="
+                                              checkCommentDisable(comment.id) &&
+                                              isEditable
+                                            "
+                                            class="justify-end"
+                                          >
                                             <v-btn
                                               color="primary"
                                               fab
@@ -280,7 +291,11 @@
 <script>
 export default {
   name: 'GoalSubmitVue',
-  props: { dialog: Boolean, appraisalId: Number },
+  props: {
+    dialog: Boolean,
+    appraisalId: Number,
+    isEditable: { type: Boolean, default: false },
+  },
   async fetch() {
     await this.$axios
       .$get(`api/appraisals/detail/${this.appraisalId}`)
@@ -369,6 +384,23 @@ export default {
     }
   },
   methods: {
+    checkCommentDisable(id) {
+      if (this.appraisal.overall_appraisal.status === 'Stage 1' && id === 0) {
+        return true
+      } else if (
+        this.appraisal.overall_appraisal.status === 'Stage 1B' &&
+        id === 1
+      ) {
+        return true
+      } else if (
+        this.appraisal.overall_appraisal.status === 'Stage 2' &&
+        id === 2
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
     init(appraisal) {
       const data = {
         name: appraisal.appraisal_name,

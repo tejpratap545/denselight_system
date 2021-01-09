@@ -104,14 +104,18 @@
                             </v-card-text>
                           </v-card>
                         </v-card-text>
-                        <v-card-actions>
+                        <v-card-actions
+                          v-if="checkCommentDisable(comment.id) && isEditable"
+                        >
                           <v-textarea
                             v-model="newComment"
                             label="Write your comment here"
                             outlined
                           ></v-textarea>
                         </v-card-actions>
-                        <div>
+                        <div
+                          v-if="checkCommentDisable(comment.id) && isEditable"
+                        >
                           <v-btn
                             color="primary"
                             @click="postcomment(comment.id, item)"
@@ -273,7 +277,7 @@
 
 <script>
 export default {
-  props: { appraisalId: Number },
+  props: { appraisalId: Number, isEditable: { type: Boolean, default: false } },
   async fetch() {
     await this.$axios
       .$get(`api/appraisals/detail/${this.appraisalId}`)
@@ -353,6 +357,23 @@ export default {
           user_comments: goal.user_comments,
         })
       })
+    },
+    checkCommentDisable(id) {
+      if (this.appraisal.overall_appraisal.status === 'Stage 1' && id === 0) {
+        return true
+      } else if (
+        this.appraisal.overall_appraisal.status === 'Stage 1B' &&
+        id === 1
+      ) {
+        return true
+      } else if (
+        this.appraisal.overall_appraisal.status === 'Stage 2' &&
+        id === 2
+      ) {
+        return true
+      } else {
+        return false
+      }
     },
     postcomment(cid, item) {
       item.dialog = false
