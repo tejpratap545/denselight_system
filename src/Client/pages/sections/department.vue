@@ -997,6 +997,8 @@ export default {
             break
         }
       })
+
+      this.loading = false
     },
     showGaolApproval(item) {
       this.currentAppraisalId = item.id
