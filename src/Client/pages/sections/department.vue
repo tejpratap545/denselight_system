@@ -955,6 +955,12 @@ export default {
       this.changeAppraisal(this.appraisalData[0])
     },
     async subordinateAppraisal() {
+      this.goalsLaunchingTableItems = []
+      this.midYearTableItems = []
+      this.endYearTableItems = []
+      this.reportsTableItems = []
+      this.calibrationTableItems = []
+
       const response = await this.$axios.$get('api/appraisals/list/manager')
 
       response.forEach((appraisal) => {
