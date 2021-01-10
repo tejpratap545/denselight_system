@@ -106,14 +106,16 @@ export default {
   },
 
   methods: {
-    async deleteUser(id) {
-      await this.$axios
+    deleteUser(id) {
+      this.$axios
         .$delete(`api/profile/${id}`)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Successfully deleted user',
             color: 'info',
           })
+
+          this.$fetch()
         })
         .catch((error) => {
           this.$notifier.showMessage({
@@ -122,9 +124,8 @@ export default {
           })
           console.log(error)
         })
-
-      await this.$fetch()
     },
   },
+  fetchOnServer: false,
 }
 </script>
