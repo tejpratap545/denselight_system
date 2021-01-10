@@ -282,7 +282,7 @@
             </v-card-text>
           </v-card>
 
-          <div>
+          <div v-if="appraisalSelectedIndex != 0">
             <v-card class="pt-5" flat>
               <v-toolbar
                 elevation="0"
@@ -339,6 +339,7 @@
               </v-card-text>
             </v-card>
           </div>
+
         </v-tab-item>
 
         <v-tab-item>

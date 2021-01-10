@@ -8,7 +8,7 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <div v-else>
-      <div class="dialogs">
+      <div class="dialogs" v-if="appraisalSelectedIndex != 0">
         <GoalSubmit
           v-if="submitGoalsDialog"
           :dialog="submitGoalsDialog"
@@ -101,6 +101,7 @@
       </div>
 
       <div
+        v-if="appraisalSelectedIndex != 0"
         class="button-group ma-5"
         elevation="0"
         style="display: flex; justify-content: center"
