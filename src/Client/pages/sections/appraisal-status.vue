@@ -410,7 +410,6 @@ export default {
             content: 'Error deleting appraisal',
             color: 'error',
           })
-          this.$fetch()
           console.log(error)
         })
     },

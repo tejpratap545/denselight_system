@@ -21,7 +21,35 @@
       >
         <template v-slot:[`item.action`]="{ item }">
           <v-btn v-model="item.action" color="transparent" elevation="3">
-             <EditEmployee :id="item.id" />
+            <EditEmployee :id="item.id"  @reload-mainvue="$fetch()"/>
+            <v-dialog v-model="item.dialog_delete" persistent max-width="400">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="error" dark v-bind="attrs" icon v-on="on">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline">
+                  Permanently delete appraisal ?
+                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn text @click="item.dialog_delete = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="
+                      item.dialog_delete = false
+                      deleteUser(item.id)
+                    "
+                  >
+                    OK
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-btn>
         </template>
       </v-data-table>
@@ -41,11 +69,12 @@ export default {
 
       response.forEach((employee) => {
         this.employees.push({
-          id:employee.id,
+          id: employee.id,
           name: employee.name,
           department: employee.department.name,
           position: employee.job_Title,
           supervisor: employee.first_Reporting_Manager.name,
+          dialog_delete: false
         })
       })
 
@@ -70,10 +99,31 @@ export default {
         { text: 'Department', value: 'department', sortable: true },
         { text: 'Position', value: 'position', sortable: true },
         { text: 'Supervisor', value: 'supervisor', sortable: true },
-        { text: 'Action', value: 'action'},
+        { text: 'Action', value: 'action' },
       ],
       employees: [],
     }
+  },
+
+  methods: {
+    deleteUser(id) {
+      this.$axios
+        .$delete(`api/profile/${id}/`)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Successfully deleted user',
+            color: 'info',
+          })
+          this.$fetch()
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error deleting user',
+            color: 'error',
+          })
+          console.log(error)
+        })
+    },
   },
 }
 </script>
