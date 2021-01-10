@@ -21,7 +21,7 @@
       >
         <template v-slot:[`item.action`]="{ item }">
           <v-btn v-model="item.action" color="transparent" elevation="3">
-            <EditEmployee :id="item.id"  @reload-mainvue="$fetch()"/>
+            <EditEmployee :id="item.id" @reload-mainvue="$fetch()" />
             <v-dialog v-model="item.dialog_delete" persistent max-width="400">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="error" dark v-bind="attrs" icon v-on="on">
@@ -74,7 +74,7 @@ export default {
           department: employee.department.name,
           position: employee.job_Title,
           supervisor: employee.first_Reporting_Manager.name,
-          dialog_delete: false
+          dialog_delete: false,
         })
       })
 
@@ -106,15 +106,14 @@ export default {
   },
 
   methods: {
-    deleteUser(id) {
-      this.$axios
-        .$delete(`api/profile/${id}/`)
+    async deleteUser(id) {
+      await this.$axios
+        .$delete(`api/profile/${id}`)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Successfully deleted user',
             color: 'info',
           })
-          this.$fetch()
         })
         .catch((error) => {
           this.$notifier.showMessage({
@@ -123,6 +122,8 @@ export default {
           })
           console.log(error)
         })
+
+      await this.$fetch()
     },
   },
 }
