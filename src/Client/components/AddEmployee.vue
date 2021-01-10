@@ -111,7 +111,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" @click="createUser"> Create </v-btn>
-        <v-btn text @click="dialog = false"> Close </v-btn>
+        <v-btn text @click="dialog = false; reset()"> Close </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -157,6 +157,28 @@ export default {
     }
   },
   methods: {
+    reset() {
+      this.user = {
+        username: '',
+        password: '',
+        typeOfEmployee: 'INDIRECT',
+        role: '',
+        name: '',
+        email: '',
+
+        nric: '',
+        address_1: '',
+        employment_Type: '',
+        division_Centre: '',
+        department: '',
+
+        gender: '',
+        date_Of_Hire: new Date().toISOString().substr(0, 10),
+        job_Title: '',
+        first_Reporting_Manager: 0,
+        second_Reporting_Manager: 0,
+      },
+    },
     createUser() {
       this.dialog = false
 
@@ -169,6 +191,7 @@ export default {
           })
 
           this.$emit('reload')
+          this.reset()
         })
         .catch((error) => {
           this.$notifier.showMessage({
