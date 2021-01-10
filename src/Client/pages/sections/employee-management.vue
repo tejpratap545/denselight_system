@@ -30,7 +30,7 @@
               </template>
               <v-card>
                 <v-card-title class="headline">
-                  Permanently delete appraisal ?
+                  Permanently delete user ?
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
