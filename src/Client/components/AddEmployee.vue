@@ -177,7 +177,7 @@ export default {
         job_Title: '',
         first_Reporting_Manager: 0,
         second_Reporting_Manager: 0,
-      },
+      }
     },
     createUser() {
       this.dialog = false
