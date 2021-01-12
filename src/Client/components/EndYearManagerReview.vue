@@ -203,8 +203,9 @@ export default {
                 'You  have   Successfully submitted end year review . Please confirm review',
               color: 'info',
             })
-            this.$emit('reload')
+
             this.close()
+            this.$emit('reload')
           })
           .catch(() => {
             this.$notifier.showMessage({

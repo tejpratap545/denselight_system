@@ -339,7 +339,6 @@
               </v-card-text>
             </v-card>
           </div>
-
         </v-tab-item>
 
         <v-tab-item>
@@ -449,7 +448,14 @@
                         >
                           <template v-slot:[`item.status`]="{ item }">
                             <v-icon
-                              v-if="
+                              v-if="item.mid_year_completion === 'Completed'"
+                              indeterminate
+                              color="success"
+                            >
+                              mdi-checkbox-marked-circle-outline</v-icon
+                            >
+                            <v-icon
+                              v-else-if="
                                 item.status === 'S1BEmployee' ||
                                 item.status === 'S1BManager'
                               "
@@ -470,15 +476,7 @@
                             >
                               mdi-account-clock</v-icon
                             >
-                            <v-icon
-                              v-else-if="
-                                item.mid_year_completion === 'Completed'
-                              "
-                              indeterminate
-                              color="success"
-                            >
-                              mdi-checkbox-marked-circle-outline</v-icon
-                            >
+
                             <v-icon v-else indeterminate color="error">
                               mdi-cancel
                             </v-icon>

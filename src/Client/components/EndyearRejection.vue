@@ -37,8 +37,9 @@ export default {
             content: 'Successfully rejected the goals ',
             color: 'info',
           })
-          this.$emit('reload')
+
           this.close()
+          this.$emit('reload')
         })
         .catch((error) => {
           console.log(error)

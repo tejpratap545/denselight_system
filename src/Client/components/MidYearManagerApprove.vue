@@ -45,8 +45,9 @@ export default {
             content: 'You  have   Successfully approved mid year review',
             color: 'info',
           })
-          this.$emit('reload')
+
           this.close()
+          this.$emit('reload')
         })
         .catch(() => {
           this.$notifier.showMessage({
