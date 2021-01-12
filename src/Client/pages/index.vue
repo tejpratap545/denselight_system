@@ -52,8 +52,8 @@
 
       <div class="ma-5">
         <v-row>
-          <v-col cols="3">
-            <v-menu rounded="lg">
+          <v-col cols="3" v-if="appraisalSelectedIndex != 0">
+            <v-menu rounded="lg" >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" fab v-bind="attrs" v-on="on">
                   <v-icon>mdi-cached</v-icon>
@@ -75,8 +75,8 @@
             </v-menu>
           </v-col>
 
-          <v-col cols="9" style="display: flex; justify-content: flex-end">
-            <div v-if="appraisalSelectedIndex != 0">
+          <v-col v-if="appraisalSelectedIndex != 0" cols="9" style="display: flex; justify-content: flex-end">
+            <div>
               <h3 class="font-weight-medium">
                 {{ appraisalSelected.appraisal_name }} -
                 {{ appraisalSelected.appraisal_category.name }}
@@ -93,10 +93,10 @@
                 }}
               </small>
             </div>
-            <div v-else>
-              <h3 class="font-weight-medium">No Appraisal selected</h3>
-            </div>
           </v-col>
+          <div style="display: flex; justify-content: center; width: 100%;" v-else>
+              <h3 class="font-weight-medium ">No Appraisal available</h3>
+          </div>
         </v-row>
       </div>
 
@@ -190,12 +190,15 @@ export default {
       this.appraisalData = await this.$axios.$get(
         '/api/appraisals/list/detail/me'
       )
-      const i = window.localStorage.getItem('selected-appraisal')
-      if (i != null) {
-        if (parseInt(i) < this.appraisalData.length)
-          this.changeAppraisal(parseInt(i))
-        else this.changeAppraisal(0)
-      } else this.changeAppraisal(0)
+
+      if (this.appraisalData.length != 0) {
+        const i = window.localStorage.getItem('selected-appraisal')
+        if (i != null) {
+          if (parseInt(i) < this.appraisalData.length)
+            this.changeAppraisal(parseInt(i))
+          else this.changeAppraisal(0)
+        } else this.changeAppraisal(0)
+      }
     } catch (error) {
       console.log(error)
     }
