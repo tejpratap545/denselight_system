@@ -195,8 +195,10 @@
                   dense
                   hover
                   readonly
-                ></v-rating
-              ></v-col>
+                ></v-rating>
+                <br />
+                {{ ratingName(item.user_rating) }}</v-col
+              >
             </v-row>
             <v-row>
               <v-col>End Year Employee Comment</v-col>
@@ -217,8 +219,10 @@
                   dense
                   hover
                   readonly
-                ></v-rating
-              ></v-col>
+                ></v-rating>
+                <br />
+                {{ ratingName(item.manager_rating) }}</v-col
+              >
             </v-row>
             <v-row>
               <v-col>End Year Manager Comment</v-col>
@@ -276,7 +280,9 @@
 </template>
 
 <script>
+import global from '~/mixins/global'
 export default {
+  mixins: [global],
   props: { appraisalId: Number, isEditable: { type: Boolean, default: false } },
   async fetch() {
     await this.$axios

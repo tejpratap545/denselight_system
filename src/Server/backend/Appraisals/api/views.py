@@ -1,18 +1,18 @@
+from ...Profile.models import Notification
+from ..models import *
+from .serializers import *
+from backend.Profile.permissions import IsHr, IsHrManager
 from django.core.mail import send_mail
+from django.db.models import Count, Q, Window
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
+from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from django.db.models import Window, Count, Q
-from ..models import *
-from .serializers import *
-from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
-from backend.Profile.permissions import IsHr, IsHrManager
-from ...Profile.models import Notification
 
 
 class ManagerAppraisal(generics.ListAPIView):
@@ -262,7 +262,7 @@ def input_midyear_employee(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1B"
         and app.employee == request.user.profile
-    ) and app.status == "S1BEmployee":
+    ) and (app.status == "S1BEmployee" and app.status == "S1BManager"):
         app.status = "S1BManager"
         app.save()
         return Response(
@@ -310,7 +310,7 @@ def input_midyear_manager(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1B"
         and app.manager == request.user.profile
-    ) and (app.status == "S1BReview"):
+    ) and (app.status == "S1BReview" or app.status == "S1BManager"):
         app.status = "S1BManager"
         app.save()
         return Response(
@@ -356,7 +356,10 @@ def input_endyear_employee(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 2"
         and app.employee == request.user.profile
-    ) and (app.status == "S1BManager" and app.mid_year_completion == "Completed"):
+    ) and (
+        (app.status == "S1BManager" or app.status == "S2Employee")
+        and app.mid_year_completion == "Completed"
+    ):
         app.status = "S2Employee"
         app.completion = "Ecompleted"
         app.save()
@@ -407,7 +410,10 @@ def input_endyear_manager(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 2"
         and app.manager == request.user.profile
-    ) and (app.status == "S2Manager" and app.completion == "Ecompleted"):
+    ) and (
+        app.status == "S2Manager"
+        and (app.completion == "Ecompleted" or app.completion == "MCompleted")
+    ):
         app.status = "S2Manager"
         app.completion = "MCompleted"
         app.save()

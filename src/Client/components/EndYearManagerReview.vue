@@ -87,8 +87,10 @@
                           dense
                           hover
                           readonly
-                        ></v-rating
-                      ></v-col>
+                        ></v-rating>
+                        <br />
+                        {{ ratingName(item.user_rating) }}</v-col
+                      >
                     </v-row>
                     <v-row>
                       <v-col>End Year Employee Comment</v-col>
@@ -108,8 +110,10 @@
                           value="1"
                           dense
                           hover
-                        ></v-rating
-                      ></v-col>
+                        ></v-rating>
+                        <br />
+                        {{ ratingName(item.manager_rating) }}</v-col
+                      >
                     </v-row>
                     <v-row>
                       <v-col>End Year Manager Comment</v-col>
@@ -142,10 +146,12 @@
 </template>
 
 <script>
+import global from '~/mixins/global'
 import EndyearRejection from '~/components/EndyearRejection'
 export default {
   name: 'EndYearManagerReviewVue',
   components: { EndyearRejection },
+  mixins: [global],
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {
     await this.$axios

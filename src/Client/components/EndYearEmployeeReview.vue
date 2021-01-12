@@ -76,8 +76,10 @@
                           value="1"
                           dense
                           hover
-                        ></v-rating
-                      ></v-col>
+                        ></v-rating>
+                        <br />
+                        {{ ratingName(item.user_rating) }}</v-col
+                      >
                     </v-row>
                     <v-row>
                       <v-col>End Year Employee Comment</v-col>
@@ -105,8 +107,10 @@
 </template>
 
 <script>
+import global from '~/mixins/global'
 export default {
   name: 'EndYearEmployeeReviewVue',
+  mixins: [global],
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {
     await this.$axios

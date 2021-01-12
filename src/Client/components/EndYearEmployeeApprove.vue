@@ -154,6 +154,8 @@
                         readonly
                         :value="item.user_rating"
                       ></v-rating>
+                      <br />
+                      {{ ratingName(item.user_rating) }}
                     </th>
                     <td>{{ item.user_comments }}</td>
                   </tr>
@@ -176,8 +178,10 @@
 </template>
 
 <script>
+import global from '~/mixins/global'
 export default {
   name: 'ApproveReviewsVue',
+  mixins: [global],
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {
     await this.$axios

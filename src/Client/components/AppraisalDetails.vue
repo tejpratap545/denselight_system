@@ -319,8 +319,10 @@
                           :value="item.user_rating"
                           dense
                           readonly
-                        ></v-rating
-                      ></v-col>
+                        ></v-rating>
+                        <br />
+                        {{ ratingName(item.user_rating) }}</v-col
+                      >
                     </v-row>
                     <v-row>
                       <v-col>End Year Employee Comment</v-col>
@@ -421,7 +423,9 @@
 </template>
 
 <script>
+import global from '~/mixins/global'
 export default {
+  mixins: [global],
   props: ['appraisal'],
   data() {
     return {

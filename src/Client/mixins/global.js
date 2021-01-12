@@ -35,5 +35,21 @@ export default {
                 return 'Unknown Status Or Rejected'
             }
         },
+        ratingName(rating) {
+            switch (rating) {
+                case 1:
+                    return 'Major Improvement Needed'
+                case 2:
+                    return 'Needs Improveent'
+                case 3:
+                    return 'Meet Expectations'
+                case 4:
+                    return 'Exceed Expectations'
+                case 5:
+                    return 'Far Exceed Expectations'
+                default:
+                    return 'Far Exceed Expectations'
+            }
+        },
     },
 }
