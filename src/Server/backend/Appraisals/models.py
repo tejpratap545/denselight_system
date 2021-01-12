@@ -1,8 +1,9 @@
-from django.db import models
 from backend.Profile.models import Profile
 from datetime import date
-from django.contrib.auth.models import Group, User, auth
+from django.contrib.auth.models import auth, Group, User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
 
 # Create your models here.
 

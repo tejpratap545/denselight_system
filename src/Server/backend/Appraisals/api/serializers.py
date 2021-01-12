@@ -1,18 +1,18 @@
-from django.conf import settings
-from django.core.mail import send_mail
-from rest_framework import serializers
-from ..models import *
-from django.db import transaction
-from backend.Profile.api.serializers import ShortProfileSerializer, DepartmentSerializer
 from ...GnC.api.serializers import (
-    DetailGoalSerializer,
     CompetenciesSerializer,
+    DepartmentCompetenciesSerializer,
     DetailCompetenciesSerializer,
     DetailDepartmentGoalSerializer,
-    DepartmentCompetenciesSerializer,
+    DetailGoalSerializer,
 )
-from backend.Trainings.api.serializers import SkillsSerializer
 from ...Profile.models import Notification
+from ..models import *
+from backend.Profile.api.serializers import DepartmentSerializer, ShortProfileSerializer
+from backend.Trainings.api.serializers import SkillsSerializer
+from django.conf import settings
+from django.core.mail import send_mail
+from django.db import transaction
+from rest_framework import serializers
 
 
 class AppraisalCategorySerializer(serializers.ModelSerializer):
@@ -50,6 +50,24 @@ def int_status(a):
         return 5
 
 
+from backend.GnC.models import DepartmentalCompetencies
+
+
+STAGE1_EMAIL = """"Dear employees {employee_name}, \n \n
+The Year {{appraisal_name}}  E-PMP (Performance Management Program) has started. \n  Stage 1: Goal setting is now launched from {{goal_start_date}} to {{goal_end_date}}. \n  Kindly speak to your supervisor on your goals and Key Performance Indicators (KPI) and enter that in the Denselight E-PMP system by the due date as stated above. \n \n \n
+Thank you.
+"""
+STAGE2_EMAIL = """Dear employees {employee_name}, \n \n
+The {{appraisal_name}} Year’s Mid Year review for the E-PMP (Performance Management Program) has started. \n   Stage 2 is now launched from {{mid_start_date}} to {{mid_end_date}}.  \n  Kindly in-put your status of each of your goals by reviewing the Key Performance Indicators (KPI) and enter the updates into the Denselight E-PMP system by the due date as stated above. \n \n \n
+Thank you.
+"""
+
+STAGE3_EMAIL = """Dear employees {employee_name}, \n \n
+The {{appraisal_name}} Year’s Final Year review for the E-PMP (Performance Management Program) has started. \n  Stage 3 is now launched from {{end_start_date}} to {{end_end_date}}.  \n  Kindly in-put your status of each of your goals by reviewing the Key Performance Indicators (KPI) and enter the updates into the Denselight E-PMP system by the due date as stated above.  After you have updated your performance for each goal, you need to self-rate on your overall performance. \n  Do note after this, your supervisor will also give his rating of his performance. \n  The final rating will be decided at the moderated committee meeting and your final rating will be updated in your e-PMP after the discussion.  \n \n \n
+Thank you
+"""
+
+
 class OverallAppraisalSerializer(serializers.ModelSerializer):
     employee_count = serializers.IntegerField(read_only=True)
     individual_employees = serializers.ListField(write_only=True, required=False)
@@ -69,6 +87,31 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                 **validated_data,
                 status="Stage 1",
             )
+            DepartmentalCompetencies.objects.bulk_create(
+                [
+                    DepartmentalCompetencies(
+                        appraisal=overall_appraisal,
+                        summary="DenseLight Core Values",
+                        description="""Our core values are the foundation to making DenseLight a successful company. It is our way of life and inbuilt into our DNA.""",
+                    ),
+                    DepartmentalCompetencies(
+                        appraisal=overall_appraisal,
+                        summary="Customer First Mindset",
+                        description="""Our customers, come first. We will strive to provide them with superior innovative products and will continuously improve their quality that will in turn see us win in our end markets.""",
+                    ),
+                    DepartmentalCompetencies(
+                        appraisal=overall_appraisal,
+                        summary="Commitment to You",
+                        description="""We are accountable in our commitment to achieve excellence.  We do what we say and behave with integrity at all time. We will uphold the ethical standards of the company always.  We respect each other and value every employee’s contribution.  Collaboration as a team is our motto and we celebrate small and big wins with appreciation.""",
+                    ),
+                    DepartmentalCompetencies(
+                        appraisal=overall_appraisal,
+                        summary="Integrity with Passion & Tenacity",
+                        description="""At DenseLight, we take pride in every job that we do by having the highest level of honesty and openness. We cultivate our entrepreneurial drive as a means to remain flexible, agile and willingness to change. We are passionate about DenseLight and have a never-say-die attitude! """,
+                    ),
+                ]
+            )
+
             if is_company:
                 for profile in Profile.objects.all():
                     app = User_Appraisal_List.objects.get_or_create(
@@ -98,7 +141,12 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     try:
                         send_mail(
                             title,
-                            description,
+                            STAGE1_EMAIL.format(
+                                employee_name=profile.name,
+                                appraisal_name=overall_appraisal.name,
+                                goal_start_date=overall_appraisal.start_date,
+                                goal_end_date=overall_appraisal.goals_setting_end_date,
+                            ),
                             settings.OFFICIAL_MAIL,
                             [profile.email],
                         )
@@ -135,7 +183,12 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     try:
                         send_mail(
                             title,
-                            description,
+                            STAGE1_EMAIL.format(
+                                employee_name=profile.name,
+                                appraisal_name=overall_appraisal.name,
+                                goal_start_date=overall_appraisal.start_date,
+                                goal_end_date=overall_appraisal.goals_setting_end_date,
+                            ),
                             settings.OFFICIAL_MAIL,
                             [profile.email],
                         )
@@ -172,7 +225,12 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     try:
                         send_mail(
                             title,
-                            description,
+                            STAGE1_EMAIL.format(
+                                employee_name=profile.name,
+                                appraisal_name=overall_appraisal.name,
+                                goal_start_date=overall_appraisal.start_date,
+                                goal_end_date=overall_appraisal.goals_setting_end_date,
+                            ),
                             settings.OFFICIAL_MAIL,
                             [app.profile.email],
                         )
@@ -210,7 +268,12 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     try:
                         send_mail(
                             title,
-                            description,
+                            STAGE1_EMAIL.format(
+                                employee_name=app.employee.name,
+                                appraisal_name=app.appraisal_name,
+                                goal_start_date=app.overall_appraisal.start_date,
+                                goal_end_date=app.overall_appraisal.goals_setting_end_date,
+                            ),
                             settings.OFFICIAL_MAIL,
                             [app.employee.email],
                         )
@@ -238,7 +301,12 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     try:
                         send_mail(
                             title,
-                            description,
+                            STAGE2_EMAIL.format(
+                                employee_name=app.employee.name,
+                                appraisal_name=app.appraisal_name,
+                                mid_start_date=app.overall_appraisal.mid_year_start_date,
+                                mid_end_date=app.overall_appraisal.mid_year_end_date,
+                            ),
                             settings.OFFICIAL_MAIL,
                             [app.employee.email],
                         )
@@ -265,7 +333,12 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     try:
                         send_mail(
                             title,
-                            description,
+                            STAGE3_EMAIL.format(
+                                employee_name=app.employee.name,
+                                appraisal_name=app.appraisal_name,
+                                end_start_date=app.overall_appraisal.end_year_start_date,
+                                end_end_date=app.overall_appraisal.appraisal_end_date,
+                            ),
                             settings.OFFICIAL_MAIL,
                             [app.employee.email],
                         )
@@ -289,7 +362,12 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     try:
                         send_mail(
                             title,
-                            description,
+                            STAGE2_EMAIL.format(
+                                employee_name=app.employee.name,
+                                appraisal_name=app.appraisal_name,
+                                mid_start_date=app.overall_appraisal.mid_year_start_date,
+                                mid_end_date=app.overall_appraisal.mid_year_end_date,
+                            ),
                             settings.OFFICIAL_MAIL,
                             [app.employee.email],
                         )
@@ -313,7 +391,12 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     try:
                         send_mail(
                             title,
-                            description,
+                            STAGE3_EMAIL.format(
+                                employee_name=app.employee.name,
+                                appraisal_name=app.appraisal_name,
+                                end_start_date=app.overall_appraisal.end_year_start_date,
+                                end_end_date=app.overall_appraisal.appraisal_end_date,
+                            ),
                             settings.OFFICIAL_MAIL,
                             [app.employee.email],
                         )

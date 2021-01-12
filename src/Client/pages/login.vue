@@ -70,15 +70,16 @@ export default {
         password: '',
         typeOfEmployee: '',
       },
-      supervisor: ' '
+      supervisor: ' ',
     }
   },
 
   methods: {
-    getsup(){
-      this.$axios.$post('api/get_supervisor', this.user)
-      .then(res => this.supervisor = res.Supervisor)
-      .catch(err => this.supervisor = ' ')
+    getsup() {
+      this.$axios
+        .$post('api/get_supervisor', this.user)
+        .then((res) => (this.supervisor = res.Supervisor))
+        .catch((err) => (this.supervisor = ' '))
     },
     logIn() {
       if (this.$refs.form.validate()) {
@@ -104,7 +105,7 @@ body {
   margin: 0;
 }
 .login-bg-img {
-  background-image: url('~assets/login_bg.jpg');
+  background-image: url('~assets/epmp.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
