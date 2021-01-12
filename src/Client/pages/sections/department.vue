@@ -234,8 +234,8 @@
               <v-card flat>
                 <v-card-title>
                   <v-row>
-                    <v-col cols="3">
-                      <v-menu rounded="lg">
+                    <v-col cols="3" v-if="appraisalSelectedIndex != 0">
+                      <v-menu rounded="lg" >
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn color="primary" fab v-bind="attrs" v-on="on">
                             <v-icon>mdi-cached</v-icon>
@@ -260,8 +260,9 @@
                     <v-col
                       cols="9"
                       style="display: flex; justify-content: flex-end"
+                      v-if="appraisalSelectedIndex != 0"
                     >
-                      <div v-if="appraisalSelectedIndex != 0">
+                      <div>
                         <h3 class="font-weight-medium">
                           {{ appraisalSelected.name }} -
                           {{ appraisalSelected.appraisal_category.name }}
@@ -270,12 +271,17 @@
                           {{ appraisalSelected.status }}
                         </small>
                       </div>
-                      <div v-else>
-                        <h3 class="font-weight-medium">
-                          No Appraisal selected
-                        </h3>
-                      </div>
                     </v-col>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: center;
+                        width: 100%;
+                      "
+                      v-else
+                    >
+                      <h3 class="font-weight-medium">No Appraisal available</h3>
+                    </div>
                   </v-row>
                 </v-card-title>
               </v-card>
@@ -339,7 +345,6 @@
               </v-card-text>
             </v-card>
           </div>
-
         </v-tab-item>
 
         <v-tab-item>
