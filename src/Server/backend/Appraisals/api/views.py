@@ -262,7 +262,7 @@ def input_midyear_employee(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1B"
         and app.employee == request.user.profile
-    ) and (app.status == "S1BEmployee" and app.status == "S1BManager"):
+    ) and (app.status == "S1BEmployee" or app.status == "S1BManager"):
         app.status = "S1BManager"
         app.save()
         return Response(
