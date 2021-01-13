@@ -509,13 +509,15 @@ export default {
         { text: 'Due date', value: 'due' },
         { text: 'Category', value: 'goal_category' },
       ],
-      departmentGoalsItems: this.appraisal.departmentalgoals_set,
+      departmentGoalsItems: this.appraisal.overall_appraisal
+        .departmentalgoals_set,
       departmentValuesHeader: [
         { text: 'Summary', value: 'summary' },
         { text: 'Description', value: 'description' },
         { text: 'Category', value: 'competency_category' },
       ],
-      departmentValuesItems: this.appraisal.departmentalcompetencies_set,
+      departmentValuesItems: this.appraisal.overall_appraisal
+        .departmentalcompetencies_set,
     }
   },
   watch: {
