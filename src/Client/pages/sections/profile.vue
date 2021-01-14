@@ -23,11 +23,11 @@
 
           <div>
             <v-file-input
+              v-model="file"
               label="Upload new picture"
               filled
               prepend-icon="mdi-camera"
               name="profilePicture"
-              v-model="file"
               @change="uploadPicture"
             ></v-file-input>
           </div>
@@ -53,11 +53,24 @@
                 </tr>
                 <tr>
                   <th class="text-left">First reporting officer</th>
-                  <td>{{ profile.first_Reporting_Manager? profile.first_Reporting_Manager.name : ''}}</td>
+                  <td>
+                    {{
+                      profile.first_Reporting_Manager
+                        ? profile.first_Reporting_Manager.name
+                        : ''
+                    }}
+                  </td>
                 </tr>
+
                 <tr>
                   <th class="text-left">Second reporting officer</th>
-                  <td>{{ profile.second_Reporting_Manager? profile.second_Reporting_Manager.name : '' }}</td>
+                  <td>
+                    {{
+                      profile.second_Reporting_Manager
+                        ? profile.second_Reporting_Manager.name
+                        : ''
+                    }}
+                  </td>
                 </tr>
                 <tr>
                   <th class="text-left">Job Title</th>
@@ -69,7 +82,9 @@
                 </tr>
                 <tr>
                   <th class="text-left">Citizenship status</th>
-                  <th class="text-left">{{ profile.citizenship_Status || '' }}</th>
+                  <th class="text-left">
+                    {{ profile.citizenship_Status || '' }}
+                  </th>
                 </tr>
                 <tr>
                   <th class="text-left">NRIC</th>
@@ -83,7 +98,7 @@
                 </tr>
                 <tr>
                   <th class="text-left">Employment Type</th>
-                  <th class="text-left">{{ profile.employment_Type  || ''}}</th>
+                  <th class="text-left">{{ profile.employment_Type || '' }}</th>
                 </tr>
               </tbody>
             </template>
@@ -153,7 +168,7 @@ export default {
         })
     },
     uploadPicture() {
-      var bodyFormData = new FormData()
+      const bodyFormData = new FormData()
       bodyFormData.append('profilePicture', this.file)
 
       this.$axios
