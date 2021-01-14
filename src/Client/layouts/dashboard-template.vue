@@ -99,6 +99,15 @@
             <v-list-item-title>Records</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item to="/sections/admin">
+          <v-list-item-icon>
+            <v-icon>mdi-account-check</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Admin</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -132,7 +141,7 @@
           </v-badge>
         </v-btn>
 
-        <v-btn @click="toggleDarkTheme()" icon>
+        <v-btn icon @click="toggleDarkTheme()">
           <v-icon>mdi-theme-light-dark</v-icon>
         </v-btn>
       </div>
@@ -152,6 +161,14 @@
 
 <script>
 export default {
+  fetch() {
+    this.$axios
+      .$get('api/status')
+      .then((res) => {
+        this.statusEffect = res
+      })
+      .catch((err) => console.log(err))
+  },
   data() {
     return {
       drawer: null,
@@ -168,16 +185,8 @@ export default {
       },
     }
   },
-  fetch() {
-    this.$axios
-      .$get('api/status')
-      .then((res) => {
-        this.statusEffect = res
-      })
-      .catch((err) => console.log(err))
-  },
   mounted() {
-    if(window.localStorage.getItem('app-theme-dark') == 'false') {
+    if (window.localStorage.getItem('app-theme-dark') == 'false') {
       this.$vuetify.theme.dark = false
     } else {
       this.$vuetify.theme.dark = true

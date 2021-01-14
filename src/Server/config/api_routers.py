@@ -24,6 +24,7 @@ else:
 
 
 router.register(r"department", DepartmentViewSet)
+# router.register(r"appraisal", AppraisalView, basename="appraisal")
 router.register(r"notification", NotificationViewSet, basename="Notification")
 router.register(r"category/appraisal", AppraisalCategoryViewSet)
 router.register(r"category/goal", GoalCategoryViewSet)

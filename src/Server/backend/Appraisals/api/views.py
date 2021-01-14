@@ -20,22 +20,13 @@ class ManagerAppraisal(generics.ListAPIView):
     serializer_class = UserAppraisalListSerializer
 
     def get_queryset(self):
-        # if self.request.user.role == "HRManager":
-        #     return User_Appraisal_List.objects.prefetch_related(
-        #         "overall_appraisal",
-        #         "employee",
-        #         "manager",
-        #         "overall_appraisal__appraisal_category",
-        #         "appraisal_category",
-        #     ).annotate(
-        #         goals_count=Count("goals"),
-        #         core_values_competencies_count=Count("competencies"),
-        #         skills_count=Count("skills"),
-        #     )
+
         return (
             User_Appraisal_List.objects.prefetch_related(
                 "overall_appraisal",
                 "employee",
+                "employee__department",
+                "manager__department",
                 "manager",
                 "overall_appraisal__appraisal_category",
                 "appraisal_category",
@@ -50,6 +41,45 @@ class ManagerAppraisal(generics.ListAPIView):
 
     @method_decorator(cache_page(15))
     @method_decorator(vary_on_cookie)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
+class AllAppraisalView(generics.ListAPIView):
+    # permission_classes = [IsAuthenticated]
+    serializer_class = UserAppraisalListSerializer
+
+    def get_queryset(self):
+
+        return (
+            User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "employee__department",
+                "manager",
+                "manager__department",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            )
+            .all()
+            .annotate(
+                goals_count=Count("goals"),
+                core_values_competencies_count=Count("competencies"),
+                skills_count=Count("skills"),
+            )
+        )
+
+    @method_decorator(cache_page(15))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
+class AppraisalView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = UserAppraisalSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = User_Appraisal_List.objects.all()
+
+    @method_decorator(cache_page(15))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -78,6 +108,8 @@ class UserAppraisal(generics.ListAPIView):
                 "overall_appraisal",
                 "employee",
                 "manager",
+                "manager__department",
+                "employee__department",
                 "overall_appraisal__appraisal_category",
                 "appraisal_category",
             )
