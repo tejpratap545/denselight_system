@@ -9,6 +9,15 @@
 
   <div v-else>
     <v-card>
+      <div>
+        <AppraisalAdmin
+          v-if="showAppraisalDialog"
+          :appraisal-id="currentAppraisalId"
+          is-editable="true"
+          :dialog="showAppraisalDialog"
+          @close="showAppraisalDialog = false"
+        />
+      </div>
       <v-card-title> Employees Appraisals </v-card-title>
 
       <v-card-text>
@@ -40,6 +49,49 @@
                     :items-per-page="10"
                     :search="search"
                   >
+                    <template v-slot:[`item.stage_1`]="{ item }">
+                      <v-icon
+                        v-if="item.status == 'Employee'"
+                        indeterminate
+                        color="primary"
+                      >
+                        mdi-account-clock</v-icon
+                      >
+
+                      <v-icon
+                        v-if="item.status == 'Manager'"
+                        indeterminate
+                        color="info"
+                      >
+                        mdi-account-clock</v-icon
+                      >
+                      <v-icon
+                        v-if="item.status == 'S1BEmployee'"
+                        indeterminate
+                        color="success"
+                      >
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                    </template>
+                    <template v-slot:[`item.stage_2`]="{ item }">
+                      <v-icon indeterminate color="primary">
+                        mdi-account-clock</v-icon
+                      >
+                    </template>
+                    <template v-slot:[`item.stage_3`]="{ item }">
+                      <v-icon indeterminate color="primary">
+                        mdi-account-clock</v-icon
+                      >
+                    </template>
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="showAppraisal(item.id)"
+                      >
+                        <v-icon>mdi-eye-circle</v-icon>
+                      </v-btn>
+                    </template>
                   </v-data-table>
                 </v-card-text>
               </v-card>
@@ -64,6 +116,47 @@
                     :items-per-page="10"
                     :search="search"
                   >
+                    <template v-slot:[`item.stage_1`]="{ item }">
+                      <v-icon
+                        v-if="
+                          item.status === 'Employee' ||
+                          item.status === 'Manager'
+                        "
+                        indeterminate
+                        color="error"
+                      >
+                        mdi-cancel</v-icon
+                      >
+                      <v-icon v-else indeterminate color="success">
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                    </template>
+                    <template v-slot:[`item.stage_2`]="{ item }">
+                      <v-icon
+                        v-if="item.mid_year_completion === 'Completed'"
+                        indeterminate
+                        color="success"
+                      >
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                      <v-icon v-else indeterminate color="error">
+                        mdi-cancel
+                      </v-icon>
+                    </template>
+                    <template v-slot:[`item.stage_3`]="{ item }">
+                      <v-icon indeterminate color="primary">
+                        mdi-account-clock</v-icon
+                      >
+                    </template>
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="showAppraisal(item.id)"
+                      >
+                        <v-icon>mdi-eye-circle</v-icon>
+                      </v-btn>
+                    </template>
                   </v-data-table>
                 </v-card-text>
               </v-card>
@@ -88,6 +181,76 @@
                     :items-per-page="10"
                     :search="search"
                   >
+                    <template v-slot:[`item.stage_1`]="{ item }">
+                      <v-icon
+                        v-if="
+                          item.status === 'Employee' ||
+                          item.status === 'Manager'
+                        "
+                        indeterminate
+                        color="error"
+                      >
+                        mdi-cancel</v-icon
+                      >
+                      <v-icon v-else indeterminate color="success">
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                    </template>
+                    <template v-slot:[`item.stage_2`]="{ item }">
+                      <v-icon
+                        v-if="item.mid_year_completion === 'Completed'"
+                        indeterminate
+                        color="success"
+                      >
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                      <v-icon v-else indeterminate color="error">
+                        mdi-cancel
+                      </v-icon>
+                    </template>
+                    <template v-slot:[`item.stage_3`]="{ item }">
+                      <v-icon
+                        v-if="item.status == 'Approved'"
+                        indeterminate
+                        color="success"
+                      >
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                      <v-icon
+                        v-else-if="
+                          (item.status === 'S2Manager' ||
+                            item.status === 'S2Employee') &&
+                          item.completion === 'Ecompleted'
+                        "
+                        indeterminate
+                        color="primary"
+                      >
+                        mdi-account-clock</v-icon
+                      >
+
+                      <v-icon
+                        v-else-if="
+                          item.status === 'S2Manager' &&
+                          item.completion === 'MCompleted'
+                        "
+                        indeterminate
+                        color="info"
+                      >
+                        mdi-account-clock</v-icon
+                      >
+                      <v-icon v-else indeterminate color="error">
+                        mdi-cancel
+                      </v-icon>
+                    </template>
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="showAppraisal(item.id)"
+                      >
+                        <v-icon>mdi-eye-circle</v-icon>
+                      </v-btn>
+                    </template>
                   </v-data-table>
                 </v-card-text>
               </v-card>
@@ -112,6 +275,54 @@
                     :items-per-page="10"
                     :search="search"
                   >
+                    <template v-slot:[`item.stage_1`]="{ item }">
+                      <v-icon
+                        v-if="
+                          item.status === 'Employee' ||
+                          item.status === 'Manager'
+                        "
+                        indeterminate
+                        color="error"
+                      >
+                        mdi-cancel</v-icon
+                      >
+                      <v-icon v-else indeterminate color="success">
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                    </template>
+                    <template v-slot:[`item.stage_2`]="{ item }">
+                      <v-icon
+                        v-if="item.mid_year_completion === 'Completed'"
+                        indeterminate
+                        color="success"
+                      >
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                      <v-icon v-else indeterminate color="error">
+                        mdi-cancel
+                      </v-icon>
+                    </template>
+                    <template v-slot:[`item.stage_3`]="{ item }">
+                      <v-icon
+                        v-if="item.status == 'Approved'"
+                        indeterminate
+                        color="success"
+                      >
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                      <v-icon v-else indeterminate color="error">
+                        mdi-cancel
+                      </v-icon>
+                    </template>
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="showAppraisal(item.id)"
+                      >
+                        <v-icon>mdi-eye-circle</v-icon>
+                      </v-btn>
+                    </template>
                   </v-data-table>
                 </v-card-text>
               </v-card>
@@ -136,6 +347,54 @@
                     :items-per-page="10"
                     :search="search"
                   >
+                    <template v-slot:[`item.stage_1`]="{ item }">
+                      <v-icon
+                        v-if="
+                          item.status === 'Employee' ||
+                          item.status === 'Manager'
+                        "
+                        indeterminate
+                        color="error"
+                      >
+                        mdi-cancel</v-icon
+                      >
+                      <v-icon v-else indeterminate color="success">
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                    </template>
+                    <template v-slot:[`item.stage_2`]="{ item }">
+                      <v-icon
+                        v-if="item.mid_year_completion === 'Completed'"
+                        indeterminate
+                        color="success"
+                      >
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                      <v-icon v-else indeterminate color="error">
+                        mdi-cancel
+                      </v-icon>
+                    </template>
+                    <template v-slot:[`item.stage_3`]="{ item }">
+                      <v-icon
+                        v-if="item.status == 'Approved'"
+                        indeterminate
+                        color="success"
+                      >
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
+                      <v-icon v-else indeterminate color="error">
+                        mdi-cancel
+                      </v-icon>
+                    </template>
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="showAppraisal(item.id)"
+                      >
+                        <v-icon>mdi-eye-circle</v-icon>
+                      </v-btn>
+                    </template>
                   </v-data-table>
                 </v-card-text>
               </v-card>
@@ -204,6 +463,8 @@ export default {
   },
   data() {
     return {
+      showAppraisalDialog: false,
+      currentAppraisalId: 0,
       goalsLaunchingTableItems: [],
       midYearTableItems: [],
       endYearTableItems: [],
@@ -244,6 +505,12 @@ export default {
       ],
     }
   },
-  methods: {},
+  methods: {
+    showAppraisal(id) {
+      this.showAppraisalDialog = true
+
+      this.currentAppraisalId = id
+    },
+  },
 }
 </script>

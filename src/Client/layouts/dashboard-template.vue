@@ -33,88 +33,81 @@
       <v-divider></v-divider>
 
       <v-list dense rounded>
-        <nuxt-link to="/">
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-view-dashboard-outline</v-icon>
-            </v-list-item-icon>
+        <v-list-item to="/">
+          <v-list-item-icon>
+            <v-icon>mdi-view-dashboard-outline</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>Dashboard</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/sections/department">
-          <v-list-item v-if="this.$auth.user.user.role != 'Employee'">
-            <v-list-item-icon>
-              <v-icon>mdi-domain</v-icon>
-            </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="this.$auth.user.user.role != 'Employee'"
+          to="/sections/department"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-domain</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>Department</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/sections/peer">
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account-group-outline</v-icon>
-            </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Department</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sections/peer">
+          <v-list-item-icon>
+            <v-icon>mdi-account-group-outline</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>Peer</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/sections/appraisal-status">
-          <v-list-item
-            v-if="
-              this.$auth.user.user.role == 'HRManager' ||
-              this.$auth.user.user.role == 'Hr'
-            "
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-list-status</v-icon>
-            </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Peer</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="
+            this.$auth.user.user.role == 'HRManager' ||
+            this.$auth.user.user.role == 'Hr'
+          "
+          to="/sections/appraisal-status"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-list-status</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>Appraisal Status</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/sections/employee-management">
-          <v-list-item v-if="this.$auth.user.user.role == 'HRManager'">
-            <v-list-item-icon>
-              <v-icon>mdi-account-supervisor-outline</v-icon>
-            </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Appraisal Status</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="this.$auth.user.user.role == 'HRManager'"
+          to="/sections/employee-management"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-account-supervisor-outline</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>Employee Management</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/sections/records">
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-book-open-outline</v-icon>
-            </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Employee Management</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sections/records">
+          <v-list-item-icon>
+            <v-icon>mdi-book-open-outline</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>Records</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/sections/admin">
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account-check</v-icon>
-            </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Records</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sections/admin">
+          <v-list-item-icon>
+            <v-icon>mdi-account-check</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>Admin</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </nuxt-link>
+          <v-list-item-content>
+            <v-list-item-title>Admin</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
