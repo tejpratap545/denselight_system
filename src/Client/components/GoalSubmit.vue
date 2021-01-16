@@ -290,7 +290,7 @@
 
 <script>
 export default {
-  name: 'GoalSubmitVue',
+  name: 'GoalSubmit',
   props: {
     dialog: Boolean,
     appraisalId: Number,

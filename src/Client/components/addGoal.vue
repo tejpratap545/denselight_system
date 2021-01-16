@@ -71,7 +71,7 @@
 </template>
 <script>
 export default {
-  name: 'AddGoalVue',
+  name: 'AddGoal',
   props: { dialog: Boolean, appraisalId: Number },
   fetch() {
     this.$axios

@@ -149,7 +149,7 @@
 import global from '~/mixins/global'
 import EndyearRejection from '~/components/EndyearRejection'
 export default {
-  name: 'EndYearManagerReviewVue',
+  name: 'EndYearManagerReview',
   components: { EndyearRejection },
   mixins: [global],
   props: { dialog: Boolean, appraisalId: Number },

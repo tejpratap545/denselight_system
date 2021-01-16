@@ -326,7 +326,7 @@
 
 <script>
 export default {
-  name: 'GoalApprovedVue',
+  name: 'GoalApproved',
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {
     await this.$axios

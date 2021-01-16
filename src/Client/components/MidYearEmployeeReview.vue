@@ -66,7 +66,7 @@
 
 <script>
 export default {
-  name: 'MidYearEmployeeReviewVue',
+  name: 'MidYearEmployeeReview',
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {
     await this.$axios

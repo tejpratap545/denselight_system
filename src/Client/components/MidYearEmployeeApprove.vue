@@ -15,7 +15,7 @@
 </template>
 <script>
 export default {
-  name: 'MidYearEmployeeApproveVue',
+  name: 'MidYearEmployeeApprove',
   props: { dialog: Boolean, appraisalId: Number },
   methods: {
     close() {

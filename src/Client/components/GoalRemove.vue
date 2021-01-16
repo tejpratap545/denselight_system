@@ -19,7 +19,7 @@
 </template>
 <script>
 export default {
-  name: 'GoalRemoveVue',
+  name: 'GoalRemove',
   props: { id: Number },
   data() {
     return {

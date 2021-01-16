@@ -42,7 +42,7 @@
 
 <script>
 export default {
-  name: 'AddCoreValueVue',
+  name: 'AddCoreValue',
   props: { dialog: Boolean, appraisalId: Number },
   fetch() {
     this.$axios

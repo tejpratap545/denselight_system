@@ -109,7 +109,7 @@
 <script>
 import global from '~/mixins/global'
 export default {
-  name: 'EndYearEmployeeReviewVue',
+  name: 'EndYearEmployeeReview',
   mixins: [global],
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {

@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: 'AddSkillsVue',
+  name: 'AddSkills',
   props: { dialog: Boolean, appraisalId: Number },
   fetch() {
     this.$axios

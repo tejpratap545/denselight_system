@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  name: 'AddCoreValueDepartmentVue',
+  name: 'AddCoreValueDepartment',
   props: { dialog: Boolean, appraisalId: Number },
   fetch() {
     this.$axios

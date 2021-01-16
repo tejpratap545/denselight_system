@@ -83,7 +83,7 @@
 <script>
 import MidyearRejection from '~/components/MidyearRejection'
 export default {
-  name: 'MidYearManagerReviewVue',
+  name: 'MidYearManagerReview',
   components: { MidyearRejection },
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {

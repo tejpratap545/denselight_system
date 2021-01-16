@@ -282,6 +282,7 @@
 <script>
 import global from '~/mixins/global'
 export default {
+  name: 'Appraisal',
   mixins: [global],
   props: { appraisalId: Number, isEditable: { type: Boolean, default: false } },
   async fetch() {
