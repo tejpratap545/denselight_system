@@ -48,8 +48,6 @@ export default {
           })
           this.close()
         })
-
-      this.close()
     },
   },
 }

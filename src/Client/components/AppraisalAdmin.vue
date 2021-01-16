@@ -230,7 +230,10 @@
                         mdi-pencil
                       </v-icon>
 
-                      <GoalRemove :id="item.id" @close-delete-dialog="reload" />
+                      <GoalRemove
+                        :id="item.id"
+                        @close-delete-dialog="appraisalFetch"
+                      />
                     </template>
 
                     <template v-slot:expanded-item="{ headers, item }">
