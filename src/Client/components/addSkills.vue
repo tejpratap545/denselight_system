@@ -38,7 +38,14 @@
 <script>
 export default {
   name: 'AddSkills',
-  props: { dialog: Boolean, appraisalId: Number },
+  props: {
+    dialog: Boolean,
+    appraisalId: Number,
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+  },
   fetch() {
     this.$axios
       .$get('/api/category/skill/')
@@ -64,8 +71,12 @@ export default {
       this.$emit('close-skills-dialog')
     },
     submit() {
+      let url = '/api/skill/create'
+      if (this.isAdmin) {
+        url = '/api/admin/skill/create'
+      }
       this.$axios
-        .$post('api/skill/create', this.skills)
+        .$post(url, this.skills)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Success creating skills',

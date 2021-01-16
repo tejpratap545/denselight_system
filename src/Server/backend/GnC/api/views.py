@@ -49,6 +49,37 @@ class CreateGoalView(generics.CreateAPIView):
         raise ValueError("error in serializer data")
 
 
+class AdminCreateGoalView(generics.CreateAPIView):
+    # queryset = Goals.objects.all()
+    serializer_class = CreateGoalSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        if serializer.is_valid(raise_exception=True):
+            validated_data = serializer.validated_data
+
+            weightage_sum = Goals.objects.filter(
+                appraisal=validated_data.get("appraisal")
+            ).aggregate(Sum("weightage"))
+            if weightage_sum["weightage__sum"] is None:
+
+                appraisal = validated_data.get("appraisal")
+                serializer.save(employee=appraisal.employee)
+                return serializer.data
+            elif (
+                int(validated_data.get("weightage"))
+                + int(weightage_sum["weightage__sum"])
+                > 100
+            ):
+                raise ValueError("Total weightage should be less then 100")
+            else:
+                appraisal = validated_data.get("appraisal")
+                serializer.save(employee=appraisal.employee, status="APPROVED")
+                return serializer.data
+
+        raise ValueError("error in serializer data")
+
+
 class CreateCompetenciesView(generics.CreateAPIView):
     serializer_class = CreateCompetenciesSerializer
     permission_classes = [IsAuthenticated]
@@ -73,6 +104,35 @@ class CreateCompetenciesView(generics.CreateAPIView):
                 raise ValueError("Total weightage should be less then 100")
             else:
                 serializer.save(employee=self.request.user.profile)
+                return serializer.data
+
+        raise ValueError("error in serializer data")
+
+
+class AdminCreateCompetenciesView(generics.CreateAPIView):
+    serializer_class = CreateCompetenciesSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+
+        if serializer.is_valid(raise_exception=True):
+            validated_data = serializer.validated_data
+
+            weightage_sum = Competencies.objects.filter(
+                appraisal=validated_data.get("appraisal")
+            ).aggregate(Sum("weightage"))
+            if weightage_sum["weightage__sum"] is None:
+
+                serializer.save(employee=validated_data.get("appraisal").employee)
+                return serializer.data
+            elif (
+                int(validated_data.get("weightage"))
+                + int(weightage_sum["weightage__sum"])
+                > 100
+            ):
+                raise ValueError("Total weightage should be less then 100")
+            else:
+                serializer.save(employee=validated_data.get("appraisal").employee)
                 return serializer.data
 
         raise ValueError("error in serializer data")

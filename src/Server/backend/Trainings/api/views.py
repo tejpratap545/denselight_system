@@ -61,3 +61,33 @@ class CreateSkillsApiView(generics.CreateAPIView):
                 return serializer.data
 
         raise ValueError("error in serializer data")
+
+
+class AdminCreateSkillsApiView(generics.CreateAPIView):
+
+    serializer_class = CreateSkillsSerializer
+
+    def perform_create(self, serializer):
+
+        if serializer.is_valid(raise_exception=True):
+            validated_data = serializer.validated_data
+
+            weightage_sum = Skills.objects.filter(
+                appraisal=validated_data.get("appraisal")
+            ).aggregate(Sum("weightage"))
+            if weightage_sum["weightage__sum"] is None:
+
+                serializer.save(employee=validated_data.get("appraisal").employee)
+                return serializer.data
+
+            elif (
+                int(validated_data.get("weightage"))
+                + int(weightage_sum["weightage__sum"])
+                > 100
+            ):
+                raise ValueError("Total weightage should be less then 100")
+            else:
+                serializer.save(employee=validated_data.get("appraisal").employee)
+                return serializer.data
+
+        raise ValueError("error in serializer data")

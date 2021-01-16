@@ -421,7 +421,9 @@ export default {
         const tableData = {
           id: appraisal.id,
           appraisal_name: appraisal.appraisal_name,
+
           employee: appraisal.employee.name,
+          employeeDepartment: appraisal.employee.department.name,
           manager: appraisal.manager ? appraisal.manager.name : '---',
           goals_count: appraisal.goals_count,
           core_values_count: appraisal.core_values_competencies_count,
@@ -480,6 +482,10 @@ export default {
         {
           text: 'Employee',
           value: 'employee',
+        },
+        {
+          text: 'Department',
+          value: 'employeeDepartment',
         },
         {
           text: 'Manager',

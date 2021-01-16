@@ -9,6 +9,8 @@ from backend.GnC.api.views import (
     CompetenciesAPIView,
     approved_goal,
     reject_goal,
+    AdminCreateGoalView,
+    AdminCreateCompetenciesView,
 )
 from backend.Profile.api.views import (
     ProfileInfoView,
@@ -51,7 +53,11 @@ from backend.Appraisals.api.views import (
     AllAppraisalView,
     AppraisalView,
 )
-from backend.Trainings.api.views import SkillsApiView, CreateSkillsApiView
+from backend.Trainings.api.views import (
+    SkillsApiView,
+    CreateSkillsApiView,
+    AdminCreateSkillsApiView,
+)
 
 urlpatterns = [
     path("user/me/", ProfileInfoView.as_view()),
@@ -76,7 +82,9 @@ urlpatterns = [
     path("goal/create", CreateGoalView.as_view(), name="create_goal"),
     path("KPI/create", CreateKPI.as_view(), name="create_KPI"),
     path("competencies/create", CreateCompetenciesView.as_view()),
-    path("skill/create", CreateSkillsApiView.as_view()),
+    path("admin/goal/create", AdminCreateGoalView.as_view(), name="create_ADMIN_goal"),
+    path("admin/competencies/create", AdminCreateCompetenciesView.as_view()),
+    path("admin/skill/create", AdminCreateSkillsApiView.as_view()),
     path("goal/<int:pk>", GoalApiView.as_view()),
     path("KPI/<int:pk>", KPIApiView.as_view()),
     path("competencies/<int:pk>", CompetenciesAPIView.as_view()),

@@ -22,7 +22,7 @@
       </v-toolbar>
 
       <v-card-text>
-        <v-simple-table class="my-5">
+        <v-simple-table dense class="my-5">
           <template v-slot:default>
             <tbody>
               <tr>
@@ -50,6 +50,7 @@
             v-if="addGoalsDialog"
             :dialog="addGoalsDialog"
             :appraisal-id="appraisal.id"
+            is-admin="true"
             @close-goal-dialog="addGoalsDialog = false"
             @reload="appraisalFetch"
           />
@@ -57,6 +58,7 @@
             v-if="addCoreValueDialog"
             :dialog="addCoreValueDialog"
             :appraisal-id="appraisal.id"
+            is-admin="true"
             @close-core-dialog="addCoreValueDialog = false"
             @reload="appraisalFetch"
           />
@@ -64,6 +66,7 @@
             v-if="addSkillsDialog"
             :dialog="addSkillsDialog"
             :appraisal-id="appraisal.id"
+            is-admin="true"
             @close-skills-dialog="addSkillsDialog = false"
             @reload="appraisalFetch"
           />
@@ -121,6 +124,7 @@
                     :headers="departmentGoalsHeader"
                     :items="departmentGoalsItems"
                     :items-per-page="5"
+                    dense
                   ></v-data-table>
                 </v-card-text>
               </v-card>
@@ -557,9 +561,8 @@ export default {
         })
     },
     init(appraisal) {
-      console.log(this.appraisal)
       this.appraisal = appraisal
-      console.log(this.appraisal)
+
       this.departmentGoalsItems =
         appraisal.overall_appraisal.departmentalgoals_set
       this.departmentValuesItems =
@@ -644,9 +647,9 @@ export default {
         }
 
         const appraisal = await this.$axios.$post(`api/KPI/create`, data)
-
+        this.kpi = ''
         goal.kpi_dialog = false
-        this.reload()
+        await this.appraisalFetch()
       } catch (error) {
         console.log(error)
       }

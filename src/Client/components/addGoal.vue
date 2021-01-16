@@ -72,7 +72,14 @@
 <script>
 export default {
   name: 'AddGoal',
-  props: { dialog: Boolean, appraisalId: Number },
+  props: {
+    dialog: Boolean,
+    appraisalId: Number,
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+  },
   fetch() {
     this.$axios
       .$get('/api/category/goal/')
@@ -99,9 +106,14 @@ export default {
     close() {
       this.$emit('close-goal-dialog')
     },
+
     submit() {
+      let url = '/api/goal/create'
+      if (this.isAdmin) {
+        url = 'api/admin/goal/create'
+      }
       this.$axios
-        .$post('/api/goal/create', this.createGoal)
+        .$post(url, this.createGoal)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Success creating goal',

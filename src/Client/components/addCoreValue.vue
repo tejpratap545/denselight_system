@@ -43,7 +43,14 @@
 <script>
 export default {
   name: 'AddCoreValue',
-  props: { dialog: Boolean, appraisalId: Number },
+  props: {
+    dialog: Boolean,
+    appraisalId: Number,
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+  },
   fetch() {
     this.$axios
       .$get('/api/category/competency/')
@@ -69,8 +76,12 @@ export default {
       this.$emit('close-core-dialog')
     },
     submit() {
+      let url = '/api/competencies/create'
+      if (this.isAdmin) {
+        url = 'api/admin/competencies/create'
+      }
       this.$axios
-        .$post('api/competencies/create', this.competencies)
+        .$post(url, this.competencies)
         .then((res) => {
           this.close()
           this.$notifier.showMessage({
