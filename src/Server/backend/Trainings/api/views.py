@@ -9,6 +9,7 @@ from backend.Trainings.api.serializers import (
     SkillCategorySerializer,
     SkillsSerializer,
     CreateSkillsSerializer,
+    ShortSkillSerializer,
 )
 from backend.Trainings.models import SkillCategory, Skills
 
@@ -29,7 +30,7 @@ class SkillsApiView(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == "POST":
             return CreateSkillsSerializer
-        return SkillsSerializer
+        return ShortSkillSerializer
 
 
 class CreateSkillsApiView(generics.CreateAPIView):

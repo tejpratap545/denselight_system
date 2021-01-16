@@ -58,7 +58,11 @@ export default {
     },
     submit() {
       this.$axios
-        .$patch(`api/skill/${this.skill.id}`, this.skills)
+        .$patch(`api/skill/${this.skill.id}`, {
+          description: this.skill.description,
+          weightage: this.skill.weightage,
+          skill_category: this.skill.skill_category,
+        })
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Success creating skills',

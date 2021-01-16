@@ -74,6 +74,20 @@
             @close="updateGoalsDialog = false"
             @reload="appraisalFetch"
           />
+          <AdminEditCoreValue
+            v-if="updateCoreValueDialog"
+            :dialog="updateCoreValueDialog"
+            :core-value="currentCoreValue"
+            @close="updateCoreValueDialog = false"
+            @reload="appraisalFetch"
+          />
+          <AdminEditSkills
+            v-if="updateSkillsDialog"
+            :dialog="updateSkillsDialog"
+            :skill="currentSkill"
+            @close="updateSkillsDialog = false"
+            @reload="appraisalFetch"
+          />
         </div>
         <div class="ma-5">
           <v-tabs
@@ -362,7 +376,13 @@
                     :items="myValuesTableItems"
                     :items-per-page="5"
                     dense
-                  ></v-data-table>
+                  >
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <v-icon small class="mr-2" @click="editCoreValue(item)">
+                        mdi-pencil
+                      </v-icon>
+                    </template>
+                  </v-data-table>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -389,7 +409,14 @@
                     :items="mySkillsTableItems"
                     :items-per-page="5"
                     dense
-                  ></v-data-table>
+                  >
+                    >
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <v-icon small class="mr-2" @click="editSkill(item)">
+                        mdi-pencil
+                      </v-icon>
+                    </template>
+                  </v-data-table>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -473,6 +500,11 @@ export default {
           text: 'Weightage',
           value: 'weightage',
         },
+        {
+          text: 'Action',
+          align: 'center',
+          value: 'actions',
+        },
       ],
       mySkillsTableItems: [],
       myValuesTableHeader: [
@@ -487,6 +519,11 @@ export default {
         {
           text: 'Weightage',
           value: 'weightage',
+        },
+        {
+          text: 'Action',
+          align: 'center',
+          value: 'actions',
         },
       ],
       editable: true,
@@ -575,6 +612,7 @@ export default {
       appraisal.skills_set.forEach((skill) => {
         data.skills.push({
           id: skill.id,
+          skill_category: skill.skill_category,
           skill: skill.skill_category.name,
           description: skill.description,
           weightage: skill.weightage,
@@ -585,6 +623,7 @@ export default {
         data.core_values.push({
           id: value.id,
           value: value.summary,
+          competency_category: value.competency_category,
           description: value.description,
           weightage: value.weightage,
         })
@@ -619,7 +658,7 @@ export default {
     },
     editCoreValue(coreValue) {
       this.currentCoreValue = coreValue
-      this.updateGoalsDialog = true
+      this.updateCoreValueDialog = true
     },
     editSkill(skill) {
       this.currentSkill = skill

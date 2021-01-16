@@ -16,6 +16,12 @@ class SkillsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ShortSkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skills
+        fields = "__all__"
+
+
 class CreateSkillsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skills
