@@ -91,10 +91,44 @@
             </v-col>
           </v-row>
           <v-row>
+            <v-col>Employee Self rating</v-col>
+            <v-col>
+              <v-rating
+                v-model="goal.user_rating"
+                background-color="grey lighten-2"
+                color="primary"
+                length="5"
+                size="30"
+                value="1"
+                dense
+                hover
+              ></v-rating>
+              <br />
+              {{ ratingName(goal.user_rating) }}</v-col
+            >
+          </v-row>
+          <v-row>
             <v-col> End Year Employee Comment </v-col>
             <v-col>
               <v-textarea v-model="goal.user_comments" outlined> </v-textarea>
             </v-col>
+          </v-row>
+          <v-row>
+            <v-col>Manager rating</v-col>
+            <v-col>
+              <v-rating
+                v-model="goal.manager_rating"
+                background-color="grey lighten-2"
+                color="primary"
+                length="5"
+                size="30"
+                value="1"
+                dense
+                hover
+              ></v-rating>
+              <br />
+              {{ ratingName(goal.manager_rating) }}</v-col
+            >
           </v-row>
           <v-row>
             <v-col>End Year Manager Comment </v-col>
@@ -119,8 +153,11 @@
 </template>
 
 <script>
+import global from '~/mixins/global'
+
 export default {
   name: 'AdminEditGoal',
+  mixins: [global],
   props: { dialog: Boolean, goal: Object },
   fetch() {
     this.$axios

@@ -16,7 +16,7 @@
           >
           </EndyearRejection>
           <v-card-title class="headline">
-            End Manager/Supervisor Year Review
+            End Manager/supervisor Year Review
           </v-card-title>
           <v-card-text>
             <v-expansion-panels>
@@ -75,7 +75,7 @@
                       </v-col>
                     </v-row>
                     <v-row>
-                      <v-col>User rating</v-col>
+                      <v-col>Employee Self rating</v-col>
                       <v-col>
                         <v-rating
                           v-model="item.user_rating"

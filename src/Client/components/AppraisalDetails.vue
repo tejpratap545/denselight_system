@@ -279,13 +279,13 @@
                       </template>
                     </v-simple-table>
                     <v-row>
-                      <v-col> Goal Setting Stage Employee comments </v-col>
+                      <v-col> Goal Settings Stage Employee comments </v-col>
                       <v-col>
                         {{ item.goal_employees_comment }}
                       </v-col>
                     </v-row>
                     <v-row>
-                      <v-col> Goal Setting Stage Manager comments </v-col>
+                      <v-col> Goal Settings Stage Manager comments </v-col>
                       <v-col>
                         {{ item.goal_manager_comment }}
                       </v-col>
@@ -309,7 +309,7 @@
                       </v-col>
                     </v-row>
                     <v-row>
-                      <v-col>User rating</v-col>
+                      <v-col>Employee Self rating</v-col>
                       <v-col>
                         <v-rating
                           background-color="grey lighten-2"
@@ -329,6 +329,22 @@
                       <v-col>
                         {{ item.user_comments }}
                       </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Manager rating</v-col>
+                      <v-col>
+                        <v-rating
+                          background-color="grey lighten-2"
+                          color="primary"
+                          length="5"
+                          size="30"
+                          :value="item.manager_rating"
+                          dense
+                          readonly
+                        ></v-rating>
+                        <br />
+                        {{ ratingName(item.manager_rating) }}</v-col
+                      >
                     </v-row>
                     <v-row>
                       <v-col>End Year Manager Comment</v-col>

@@ -101,7 +101,7 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col>User rating</v-col>
+                    <v-col>Employee Self rating</v-col>
                     <v-col>
                       <v-rating
                         v-model="item.user_rating"

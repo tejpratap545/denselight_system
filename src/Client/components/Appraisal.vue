@@ -153,13 +153,13 @@
             </v-simple-table>
 
             <v-row>
-              <v-col> Goal Setting Stage Employee comment </v-col>
+              <v-col> Goal Settings Stage Employee comment </v-col>
               <v-col>
                 {{ item.goal_employees_comment }}
               </v-col>
             </v-row>
             <v-row>
-              <v-col> Goal Setting Stage Manager comment </v-col>
+              <v-col> Goal Settings Stage Manager comment </v-col>
               <v-col>
                 {{ item.goal_manager_comment }}
               </v-col>
@@ -183,7 +183,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col>User rating</v-col>
+              <v-col>Employee Self rating</v-col>
               <v-col>
                 <v-rating
                   v-model="item.user_rating"
