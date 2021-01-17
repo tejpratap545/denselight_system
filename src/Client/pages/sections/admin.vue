@@ -17,6 +17,13 @@
           :dialog="showAppraisalDialog"
           @close="showAppraisalDialog = false"
         />
+        <AdminChangeAppraisalStatus
+          v-if="changeStatusDialog"
+          :dialog="changeStatusDialog"
+          :appraisal="currentAppraisal"
+          @close="changeStatusDialog = false"
+          @reload="$fetch"
+        />
       </div>
       <v-card-title> Employees Appraisals </v-card-title>
 
@@ -91,6 +98,13 @@
                       >
                         <v-icon>mdi-eye-circle</v-icon>
                       </v-btn>
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="changeAppraisalStatus(item)"
+                      >
+                        <v-icon>mdi-format-list-checks</v-icon>
+                      </v-btn>
                     </template>
                   </v-data-table>
                 </v-card-text>
@@ -139,6 +153,29 @@
                       >
                         mdi-checkbox-marked-circle-outline</v-icon
                       >
+                      <v-icon
+                        v-else-if="
+                          item.status === 'S1BEmployee' ||
+                          item.status === 'S2BEmployee'
+                        "
+                        indeterminate
+                        color="primary"
+                      >
+                        mdi-account-clock</v-icon
+                      >
+
+                      <v-icon
+                        v-else-if="
+                          item.status === 'S1BReview' ||
+                          (item.status === 'S1BManager' &&
+                            item.mid_year_completion === 'Completed')
+                        "
+                        indeterminate
+                        color="info"
+                      >
+                        mdi-account-clock</v-icon
+                      >
+
                       <v-icon v-else indeterminate color="error">
                         mdi-cancel
                       </v-icon>
@@ -155,6 +192,13 @@
                         @click="showAppraisal(item.id)"
                       >
                         <v-icon>mdi-eye-circle</v-icon>
+                      </v-btn>
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="changeAppraisalStatus(item)"
+                      >
+                        <v-icon>mdi-format-list-checks</v-icon>
                       </v-btn>
                     </template>
                   </v-data-table>
@@ -250,6 +294,13 @@
                       >
                         <v-icon>mdi-eye-circle</v-icon>
                       </v-btn>
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="changeAppraisalStatus(item)"
+                      >
+                        <v-icon>mdi-format-list-checks</v-icon>
+                      </v-btn>
                     </template>
                   </v-data-table>
                 </v-card-text>
@@ -321,6 +372,13 @@
                         @click="showAppraisal(item.id)"
                       >
                         <v-icon>mdi-eye-circle</v-icon>
+                      </v-btn>
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="changeAppraisalStatus(item)"
+                      >
+                        <v-icon>mdi-format-list-checks</v-icon>
                       </v-btn>
                     </template>
                   </v-data-table>
@@ -394,6 +452,13 @@
                       >
                         <v-icon>mdi-eye-circle</v-icon>
                       </v-btn>
+                      <v-btn
+                        color="grey lighten-1"
+                        icon
+                        @click="changeAppraisalStatus(item)"
+                      >
+                        <v-icon>mdi-format-list-checks</v-icon>
+                      </v-btn>
                     </template>
                   </v-data-table>
                 </v-card-text>
@@ -422,9 +487,10 @@ export default {
           id: appraisal.id,
           appraisal_name: appraisal.appraisal_name,
 
-          employee: appraisal.employee.name,
+          employee: appraisal.employee,
+          manager: appraisal.manager,
           employeeDepartment: appraisal.employee.department.name,
-          manager: appraisal.manager ? appraisal.manager.name : '---',
+          manager1: appraisal.manager ? appraisal.manager.name : '---',
           goals_count: appraisal.goals_count,
           core_values_count: appraisal.core_values_competencies_count,
           skills_count: 0,
@@ -466,6 +532,7 @@ export default {
   data() {
     return {
       showAppraisalDialog: false,
+      changeStatusDialog: false,
       currentAppraisalId: 0,
       goalsLaunchingTableItems: [],
       midYearTableItems: [],
@@ -473,7 +540,9 @@ export default {
       reportsTableItems: [],
       calibrationTableItems: [],
       appraisalList: '',
+
       search: '',
+      currentAppraisal: {},
       headers: [
         {
           text: 'Appraisals',
@@ -481,7 +550,7 @@ export default {
         },
         {
           text: 'Employee',
-          value: 'employee',
+          value: 'employee.name',
         },
         {
           text: 'Department',
@@ -489,7 +558,7 @@ export default {
         },
         {
           text: 'Manager',
-          value: 'manager',
+          value: 'manager1',
         },
 
         {
@@ -516,6 +585,19 @@ export default {
       this.showAppraisalDialog = true
 
       this.currentAppraisalId = id
+    },
+    changeAppraisalStatus(appraisal) {
+      this.currentAppraisal = {
+        id: appraisal.id,
+        name: appraisal.appraisal_name,
+        manager: appraisal.manager,
+        status: appraisal.status,
+        completion: appraisal.completion,
+        mid_year_completion: appraisal.mid_year_completion,
+        overallAppraisalStatus: appraisal.overallStage,
+        employee: appraisal.employee,
+      }
+      this.changeStatusDialog = true
     },
   },
 }

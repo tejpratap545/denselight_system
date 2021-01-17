@@ -8,7 +8,7 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <div v-else>
-      <div class="dialogs" v-if="appraisalSelectedIndex != 0">
+      <div v-if="appraisalSelectedIndex != 0" class="dialogs">
         <GoalSubmit
           v-if="submitGoalsDialog"
           :dialog="submitGoalsDialog"
@@ -52,8 +52,8 @@
 
       <div class="ma-5">
         <v-row>
-          <v-col cols="3" v-if="appraisalSelectedIndex != 0">
-            <v-menu rounded="lg" >
+          <v-col v-if="appraisalSelectedIndex != 0" cols="3">
+            <v-menu rounded="lg">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" fab v-bind="attrs" v-on="on">
                   <v-icon>mdi-cached</v-icon>
@@ -75,7 +75,11 @@
             </v-menu>
           </v-col>
 
-          <v-col v-if="appraisalSelectedIndex != 0" cols="9" style="display: flex; justify-content: flex-end">
+          <v-col
+            v-if="appraisalSelectedIndex != 0"
+            cols="9"
+            style="display: flex; justify-content: flex-end"
+          >
             <div>
               <h3 class="font-weight-medium">
                 {{ appraisalSelected.appraisal_name }} -
@@ -94,8 +98,11 @@
               </small>
             </div>
           </v-col>
-          <div style="display: flex; justify-content: center; width: 100%;" v-else>
-              <h3 class="font-weight-medium ">No Appraisal available</h3>
+          <div
+            v-else
+            style="display: flex; justify-content: center; width: 100%"
+          >
+            <h3 class="font-weight-medium">No Appraisal available</h3>
           </div>
         </v-row>
       </div>
@@ -124,7 +131,7 @@
             v-if="
               appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
               (appraisalSelected.status === 'S1BEmployee' ||
-                appraisalSelected.status === 'S1BManager')
+                appraisalSelected.status === 'S2BEmployee')
             "
             text
             @click="midYearEmployeeReviewDialog = true"
@@ -134,7 +141,7 @@
           <v-btn
             v-if="
               appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
-              appraisalSelected.status === 'S1BManager'
+              appraisalSelected.status === 'S2BEmployee'
             "
             class="success"
             @click="midYearApproveDialog = true"
@@ -218,7 +225,7 @@ export default {
   },
   activated() {
     // Call fetch again if last fetch more than 30 sec ago
-    if (this.$fetchState.timestamp <= Date.now() - 30000) {
+    if (this.$fetchState.timestamp <= Date.now() - 10000) {
       this.$fetch()
     }
   },

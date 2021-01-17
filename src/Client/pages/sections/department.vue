@@ -463,7 +463,7 @@
                             <v-icon
                               v-else-if="
                                 item.status === 'S1BEmployee' ||
-                                item.status === 'S1BManager'
+                                item.status === 'S2BEmployee'
                               "
                               indeterminate
                               color="primary"

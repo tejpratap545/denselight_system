@@ -305,6 +305,7 @@ export default {
   },
   data() {
     return {
+      appraisal: '',
       goalsApprovedDialog: false,
       rejectionDialog: false,
       goals_settingM_rejection: '',
@@ -414,6 +415,7 @@ export default {
         skills: [],
         core_values: [],
       }
+      this.appraisal = appraisal
 
       appraisal.goals_set.forEach((goal) => {
         data.goals.push({

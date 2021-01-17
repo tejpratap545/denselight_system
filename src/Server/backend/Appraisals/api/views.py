@@ -294,8 +294,8 @@ def input_midyear_employee(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1B"
         and app.employee == request.user.profile
-    ) and (app.status == "S1BEmployee" or app.status == "S1BManager"):
-        app.status = "S1BManager"
+    ) and (app.status == "S1BEmployee" or app.status == "S2BEmployee"):
+        app.status = "S2BEmployee"
         app.save()
         return Response(
             {"msg": "Goal are successfully approves by manager/supervisor"},
@@ -312,7 +312,7 @@ def submit_midyear_employee(request, *args, **kwargs):
     if (
         app.overall_appraisal.status == "Stage 1B"
         and app.employee == request.user.profile
-    ) and app.status == "S1BManager":
+    ) and app.status == "S2BEmployee":
         app.status = "S1BReview"
         app.save()
         title = f"{app.employee.name} submit mid year review of {app.appraisal_name}"

@@ -450,7 +450,7 @@ export default {
       currentSkill: {},
       newComment: '',
       appraisal: {},
-
+      changeStatusDialog: false,
       addGoalsDialog: false,
       addSkillsDialog: false,
       addCoreValueDialog: false,
@@ -549,6 +549,7 @@ export default {
         { text: 'Category', value: 'competency_category' },
       ],
       departmentValuesItems: {},
+      currentAppraisal: '',
     }
   },
 
