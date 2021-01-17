@@ -252,12 +252,16 @@ export default {
           })
 
           this.$emit('reload')
+          this.$emit('close')
         })
         .catch(() => {
           this.$notifier.showMessage({
             content: 'An error found please validate or try again',
             color: 'error',
           })
+        })
+        .finally(() => {
+          this.$emit('close')
         })
     },
 
@@ -273,12 +277,16 @@ export default {
           })
 
           this.$emit('reload')
+          this.$emit('close')
         })
         .catch(() => {
           this.$notifier.showMessage({
             content: 'An error found please validate or try again',
             color: 'error',
           })
+        })
+        .finally(() => {
+          this.$emit('close')
         })
     },
   },

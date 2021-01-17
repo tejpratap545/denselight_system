@@ -225,6 +225,118 @@
                                 <small
                                   >Progress : <b>{{ kpi.progress }}</b></small
                                 >
+                                <v-spacer></v-spacer>
+                                <v-dialog v-model="dialogKpiDelete" width="500">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      color="red lighten-2"
+                                      dark
+                                      v-bind="attrs"
+                                      text
+                                      v-on="on"
+                                    >
+                                      <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                  </template>
+
+                                  <v-card>
+                                    <v-card-title class="subtitle-2">
+                                      {{ kpi.description }}
+                                    </v-card-title>
+                                    <v-divider></v-divider>
+
+                                    <v-card-actions>
+                                      <v-spacer></v-spacer>
+                                      <v-btn
+                                        color="info"
+                                        text
+                                        @click="dialogKpiDelete = false"
+                                      >
+                                        Close
+                                      </v-btn>
+                                      <v-btn
+                                        color="error"
+                                        text
+                                        @click="deleteKpi(kpi)"
+                                      >
+                                        Delete
+                                      </v-btn>
+                                    </v-card-actions>
+                                  </v-card>
+                                </v-dialog>
+                                <v-dialog v-model="dialogKpiUpdate" width="500">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      color="success lighten-2"
+                                      dark
+                                      v-bind="attrs"
+                                      text
+                                      v-on="on"
+                                    >
+                                      <v-icon>mdi-pencil</v-icon>
+                                    </v-btn>
+                                  </template>
+
+                                  <v-card>
+                                    <v-card-title>Update Kpi</v-card-title>
+                                    <v-card-text class="ma-3">
+                                      <v-row>
+                                        <v-textarea
+                                          v-model="kpi.description"
+                                          outlined
+                                          label="KPI description"
+                                        ></v-textarea>
+                                      </v-row>
+
+                                      <v-row>
+                                        <v-menu
+                                          v-model="kpiDateMenu"
+                                          :close-on-content-click="false"
+                                          :nudge-right="40"
+                                          transition="scale-transition"
+                                          offset-y
+                                          min-width="290px"
+                                        >
+                                          <template
+                                            v-slot:activator="{ on, attrs }"
+                                          >
+                                            <v-text-field
+                                              v-model="kpi.due"
+                                              label="KPI due"
+                                              prepend-icon="mdi-calendar"
+                                              readonly
+                                              v-bind="attrs"
+                                              v-on="on"
+                                            ></v-text-field>
+                                          </template>
+                                          <v-date-picker
+                                            v-model="kpi.due"
+                                            @input="kpiDateMenu = false"
+                                          ></v-date-picker>
+                                        </v-menu>
+                                      </v-row>
+                                    </v-card-text>
+                                    <v-divider></v-divider>
+
+                                    <v-card-actions>
+                                      <v-spacer></v-spacer>
+                                      <v-btn
+                                        color="info"
+                                        text
+                                        @click="dialogKpiUpdate = false"
+                                      >
+                                        Close
+                                      </v-btn>
+                                      <v-btn
+                                        color="success"
+                                        text
+                                        @click="updateKpi(kpi)"
+                                      >
+                                        Update
+                                      </v-btn>
+                                    </v-card-actions>
+                                  </v-card>
+                                </v-dialog>
                               </v-card-text>
                             </v-card>
                           </v-card-text>
@@ -472,7 +584,10 @@ export default {
   },
   data() {
     return {
+      kpiDateMenu: false,
       goalsApprovedDialog: false,
+      dialogKpiDelete: false,
+      dialogKpiUpdate: false,
       currentGoal: {},
       currentCoreValue: {},
       currentSkill: {},
@@ -678,7 +793,7 @@ export default {
         const appraisal = await this.$axios.$post(`api/KPI/create`, data)
         this.kpi = ''
         goal.kpi_dialog = false
-        await this.appraisalFetch()
+        this.$fetch()
       } catch (error) {
         console.log(error)
       }
@@ -743,6 +858,54 @@ export default {
         })
         .finally(() => {
           this.goalsApprovedDialog = false
+        })
+    },
+
+    deleteKpi(kpi) {
+      this.$axios
+        .delete(`api/KPI/${kpi.id}`)
+        .then(() => {
+          this.$notifier.showMessage({
+            content: `Successfully deleted  kpi `,
+            color: 'info',
+          })
+
+          this.$fetch()
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$notifier.showMessage({
+            content: 'Error deleting kpi',
+            color: 'error',
+          })
+        })
+        .finally(() => {
+          this.dialogKpiDelete = false
+        })
+    },
+    updateKpi(kpi) {
+      this.$axios
+        .patch(`api/KPI/${kpi.id}`, {
+          description: kpi.description,
+          due: kpi.due,
+        })
+        .then(() => {
+          this.$notifier.showMessage({
+            content: `Successfully updating  kpi `,
+            color: 'info',
+          })
+
+          this.$fetch()
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$notifier.showMessage({
+            content: 'Error updating kpi',
+            color: 'error',
+          })
+        })
+        .finally(() => {
+          this.dialogKpiUpdate = false
         })
     },
   },
