@@ -13,6 +13,30 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <v-card v-else>
+      <v-dialog v-model="goalsApprovedDialog" persistent max-width="500">
+        <v-card>
+          <v-card-title class="subtitle">
+            Approved Or Reject {{ currentGoal.goal_title }}
+          </v-card-title>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="info darken-1"
+              text
+              @click="goalsApprovedDialog = false"
+            >
+              close
+            </v-btn>
+            <v-btn color="error darken-1" text @click="rejectGoal">
+              Reject
+            </v-btn>
+            <v-btn color="success darken-1" text @click="approvedGoal">
+              Approved
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-toolbar dark color="primary">
         <v-btn icon dark @click="$emit('close')">
           <v-icon>mdi-close</v-icon>
@@ -164,6 +188,9 @@
                       >
                       <v-icon v-else indeterminate color="primary"
                         >mdi-account-clock</v-icon
+                      >
+                      <v-icon color="info" @click="changeStatus(item)">
+                        mdi-format-list-checks</v-icon
                       >
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
@@ -445,6 +472,7 @@ export default {
   },
   data() {
     return {
+      goalsApprovedDialog: false,
       currentGoal: {},
       currentCoreValue: {},
       currentSkill: {},
@@ -667,6 +695,55 @@ export default {
     editSkill(skill) {
       this.currentSkill = skill
       this.updateSkillsDialog = true
+    },
+    changeStatus(goal) {
+      this.goalsApprovedDialog = true
+      this.currentGoal = goal
+    },
+
+    approvedGoal() {
+      this.$axios
+        .patch(`api/goal/${this.currentGoal.id}`, { status: 'APPROVED' })
+        .then(() => {
+          this.$notifier.showMessage({
+            content: `Successfully approved  ${this.currentGoal.goal_title} the goals `,
+            color: 'info',
+          })
+
+          this.$fetch()
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$notifier.showMessage({
+            content: 'Error approved goals',
+            color: 'error',
+          })
+        })
+        .finally(() => {
+          this.goalsApprovedDialog = false
+        })
+    },
+    rejectGoal() {
+      this.$axios
+        .patch(`api/goal/${this.currentGoal.id}`, { status: 'REJECTED' })
+        .then(() => {
+          this.$notifier.showMessage({
+            content: `Successfully rejected  ${this.currentGoal.goal_title} the goals `,
+            color: 'info',
+          })
+
+          this.$fetch()
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$notifier.showMessage({
+            content: 'Error rejection goals',
+            color: 'error',
+          })
+        })
+        .finally(() => {
+          this.goalsApprovedDialog = false
+        })
     },
   },
 }

@@ -163,7 +163,9 @@ class Goals(models.Model):
         ("APPROVED", "APPROVED"),
         ("REJECTED", "REJECTED"),
     )
-    status = models.CharField(max_length=100, blank=True, null=True)
+    status = models.CharField(
+        max_length=100, blank=True, null=True, choices=STATUS_CHOICE
+    )
 
     def __str__(self):
         return self.summary

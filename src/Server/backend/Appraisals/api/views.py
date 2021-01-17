@@ -39,7 +39,7 @@ class ManagerAppraisal(generics.ListAPIView):
             )
         )
 
-    @method_decorator(cache_page(15))
+    @method_decorator(cache_page(10))
     @method_decorator(vary_on_cookie)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -69,7 +69,7 @@ class AllAppraisalView(generics.ListAPIView):
             )
         )
 
-    @method_decorator(cache_page(15))
+    @method_decorator(cache_page(10))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -79,7 +79,7 @@ class AppraisalView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = User_Appraisal_List.objects.all()
 
-    @method_decorator(cache_page(15))
+    @method_decorator(cache_page(10))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -121,7 +121,7 @@ class UserAppraisal(generics.ListAPIView):
             )
         )
 
-    @method_decorator(cache_page(15))
+    @method_decorator(cache_page(10))
     @method_decorator(vary_on_cookie)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -155,7 +155,7 @@ class DetailUserAppraisal(generics.ListAPIView):
             "overall_appraisal__departmentalcompetencies_set__competency_category",
         ).filter(employee=self.request.user.profile)
 
-    @method_decorator(cache_page(15))
+    @method_decorator(cache_page(10))
     @method_decorator(vary_on_cookie)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -180,7 +180,7 @@ class OverallAppraisalViewSet(ModelViewSet):
         .annotate(employee_count=Count("user_appraisal_list"))
     )
 
-    @method_decorator(cache_page(15))
+    @method_decorator(cache_page(10))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -213,7 +213,7 @@ class DetailAppraisal(generics.RetrieveAPIView):
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
 
-    @method_decorator(cache_page(15))
+    @method_decorator(cache_page(10))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
