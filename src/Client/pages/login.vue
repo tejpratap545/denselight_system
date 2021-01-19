@@ -105,7 +105,7 @@ body {
   margin: 0;
 }
 .login-bg-img {
-  background-image: url('~assets/epmp.jpg');
+  background-image: url('~assets/employeeManagement.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
