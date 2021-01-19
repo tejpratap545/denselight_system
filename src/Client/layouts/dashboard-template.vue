@@ -4,7 +4,11 @@
 
     <v-navigation-drawer v-model="drawer" app>
       <template v-slot:prepend>
-        <img src="~/assets/logo.svg" style="margin: 40px 20px" width="220" />
+        <img
+          src="~/assets/hunetLogo.webp"
+          style="margin: 40px 20px"
+          width="220"
+        />
 
         <v-list-item two-line>
           <v-list-item-avatar>

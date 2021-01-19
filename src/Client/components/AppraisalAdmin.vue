@@ -16,7 +16,7 @@
       <v-dialog v-model="goalsApprovedDialog" persistent max-width="500">
         <v-card>
           <v-card-title class="subtitle">
-            Approved Or Reject {{ currentGoal.goal_title }}
+            Approve Or Reject {{ currentGoal.goal_title }}
           </v-card-title>
 
           <v-card-actions>
@@ -32,7 +32,7 @@
               Reject
             </v-btn>
             <v-btn color="success darken-1" text @click="approvedGoal">
-              Approved
+              Approve
             </v-btn>
           </v-card-actions>
         </v-card>
