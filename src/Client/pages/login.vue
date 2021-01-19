@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="0" sm="7" md="8" lg="9" class="login-bg-img"> </v-col>
 
-      <v-col cols="12" sm="5" md="4" lg="3" class="light pa-5 pa-sm-10">
+      <v-col cols="12" sm="5" md="4" lg="3" class="pa-5 pa-sm-10">
         <h1 class="mb-4 font-weight-light text-center">Hunet E-PMP</h1>
         <h3 class="my-8 font-weight-light text-center">{{ supervisor }}</h3>
 
@@ -78,7 +78,7 @@ export default {
     getsup() {
       this.$axios
         .$post('api/get_supervisor', this.user)
-        .then((res) => (this.supervisor = res.Supervisor))
+        .then((res) => (this.supervisor = 'Supervisor:' +res.Supervisor))
         .catch((err) => (this.supervisor = ' '))
     },
     logIn() {

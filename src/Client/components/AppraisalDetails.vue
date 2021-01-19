@@ -176,7 +176,7 @@
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn icon v-bind="attrs" v-on="on">
-                          <v-icon>mdi-information-outline</v-icon>
+                          <v-icon>mdi-plus</v-icon>
                         </v-btn>
                       </template>
 
@@ -239,7 +239,7 @@
                                 ></v-date-picker>
                               </v-menu>
                               <v-btn color="primary" @click="add_kpi(item)">
-                                Add new KPI
+                                Save KPI
                               </v-btn>
                             </v-row>
                           </v-container>
