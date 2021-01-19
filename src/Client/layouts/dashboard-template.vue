@@ -6,8 +6,8 @@
       <template v-slot:prepend>
         <img
           src="~/assets/hunetLogo.webp"
-          style="margin: 40px 20px"
-          width="220"
+          style="margin: 40px 40px"
+          width="110"
         />
 
         <v-list-item two-line>
