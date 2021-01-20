@@ -1,21 +1,22 @@
-from django.conf import settings
-from rest_framework.routers import DefaultRouter, SimpleRouter
-
 from backend.Appraisals.api.views import (
     AppraisalCategoryViewSet,
+    AppraisalViewSet,
     OverallAppraisalViewSet,
 )
 from backend.GnC.api.views import (
-    GoalCategoryViewSet,
     CompetencyCategoryViewSet,
+    DepartmentalCompetenciesVieSet,
+    DepartmentalGoalsVieSet,
+    EndYrCommentBoxViewSet,
+    GoalCategoryViewSet,
     GoalCommentViewSet,
     MidYrCommentBoxViewSet,
-    EndYrCommentBoxViewSet,
-    DepartmentalGoalsVieSet,
-    DepartmentalCompetenciesVieSet,
 )
 from backend.Profile.api.views import DepartmentViewSet, NotificationViewSet
 from backend.Trainings.api.views import SkillsCategoryViewSet
+from django.conf import settings
+from rest_framework.routers import DefaultRouter, SimpleRouter
+
 
 if settings.DEBUG:
     router = DefaultRouter()
@@ -39,6 +40,7 @@ router.register(
 router.register(r"departmentalgoal", DepartmentalGoalsVieSet)
 router.register(r"departmentalcompetencies", DepartmentalCompetenciesVieSet)
 router.register(r"comment/goals/endyear", EndYrCommentBoxViewSet)
+router.register(r"appraisals/admin", AppraisalViewSet),
 
 app_name = "denselight"
 urlpatterns = router.urls

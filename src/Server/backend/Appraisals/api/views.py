@@ -65,7 +65,7 @@ class AllAppraisalView(generics.ListAPIView):
         )
 
 
-class AppraisalView(generics.RetrieveUpdateDestroyAPIView):
+class AppraisalViewSet(ModelViewSet):
     serializer_class = UserAppraisalSerializer
     permission_classes = [IsAuthenticated]
     queryset = User_Appraisal_List.objects.all()

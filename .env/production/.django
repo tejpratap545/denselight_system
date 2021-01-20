@@ -1,13 +1,11 @@
-DEBUG=False
+DEBUG=true
 DB_NAME=denselight
 DB_USER=denselight
 DB_PASSWORD=denselight
 DB_HOST=postgres
 DB_PORT=5432
-RABBITMQ_URL=amqp://denselight:denselight@127.0.0.1/asgi
-CELERY_BROKER_URL=amqp://denselight:denselight@127.0.0.1/asgi
 SECRET_KEY=SBMCBmoKAdESRGbT0HVTFvhUehfI6ALJLYa4UaHsDvwSBMCBmoKAdESRGbT0HVTFvhUehfI6ALJLYa4UaHsDvw
-REDIS_URL=redis://redis:6379/1
 SENDGRID_USER_NAME=
 SENDGRID_API_KEY=
 SENTRY_DSN=
+DJANGO_SETTINGS_MODULE=config.settings.productiondemo
