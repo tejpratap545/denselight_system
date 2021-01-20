@@ -1,23 +1,23 @@
 version: '3'
 
 volumes:
-  rabbitmqmain:
-  rabbitmqdata:
-  rabbitmqlogs:
+  # rabbitmqmain:
+  # rabbitmqdata:
+  # rabbitmqlogs:
   pgdata:
 
 
 services:
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: rabbitmq
-    volumes:
-      - rabbitmqmain:/etc/rabbitmq/
-      - rabbitmqdata:/var/lib/rabbitmq/
-      - rabbitmqlogs:/var/log/rabbitmq/
-    ports:
-      - 5672:5672
-      - 15672:15672
+  # rabbitmq:
+  #   image: rabbitmq:3-management-alpine
+  #   container_name: rabbitmq
+  #   volumes:
+  #     - rabbitmqmain:/etc/rabbitmq/
+  #     - rabbitmqdata:/var/lib/rabbitmq/
+  #     - rabbitmqlogs:/var/log/rabbitmq/
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
 
   postgres:
     image: postgres
@@ -82,10 +82,10 @@ services:
       - denselightdjango
       - denselightnuxt
 
-  redis:
-    image: redis:5.0
-    ports:
-      - 6379:6379
+  # redis:
+  #   image: redis:5.0
+  #   ports:
+  #     - 6379:6379
 
 
 

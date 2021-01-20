@@ -1,17 +1,15 @@
+from ...Profile.models import Notification
+from ..models import *
+from .serializers import *
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-
-from ..models import *
-from .serializers import *
-from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
-
-from ...Profile.models import Notification
 
 
 class CreateGoalView(generics.CreateAPIView):
@@ -181,19 +179,11 @@ class GoalCategoryViewSet(ModelViewSet):
     queryset = GoalCategory.objects.all()
     permission_classes = [IsAuthenticated]
 
-    @method_decorator(cache_page(60 * 2))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
 
 class CompetencyCategoryViewSet(ModelViewSet):
     serializer_class = CompetencyCategorySerializer
     queryset = CompetencyCategory.objects.all()
     permission_classes = [IsAuthenticated]
-
-    @method_decorator(cache_page(60 * 2))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
 
 class GoalCommentViewSet(ModelViewSet):
@@ -201,29 +191,17 @@ class GoalCommentViewSet(ModelViewSet):
     queryset = GoalComment.objects.all()
     permission_classes = [IsAuthenticated]
 
-    @method_decorator(cache_page(60 * 2))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
 
 class MidYrCommentBoxViewSet(ModelViewSet):
     serializer_class = MidYrCommentBoxSerializer
     queryset = MidYrCommentBox.objects.all()
     permission_classes = [IsAuthenticated]
 
-    @method_decorator(cache_page(60 * 2))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
 
 class EndYrCommentBoxViewSet(ModelViewSet):
     serializer_class = EndYrCommentBoxSerializer
     queryset = EndYrCommentBox.objects.all()
     permission_classes = [IsAuthenticated]
-
-    @method_decorator(cache_page(60 * 2))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
 
 class DepartmentalGoalsVieSet(ModelViewSet):

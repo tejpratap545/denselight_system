@@ -1,26 +1,26 @@
 version: '3'
 
 volumes:
-  rabbitmqmain:
-  rabbitmqdata:
-  rabbitmqlogs:
+  # rabbitmqmain:
+  # rabbitmqdata:
+  # rabbitmqlogs:
   pgdata:
 
 
 services:
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: rabbitmq
-    volumes:
-      - rabbitmqmain:/etc/rabbitmq/
-      - rabbitmqdata:/var/lib/rabbitmq/
-      - rabbitmqlogs:/var/log/rabbitmq/
-    environment:
-      RABBITMQ_DEFAULT_USER: denselight
-      RABBITMQ_DEFAULT_PASS: denselight
-    ports:
-      - 5672:5672
-      - 15672:15672
+  # rabbitmq:
+  #   image: rabbitmq:3-management-alpine
+  #   container_name: rabbitmq
+  #   volumes:
+  #     - rabbitmqmain:/etc/rabbitmq/
+  #     - rabbitmqdata:/var/lib/rabbitmq/
+  #     - rabbitmqlogs:/var/log/rabbitmq/
+  #   environment:
+  #     RABBITMQ_DEFAULT_USER: denselight
+  #     RABBITMQ_DEFAULT_PASS: denselight
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
 
   postgres:
     image: postgres
@@ -88,33 +88,33 @@ services:
       - denselightdjango
       - denselightnuxt
 
-  redis:
-    image: redis:5.0
+  # redis:
+  #   image: redis:5.0
 
-  celeryworker:
-    image: denselight_dev_django_image
-    command: /start-celeryworker
-    container_name: denselight_django_celery_worker
-    volumes:
-      - ./src/Server:/app
-    env_file:
-      - ./.env/development/.celeryworker
-      - ./.env/development/.django
+  # celeryworker:
+  #   image: denselight_dev_django_image
+  #   command: /start-celeryworker
+  #   container_name: denselight_django_celery_worker
+  #   volumes:
+  #     - ./src/Server:/app
+  #   env_file:
+  #     - ./.env/development/.celeryworker
+  #     - ./.env/development/.django
 
-    depends_on:
-      - denselightdjango
+  #   depends_on:
+  #     - denselightdjango
 
-  celerybeat:
-    image: denselight_dev_django_image
-    command: /start-celerybeat
-    container_name: denselight_django_celery_beat
-    volumes:
-      - ./src/Server:/app
-    env_file:
-      - ./.env/development/.celerybeat
-      - ./.env/development/.django
+  # celerybeat:
+  #   image: denselight_dev_django_image
+  #   command: /start-celerybeat
+  #   container_name: denselight_django_celery_beat
+  #   volumes:
+  #     - ./src/Server:/app
+  #   env_file:
+  #     - ./.env/development/.celerybeat
+  #     - ./.env/development/.django
 
-    depends_on:
-      - denselightdjango
+  #   depends_on:
+  #     - denselightdjango
 
 

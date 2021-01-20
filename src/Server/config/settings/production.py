@@ -26,18 +26,18 @@ DATABASES["default"]["CONN_MAX_AGE"] = os.environ.get(
 
 # CACHES
 # ------------------------------------------------------------------------------
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/1"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # Mimicing memcache behavior.
-            # http://jazzband.github.io/django-redis/latest/#_memcached_exceptions_behavior
-            "IGNORE_EXCEPTIONS": True,
-        },
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/1"),
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             # Mimicing memcache behavior.
+#             # http://jazzband.github.io/django-redis/latest/#_memcached_exceptions_behavior
+#             "IGNORE_EXCEPTIONS": True,
+#         },
+#     }
+# }
 
 # Email Service
 # https://sendgrid.com/docs/for-developers/sending-email/django/

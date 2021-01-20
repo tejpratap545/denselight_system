@@ -1,22 +1,19 @@
-import json
-
+from ...Appraisals.models import peerAppraisal, User_Appraisal_List
+from ..permissions import IsOwner
+from .serializers import *
+from backend.Profile.permissions import IsHrManager
 from django.core.cache import cache
 from django.db.models import Count, Q
 from django.http import HttpResponse
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from backend.Profile.permissions import IsHrManager
-from .serializers import *
-from ..permissions import IsOwner
 from rest_framework.viewsets import ModelViewSet
 
-from ...Appraisals.models import User_Appraisal_List, peerAppraisal
+import json
 
 
 class ProfileInfoView(generics.RetrieveAPIView):
@@ -55,10 +52,6 @@ class ListEmployees(generics.ListAPIView):
         "date_Of_Hire",
     )
 
-    @method_decorator(cache_page(60 * 5))
-    def dispatch(self, *args, **kwargs):
-        return super(ListEmployees, self).dispatch(*args, **kwargs)
-
 
 class ShortListEmployees(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -68,10 +61,6 @@ class ShortListEmployees(generics.ListAPIView):
         "name",
         "email",
     )
-
-    @method_decorator(cache_page(60 * 5))
-    def dispatch(self, *args, **kwargs):
-        return super(ShortListEmployees, self).dispatch(*args, **kwargs)
 
 
 class CreateProfile(generics.CreateAPIView):
@@ -119,10 +108,6 @@ class NotificationViewSet(ModelViewSet):
             .order_by("-created_at")
             .annotate(unseen=Count("seen", filter=Q(seen=False)))
         )
-
-    @method_decorator(cache_page(15))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
 
 class StatusView(generics.RetrieveAPIView):
