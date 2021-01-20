@@ -140,6 +140,8 @@ export default {
           user_rating: goal.user_rating,
 
           MID_user_comments: goal.MID_user_comments,
+          MID_manager_comments: goal.MID_manager_comments,
+
           tracking_status: goal.tracking_status,
           kpi_set: goal.kpi_set,
         })

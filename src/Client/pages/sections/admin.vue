@@ -34,7 +34,7 @@
             <v-tab class="justify-start">MID-YEAR REVIEW</v-tab>
             <v-tab class="justify-start">YEAR-END REVIEW</v-tab>
             <v-tab class="justify-start">REPORTS</v-tab>
-            <v-tab class="justify-start">CALIBRATION</v-tab>
+            <v-tab class="justify-start">Training/Competency Summary</v-tab>
 
             <v-tab-item>
               <v-card flat>
@@ -309,7 +309,7 @@
             <v-tab-item>
               <v-card flat>
                 <v-card-title>
-                  Goal Setting Stage Employees Appraisals
+                  REPORTSStage Employees Appraisals
                   <v-spacer></v-spacer>
                   <v-text-field
                     v-model="search"
@@ -388,7 +388,7 @@
             <v-tab-item>
               <v-card flat>
                 <v-card-title>
-                  Goal Setting Stage Employees Appraisals
+                  Training/Competency Summary Stage Employees Appraisals
                   <v-spacer></v-spacer>
                   <v-text-field
                     v-model="search"

@@ -356,7 +356,9 @@
                   <v-tab class="justify-start">MID-YEAR REVIEW</v-tab>
                   <v-tab class="justify-start">YEAR-END REVIEW</v-tab>
                   <v-tab class="justify-start">REPORTS</v-tab>
-                  <v-tab class="justify-start">CALBRATION</v-tab>
+                  <v-tab class="justify-start"
+                    >Training/Competency Summary</v-tab
+                  >
                   <v-tab class="justify-start">LOGS</v-tab>
 
                   <!-- GOALS LAUNCHING -->
