@@ -157,8 +157,23 @@
           @close="changeStatusDialog = false"
           @reload="$fetch"
         />
+        <AdminCreateAppraisal
+          v-if="createAppraisalDialog"
+          :dialog="createAppraisalDialog"
+          @close="createAppraisalDialog = false"
+          @reload="$fetch"
+        />
       </div>
+<<<<<<< HEAD
       <v-card-title>Manage Employees Appraisals </v-card-title>
+=======
+      <v-card-title>
+        Employees Appraisals <v-spacer></v-spacer>
+        <v-btn color="primary" @click="createAppraisalDialog = true">
+          <v-icon>mdi-plus</v-icon></v-btn
+        >
+      </v-card-title>
+>>>>>>> 56ffd4c47acdf651fc7f87c21a807c86b7f9d515
 
       <v-card-text>
         <div class="my-5">
@@ -678,6 +693,7 @@ export default {
   },
   data() {
     return {
+      createAppraisalDialog: false,
       showAppraisalDialog: false,
       changeStatusDialog: false,
       editdialog: false,

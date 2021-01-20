@@ -10,10 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/src/Server/manage.py",
             "cwd": "${workspaceFolder}/src/Server",
-            "args": [
-                "runserver_plus",
-                "127.0.0.1:8000"
-            ],
+            "args": ["runserver_plus", "127.0.0.1:8000"],
             "envFile": "${workspaceFolder}/src/Server/.env",
             "django": true
         }

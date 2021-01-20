@@ -242,7 +242,7 @@ export default {
     changeStage() {
       this.$axios
         .$patch(
-          `api/appraisals/admin/${this.appraisal.id}`,
+          `api/appraisals/admin/${this.appraisal.id}/`,
           this.currentStage.status
         )
         .then(() => {
@@ -267,7 +267,7 @@ export default {
 
     changeManager() {
       this.$axios
-        .$patch(`api/appraisals/admin/${this.appraisal.id}`, {
+        .$patch(`api/appraisals/admin/${this.appraisal.id}/`, {
           manager: this.currentSupervisor.id,
         })
         .then(() => {
