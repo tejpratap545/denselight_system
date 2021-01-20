@@ -45,8 +45,7 @@ services:
     depends_on:
       - postgres
       - mailhog
-      - rabbitmq
-      - redis
+
     volumes:
       - ./src/Server:/app
     env_file:
