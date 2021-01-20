@@ -29,10 +29,6 @@ class DepartmentViewSet(ModelViewSet):
     serializer_class = DepartmentSerializer
     queryset = Departments.objects.all()
 
-    @method_decorator(cache_page(60 * 2))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
 
 class ListEmployees(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
