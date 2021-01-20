@@ -34,7 +34,11 @@ class ListEmployees(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = EmployeeSerializer
     queryset = Profile.objects.prefetch_related(
-        "first_Reporting_Manager", "department", "first_Reporting_Manager__department"
+        "first_Reporting_Manager",
+        "department",
+        "first_Reporting_Manager__department",
+        "second_Reporting_Manager",
+        "second_Reporting_Manager__department",
     ).only(
         "id",
         "name",
