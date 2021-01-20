@@ -8,6 +8,139 @@
   <div v-else-if="$fetchState.error">An error occurred</div>
 
   <div v-else>
+    <v-card class="my-5">
+      <div>
+        <v-dialog
+          v-model="editdialog"
+          v-if="editdialog"
+          persistent
+          max-width="500"
+        >
+          <v-card>
+            <v-card-title class="headline"> Category dialog</v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model="category_text"
+                label="Category name"
+              ></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="close"> Cancel </v-btn>
+              <v-btn color="green darken-1" text @click="submit">
+                Submit
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+
+      <v-card-title>Manage Categories </v-card-title>
+      <v-card-text>
+        <div class="my-5">
+          <v-tabs background-color="transparent" color="#2952A4">
+            <v-tab class="justify-start">GOAL CATEGORIES</v-tab>
+            <v-tab class="justify-start">SKILL CATEGORIES</v-tab>
+            <v-tab class="justify-start">CORE VALUES CATEGORIES</v-tab>
+
+            <v-tab-item>
+              <div style="display: flex; justify-content: flex-end">
+                <v-btn @click="editdialogDialog('', 'goal', 0)" icon>
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </div>
+              <v-data-table
+                :headers="categories_header"
+                :items="categories_data_goals"
+                :items-per-page="10"
+              >
+                <template v-slot:[`item.edit`]="{ item }">
+                  <v-btn
+                    @click="editdialogDialog(item.name, 'goal', item.id)"
+                    color="green lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-pencil-circle</v-icon>
+                  </v-btn>
+                </template>
+                <template v-slot:[`item.remove`]="{ item }">
+                  <v-btn
+                    @click="remove_category('goal', item.id)"
+                    color="red lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
+            </v-tab-item>
+            <v-tab-item>
+              <div style="display: flex; justify-content: flex-end">
+                <v-btn @click="editdialogDialog('', 'skill', 0)" icon>
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </div>
+              <v-data-table
+                :headers="categories_header"
+                :items="categories_data_skills"
+                :items-per-page="10"
+              >
+                <template v-slot:[`item.edit`]="{}">
+                  <v-btn
+                    @click="editdialogDialog(item.name, 'skill', item.id)"
+                    color="green lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-pencil-circle</v-icon>
+                  </v-btn>
+                </template>
+                <template v-slot:[`item.remove`]="{ item }">
+                  <v-btn
+                    @click="remove_category('skill', item.id)"
+                    color="red lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
+            </v-tab-item>
+            <v-tab-item>
+              <div style="display: flex; justify-content: flex-end">
+                <v-btn @click="editdialogDialog('', 'competency', 0)" icon>
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </div>
+              <v-data-table
+                :headers="categories_header"
+                :items="categories_data_corevalues"
+                :items-per-page="10"
+              >
+                <template v-slot:[`item.edit`]="{}">
+                  <v-btn
+                    @click="editdialogDialog(item.name, 'competency', item.id)"
+                    color="green lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-pencil-circle</v-icon>
+                  </v-btn>
+                </template>
+                <template v-slot:[`item.remove`]="{ item }">
+                  <v-btn
+                    @click="remove_category('competency', item.id)"
+                    color="red lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
+            </v-tab-item>
+          </v-tabs>
+        </div>
+      </v-card-text>
+    </v-card>
+
     <v-card>
       <div>
         <AppraisalAdmin
@@ -25,7 +158,7 @@
           @reload="$fetch"
         />
       </div>
-      <v-card-title> Employees Appraisals </v-card-title>
+      <v-card-title>Manage Employees Appraisals </v-card-title>
 
       <v-card-text>
         <div class="my-5">
@@ -80,12 +213,12 @@
                         mdi-checkbox-marked-circle-outline</v-icon
                       >
                     </template>
-                    <template v-slot:[`item.stage_2`]="{ item }">
+                    <template v-slot:[`item.stage_2`]="{}">
                       <v-icon indeterminate color="primary">
                         mdi-account-clock</v-icon
                       >
                     </template>
-                    <template v-slot:[`item.stage_3`]="{ item }">
+                    <template v-slot:[`item.stage_3`]="{}">
                       <v-icon indeterminate color="primary">
                         mdi-account-clock</v-icon
                       >
@@ -180,7 +313,7 @@
                         mdi-cancel
                       </v-icon>
                     </template>
-                    <template v-slot:[`item.stage_3`]="{ item }">
+                    <template v-slot:[`item.stage_3`]="{}">
                       <v-icon indeterminate color="primary">
                         mdi-account-clock</v-icon
                       >
@@ -481,6 +614,10 @@ export default {
     this.endYearTableItems = []
     this.reportsTableItems = []
     this.calibrationTableItems = []
+    this.categories_data_goals = []
+    this.categories_data_skills = []
+    this.categories_data_corevalues = []
+
     await this.$axios.$get('/api/appraisals/list/admin').then((res) => {
       res.forEach((appraisal) => {
         const tableData = {
@@ -528,12 +665,24 @@ export default {
         }
       })
     })
+
+    await this.$axios
+      .$get('/api/category/goal/')
+      .then((res) => (this.categories_data_goals = res))
+    await this.$axios
+      .$get('/api/category/skill/')
+      .then((res) => (this.categories_data_skills = res))
+    await this.$axios
+      .$get('/api/category/competency/')
+      .then((res) => (this.categories_data_corevalues = res))
   },
   data() {
     return {
       showAppraisalDialog: false,
       changeStatusDialog: false,
+      editdialog: false,
       currentAppraisalId: 0,
+
       goalsLaunchingTableItems: [],
       midYearTableItems: [],
       endYearTableItems: [],
@@ -542,6 +691,10 @@ export default {
       appraisalList: '',
 
       search: '',
+      current_dialog: '',
+      category_text: '',
+      category_id: 0,
+
       currentAppraisal: {},
       headers: [
         {
@@ -578,6 +731,23 @@ export default {
           value: 'actions',
         },
       ],
+      categories_header: [
+        {
+          text: 'Name',
+          value: 'name',
+        },
+        {
+          text: 'Edit',
+          value: 'edit',
+        },
+        {
+          text: 'Remove',
+          value: 'remove',
+        },
+      ],
+      categories_data_goals: [],
+      categories_data_skills: [],
+      categories_data_corevalues: [],
     }
   },
   methods: {
@@ -598,6 +768,74 @@ export default {
         employee: appraisal.employee,
       }
       this.changeStatusDialog = true
+    },
+    remove_category(type, id) {
+      this.$axios
+        .$delete(`/api​/category​/${type}/${id}/`)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Successfully deleted category',
+            color: 'info',
+          })
+          this.$fetch()
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error deleting category',
+            color: 'error',
+          })
+          console.log(error)
+        })
+    },
+    editdialogDialog(text, type, id) {
+      this.category_text = text
+      this.category_id = id
+      this.current_dialog = type
+      this.editdialog = true
+    },
+    close() {
+      this.editdialog = false
+    },
+    submit() {
+      if (this.category_id != 0) {
+        this.$axios
+          .$patch(`/api/category/${this.current_dialog}/${this.category_id}/`, {
+            name: this.category_text,
+          })
+          .then((res) => {
+            this.close()
+            this.$notifier.showMessage({
+              content: 'Success changing category',
+              color: 'info',
+            })
+            this.$fetch()
+          })
+          .catch((error) => {
+            this.$notifier.showMessage({
+              content: 'Error changing category',
+              color: 'error',
+            })
+          })
+      } else {
+        this.$axios
+          .$post(`/api/category/${this.current_dialog}/`, {
+            name: this.category_text,
+          })
+          .then((res) => {
+            this.close()
+            this.$notifier.showMessage({
+              content: 'Success creating category',
+              color: 'info',
+            })
+            this.$fetch()
+          })
+          .catch((error) => {
+            this.$notifier.showMessage({
+              content: 'Error creating category',
+              color: 'error',
+            })
+          })
+      }
     },
   },
 }

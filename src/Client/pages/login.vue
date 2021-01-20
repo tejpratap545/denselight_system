@@ -110,7 +110,7 @@ export default {
 .login-container {
   width: 100%;
   max-width: 450px;
-  height: 500px;
+  height: 600px;
   padding: 30px;
   border-radius: 8px;
   background: #fff;
