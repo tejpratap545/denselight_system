@@ -175,9 +175,7 @@
                       max-width="800"
                     >
                       <template v-slot:activator="{ on, attrs }">
-                        <v-btn icon v-bind="attrs" v-on="on">
-                          <v-icon>mdi-plus</v-icon>
-                        </v-btn>
+                        <v-btn icon v-bind="attrs" v-on="on"> Add KPI </v-btn>
                       </template>
 
                       <v-card>
@@ -640,8 +638,6 @@ export default {
         }
 
         const appraisal = await this.$axios.$post(`api/KPI/create`, data)
-
-        goal.kpi_dialog = false
         this.reload()
       } catch (error) {
         console.log(error)
