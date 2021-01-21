@@ -331,7 +331,7 @@ export default {
 
       this.departments = await this.$axios.$get('/api/department/')
 
-      this.categories = await this.$axios.$get('/api/category/appraisal/')
+      //  this.categories = await this.$axios.$get('/api/category/appraisal/')
     } catch (error) {
       console.log(error)
     }
@@ -341,7 +341,20 @@ export default {
       dialog: false,
       e1: 1,
       employees: [],
-      categories: [],
+      categories: [
+        {
+          id: 1,
+          name: 'Goal Setting stage',
+        },
+        {
+          id: 2,
+          name: 'Mid Year stage',
+        },
+        {
+          id: 3,
+          name: 'End Year stage',
+        },
+      ],
       departments: [],
       appraisal_for: '',
       selected_data: [],
