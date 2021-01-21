@@ -175,7 +175,9 @@
                       max-width="800"
                     >
                       <template v-slot:activator="{ on, attrs }">
-                        <v-btn icon v-bind="attrs" v-on="on"> Add KPI </v-btn>
+                        <v-btn color="success" text v-bind="attrs" v-on="on">
+                          Add KPI
+                        </v-btn>
                       </template>
 
                       <v-card>
