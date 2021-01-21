@@ -8,139 +8,6 @@
   <div v-else-if="$fetchState.error">An error occurred</div>
 
   <div v-else>
-    <v-card class="my-5">
-      <div>
-        <v-dialog
-          v-model="editdialog"
-          v-if="editdialog"
-          persistent
-          max-width="500"
-        >
-          <v-card>
-            <v-card-title class="headline"> Category dialog</v-card-title>
-            <v-card-text>
-              <v-text-field
-                v-model="category_text"
-                label="Category name"
-              ></v-text-field>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="green darken-1" text @click="close"> Cancel </v-btn>
-              <v-btn color="green darken-1" text @click="submit">
-                Submit
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </div>
-
-      <v-card-title>Manage Categories </v-card-title>
-      <v-card-text>
-        <div class="my-5">
-          <v-tabs background-color="transparent" color="#2952A4">
-            <v-tab class="justify-start">GOAL CATEGORIES</v-tab>
-            <v-tab class="justify-start">SKILL CATEGORIES</v-tab>
-            <v-tab class="justify-start">CORE VALUES CATEGORIES</v-tab>
-
-            <v-tab-item>
-              <div style="display: flex; justify-content: flex-end">
-                <v-btn @click="editdialogDialog('', 'goal', 0)" icon>
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </div>
-              <v-data-table
-                :headers="categories_header"
-                :items="categories_data_goals"
-                :items-per-page="10"
-              >
-                <template v-slot:[`item.edit`]="{ item }">
-                  <v-btn
-                    @click="editdialogDialog(item.name, 'goal', item.id)"
-                    color="green lighten-1"
-                    icon
-                  >
-                    <v-icon>mdi-pencil-circle</v-icon>
-                  </v-btn>
-                </template>
-                <template v-slot:[`item.remove`]="{ item }">
-                  <v-btn
-                    @click="remove_category('goal', item.id)"
-                    color="red lighten-1"
-                    icon
-                  >
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </template>
-              </v-data-table>
-            </v-tab-item>
-            <v-tab-item>
-              <div style="display: flex; justify-content: flex-end">
-                <v-btn @click="editdialogDialog('', 'skill', 0)" icon>
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </div>
-              <v-data-table
-                :headers="categories_header"
-                :items="categories_data_skills"
-                :items-per-page="10"
-              >
-                <template v-slot:[`item.edit`]="{}">
-                  <v-btn
-                    @click="editdialogDialog(item.name, 'skill', item.id)"
-                    color="green lighten-1"
-                    icon
-                  >
-                    <v-icon>mdi-pencil-circle</v-icon>
-                  </v-btn>
-                </template>
-                <template v-slot:[`item.remove`]="{ item }">
-                  <v-btn
-                    @click="remove_category('skill', item.id)"
-                    color="red lighten-1"
-                    icon
-                  >
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </template>
-              </v-data-table>
-            </v-tab-item>
-            <v-tab-item>
-              <div style="display: flex; justify-content: flex-end">
-                <v-btn @click="editdialogDialog('', 'competency', 0)" icon>
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </div>
-              <v-data-table
-                :headers="categories_header"
-                :items="categories_data_corevalues"
-                :items-per-page="10"
-              >
-                <template v-slot:[`item.edit`]="{}">
-                  <v-btn
-                    @click="editdialogDialog(item.name, 'competency', item.id)"
-                    color="green lighten-1"
-                    icon
-                  >
-                    <v-icon>mdi-pencil-circle</v-icon>
-                  </v-btn>
-                </template>
-                <template v-slot:[`item.remove`]="{ item }">
-                  <v-btn
-                    @click="remove_category('competency', item.id)"
-                    color="red lighten-1"
-                    icon
-                  >
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </template>
-              </v-data-table>
-            </v-tab-item>
-          </v-tabs>
-        </div>
-      </v-card-text>
-    </v-card>
-
     <v-card>
       <div>
         <AppraisalAdmin
@@ -613,6 +480,139 @@
         </div>
       </v-card-text>
     </v-card>
+
+    <v-card class="my-5">
+      <div>
+        <v-dialog
+          v-model="editdialog"
+          v-if="editdialog"
+          persistent
+          max-width="500"
+        >
+          <v-card>
+            <v-card-title class="headline"> Category dialog</v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model="category_text"
+                label="Category name"
+              ></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="close"> Cancel </v-btn>
+              <v-btn color="green darken-1" text @click="submit">
+                Submit
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+
+      <v-card-title>Manage Categories </v-card-title>
+      <v-card-text>
+        <div class="my-5">
+          <v-tabs background-color="transparent" color="#2952A4">
+            <v-tab class="justify-start">GOAL CATEGORIES</v-tab>
+            <v-tab class="justify-start">SKILL CATEGORIES</v-tab>
+            <v-tab class="justify-start">CORE VALUES CATEGORIES</v-tab>
+
+            <v-tab-item>
+              <div style="display: flex; justify-content: flex-end">
+                <v-btn @click="editdialogDialog('', 'goal', 0)" icon>
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </div>
+              <v-data-table
+                :headers="categories_header"
+                :items="categories_data_goals"
+                :items-per-page="10"
+              >
+                <template v-slot:[`item.edit`]="{ item }">
+                  <v-btn
+                    @click="editdialogDialog(item.name, 'goal', item.id)"
+                    color="green lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-pencil-circle</v-icon>
+                  </v-btn>
+                </template>
+                <template v-slot:[`item.remove`]="{ item }">
+                  <v-btn
+                    @click="remove_category('goal', item.id)"
+                    color="red lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
+            </v-tab-item>
+            <v-tab-item>
+              <div style="display: flex; justify-content: flex-end">
+                <v-btn @click="editdialogDialog('', 'skill', 0)" icon>
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </div>
+              <v-data-table
+                :headers="categories_header"
+                :items="categories_data_skills"
+                :items-per-page="10"
+              >
+                <template v-slot:[`item.edit`]="{}">
+                  <v-btn
+                    @click="editdialogDialog(item.name, 'skill', item.id)"
+                    color="green lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-pencil-circle</v-icon>
+                  </v-btn>
+                </template>
+                <template v-slot:[`item.remove`]="{ item }">
+                  <v-btn
+                    @click="remove_category('skill', item.id)"
+                    color="red lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
+            </v-tab-item>
+            <v-tab-item>
+              <div style="display: flex; justify-content: flex-end">
+                <v-btn @click="editdialogDialog('', 'competency', 0)" icon>
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </div>
+              <v-data-table
+                :headers="categories_header"
+                :items="categories_data_corevalues"
+                :items-per-page="10"
+              >
+                <template v-slot:[`item.edit`]="{}">
+                  <v-btn
+                    @click="editdialogDialog(item.name, 'competency', item.id)"
+                    color="green lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-pencil-circle</v-icon>
+                  </v-btn>
+                </template>
+                <template v-slot:[`item.remove`]="{ item }">
+                  <v-btn
+                    @click="remove_category('competency', item.id)"
+                    color="red lighten-1"
+                    icon
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
+            </v-tab-item>
+          </v-tabs>
+        </div>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
@@ -784,7 +784,7 @@ export default {
     },
     remove_category(type, id) {
       this.$axios
-        .$delete(`/api​/category​/${type}/${id}/`)
+        .$delete(`/api/category/${type}/${id}/`)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Successfully deleted category',
