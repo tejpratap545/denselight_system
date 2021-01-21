@@ -170,7 +170,7 @@
                                             <v-btn
                                               color="primary"
                                               fab
-                                              @click="item.dialog = false"
+                                              @click="sendComment(item)"
                                               ><v-icon>mdi-send-outline</v-icon>
                                             </v-btn>
                                           </div>
@@ -435,7 +435,7 @@ export default {
       appraisal.goals_set.forEach((goal) => {
         data.goals.push({
           id: goal.id,
-          category: 'Organization Effectivness',
+          category: goal.goal_category.name,
           goal_title: goal.summary,
           due: goal.due,
           weightage: `${goal.weightage}%`,
@@ -582,6 +582,25 @@ export default {
         })
         .finally(() => {
           this.rejectionDialog = false
+        })
+    },
+    sendComment(item) {
+      this.$axios
+        .patch(`api/goal/${item.id}`, {
+          goal_manager_comment: item.goal_manager_comment,
+        })
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Success commenting',
+            color: 'info',
+          })
+          this.$fetch()
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error commenting',
+            color: 'error',
+          })
         })
     },
   },

@@ -11,8 +11,8 @@
     <v-card class="my-5">
       <div>
         <v-dialog
-          v-model="editdialog"
           v-if="editdialog"
+          v-model="editdialog"
           persistent
           max-width="500"
         >
@@ -45,7 +45,7 @@
 
             <v-tab-item>
               <div style="display: flex; justify-content: flex-end">
-                <v-btn @click="editdialogDialog('', 'goal', 0)" icon>
+                <v-btn icon @click="editdialogDialog('', 'goal', 0)">
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </div>
@@ -56,18 +56,18 @@
               >
                 <template v-slot:[`item.edit`]="{ item }">
                   <v-btn
-                    @click="editdialogDialog(item.name, 'goal', item.id)"
                     color="green lighten-1"
                     icon
+                    @click="editdialogDialog(item.name, 'goal', item.id)"
                   >
                     <v-icon>mdi-pencil-circle</v-icon>
                   </v-btn>
                 </template>
                 <template v-slot:[`item.remove`]="{ item }">
                   <v-btn
-                    @click="remove_category('goal', item.id)"
                     color="red lighten-1"
                     icon
+                    @click="remove_category('goal', item.id)"
                   >
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
@@ -76,7 +76,7 @@
             </v-tab-item>
             <v-tab-item>
               <div style="display: flex; justify-content: flex-end">
-                <v-btn @click="editdialogDialog('', 'skill', 0)" icon>
+                <v-btn icon @click="editdialogDialog('', 'skill', 0)">
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </div>
@@ -87,18 +87,18 @@
               >
                 <template v-slot:[`item.edit`]="{}">
                   <v-btn
-                    @click="editdialogDialog(item.name, 'skill', item.id)"
                     color="green lighten-1"
                     icon
+                    @click="editdialogDialog(item.name, 'skill', item.id)"
                   >
                     <v-icon>mdi-pencil-circle</v-icon>
                   </v-btn>
                 </template>
                 <template v-slot:[`item.remove`]="{ item }">
                   <v-btn
-                    @click="remove_category('skill', item.id)"
                     color="red lighten-1"
                     icon
+                    @click="remove_category('skill', item.id)"
                   >
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
@@ -107,7 +107,7 @@
             </v-tab-item>
             <v-tab-item>
               <div style="display: flex; justify-content: flex-end">
-                <v-btn @click="editdialogDialog('', 'competency', 0)" icon>
+                <v-btn icon @click="editdialogDialog('', 'competency', 0)">
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </div>
@@ -118,18 +118,18 @@
               >
                 <template v-slot:[`item.edit`]="{}">
                   <v-btn
-                    @click="editdialogDialog(item.name, 'competency', item.id)"
                     color="green lighten-1"
                     icon
+                    @click="editdialogDialog(item.name, 'competency', item.id)"
                   >
                     <v-icon>mdi-pencil-circle</v-icon>
                   </v-btn>
                 </template>
                 <template v-slot:[`item.remove`]="{ item }">
                   <v-btn
-                    @click="remove_category('competency', item.id)"
                     color="red lighten-1"
                     icon
+                    @click="remove_category('competency', item.id)"
                   >
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
