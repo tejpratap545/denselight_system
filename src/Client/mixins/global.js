@@ -5,7 +5,7 @@ export default {
             // goals status
 
             if (overallAppraisalStatus === 'Stage 1' && appraisalStatus === 'Employee') {
-                return 'Goals Setting Stage Pending Employee Goal Submission'
+                return 'Goals Setting Stage Pending Employee Goals Submission'
             } else if (overallAppraisalStatus === 'Stage 1' && appraisalStatus === 'Manager') {
                 return 'Goals Setting Stage Pending Manager/Supervisor Gaols Approved'
             } else if (

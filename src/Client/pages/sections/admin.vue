@@ -623,7 +623,7 @@
           max-width="500"
         >
           <v-card>
-            <v-card-title class="headline"> Category dialog</v-card-title>
+            <v-card-title class="headline">Edit category</v-card-title>
             <v-card-text>
               <v-text-field
                 v-model="category_text"
@@ -635,6 +635,25 @@
               <v-btn color="green darken-1" text @click="close"> Cancel </v-btn>
               <v-btn color="green darken-1" text @click="submit">
                 Submit
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog
+          v-if="deletedialog"
+          v-model="deletedialog"
+          persistent
+          max-width="500"
+        >
+          <v-card>
+            <v-card-title class="headline"> Delete category</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="deletedialog = false">
+                Cancel
+              </v-btn>
+              <v-btn color="red darken-1" text @click="remove_category">
+                Delete
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -827,6 +846,7 @@ export default {
       showAppraisalDialog: false,
       changeStatusDialog: false,
       editdialog: false,
+      deletedialog: false,
       currentAppraisalId: 0,
 
       goalsLaunchingTableItems: [],
@@ -915,15 +935,21 @@ export default {
       }
       this.changeStatusDialog = true
     },
-    remove_category(type, id) {
+    deletedialogDialog(type, id) {
+      this.category_id = id
+      this.current_dialog = type
+      this.deletedialog = true
+    },
+    remove_category() {
       this.$axios
-        .$delete(`/api/category/${type}/${id}/`)
+        .$delete(`/api/category/${this.current_dialog}/${this.category_id}/`)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Successfully deleted category',
             color: 'info',
           })
           this.$fetch()
+          this.deletedialog = false
         })
         .catch((error) => {
           this.$notifier.showMessage({
