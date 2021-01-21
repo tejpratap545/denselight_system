@@ -490,7 +490,7 @@
           max-width="500"
         >
           <v-card>
-            <v-card-title class="headline"> Category dialog</v-card-title>
+            <v-card-title class="headline">Edit category</v-card-title>
             <v-card-text>
               <v-text-field
                 v-model="category_text"
@@ -513,7 +513,7 @@
           max-width="500"
         >
           <v-card>
-            <v-card-title class="headline"> Delete dialog</v-card-title>
+            <v-card-title class="headline"> Delete category</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="green darken-1" text @click="deletedialog = false">
