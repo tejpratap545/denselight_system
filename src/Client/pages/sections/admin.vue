@@ -506,6 +506,25 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog
+          v-model="deletedialog"
+          v-if="deletedialog"
+          persistent
+          max-width="500"
+        >
+          <v-card>
+            <v-card-title class="headline"> Delete dialog</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="deletedialog = false">
+                Cancel
+              </v-btn>
+              <v-btn color="red darken-1" text @click="remove_category">
+                Delete
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </div>
 
       <v-card-title>Manage Categories </v-card-title>
@@ -538,7 +557,7 @@
                 </template>
                 <template v-slot:[`item.remove`]="{ item }">
                   <v-btn
-                    @click="remove_category('goal', item.id)"
+                    @click="deletedialogDialog('goal', item.id)"
                     color="red lighten-1"
                     icon
                   >
@@ -558,7 +577,7 @@
                 :items="categories_data_skills"
                 :items-per-page="10"
               >
-                <template v-slot:[`item.edit`]="{item}">
+                <template v-slot:[`item.edit`]="{ item }">
                   <v-btn
                     @click="editdialogDialog(item.name, 'skill', item.id)"
                     color="green lighten-1"
@@ -569,7 +588,7 @@
                 </template>
                 <template v-slot:[`item.remove`]="{ item }">
                   <v-btn
-                    @click="remove_category('skill', item.id)"
+                    @click="deletedialogDialog('skill', item.id)"
                     color="red lighten-1"
                     icon
                   >
@@ -589,7 +608,7 @@
                 :items="categories_data_corevalues"
                 :items-per-page="10"
               >
-                <template v-slot:[`item.edit`]="{item}">
+                <template v-slot:[`item.edit`]="{ item }">
                   <v-btn
                     @click="editdialogDialog(item.name, 'competency', item.id)"
                     color="green lighten-1"
@@ -600,7 +619,7 @@
                 </template>
                 <template v-slot:[`item.remove`]="{ item }">
                   <v-btn
-                    @click="remove_category('competency', item.id)"
+                    @click="deletedialogDialog('competency', item.id)"
                     color="red lighten-1"
                     icon
                   >
@@ -694,6 +713,7 @@ export default {
       showAppraisalDialog: false,
       changeStatusDialog: false,
       editdialog: false,
+      deletedialog: false,
       currentAppraisalId: 0,
 
       goalsLaunchingTableItems: [],
@@ -782,15 +802,21 @@ export default {
       }
       this.changeStatusDialog = true
     },
-    remove_category(type, id) {
+    deletedialogDialog(type, id) {
+      this.category_id = id
+      this.current_dialog = type
+      this.deletedialog = true
+    },
+    remove_category() {
       this.$axios
-        .$delete(`/api/category/${type}/${id}/`)
+        .$delete(`/api/category/${this.current_dialog}/${this.category_id}/`)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Successfully deleted category',
             color: 'info',
           })
           this.$fetch()
+          this.deletedialog = false
         })
         .catch((error) => {
           this.$notifier.showMessage({
