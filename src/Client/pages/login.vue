@@ -9,7 +9,7 @@
       </v-col>
 
       <v-col cols="12" sm="5" md="4" lg="3" class="pa-5 pa-sm-10">
-        <h1 class="mb-4 font-weight-light text-center">Hunet E-PMP</h1>
+        <h1 class="mb-4 font-weight-light text-center">Denselight E-PMP</h1>
         <h3 class="my-8 font-weight-light text-center">{{ supervisor }}</h3>
 
         <v-form ref="form" lazy-validation @submit.prevent="logIn">
