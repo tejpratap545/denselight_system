@@ -558,7 +558,7 @@
                 :items="categories_data_skills"
                 :items-per-page="10"
               >
-                <template v-slot:[`item.edit`]="{}">
+                <template v-slot:[`item.edit`]="{item}">
                   <v-btn
                     @click="editdialogDialog(item.name, 'skill', item.id)"
                     color="green lighten-1"
@@ -589,7 +589,7 @@
                 :items="categories_data_corevalues"
                 :items-per-page="10"
               >
-                <template v-slot:[`item.edit`]="{}">
+                <template v-slot:[`item.edit`]="{item}">
                   <v-btn
                     @click="editdialogDialog(item.name, 'competency', item.id)"
                     color="green lighten-1"
