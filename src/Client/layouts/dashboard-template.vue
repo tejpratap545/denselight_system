@@ -10,10 +10,11 @@
           <v-list-item-avatar>
             <img
               :src="
-                profile_Profile
-                  ? profile_Profile
-                  : `https://avatars.dicebear.com/api/identicon/${id}.svg`
+                $auth.user.profile_Picture
+                  ? $auth.user.profile_Picture
+                  : `https://avatars.dicebear.com/api/identicon/${this.$auth.user.id}.svg`
               "
+              alt="profile"
             />
           </v-list-item-avatar>
 
