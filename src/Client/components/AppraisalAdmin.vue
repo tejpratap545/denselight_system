@@ -446,16 +446,6 @@
                         <v-row>
                           <v-col>User rating</v-col>
                           <v-col>
-                            <v-rating
-                              background-color="grey lighten-2"
-                              color="primary"
-                              length="5"
-                              size="30"
-                              :value="item.user_rating"
-                              dense
-                              readonly
-                            ></v-rating>
-                            <br />
                             {{ ratingName(item.user_rating) }}</v-col
                           >
                         </v-row>

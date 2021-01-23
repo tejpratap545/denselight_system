@@ -76,21 +76,7 @@
                     </v-row>
                     <v-row>
                       <v-col>Employee Self rating</v-col>
-                      <v-col>
-                        <v-rating
-                          v-model="item.user_rating"
-                          background-color="grey lighten-2"
-                          color="primary"
-                          length="5"
-                          size="30"
-                          value="1"
-                          dense
-                          hover
-                          readonly
-                        ></v-rating>
-                        <br />
-                        {{ ratingName(item.user_rating) }}</v-col
-                      >
+                      <v-col> {{ ratingName(item.user_rating) }}</v-col>
                     </v-row>
                     <v-row>
                       <v-col>End Year Employee Comment</v-col>
@@ -101,17 +87,11 @@
                     <v-row>
                       <v-col>Manager rating</v-col>
                       <v-col>
-                        <v-rating
+                        <v-text-field
                           v-model="item.manager_rating"
-                          background-color="grey lighten-2"
-                          color="primary"
-                          length="5"
-                          size="30"
-                          value="1"
-                          dense
-                          hover
-                        ></v-rating>
-                        <br />
+                          label="Manager rating"
+                          prepend-icon="mdi-star-half-full"
+                        ></v-text-field>
                         {{ ratingName(item.manager_rating) }}</v-col
                       >
                     </v-row>

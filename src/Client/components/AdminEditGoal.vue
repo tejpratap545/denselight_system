@@ -93,16 +93,11 @@
           <v-row>
             <v-col>Employee Self rating</v-col>
             <v-col>
-              <v-rating
+              <v-text-field
                 v-model="goal.user_rating"
-                background-color="grey lighten-2"
-                color="primary"
-                length="5"
-                size="30"
-                value="1"
-                dense
-                hover
-              ></v-rating>
+                label="Employee rating"
+                prepend-icon="mdi-star-half-full"
+              ></v-text-field>
               <br />
               {{ ratingName(goal.user_rating) }}</v-col
             >
@@ -116,16 +111,11 @@
           <v-row>
             <v-col>Manager rating</v-col>
             <v-col>
-              <v-rating
+               <v-text-field
                 v-model="goal.manager_rating"
-                background-color="grey lighten-2"
-                color="primary"
-                length="5"
-                size="30"
-                value="1"
-                dense
-                hover
-              ></v-rating>
+                label="Manager rating"
+                prepend-icon="mdi-star-half-full"
+              ></v-text-field>
               <br />
               {{ ratingName(goal.manager_rating) }}</v-col
             >

@@ -67,16 +67,11 @@
                     <v-row>
                       <v-col>Employee Self rating</v-col>
                       <v-col>
-                        <v-rating
+                        <v-text-field
                           v-model="item.user_rating"
-                          background-color="grey lighten-2"
-                          color="primary"
-                          length="5"
-                          size="30"
-                          value="1"
-                          dense
-                          hover
-                        ></v-rating>
+                          label="Employee Self rating"
+                          prepend-icon="mdi-star-half-full"
+                        ></v-text-field>
                         <br />
                         {{ ratingName(item.user_rating) }}</v-col
                       >
