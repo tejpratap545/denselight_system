@@ -489,7 +489,6 @@ export default {
             content: 'Successfully Submitted the goals ',
             color: 'info',
           })
-          this.close()
           this.$emit('reload')
         })
         .catch((error) => {

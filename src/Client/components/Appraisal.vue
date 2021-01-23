@@ -258,8 +258,10 @@ import global from '~/mixins/global'
 export default {
   name: 'Appraisal',
   mixins: [global],
-  props: { appraisalId: Number, isEditable: { type: Boolean, default: false } },
+  props: { appraisalId: Number, isEditable: { default: false } },
   async fetch() {
+    this.appraisal = {}
+    this.goals = []
     await this.$axios
       .$get(`api/appraisals/detail/${this.appraisalId}`)
       .then((res) => {
@@ -369,6 +371,7 @@ export default {
               content: 'Success commenting',
               color: 'info',
             })
+            this.newComment = ''
             this.reload()
           })
           .catch((error) => {
@@ -388,6 +391,7 @@ export default {
               content: 'Success commenting',
               color: 'info',
             })
+            this.newComment = ''
             this.reload()
           })
           .catch((error) => {
@@ -407,6 +411,7 @@ export default {
               content: 'Success commenting',
               color: 'info',
             })
+            this.newComment = ''
             this.reload()
           })
           .catch((error) => {
