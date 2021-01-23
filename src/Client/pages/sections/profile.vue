@@ -7,8 +7,8 @@
             <div class="profile-panel">
               <img
                 :src="
-                  profile.profile_Profile
-                    ? profile.profile_Profile
+                  profile.profile_Picture
+                    ? profile.profile_Picture
                     : `https://avatars.dicebear.com/api/identicon/${this.$auth.user.id}.svg`
                 "
                 alt="profile"
