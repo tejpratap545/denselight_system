@@ -93,11 +93,12 @@
           <v-row>
             <v-col>Employee Self rating</v-col>
             <v-col>
-              <v-text-field
-                v-model="goal.user_rating"
-                label="Employee rating"
-                prepend-icon="mdi-star-half-full"
-              ></v-text-field>
+               <v-select v-model="goal.user_rating"
+                :items="ratings"
+                item-text="name"
+                item-value="value"
+               >
+              </v-select>
               <br />
               {{ ratingName(goal.user_rating) }}</v-col
             >
@@ -111,11 +112,11 @@
           <v-row>
             <v-col>Manager rating</v-col>
             <v-col>
-               <v-text-field
-                v-model="goal.manager_rating"
-                label="Manager rating"
-                prepend-icon="mdi-star-half-full"
-              ></v-text-field>
+              <v-select v-model="goal.manager_rating"
+                :items="ratings"
+                item-text="name"
+                item-value="value"
+               ></v-select>
               <br />
               {{ ratingName(goal.manager_rating) }}</v-col
             >
@@ -160,6 +161,29 @@ export default {
       menu: false,
       categories: '',
       trackingStatus: ['On Track', 'Not On Track'],
+      ratings: [
+        {
+          name: '1',
+          value: 'Major Improvement Needed'
+        },
+        {
+          name: '2',
+          value: 'Needs Improvement'
+        },
+        {
+          name: '3',
+          value: 'Meet Expectations'
+        },
+        {
+          name: '4',
+          value: 'Exceed Expectations'
+        },
+        ,
+        {
+          name: '5',
+          value: 'Far Exceed Expectations'
+        }
+      ]
     }
   },
   methods: {

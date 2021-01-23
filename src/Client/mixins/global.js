@@ -40,7 +40,7 @@ export default {
                 case 1:
                     return 'Major Improvement Needed'
                 case 2:
-                    return 'Needs Improveent'
+                    return 'Needs Improvement'
                 case 3:
                     return 'Meet Expectations'
                 case 4:

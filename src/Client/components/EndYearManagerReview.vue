@@ -88,11 +88,13 @@
                     <v-row>
                       <v-col>Manager rating</v-col>
                       <v-col>
-                        <v-text-field
+                        <v-select
                           v-model="item.manager_rating"
-                          label="Manager rating"
-                          prepend-icon="mdi-star-half-full"
-                        ></v-text-field>
+                          :items="ratings"
+                          item-text="name"
+                          item-value="value"
+                        ></v-select>
+                        <br />
                         {{ ratingName(item.manager_rating) }}</v-col
                       >
                     </v-row>

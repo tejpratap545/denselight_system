@@ -67,11 +67,12 @@
                     <v-row>
                       <v-col>Employee Self rating</v-col>
                       <v-col>
-                        <v-text-field
+                        <v-select
                           v-model="item.user_rating"
-                          label="Employee Self rating"
-                          prepend-icon="mdi-star-half-full"
-                        ></v-text-field>
+                          :items="ratings"
+                          item-text="name"
+                          item-value="value"
+                        ></v-select>
                         <br />
                         {{ ratingName(item.user_rating) }}</v-col
                       >
