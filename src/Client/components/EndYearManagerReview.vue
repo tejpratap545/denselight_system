@@ -74,15 +74,16 @@
                         {{ item.MID_manager_comments || 'NIL' }}
                       </v-col>
                     </v-row>
-                    <v-row>
-                      <v-col>Employee Self rating</v-col>
-                      <v-col> {{ ratingName(item.user_rating) }}</v-col>
-                    </v-row>
+
                     <v-row>
                       <v-col>End Year Employee Comment</v-col>
                       <v-col>
                         {{ item.user_comments || 'NIL' }}
                       </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Employee Self rating</v-col>
+                      <v-col> {{ ratingName(item.user_rating) }}</v-col>
                     </v-row>
                     <v-row>
                       <v-col>Manager rating</v-col>

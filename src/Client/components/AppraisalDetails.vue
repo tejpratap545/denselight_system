@@ -178,7 +178,8 @@
                         <v-btn color="success" text v-bind="attrs" v-on="on">
                           <span
                             v-if="
-                              appraisal.overall_appraisal.status == 'Stage 1'
+                              appraisal.overall_appraisal.status == 'Stage 1' &&
+                              appraisal.status == 'Employee'
                             "
                           >
                             Add KPI</span
@@ -215,7 +216,10 @@
                         </v-card-text>
 
                         <v-card-actions
-                          v-if="appraisal.overall_appraisal.status == 'Stage 1'"
+                          v-if="
+                            appraisal.overall_appraisal.status == 'Stage 1' &&
+                            appraisal.status == 'Employee'
+                          "
                         >
                           <v-container>
                             <v-row>
@@ -279,7 +283,7 @@
                             <th>KPI</th>
                             <th>Progress</th>
                             <th>Date Created</th>
-                            <td>Due</td>
+                            <th>Due</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -322,29 +326,27 @@
                         {{ item.MID_manager_comments }}
                       </v-col>
                     </v-row>
-                    <v-row>
-                      <v-col>Employee Self rating</v-col>
-                      <v-col>
-                        {{ ratingName(item.user_rating) }}</v-col
-                      >
-                    </v-row>
+
                     <v-row>
                       <v-col>End Year Employee Comment</v-col>
                       <v-col>
                         {{ item.user_comments }}
                       </v-col>
                     </v-row>
-                    <v-row>
-                      <v-col>Manager rating</v-col>
-                      <v-col>
-                        {{ ratingName(item.manager_rating) }}</v-col
-                      >
-                    </v-row>
+
                     <v-row>
                       <v-col>End Year Manager Comment</v-col>
                       <v-col>
                         {{ item.manager_comments }}
                       </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Employee Self rating</v-col>
+                      <v-col> {{ ratingName(item.user_rating) }}</v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Manager rating</v-col>
+                      <v-col> {{ ratingName(item.manager_rating) }}</v-col>
                     </v-row>
                   </td>
                 </template>
