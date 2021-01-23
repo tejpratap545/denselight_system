@@ -176,7 +176,14 @@
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn color="success" text v-bind="attrs" v-on="on">
-                          Add KPI
+                          <span
+                            v-if="
+                              appraisal.overall_appraisal.status == 'Stage 1'
+                            "
+                          >
+                            Add KPI</span
+                          >
+                          <span v-else> View KPI </span>
                         </v-btn>
                       </template>
 
@@ -200,11 +207,16 @@
                               <small
                                 >Progress : <b>{{ kpi.progress }}</b></small
                               >
+                              <small
+                                >Due : <b>{{ kpi.due }}</b></small
+                              >
                             </v-card-text>
                           </v-card>
                         </v-card-text>
 
-                        <v-card-actions>
+                        <v-card-actions
+                          v-if="appraisal.overall_appraisal.status == 'Stage 1'"
+                        >
                           <v-container>
                             <v-row>
                               <v-textarea
@@ -267,13 +279,15 @@
                             <th>KPI</th>
                             <th>Progress</th>
                             <th>Date Created</th>
+                            <td>Due</td>
                           </tr>
                         </thead>
                         <tbody>
                           <tr v-for="kpi in item.kpi_set" :key="kpi.id">
                             <th>{{ kpi.description }}</th>
                             <th>{{ kpi.progress }}</th>
-                            <td>{{ kpi.date_created }}</td>
+                            <th>{{ kpi.date_created }}</th>
+                            <td>{{ kpi.due }}</td>
                           </tr>
                         </tbody>
                       </template>
@@ -632,18 +646,33 @@ export default {
       this.name = `${appraisal.employee.name}'s`
     },
     async add_kpi(goal) {
-      try {
-        const data = {
-          description: this.kpi,
-          goal: goal.id,
-          due: this.kpi_date,
-        }
-
-        const appraisal = await this.$axios.$post(`api/KPI/create`, data)
-        this.reload()
-      } catch (error) {
-        console.log(error)
+      const data = {
+        description: this.kpi,
+        goal: goal.id,
+        due: this.kpi_date,
       }
+
+      await this.$axios
+        .$post(`api/KPI/create`, data)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Successfully added KPI',
+            color: 'info',
+          })
+          goal.kpi_set.push({
+            description: this.kpi,
+            due: this.kpi_date,
+            progress: 'Working',
+          })
+          this.kpi = ''
+          this.kpi_date = ''
+        })
+        .catch(() => {
+          this.$notifier.showMessage({
+            content: 'Error commenting',
+            color: 'error',
+          })
+        })
     },
     postcomment(cid, item) {
       item.dialog = false
