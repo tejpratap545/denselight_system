@@ -559,7 +559,7 @@
                   <v-btn
                     color="red lighten-1"
                     icon
-                    @click="remove_category('goal', item.id)"
+                    @click="deletedialogDialog('goal', item.id)"
                   >
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
@@ -590,7 +590,7 @@
                   <v-btn
                     color="red lighten-1"
                     icon
-                    @click="remove_category('skill', item.id)"
+                    @click="deletedialogDialog('skill', item.id)"
                   >
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
@@ -621,7 +621,7 @@
                   <v-btn
                     color="red lighten-1"
                     icon
-                    @click="remove_category('competency', item.id)"
+                    @click="deletedialogDialog('competency', item.id)"
                   >
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
