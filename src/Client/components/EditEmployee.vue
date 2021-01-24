@@ -1,11 +1,5 @@
 <template>
   <v-dialog v-model="dialog" width="800">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn color="success" dark v-bind="attrs" v-on="on" icon>
-        <v-icon>mdi-circle-edit-outline</v-icon>
-      </v-btn>
-    </template>
-
     <div v-if="$fetchState.pending">
       <v-skeleton-loader type="article, actions"></v-skeleton-loader>
     </div>
@@ -26,70 +20,70 @@
         >
           <v-tab-item>
             <v-text-field
-              label="Full Name"
               v-model="user.name"
+              label="Full Name"
               outlined
             ></v-text-field>
             <v-text-field
-              label="Email"
               v-model="user.email"
-              outlined
-            ></v-text-field>
-
-             <v-text-field
-              label="Citizenship status"
-              v-model="user.citizenship_Status"
-              outlined
-            ></v-text-field>
-
-             <v-text-field
-              label="Divison center"
-              v-model="user.division_Centre"
-              outlined
-            ></v-text-field>
-
-             <v-text-field
-              label="NRIC"
-              v-model="user.nric"
+              label="Email"
               outlined
             ></v-text-field>
 
             <v-text-field
-              label="Phone"
-              v-model="user.phone"
+              v-model="user.citizenship_Status"
+              label="Citizenship status"
               outlined
             ></v-text-field>
 
-            <textarea label="Address" v-model="user.address_1" outlined>
-            </textarea>
+            <v-text-field
+              v-model="user.division_Centre"
+              label="Divison center"
+              outlined
+            ></v-text-field>
+
+            <v-text-field
+              v-model="user.nric"
+              label="NRIC"
+              outlined
+            ></v-text-field>
+
+            <v-text-field
+              v-model="user.phone"
+              label="Phone"
+              outlined
+            ></v-text-field>
+
+            <v-textarea v-model="user.address_1" label="Address" outlined>
+            </v-textarea>
 
             <v-select
-              :items="gender"
               v-model="user.gender"
+              :items="gender"
               label="Gender"
               outlined
             ></v-select>
 
             <v-text-field
-              label="Job Title"
               v-model="user.job_Title"
+              label="Job Title"
               outlined
             ></v-text-field>
 
             <v-select
+              v-model="user.first_Reporting_Manager"
               :items="employees"
               item-text="name"
               item-value="id"
-              v-model="user.first_Reporting_Manager"
               label="First reporting manager"
               outlined
             ></v-select>
 
             <v-select
+              v-model="user.second_Reporting_Manager"
               :items="employees"
               item-text="name"
               item-value="id"
-              v-model="user.second_Reporting_Manager"
               label="Second reporting manager"
               outlined
             ></v-select>
@@ -115,8 +109,8 @@
           </v-tab-item>
           <v-tab-item>
             <v-select
-              :items="role"
               v-model="newRole.role"
+              :items="role"
               label="Role"
               outlined
             ></v-select>
@@ -124,7 +118,7 @@
             <v-btn elevation="0" color="primary" @click="changeRole">
               Change Role</v-btn
             >
-            <v-btn text @click="dialog = false"> Close </v-btn>
+            <v-btn text @click="close"> Close </v-btn>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
@@ -134,13 +128,13 @@
 
 <script>
 export default {
-  props: ['id'],
+  props: ['id', 'dialog', 'employees'],
   async fetch() {
     try {
-      this.employees = await this.$axios.$get('/api/employee/short/list')
       const response = await this.$axios.$get(`/api/profile/${this.id}`)
 
       this.user = response
+      this.newRole.role = this.user.user.role
     } catch (error) {
       console.log(error)
     }
@@ -149,9 +143,9 @@ export default {
     return {
       tab: null,
       dialog: false,
-      role: ['HRManager', 'Hr', 'Manager', 'Employee'],
+      role: ['HRManager', 'Hr', 'Manager', 'Employee', 'Admin'],
       gender: ['Male', 'Female'],
-      employees: [],
+
       user: {},
       passwordReset: {
         password1: '',
@@ -165,6 +159,9 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.$emit('close')
+    },
     createUser() {
       this.$axios
         .patch(`/api/profile/${this.id}`, this.user)
@@ -181,6 +178,9 @@ export default {
             content: 'Error updating user',
             color: 'error',
           })
+        })
+        .finally(() => {
+          this.close()
         })
     },
     changePassword() {
@@ -200,6 +200,9 @@ export default {
             color: 'error',
           })
         })
+        .finally(() => {
+          this.close()
+        })
     },
     changeRole() {
       this.$axios
@@ -218,6 +221,9 @@ export default {
             content: 'Error changing role',
             color: 'error',
           })
+        })
+        .finally(() => {
+          this.close()
         })
     },
   },

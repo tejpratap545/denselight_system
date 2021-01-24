@@ -138,7 +138,7 @@ export default {
   data() {
     return {
       dialog: false,
-      role: ['HRManager', 'Hr', 'Manager', 'Employee'],
+      role: ['Admin', 'HRManager', 'Hr', 'Manager', 'Employee'],
       departments: [],
       gender: ['Male', 'Female'],
       employees: [],

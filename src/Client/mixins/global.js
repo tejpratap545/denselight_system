@@ -64,15 +64,15 @@ export default {
         ratingName(rating) {
             switch (rating) {
                 case 1:
-                    return 'Major Improvement Needed'
+                    return '1. Major Improvement Needed'
                 case 2:
-                    return 'Needs Improvement'
+                    return '2. Needs Improvement'
                 case 3:
-                    return 'Meet Expectations'
+                    return '3. Meet Expectations'
                 case 4:
-                    return 'Exceed Expectations'
+                    return '4. Exceed Expectations'
                 case 5:
-                    return 'Far Exceed Expectations'
+                    return '5. Far Exceed Expectations'
                 default:
                     return 'Far Exceed Expectations'
             }

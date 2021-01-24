@@ -1,6 +1,14 @@
 <template>
   <div>
     <div class="ma-5">
+      <EditEmployee
+        v-if="editEmployeeDialog"
+        :id="currentEmployeeId"
+        :dialog="editEmployeeDialog"
+        :employees="employees"
+        @reload-mainvue="$fetch"
+        @close="editEmployeeDialog = false"
+      />
       <AddEmployee />
     </div>
     <v-card flat class="ma-5">
@@ -20,37 +28,36 @@
         :search="search"
       >
         <template v-slot:[`item.action`]="{ item }">
-          <v-btn v-model="item.action" color="transparent" elevation="3">
-            <EditEmployee :id="item.id" @reload-mainvue="$fetch()" />
-            <v-dialog v-model="item.dialog_delete" persistent max-width="400">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="error" dark v-bind="attrs" icon v-on="on">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title class="headline">
-                  Permanently delete user ?
-                </v-card-title>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn text @click="item.dialog_delete = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    color="green darken-1"
-                    text
-                    @click="
-                      item.dialog_delete = false
-                      deleteUser(item.id)
-                    "
-                  >
-                    OK
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+          <v-btn color="success" dark icon @click="editEmployee(item.id)">
+            <v-icon>mdi-circle-edit-outline</v-icon>
           </v-btn>
+
+          <v-dialog v-model="item.dialog_delete" persistent max-width="400">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="error" dark v-bind="attrs" icon v-on="on">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title class="headline">
+                Permanently delete user ?
+              </v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn text @click="item.dialog_delete = false"> Cancel </v-btn>
+                <v-btn
+                  color="green darken-1"
+                  text
+                  @click="
+                    item.dialog_delete = false
+                    deleteUser(item.id)
+                  "
+                >
+                  OK
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </template>
       </v-data-table>
     </v-card>
@@ -89,6 +96,9 @@ export default {
     return {
       search: '',
       loading: true,
+      currentEmployeeId: 1,
+
+      editEmployeeDialog: false,
       headers: [
         {
           text: 'Name',
@@ -98,6 +108,7 @@ export default {
         },
         { text: 'Department', value: 'department', sortable: true },
         { text: 'Position', value: 'position', sortable: true },
+
         { text: 'Supervisor', value: 'supervisor', sortable: true },
         { text: 'Action', value: 'action' },
       ],
@@ -124,6 +135,10 @@ export default {
           })
           console.log(error)
         })
+    },
+    editEmployee(id) {
+      this.currentEmployeeId = id
+      this.editEmployeeDialog = true
     },
   },
   fetchOnServer: false,
