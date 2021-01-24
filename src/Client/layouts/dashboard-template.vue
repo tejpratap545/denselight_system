@@ -12,7 +12,7 @@
               :src="
                 $auth.user.profile_Picture
                   ? $auth.user.profile_Picture
-                  : `https://avatars.dicebear.com/api/identicon/${this.$auth.user.id}.svg`
+                  : `https://avatars.dicebear.com/api/identicon/${$auth.user.id}.svg`
               "
               alt="profile"
             />
@@ -44,7 +44,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          v-if="this.$auth.user.user.role != 'Employee'"
+          v-if="$auth.user.user.role != 'Employee'"
           to="/sections/department"
         >
           <v-list-item-icon>
@@ -66,8 +66,7 @@
         </v-list-item>
         <v-list-item
           v-if="
-            this.$auth.user.user.role == 'HRManager' ||
-            this.$auth.user.user.role == 'Hr'
+            $auth.user.user.role == 'HRManager' || $auth.user.user.role == 'Hr'
           "
           to="/sections/appraisal-status"
         >
@@ -80,7 +79,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          v-if="this.$auth.user.user.role == 'HRManager'"
+          v-if="$auth.user.user.role == 'HRManager'"
           to="/sections/employee-management"
         >
           <v-list-item-icon>
@@ -101,7 +100,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          v-if="this.$auth.user.user.role == 'Admin'"
+          v-if="$auth.user.user.role == 'Admin'"
           to="/sections/admin"
         >
           <v-list-item-icon>
