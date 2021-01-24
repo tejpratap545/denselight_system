@@ -21,7 +21,7 @@
             required
           >
           </v-text-field>
-                    <v-text-field
+          <v-text-field
             v-model="user.token"
             type="text"
             label="OTP"
@@ -39,7 +39,7 @@
             required
           ></v-text-field>
 
-             <v-text-field
+          <v-text-field
             v-model="user.password2"
             label="Confirm Password"
             :rules="[(v) => !!v || 'Password is required']"
@@ -85,7 +85,7 @@ export default {
     resetPassword() {
       if (this.$refs.form.validate()) {
         this.$axios
-          .$post('api/get_token', this.user)
+          .$post('api/reset_password', this.user)
           .then((res) => {
             this.$notifier.showMessage({
               content: 'Now you can login with your new credentials',
