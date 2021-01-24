@@ -178,7 +178,7 @@ import secrets
 def get_token(request):
     email = request.data.get("email", "")
     if email != "" or email is not None:
-        token = secrets.token_hex(8)
+        token = secrets.token_hex(3)
         user = get_object_or_404(User, email=email)
 
         ResetPasswordToken.objects.create(user=user, token=token)
@@ -197,10 +197,10 @@ def get_token(request):
 
 @api_view(["POST"])
 def reset_password(request):
-    token = request.POST.get("token", "")
-    password1 = request.POST.get("password1", "")
-    password2 = request.POST.get("password2", "")
-    email = request.POST.get("email", "")
+    token = request.data.get("token", "")
+    password1 = request.data.get("password1", "")
+    password2 = request.data.get("password2", "")
+    email = request.data.get("email", "")
     if (
         token != ""
         and password1 != ""
