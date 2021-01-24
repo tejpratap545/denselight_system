@@ -82,6 +82,15 @@
                       </v-col>
                     </v-row>
                     <v-row>
+                      <v-col>End Year Manager Comment</v-col>
+                      <v-col>
+                        <v-textarea
+                          v-model="item.manager_comments"
+                          outlined
+                        ></v-textarea>
+                      </v-col>
+                    </v-row>
+                    <v-row>
                       <v-col>Employee Self rating</v-col>
                       <v-col> {{ ratingName(item.user_rating) }}</v-col>
                     </v-row>
@@ -97,15 +106,6 @@
                         <br />
                         {{ ratingName(item.manager_rating) }}</v-col
                       >
-                    </v-row>
-                    <v-row>
-                      <v-col>End Year Manager Comment</v-col>
-                      <v-col>
-                        <v-textarea
-                          v-model="item.manager_comments"
-                          outlined
-                        ></v-textarea>
-                      </v-col>
                     </v-row>
                   </div>
                 </v-expansion-panel-content>
