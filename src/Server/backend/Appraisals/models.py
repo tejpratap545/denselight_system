@@ -313,7 +313,7 @@ class User_Appraisal_List(models.Model):
     )
 
     employee = models.ForeignKey(
-        Profile, blank=False, null=False, on_delete=models.CASCADE
+        Profile, blank=False, null=True, on_delete=models.CASCADE
     )
     manager = models.ForeignKey(
         Profile,

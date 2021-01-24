@@ -159,3 +159,9 @@ def set_profile_picture(request):
 def get_supervisor(request):
     profile = get_object_or_404(Profile, user__username=request.data.get("username"))
     return Response({"Supervisor": profile.first_Reporting_Manager.name})
+
+
+class GuideView(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = GuideSerializer
+    queryset = Guide.objects.all()

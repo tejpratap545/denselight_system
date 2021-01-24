@@ -1,5 +1,5 @@
+from ..models import Departments, Guide, Notification, Profile, User
 from rest_framework import serializers
-from ..models import Profile, User, Departments, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -170,3 +170,9 @@ class StatusSerializer(serializers.Serializer):
     a2 = serializers.IntegerField()
     a3 = serializers.IntegerField()
     a4 = serializers.IntegerField()
+
+
+class GuideSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Guide
+        fields = "__all__"

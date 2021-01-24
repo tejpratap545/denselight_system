@@ -18,7 +18,8 @@
     "@nuxtjs/pwa": "^3.0.2",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
-    "nuxt": "^2.14.6"
+    "nuxt": "^2.14.6",
+    "vue-video-player": "^5.0.2"
   },
   "devDependencies": {
     "@ava/babel": "^1.0.1",

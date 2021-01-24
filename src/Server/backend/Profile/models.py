@@ -1,15 +1,14 @@
-import secrets
-import uuid
-from django.utils import timezone
-from typing import Optional
-
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models, transaction
-
 # Create your models here.
 from backend.Profile.backend import check_password_strength
 from backend.Profile.manager import UserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models, transaction
+from django.utils import timezone
+from typing import Optional
+
+import secrets
+import uuid
 
 
 class PasswordTooWeakError(Exception):
@@ -298,3 +297,10 @@ class Notification(models.Model):
     )
     seen = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Guide(models.Model):
+    title = models.CharField(max_length=300)
+    thumbnail = models.ImageField(upload_to="guide/thumbnail", blank=True, null=True)
+    video = models.FileField(upload_to="guide/video", blank=True, null=True)
+    description = models.TextField(blank=True, null=True)

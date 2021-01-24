@@ -12,7 +12,7 @@ from backend.GnC.api.views import (
     GoalCommentViewSet,
     MidYrCommentBoxViewSet,
 )
-from backend.Profile.api.views import DepartmentViewSet, NotificationViewSet
+from backend.Profile.api.views import DepartmentViewSet, GuideView, NotificationViewSet
 from backend.Trainings.api.views import SkillsCategoryViewSet
 from django.conf import settings
 from rest_framework.routers import DefaultRouter, SimpleRouter
@@ -41,6 +41,7 @@ router.register(r"departmentalgoal", DepartmentalGoalsVieSet)
 router.register(r"departmentalcompetencies", DepartmentalCompetenciesVieSet)
 router.register(r"comment/goals/endyear", EndYrCommentBoxViewSet)
 router.register(r"appraisals/admin", AppraisalViewSet),
+router.register(r"guide", GuideView),
 
 app_name = "denselight"
 urlpatterns = router.urls
