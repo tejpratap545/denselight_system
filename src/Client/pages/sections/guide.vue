@@ -19,7 +19,7 @@
 
         <v-spacer></v-spacer>
         <v-btn
-          v-if="this.$auth.user.user.role == 'Admin'"
+          v-if="$auth.user.user.role == 'Admin'"
           color="info"
           @click="createVideoDialog = true"
           ><v-icon>mdi-plus</v-icon></v-btn
@@ -64,7 +64,7 @@
                   </v-expansion-panel>
                 </v-expansion-panels>
 
-                <v-card-actions v-if="this.$auth.user.user.role == 'Admin'">
+                <v-card-actions v-if="$auth.user.user.role == 'Admin'">
                   <v-dialog v-model="deleteDialog" width="500">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn color="error" text dark v-bind="attrs" v-on="on">

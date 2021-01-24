@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="800">
+  <v-dialog v-model="dialog" persistent width="800">
     <div v-if="$fetchState.pending">
       <v-skeleton-loader type="article, actions"></v-skeleton-loader>
     </div>

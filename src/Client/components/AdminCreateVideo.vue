@@ -28,7 +28,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="close"> Cancel </v-btn>
+          <v-btn color="info" text @click="close"> Close </v-btn>
           <v-btn :loading="loading" color="green darken-1" text @click="submit">
             Create
           </v-btn>
