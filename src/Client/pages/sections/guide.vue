@@ -40,14 +40,16 @@
                     class="video-player-box"
                   ></div>
 
-                  <v-card-title> {{ video.title }} </v-card-title>
+                  <div style="font-size: 18px; font-weight: 300" class="mt-5"> {{ video.title }} </div>
                 </v-card-text>
 
                 <v-expansion-panels focusable>
                   <v-expansion-panel>
                     <v-expansion-panel-header>Description</v-expansion-panel-header>
                     <v-expansion-panel-content>
-                      {{ video.description }}
+                      <div style="font-size: 12px; font-weight: 300" class="mt-5">
+                        {{ video.description }}
+                      </div>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
                 </v-expansion-panels>
