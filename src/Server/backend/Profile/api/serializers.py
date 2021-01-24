@@ -57,13 +57,14 @@ class ProfileInfoSerializer(serializers.ModelSerializer):
 
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(max_length=20, write_only=True)
-    password = serializers.CharField(max_length=20, write_only=True)
+    username = serializers.CharField(max_length=40, write_only=True)
+    password = serializers.CharField(max_length=40, write_only=True)
     ROLE_CHOICES = (
         ("HRManager", "HRManager"),
         ("Hr", "Hr"),
         ("Manager", "Manager"),
         ("Employee", "Employee"),
+        ("Admin", "Admin"),
     )
     role = serializers.ChoiceField(choices=ROLE_CHOICES, write_only=True)
 
