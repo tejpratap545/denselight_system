@@ -43,7 +43,7 @@ export async function signIn($axios, $auth, store, $router, REDIRECT_URI, data) 
             })
             .then((res) => {
                 store.commit('snackbar/showMessage', {
-                    content: `Welcome ${$auth.user.user.first_name} , You have successfully logIn`,
+                    content: `Welcome ${$auth.user.user.username} , You have successfully logIn`,
                     color: 'success',
                 })
                 console.log(REDIRECT_URI)
