@@ -858,7 +858,7 @@ export default {
 
     deleteKpi(kpi) {
       this.$axios
-        .delete(`api/KPI/${kpi.id}`)
+        .delete(`api/KPI/${kpi.id}/`)
         .then(() => {
           this.$notifier.showMessage({
             content: `Successfully deleted  kpi `,
@@ -880,7 +880,7 @@ export default {
     },
     updateKpi(kpi) {
       this.$axios
-        .patch(`api/KPI/${kpi.id}`, {
+        .patch(`api/KPI/${kpi.id}/`, {
           description: kpi.description,
           due: kpi.due,
         })

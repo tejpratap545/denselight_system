@@ -4,7 +4,7 @@
 
     <v-navigation-drawer v-model="drawer" app>
       <template v-slot:prepend>
-        <img src="~assets/logo.svg" style="margin-top: 40px; width:100%"/>
+        <img src="~assets/logo.svg" style="margin-top: 40px; width: 100%" />
 
         <v-list-item two-line>
           <v-list-item-avatar>
@@ -100,7 +100,10 @@
             <v-list-item-title>Records</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/sections/admin">
+        <v-list-item
+          v-if="this.$auth.user.user.role == 'Admin'"
+          to="/sections/admin"
+        >
           <v-list-item-icon>
             <v-icon>mdi-account-check</v-icon>
           </v-list-item-icon>
