@@ -799,8 +799,9 @@ export default {
   async fetch() {
     try {
       await this.department()
-      await this.departmentalAppraisal()
       await this.subordinateAppraisal()
+
+      await this.departmentalAppraisal()
     } catch (error) {
       console.log(error)
     }
