@@ -1,6 +1,7 @@
 from ...Appraisals.models import peerAppraisal, User_Appraisal_List
 from ..permissions import IsOwner
 from .serializers import *
+from backend.Profile.models import ResetPasswordToken
 from backend.Profile.permissions import IsHrManager
 from django.core.cache import cache
 from django.db.models import Count, Q
@@ -165,3 +166,55 @@ class GuideView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = GuideSerializer
     queryset = Guide.objects.all()
+
+
+from django.conf import settings
+from django.core.mail import send_mail
+
+import secrets
+
+
+@api_view(["POST"])
+def get_token(request):
+    email = request.data.get("email", "")
+    if email != "" or email is not None:
+        token = secrets.token_hex(8)
+        user = get_object_or_404(User, email=email)
+
+        ResetPasswordToken.objects.create(user=user, token=token)
+
+        send_mail(
+            "Password reset token",
+            f"Hi {user.username} your one time token for reset password is {token} ",
+            settings.OFFICIAL_MAIL,
+            [user.email],
+        )
+
+        return Response({"msg": "Sucessfully send token "})
+
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def reset_password(request):
+    token = request.POST.get("token", "")
+    password1 = request.POST.get("password1", "")
+    password2 = request.POST.get("password2", "")
+    email = request.POST.get("email", "")
+    if (
+        token != ""
+        and password1 != ""
+        and password2 != ""
+        and password1 == password2
+        and email != ""
+    ):
+        try:
+            user = get_object_or_404(User, email=email)
+            ResetPasswordToken.objects.filter(token=token, user=user).delete()
+            user.set_password(password1)
+            user.save()
+            return Response("Success")
+        except:
+            return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)

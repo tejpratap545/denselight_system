@@ -193,33 +193,6 @@ class Profile(models.Model):
         return self.name
 
 
-class EmailConfirmation(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    token = models.CharField(
-        max_length=250, default=secrets.token_urlsafe(), editable=False
-    )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.user.email
-
-
-class PasswordReset(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    url_token = models.CharField(
-        max_length=250, default=secrets.token_urlsafe(), editable=False
-    )
-    success_token = models.CharField(
-        max_length=250, blank=True, null=True, editable=False
-    )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.user.email
-
-
 class AccessToken(models.Model):
     token = models.CharField(max_length=128, blank=True, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -304,3 +277,9 @@ class Guide(models.Model):
     thumbnail = models.ImageField(upload_to="guide/thumbnail", blank=True, null=True)
     video = models.FileField(upload_to="guide/video", blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+
+
+class ResetPasswordToken(models.Model):
+    user = models.ForeignKey(User)
+    token = models.CharField(max_length=10)
+    created_at = models.DateTime(auto_now_add=True)

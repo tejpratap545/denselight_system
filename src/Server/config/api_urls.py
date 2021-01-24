@@ -42,9 +42,11 @@ from backend.Profile.api.views import (
     ChangePassword,
     CreateProfile,
     get_supervisor,
+    get_token,
     ListEmployees,
     ProfileInfoView,
     ProfileView,
+    reset_password,
     set_profile_picture,
     SetPassword,
     ShortListEmployees,
@@ -112,4 +114,6 @@ urlpatterns = [
     path("peerappraisal/me", EmployeePeerAppraisal.as_view()),
     path("peerappraisal/manager", ManagerPeerAppraisal.as_view()),
     path("peerappraisal/<int:pk>", PeerAppraisal.as_view()),
+    path("reset_password", reset_password),
+    path("get_token", get_token),
 ]

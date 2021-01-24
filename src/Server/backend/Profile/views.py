@@ -1,15 +1,14 @@
-from django.shortcuts import render
-
-# Create your views here.
-from rest_framework.generics import get_object_or_404
-
 from .backend import decode_jwt_token, encode_jwt_token
-from .models import AccessToken, RefreshToken, User, Profile
+from .models import AccessToken, Profile, RefreshToken, User
 from datetime import timedelta
 from django.db.models import Q
+from django.shortcuts import render
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view
+
+# Create your views here.
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
