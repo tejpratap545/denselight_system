@@ -38,10 +38,9 @@
             <div>
               <v-card hover class="mx-auto">
                 <v-card-text class="text--primary">
-                  <div
-                    v-video-player:myVideoPlayer="playerOptions(video)"
-                    class="video-player-box"
-                  ></div>
+                  <div>
+                  <video :src="video.video" style="width:250px" controls />
+                  </div>
 
                   <div style="font-size: 18px; font-weight: 300" class="mt-5">
                     {{ video.title }}
@@ -103,12 +102,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import 'video.js/dist/video-js.css'
-if (process.browser) {
-  const VueVideoPlayer = require('vue-video-player/dist/ssr')
-  Vue.use(VueVideoPlayer)
-}
 export default {
   title: 'Guide',
   layout: 'dashboard-template',
@@ -126,28 +119,6 @@ export default {
     }
   },
   methods: {
-    playerOptions(video) {
-      return {
-        muted: true,
-        width: 250,
-        language: 'en',
-        liveui: true,
-        playbackRates: [0.7, 1.0, 1.5, 2.0],
-        sources: [
-          {
-            type: 'video/mp4',
-            src: video.video,
-          },
-        ],
-        poster: video.thumbnail,
-        fullscreen: {
-          options: {
-            navigationUI: 'show',
-          },
-        },
-      }
-    },
-
     deleteVideo(id) {
       this.$axios
         .delete(`api/guide/${id}/`)
@@ -173,10 +144,3 @@ export default {
   },
 }
 </script>
-
-<style>
-#des {
-  height: 100px;
-  overflow-y: scroll;
-}
-</style>
