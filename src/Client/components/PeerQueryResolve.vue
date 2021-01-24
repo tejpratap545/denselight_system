@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" max-width="800">
-       <template v-slot:activator="{ on, attrs }">
+    <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" icon v-bind="attrs" v-on="on">
         <v-icon>mdi-chat-outline</v-icon>
       </v-btn>
@@ -41,7 +41,11 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="primary" v-if="editMode == null && query.completion !='Completed'" @click="rQuery()">
+        <v-btn
+          v-if="editMode == null && query.completion != 'Completed'"
+          color="primary"
+          @click="rQuery()"
+        >
           Submit Query
         </v-btn>
       </v-card-actions>
@@ -92,5 +96,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>
