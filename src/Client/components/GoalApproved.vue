@@ -163,6 +163,7 @@
                                         </v-card-text>
                                         <v-card-actions>
                                           <v-textarea
+                                            v-model="newComment"
                                             label="Write your comment here"
                                             outlined
                                           ></v-textarea>
@@ -340,6 +341,7 @@ export default {
       goals_settingM_rejection: '',
       tabData: null,
       current_goal: {},
+      newComment: '',
       myGoalsTableHeader: [
         {
           text: 'Category',
@@ -587,7 +589,7 @@ export default {
     sendComment(item) {
       this.$axios
         .patch(`api/goal/${item.id}`, {
-          goal_manager_comment: item.goal_manager_comment,
+          goal_manager_comment: this.newComment,
         })
         .then((res) => {
           this.$notifier.showMessage({
@@ -595,6 +597,7 @@ export default {
             color: 'info',
           })
           this.$fetch()
+          this.newComment = ''
         })
         .catch((error) => {
           this.$notifier.showMessage({
