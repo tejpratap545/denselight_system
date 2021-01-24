@@ -1,5 +1,31 @@
 export default {
-    data() {},
+    data() {
+        return {
+            ratings: [
+                {
+                    value: '1',
+                    name: '1. Major Improvement Needed',
+                },
+                {
+                    value: '2',
+                    name: '2. Needs Improvement',
+                },
+                {
+                    value: '3',
+                    name: '3. Meet Expectations',
+                },
+                {
+                    value: '4',
+                    name: '4. Exceed Expectations',
+                },
+                {
+                    value: '5',
+                    name: '5. Far Exceed Expectations',
+                },
+            ],
+        }
+    },
+
     methods: {
         getStatus(overallAppraisalStatus, appraisalStatus, midYearCompletion, completion) {
             // goals status

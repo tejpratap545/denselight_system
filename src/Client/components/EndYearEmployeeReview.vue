@@ -118,29 +118,6 @@ export default {
   data() {
     return {
       goals: [],
-      ratings: [
-        {
-          name: '1',
-          value: 'Major Improvement Needed'
-        },
-        {
-          name: '2',
-          value: 'Needs Improvement'
-        },
-        {
-          name: '3',
-          value: 'Meet Expectations'
-        },
-        {
-          name: '4',
-          value: 'Exceed Expectations'
-        },
-        ,
-        {
-          name: '5',
-          value: 'Far Exceed Expectations'
-        }
-      ]
     }
   },
   methods: {
