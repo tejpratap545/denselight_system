@@ -47,12 +47,12 @@
             <v-radio label="Direct" value="DIRECT"></v-radio>
             <v-radio label="Indirect" value="INDIRECT"></v-radio>
           </v-radio-group>
-          <div class="text-right">
+          <div class="text-center">
             <v-btn color="primary" elevation="2" type="submit"> Login </v-btn>
           </div>
           <div class="my-4">
-            <p class="font-weight-light">
-              Don't remeber your password? <a>Forget Password</a>
+            <p class="font-weight-light text-center">
+              Don't remeber your password? <a href="/forgot-password">Forget Password</a>
             </p>
           </div>
         </v-form>

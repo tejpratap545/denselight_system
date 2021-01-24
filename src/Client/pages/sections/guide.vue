@@ -41,9 +41,16 @@
                   ></div>
 
                   <v-card-title> {{ video.title }} </v-card-title>
-
-                  <div id="des">{{ video.description }}</div>
                 </v-card-text>
+
+                <v-expansion-panels focusable>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Description</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      {{ video.description }}
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-card>
             </div>
           </v-col>
@@ -79,7 +86,9 @@ export default {
     playerOptions(video) {
       return {
         muted: true,
+        width: 250,
         language: 'en',
+        liveui: true,
         playbackRates: [0.7, 1.0, 1.5, 2.0],
         sources: [
           {
@@ -88,6 +97,11 @@ export default {
           },
         ],
         poster: video.thumbnail,
+        fullscreen: {
+          options: {
+            navigationUI: 'show',
+          },
+        },
       }
     },
   },
@@ -97,6 +111,6 @@ export default {
 <style>
 #des {
   height: 100px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 </style>
