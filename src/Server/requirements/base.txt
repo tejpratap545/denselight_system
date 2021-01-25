@@ -36,3 +36,4 @@ channels~=2.4.0 #https://github.com/django/channels
 
 django-storages
 boto3
+xlsxwriter

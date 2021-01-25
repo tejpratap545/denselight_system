@@ -39,7 +39,7 @@
               <v-card hover class="mx-auto">
                 <v-card-text class="text--primary">
                   <div>
-                  <video :src="video.video" style="width:250px" controls />
+                    <video :src="video.video" style="width: 250px" controls />
                   </div>
 
                   <div style="font-size: 18px; font-weight: 300" class="mt-5">
@@ -105,8 +105,8 @@
 export default {
   title: 'Guide',
   layout: 'dashboard-template',
-  fetch() {
-    this.$axios.$get('api/guide/').then((res) => {
+  async fetch() {
+    await this.$axios.$get('api/guide/').then((res) => {
       this.guide = res
     })
   },

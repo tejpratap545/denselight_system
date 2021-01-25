@@ -52,6 +52,7 @@ from backend.Profile.api.views import (
     ShortListEmployees,
     StatusView,
 )
+from backend.Profile.views import download_report
 from backend.Trainings.api.views import (
     AdminCreateSkillsApiView,
     CreateSkillsApiView,
@@ -116,4 +117,5 @@ urlpatterns = [
     path("peerappraisal/<int:pk>", PeerAppraisal.as_view()),
     path("reset_password", reset_password),
     path("get_token", get_token),
+    path("download/report", download_report),
 ]
