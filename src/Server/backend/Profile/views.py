@@ -593,7 +593,7 @@ def download_report(request):
     try:
 
         p = (
-            data.filter(status="S2Employee", completion="null")
+            data.filter(status="S1BManager", completion="null")
             .order_by("employee__second_Reporting_Manager")
             .annotate(
                 total1=Window(
@@ -709,6 +709,198 @@ def download_report(request):
         p1 = list(p)
         name = "End year Pending Employee's Submission"
         worksheet1 = workbook.add_worksheet("End year Employee's Submission")
+        row = 3
+        col = 3
+        bold = workbook.add_format({"bold": True})
+        text12 = workbook.add_format({"font_size": 12, "bold": True})
+        worksheet1.write(1, 4, name, text12)
+        worksheet1.write(2, 3, "HOD", text12)
+        worksheet1.write(2, 4, "Department", text12)
+        worksheet1.write(2, 5, "Employees", text12)
+        worksheet1.write(2, 6, "Employees Count", text12)
+        for row_num, obj in enumerate(p1):
+            if row_num == 0:
+                worksheet1.write(
+                    row, col, obj.employee.second_Reporting_Manager.name, bold
+                )
+                col += 1
+                row += 1
+                worksheet1.write(row, col, obj.employee.department.name)
+                col += 2
+                worksheet1.write(row, col, obj.total1, bold)
+                col -= 1
+                row += 1
+                worksheet1.write(row, col, obj.employee.name)
+                row -= 2
+                col += 1
+                worksheet1.write(row, col, obj.total2, text12)
+                row += 3
+
+            else:
+                if (
+                    p1[row_num - 1].employee.second_Reporting_Manager
+                    == p1[row_num].employee.second_Reporting_Manager
+                ):
+                    worksheet1.write(row, col, "")
+                    row, col = row + 1, col + 1
+                    if (
+                        p1[row_num - 1].employee.department.name
+                        == p1[row_num].employee.department.name
+                    ):
+                        worksheet1.write(row, col, "")
+                        col = col + 1
+                        worksheet1.write(row, col, obj.employee.name)
+                    else:
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.department.name)
+                        row += 1
+                        col = col + 1
+                        worksheet1.write(row, col, obj.employee.name)
+                        row -= 1
+                        col = col + 1
+                        worksheet1.write(row, col, obj.total1, bold)
+                else:
+                    row += 3
+                    worksheet1.write(
+                        row, col, obj.employee.second_Reporting_Manager.name, bold
+                    )
+                    col += 1
+                    row += 2
+                    worksheet1.write(row, col, obj.employee.department.name)
+                    col += 2
+                    worksheet1.write(row, col, obj.total1, bold)
+                    col -= 1
+                    row += 1
+                    worksheet1.write(row, col, obj.employee.name)
+                    row -= 3
+                    col += 1
+                    worksheet1.write(row, col, obj.total2, text12)
+                    row += 2
+            col = 3
+        worksheet1.write(row + 2, 3, "Grand Total", text12)
+        worksheet1.write(row + 2, 6, len(p1), text12)
+
+    except:
+        pass
+
+    try:
+
+        p = (
+            data.filter(status="S2Manager", completion="MCompleted")
+            .order_by("employee__second_Reporting_Manager")
+            .annotate(
+                total1=Window(
+                    expression=Count("*"),
+                    partition_by=[
+                        F("employee__second_Reporting_Manager"),
+                        F("employee__department"),
+                    ],
+                ),
+                total2=Window(
+                    expression=Count("*"),
+                    partition_by=[F("employee__second_Reporting_Manager")],
+                ),
+            )
+        )
+        p1 = list(p)
+        name = "End year Employee's Submit Review"
+        worksheet1 = workbook.add_worksheet("End year Employee's Submit Review")
+        row = 3
+        col = 3
+        bold = workbook.add_format({"bold": True})
+        text12 = workbook.add_format({"font_size": 12, "bold": True})
+        worksheet1.write(1, 4, name, text12)
+        worksheet1.write(2, 3, "HOD", text12)
+        worksheet1.write(2, 4, "Department", text12)
+        worksheet1.write(2, 5, "Employees", text12)
+        worksheet1.write(2, 6, "Employees Count", text12)
+        for row_num, obj in enumerate(p1):
+            if row_num == 0:
+                worksheet1.write(
+                    row, col, obj.employee.second_Reporting_Manager.name, bold
+                )
+                col += 1
+                row += 1
+                worksheet1.write(row, col, obj.employee.department.name)
+                col += 2
+                worksheet1.write(row, col, obj.total1, bold)
+                col -= 1
+                row += 1
+                worksheet1.write(row, col, obj.employee.name)
+                row -= 2
+                col += 1
+                worksheet1.write(row, col, obj.total2, text12)
+                row += 3
+
+            else:
+                if (
+                    p1[row_num - 1].employee.second_Reporting_Manager
+                    == p1[row_num].employee.second_Reporting_Manager
+                ):
+                    worksheet1.write(row, col, "")
+                    row, col = row + 1, col + 1
+                    if (
+                        p1[row_num - 1].employee.department.name
+                        == p1[row_num].employee.department.name
+                    ):
+                        worksheet1.write(row, col, "")
+                        col = col + 1
+                        worksheet1.write(row, col, obj.employee.name)
+                    else:
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.department.name)
+                        row += 1
+                        col = col + 1
+                        worksheet1.write(row, col, obj.employee.name)
+                        row -= 1
+                        col = col + 1
+                        worksheet1.write(row, col, obj.total1, bold)
+                else:
+                    row += 3
+                    worksheet1.write(
+                        row, col, obj.employee.second_Reporting_Manager.name, bold
+                    )
+                    col += 1
+                    row += 2
+                    worksheet1.write(row, col, obj.employee.department.name)
+                    col += 2
+                    worksheet1.write(row, col, obj.total1, bold)
+                    col -= 1
+                    row += 1
+                    worksheet1.write(row, col, obj.employee.name)
+                    row -= 3
+                    col += 1
+                    worksheet1.write(row, col, obj.total2, text12)
+                    row += 2
+            col = 3
+        worksheet1.write(row + 2, 3, "Grand Total", text12)
+        worksheet1.write(row + 2, 6, len(p1), text12)
+
+    except:
+        pass
+
+    try:
+
+        p = (
+            data.filter(status="Approved", completion="Approved")
+            .order_by("employee__second_Reporting_Manager")
+            .annotate(
+                total1=Window(
+                    expression=Count("*"),
+                    partition_by=[
+                        F("employee__second_Reporting_Manager"),
+                        F("employee__department"),
+                    ],
+                ),
+                total2=Window(
+                    expression=Count("*"),
+                    partition_by=[F("employee__second_Reporting_Manager")],
+                ),
+            )
+        )
+        p1 = list(p)
+        name = "End year Approved"
+        worksheet1 = workbook.add_worksheet("End year Approved")
         row = 3
         col = 3
         bold = workbook.add_format({"bold": True})

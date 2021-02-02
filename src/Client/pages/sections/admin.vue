@@ -275,7 +275,7 @@
                       <v-icon
                         v-else-if="
                           (item.status === 'S2Manager' ||
-                            item.status === 'S2Employee') &&
+                            item.status === 'S1BManager') &&
                           item.completion === 'Ecompleted'
                         "
                         indeterminate

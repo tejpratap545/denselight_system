@@ -576,7 +576,7 @@
                           <template v-slot:[`item.status`]="{ item }">
                             <v-icon
                               v-if="
-                                (item.status === 'S2Manager' ||
+                                (item.status === 'S1BManager' ||
                                   item.status === 'S2Employee') &&
                                 item.completion === 'Ecompleted'
                               "
