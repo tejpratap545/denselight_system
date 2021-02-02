@@ -300,7 +300,7 @@ class User_Appraisal_List(models.Model):
 
     COMPLETION_CHOICE = (
         ("null", "null"),
-        ("ECompleted", "ECompleted"),
+        ("Ecompleted", "Ecompleted"),
         ("MCompleted", "MCompleted"),
         ("BCompleted", "BCompleted"),
         ("Review", "Review"),
