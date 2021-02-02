@@ -10,6 +10,15 @@
     <div v-else class="ma-5">
       <div>
         <AppraisalCreate @reload-appraisals="$fetch()" />
+        <v-btn
+          color="green darken-1"
+          elevation="0"
+          dark
+          @click="report()"
+          style="float: right"
+        >
+          Download Emplyoees' Appraisal Report
+        </v-btn>
       </div>
 
       <div class="my-5">
@@ -230,8 +239,6 @@
 </template>
 
 <script>
-import { AppraisalCreate } from '~/components/AppraisalCreate'
-
 export default {
   title: 'Appraisal Status',
   name: 'AppraisalStatus',
@@ -304,7 +311,6 @@ export default {
         },
       ],
       completedTableItems: [],
-
       goalsLaunchingTableHeader: [
         {
           text: 'Appraisal Name',
@@ -411,6 +417,27 @@ export default {
             color: 'error',
           })
           console.log(error)
+        })
+    },
+    report() {
+      this.$axios
+        .get('api/download/report', {
+          responseType: 'blob',
+        })
+        .then((res) => {
+
+          const url = window.URL.createObjectURL(new Blob([res.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'report.xlsx')
+          document.body.appendChild(link)
+          link.click()
+
+          console.log(res)
+          this.$notifier.showMessage({
+            content: 'Report Downloaded',
+            color: 'info',
+          })
         })
     },
   },
