@@ -166,9 +166,9 @@ export default {
           id: 6,
           name: 'End Year Employee Stage',
           status: {
-            status: 'S2Employee',
+            status: 'S1BManager',
             mid_year_completion: 'Completed',
-            completion: 'ECompleted',
+            completion: 'Ecompleted',
           },
         },
         {
