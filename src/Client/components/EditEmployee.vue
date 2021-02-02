@@ -209,6 +209,7 @@ export default {
           })
 
           this.dialog = false
+          this.$emit('reload-mainvue')
         })
         .catch((error) => {
           this.$notifier.showMessage({
@@ -250,6 +251,7 @@ export default {
             color: 'info',
           })
 
+          this.$emit('reload-mainvue')
           this.dialog = false
         })
         .catch((error) => {
