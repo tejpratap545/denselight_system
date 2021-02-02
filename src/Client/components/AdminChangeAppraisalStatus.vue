@@ -168,7 +168,7 @@ export default {
           status: {
             status: 'S2Employee',
             mid_year_completion: 'Completed',
-            completion: 'Ecompleted',
+            completion: 'ECompleted',
           },
         },
         {
