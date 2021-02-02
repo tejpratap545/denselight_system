@@ -24,6 +24,16 @@
               label="Full Name"
               outlined
             ></v-text-field>
+
+              <v-select
+              v-model="user.department"
+              :items="departments"
+              item-text="name"
+              item-value="id"
+              label="Department"
+              outlined
+            ></v-select>
+
             <v-text-field
               v-model="user.email"
               label="Email"
@@ -132,8 +142,22 @@ export default {
   async fetch() {
     try {
       const response = await this.$axios.$get(`/api/profile/${this.id}`)
+      this.departments = await this.$axios.$get(`/api/department/`)
 
-      this.user = response
+      this.user = {
+        id: response.id,
+        name: response.name,
+        department: response.department.id,
+        email: response.email,
+        citizenship_Status: response.citizenship_Status,
+        division_Centre: response.division_Centre,
+        nric: response.nric,
+        phone: response.phone,
+        gender: response.gender,
+        job_Title: response.job_Title,
+        first_Reporting_Manager: response.first_Reporting_Manager.id,
+        second_Reporting_Manager: response.second_Reporting_Manager.id
+      }
       this.newRole.role = this.user.user.role
     } catch (error) {
       console.log(error)
@@ -145,8 +169,21 @@ export default {
       dialog: false,
       role: ['HRManager', 'Hr', 'Manager', 'Employee', 'Admin'],
       gender: ['Male', 'Female'],
-
-      user: {},
+      departments: [],
+      user: {
+        id: 0,
+        name: '',
+        department: 0,
+        email: '',
+        citizenship_Status: '',
+        division_Centre: '',
+        nric: '',
+        phone: '',
+        gender: 'Male',
+        job_Title: '',
+        first_Reporting_Manager: 0,
+        second_Reporting_Manager: 0
+      },
       passwordReset: {
         password1: '',
         password2: '',
@@ -172,6 +209,7 @@ export default {
           })
 
           this.dialog = false
+          this.$emit('reload-mainvue')
         })
         .catch((error) => {
           this.$notifier.showMessage({
@@ -213,6 +251,7 @@ export default {
             color: 'info',
           })
 
+          this.$emit('reload-mainvue')
           this.dialog = false
         })
         .catch((error) => {
