@@ -25,7 +25,7 @@
               outlined
             ></v-text-field>
 
-              <v-select
+            <v-select
               v-model="user.department"
               :items="departments"
               item-text="name"
@@ -99,7 +99,7 @@
             ></v-select>
 
             <v-btn color="primary" @click="createUser"> Save </v-btn>
-            <v-btn text @click="dialog = false"> Close </v-btn>
+            <v-btn text @click="close"> Close </v-btn>
           </v-tab-item>
           <v-tab-item>
             <v-text-field
@@ -115,7 +115,7 @@
             <v-btn elevation="0" color="primary" @click="changePassword">
               Reset Password</v-btn
             >
-            <v-btn text @click="dialog = false"> Close </v-btn>
+            <v-btn text @click="close"> Close </v-btn>
           </v-tab-item>
           <v-tab-item>
             <v-select
@@ -156,7 +156,7 @@ export default {
         gender: response.gender,
         job_Title: response.job_Title,
         first_Reporting_Manager: response.first_Reporting_Manager.id,
-        second_Reporting_Manager: response.second_Reporting_Manager.id
+        second_Reporting_Manager: response.second_Reporting_Manager.id,
       }
       this.newRole.role = this.user.user.role
     } catch (error) {
@@ -166,7 +166,7 @@ export default {
   data() {
     return {
       tab: null,
-      dialog: false,
+
       role: ['HRManager', 'Hr', 'Manager', 'Employee', 'Admin'],
       gender: ['Male', 'Female'],
       departments: [],
@@ -182,7 +182,7 @@ export default {
         gender: 'Male',
         job_Title: '',
         first_Reporting_Manager: 0,
-        second_Reporting_Manager: 0
+        second_Reporting_Manager: 0,
       },
       passwordReset: {
         password1: '',
@@ -208,7 +208,6 @@ export default {
             color: 'info',
           })
 
-          this.dialog = false
           this.$emit('reload-mainvue')
         })
         .catch((error) => {
@@ -229,8 +228,6 @@ export default {
             content: 'Password changed successully',
             color: 'info',
           })
-
-          this.dialog = false
         })
         .catch((error) => {
           this.$notifier.showMessage({
@@ -252,7 +249,6 @@ export default {
           })
 
           this.$emit('reload-mainvue')
-          this.dialog = false
         })
         .catch((error) => {
           console.log(error)

@@ -133,23 +133,23 @@ class Profile(models.Model):
     name = models.CharField(max_length=200, blank=False, null=False)
 
     employee_ID = models.CharField(
-        max_length=15, blank=False, null=False, default="S123456D"
+        max_length=15, blank=False, null=True, default="S123456D"
     )
 
     nric = models.CharField(max_length=20, blank=False, null=True)
 
     typeOfEmployee = models.CharField(
-        max_length=50, blank=False, null=False, choices=DIRECT_CHOICES, default="DIRECT"
+        max_length=50, blank=False, null=True, choices=DIRECT_CHOICES, default="DIRECT"
     )
 
-    email = models.EmailField(blank=False, null=False)
+    email = models.EmailField(blank=False, null=True)
 
     department = models.ForeignKey(
         Departments, blank=False, null=True, on_delete=models.SET_NULL
     )
 
     gender = models.CharField(
-        max_length=6, choices=GENDER_CHOICE, blank=False, null=False
+        max_length=6, choices=GENDER_CHOICE, blank=False, null=True
     )
 
     address_1 = models.CharField(max_length=250, blank=True, null=True)
@@ -161,9 +161,9 @@ class Profile(models.Model):
         max_length=70, blank=False, null=False, default="-"
     )
 
-    date_Of_Hire = models.DateField(blank=False, null=False)
+    date_Of_Hire = models.DateField(blank=False, null=True)
 
-    job_Title = models.CharField(max_length=100, blank=False, null=False)
+    job_Title = models.CharField(max_length=100, blank=False, null=True)
 
     employment_Type = models.CharField(
         max_length=30, choices=EMPLOYMENT_TYPE_CHOICE, default="Full-time"

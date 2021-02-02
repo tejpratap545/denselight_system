@@ -3,23 +3,23 @@ export default {
         return {
             ratings: [
                 {
-                    value: '1',
+                    value: 1,
                     name: '1. Major Improvement Needed',
                 },
                 {
-                    value: '2',
+                    value: 2,
                     name: '2. Needs Improvement',
                 },
                 {
-                    value: '3',
+                    value: 3,
                     name: '3. Meet Expectations',
                 },
                 {
-                    value: '4',
+                    value: 4,
                     name: '4. Exceed Expectations',
                 },
                 {
-                    value: '5',
+                    value: 5,
                     name: '5. Far Exceed Expectations',
                 },
             ],
@@ -47,7 +47,7 @@ export default {
             }
 
             // end year stage
-            else if (overallAppraisalStatus === 'Stage 2' && appraisalStatus === 'S1BManager') {
+            else if (overallAppraisalStatus === 'Stage 2' && (appraisalStatus === 'S1BManager' || appraisalStatus === 'S2Employee')) {
                 return 'End Year Assessment: My Rating Stage'
             } else if (overallAppraisalStatus === 'Stage 2' && appraisalStatus === 'S2Manager') {
                 return 'End Year Assessment: Manager/Supervisor Rating Stage'
@@ -74,7 +74,7 @@ export default {
                 case 5:
                     return '5. Far Exceed Expectations'
                 default:
-                    return 'Far Exceed Expectations'
+                    return '0. Far Exceed Expectations'
             }
         },
     },

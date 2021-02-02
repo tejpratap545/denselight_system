@@ -73,9 +73,7 @@
                           item-text="name"
                           item-value="value"
                         ></v-select>
-                        <br />
-                        {{ ratingName(item.user_rating) }}</v-col
-                      >
+                      </v-col>
                     </v-row>
                     <v-row>
                       <v-col>End Year Employee Comment</v-col>
