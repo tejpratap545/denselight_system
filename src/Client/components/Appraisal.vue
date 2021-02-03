@@ -13,9 +13,11 @@
 
       <v-spacer />
 
-      <v-btn icon @click="print">
-        <v-icon>mdi-printer</v-icon>
-      </v-btn>
+      <a target="_blank" :href="`/print/?id=${appraisal.id}`">
+        <v-btn icon>
+          <v-icon>mdi-printer</v-icon>
+        </v-btn>
+      </a>
     </v-card-title>
 
     <v-card-text>
@@ -289,9 +291,6 @@ export default {
   },
 
   methods: {
-    print() {
-      print()
-    },
     init(appraisal) {
       this.appraisal = appraisal
 
