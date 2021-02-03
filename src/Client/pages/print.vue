@@ -32,7 +32,7 @@
             </tr>
             <tr>
               <th>Department</th>
-              <td>HUMAN RESOURCE</td>
+              <td>{{ appraisal.employee.department.name }}</td>
             </tr>
             <tr>
               <th>Manager/Supervisor's Name</th>
