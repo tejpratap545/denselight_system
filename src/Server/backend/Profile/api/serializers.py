@@ -115,6 +115,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
             "department",
             "job_Title",
             "date_Of_Hire",
+            "resign_date"
         )
 
 

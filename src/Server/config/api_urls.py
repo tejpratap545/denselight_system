@@ -47,6 +47,7 @@ from backend.Profile.api.views import (
     ListEmployees,
     ProfileInfoView,
     ProfileView,
+    ReginListEmployees,
     reset_password,
     resign_employee,
     set_profile_picture,
@@ -55,11 +56,7 @@ from backend.Profile.api.views import (
     StatusView,
 )
 from backend.Profile.views import download_report
-from backend.Trainings.api.views import (
-    AdminCreateSkillsApiView,
-    CreateSkillsApiView,
-    SkillsApiView,
-)
+from backend.Trainings.api.views import AdminCreateSkillsApiView, CreateSkillsApiView, SkillsApiView
 from django.urls.conf import path
 
 
@@ -121,5 +118,6 @@ urlpatterns = [
     path("get_token", get_token),
     path("download/report", download_report),
     path("resign/employee", resign_employee),
+    path("resign/employee/list", ReginListEmployees.as_view()),
     path("resign/employee/list/appraisals", ClosedAllAppraisalView.as_view()),
 ]

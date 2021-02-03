@@ -185,7 +185,7 @@ class Profile(models.Model):
         on_delete=models.SET_NULL,
         related_name="second_reporting_manager",
     )
-    resign_date=models.DateTimeField(null=True)
+    resign_date = models.DateField(null=True)
 
     division_Centre = models.CharField(max_length=150, blank=True, null=True)
 

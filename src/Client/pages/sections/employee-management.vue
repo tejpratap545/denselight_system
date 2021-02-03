@@ -13,6 +13,8 @@
     </div>
     <v-card flat class="ma-5">
       <v-card-title>
+        <v-card-title primary-title> Employee Management </v-card-title>
+        <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
@@ -82,6 +84,7 @@ export default {
           position: employee.job_Title,
           supervisor: employee.first_Reporting_Manager.name,
           dialog_delete: false,
+          email: employee.email,
         })
       })
 
@@ -106,6 +109,7 @@ export default {
           value: 'name',
           sortable: true,
         },
+        { text: 'Email', value: 'email' },
         { text: 'Department', value: 'department', sortable: true },
         { text: 'Position', value: 'position', sortable: true },
 

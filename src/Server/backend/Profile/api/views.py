@@ -53,8 +53,37 @@ class ListEmployees(generics.ListAPIView):
             "department",
             "job_Title",
             "date_Of_Hire",
+            "resign_date",
         )
         .filter(user__is_active=True)
+    )
+
+
+class ReginListEmployees(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = EmployeeSerializer
+    queryset = (
+        Profile.objects.prefetch_related(
+            "first_Reporting_Manager",
+            "department",
+            "first_Reporting_Manager__department",
+            "second_Reporting_Manager",
+            "second_Reporting_Manager__department",
+        )
+        .only(
+            "id",
+            "name",
+            "email",
+            "typeOfEmployee",
+            "second_Reporting_Manager",
+            "first_Reporting_Manager",
+            "gender",
+            "department",
+            "job_Title",
+            "date_Of_Hire",
+            "resign_date",
+        )
+        .filter(user__is_active=False)
     )
 
 
@@ -84,7 +113,7 @@ class ProfileView(generics.RetrieveUpdateDestroyAPIView):
         "second_Reporting_Manager",
         "first_Reporting_Manager__department",
         "second_Reporting_Manager__department",
-    ).filter(user__is_active=True)
+    )
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -232,9 +261,10 @@ def resign_employee(request):
     try:
         id = request.data.get("id")
         profile = get_object_or_404(Profile, id=id)
-        profile.resign_date = timezone.now()
+        profile.resign_date = timezone.now().date()
         profile.user.is_active = False
         profile.save()
+        profile.user.save()
         profile.user_appraisal_list_set.update(is_closed=True)
         return Response("User is successfully resignd")
 

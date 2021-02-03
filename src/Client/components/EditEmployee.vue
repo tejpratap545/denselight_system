@@ -18,140 +18,120 @@
           v-model="tab"
           style="height: 600px; overflow-y: scroll; padding: 20px 5px"
         >
-          <v-form>
-            <v-tab-item>
-              <v-text-field
-                v-model="user.name"
-                label="Full Name"
-                outlined
-                :rules="[rules.required]"
-              ></v-text-field>
+          <v-tab-item>
+            <v-text-field
+              v-model="user.name"
+              label="Full Name"
+              outlined
+            ></v-text-field>
 
-              <v-select
-                v-model="user.department"
-                :items="departments"
-                item-text="name"
-                item-value="id"
-                label="Department"
-                outlined
-                :rules="[rules.required]"
-              ></v-select>
+            <v-select
+              v-model="user.department"
+              :items="departments"
+              item-text="name"
+              item-value="id"
+              label="Department"
+              outlined
+            ></v-select>
 
-              <v-text-field
-                v-model="user.email"
-                label="Email"
-                outlined
-                :rules="[rules.required, rules.email]"
-              ></v-text-field>
+            <v-text-field
+              v-model="user.email"
+              label="Email"
+              outlined
+            ></v-text-field>
 
-              <v-text-field
-                v-model="user.citizenship_Status"
-                label="Citizenship status"
-                outlined
-                :rules="[rules.required]"
-              ></v-text-field>
+            <v-text-field
+              v-model="user.citizenship_Status"
+              label="Citizenship status"
+              outlined
+            ></v-text-field>
 
-              <v-text-field
-                v-model="user.division_Centre"
-                label="Divison center"
-                outlined
-                :rules="[rules.required]"
-              ></v-text-field>
+            <v-text-field
+              v-model="user.division_Centre"
+              label="Divison center"
+              outlined
+            ></v-text-field>
 
-              <v-text-field
-                v-model="user.nric"
-                label="NRIC"
-                outlined
-                :rules="[rules.required]"
-              ></v-text-field>
+            <v-text-field
+              v-model="user.nric"
+              label="NRIC"
+              outlined
+            ></v-text-field>
 
-              <v-text-field
-                v-model="user.phone"
-                label="Phone"
-                outlined
-                :rules="[rules.required]"
-              ></v-text-field>
+            <v-text-field
+              v-model="user.phone"
+              label="Phone"
+              outlined
+            ></v-text-field>
 
-              <v-textarea
-                v-model="user.address_1"
-                label="Address"
-                :rules="[rules.required]"
-                outlined
-              >
-              </v-textarea>
+            <v-textarea v-model="user.address_1" label="Address" outlined>
+            </v-textarea>
 
-              <v-select
-                v-model="user.gender"
-                :items="gender"
-                label="Gender"
-                outlined
-                :rules="[rules.required]"
-              ></v-select>
+            <v-select
+              v-model="user.gender"
+              :items="gender"
+              label="Gender"
+              outlined
+            ></v-select>
 
-              <v-text-field
-                v-model="user.job_Title"
-                label="Job Title"
-                outlined
-                :rules="[rules.required]"
-              ></v-text-field>
+            <v-text-field
+              v-model="user.job_Title"
+              label="Job Title"
+              outlined
+            ></v-text-field>
 
-              <v-select
-                v-model="user.first_Reporting_Manager"
-                :items="employees"
-                item-text="name"
-                item-value="id"
-                label="First reporting manager"
-                outlined
-                :rules="[rules.required]"
-              ></v-select>
+            <v-select
+              v-model="user.first_Reporting_Manager.id"
+              :items="employees"
+              item-text="name"
+              item-value="id"
+              label="First reporting manager"
+              outlined
+              @change="user.first_Reporting_Manager.id = $event.target.value"
+            ></v-select>
 
-              <v-select
-                v-model="user.second_Reporting_Manager"
-                :items="employees"
-                item-text="name"
-                item-value="id"
-                label="Second reporting manager"
-                outlined
-                :rules="[rules.required]"
-              ></v-select>
+            <v-select
+              v-model="user.second_Reporting_Manager.id"
+              :items="employees"
+              item-text="name"
+              item-value="id"
+              label="Second reporting manager"
+              outlined
+            ></v-select>
 
-              <v-btn color="primary" @click="createUser"> Save </v-btn>
-              <v-btn text @click="close"> Close </v-btn>
-            </v-tab-item>
-            <v-tab-item>
-              <v-text-field
-                v-model="passwordReset.password1"
-                label="New Password"
-                outlined
-                :rules="[rules.required]"
-              ></v-text-field>
-              <v-text-field
-                v-model="passwordReset.password2"
-                label="Confirm Password"
-                outlined
-                :rules="[rules.required]"
-              ></v-text-field>
-              <v-btn elevation="0" color="primary" @click="changePassword">
-                Reset Password</v-btn
-              >
-              <v-btn text @click="close"> Close </v-btn>
-            </v-tab-item>
-            <v-tab-item>
-              <v-select
-                v-model="newRole.role"
-                :items="role"
-                label="Role"
-                outlined
-                :rules="[rules.required]"
-              ></v-select>
-              {{ user }} {{ newRole }} {{ employees }}
-              <v-btn elevation="0" color="primary" @click="changeRole">
-                Change Role</v-btn
-              >
+            <v-btn color="primary" @click="createUser"> Save </v-btn>
+            <v-btn text @click="close"> Close </v-btn>
+          </v-tab-item>
+          <v-tab-item>
+            <v-text-field
+              v-model="passwordReset.password1"
+              label="New Password"
+              outlined
+            ></v-text-field>
+            <v-text-field
+              v-model="passwordReset.password2"
+              label="Confirm Password"
+              outlined
+            ></v-text-field>
+            <v-btn elevation="0" color="primary" @click="changePassword">
+              Reset Password</v-btn
+            >
+            <v-btn text @click="close"> Close </v-btn>
+          </v-tab-item>
+          <v-tab-item>
+            <v-select
+              v-model="newRole.role"
+              :items="role"
+              label="Role"
+              outlined
+            ></v-select>
 
-              <v-btn text @click="close"> Close </v-btn>
-            </v-tab-item>
-          </v-form>
+            <v-btn elevation="0" color="primary" @click="changeRole">
+              Change Role</v-btn
+            >
+
+            <v-btn text @click="close"> Close </v-btn>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
@@ -159,57 +139,25 @@
 </template>
 
 <script>
-import global from '~/mixins/global'
-
 export default {
-  props: ['id', 'dialog', 'employees'],
-  mixins: [global],
+  props: ['id', 'dialog'],
   async fetch() {
     this.departments = await this.$axios.$get(`/api/department/`)
-    try {
-      await this.$axios.$get(`/api/profile/${this.id}`).then((response) => {
-        this.user = {
-          id: response.id,
-          user: response.user,
-          name: response.name,
-          department: response.department.id,
-          email: response.email,
-          citizenship_Status: response.citizenship_Status,
-          division_Centre: response.division_Centre,
-          nric: response.nric,
-          phone: response.phone,
-          gender: response.gender,
-          job_Title: response.job_Title,
-          first_Reporting_Manager: response.first_Reporting_Manager.id,
-          second_Reporting_Manager: response.second_Reporting_Manager.id,
-        }
-        this.newRole.role = this.user.user.role
-      })
-    } catch (error) {
-      console.log(error)
-    }
+    this.employees = await this.$axios.$get('/api/employee/short/list')
+
+    this.user = await this.$axios.$get(`/api/profile/${this.id}`)
+
+    this.newRole.role = this.user.user.role
   },
   data() {
     return {
       tab: null,
+      employees: '',
 
       role: ['HRManager', 'Hr', 'Manager', 'Employee', 'Admin'],
       gender: ['Male', 'Female'],
       departments: [],
-      user: {
-        id: 0,
-        name: '',
-        department: 0,
-        email: '',
-        citizenship_Status: '',
-        division_Centre: '',
-        nric: '',
-        phone: '',
-        gender: 'Male',
-        job_Title: '',
-        first_Reporting_Manager: 0,
-        second_Reporting_Manager: 0,
-      },
+      user: '',
       passwordReset: {
         password1: '',
         password2: '',
@@ -227,7 +175,19 @@ export default {
     },
     createUser() {
       this.$axios
-        .patch(`/api/profile/${this.id}`, this.user)
+        .patch(`/api/profile/${this.id}`, {
+          name: this.user.name,
+          department: this.user.department,
+          email: this.user.email,
+          citizenship_Status: this.user.citizenship_Status,
+          division_Centre: this.user.division_Centre,
+          nric: this.user.nric,
+          phone: this.user.phone,
+          gender: this.user.gender,
+          job_Title: this.user.job_Title,
+          first_Reporting_Manager: this.user.first_Reporting_Manager,
+          second_Reporting_Manager: this.user.first_Reporting_Manager,
+        })
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Success updating user',
