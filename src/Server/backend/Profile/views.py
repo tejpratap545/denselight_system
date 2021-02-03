@@ -70,7 +70,9 @@ class TokenView(APIView):
             typeOfEmployee = request.data.get("typeOfEmployee", "INDIRECT")
 
             try:
-                user = User.objects.get(Q(username=username) & Q(email=email))
+                user = User.objects.get(
+                    Q(username=username) & Q(email=email) & Q(is_active=True)
+                )
                 profile = get_object_or_404(
                     Profile, user=user, typeOfEmployee=typeOfEmployee
                 )

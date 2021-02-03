@@ -219,6 +219,7 @@ class Overall_Appraisal(models.Model):
     )
 
     RATING_CHOICES = (("Denselight System", "Denselight System"), ("MiRXes", "MiRXes"))
+    
 
     name = models.CharField(max_length=50, blank=False, null=True)
     appraisal_category = models.ForeignKey(
@@ -311,6 +312,7 @@ class User_Appraisal_List(models.Model):
         ("Uncompleted", "Uncompleted"),
         ("Completed", "Completed"),
     )
+    is_closed = models.BooleanField(default=False)
 
     employee = models.ForeignKey(
         Profile, blank=False, null=True, on_delete=models.CASCADE

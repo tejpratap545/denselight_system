@@ -3,6 +3,7 @@ from backend.Appraisals.api.views import (
     approve_endyear_manager,
     approve_goal,
     approve_midyear_manager,
+    ClosedAllAppraisalView,
     CreatePeerAppraisal,
     DetailAppraisal,
     DetailUserAppraisal,
@@ -47,6 +48,7 @@ from backend.Profile.api.views import (
     ProfileInfoView,
     ProfileView,
     reset_password,
+    resign_employee,
     set_profile_picture,
     SetPassword,
     ShortListEmployees,
@@ -118,4 +120,6 @@ urlpatterns = [
     path("reset_password", reset_password),
     path("get_token", get_token),
     path("download/report", download_report),
+    path("resign/employee", resign_employee),
+    path("resign/employee/list/appraisals", ClosedAllAppraisalView.as_view()),
 ]

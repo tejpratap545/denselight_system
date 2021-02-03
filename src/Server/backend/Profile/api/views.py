@@ -34,23 +34,27 @@ class DepartmentViewSet(ModelViewSet):
 class ListEmployees(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = EmployeeSerializer
-    queryset = Profile.objects.prefetch_related(
-        "first_Reporting_Manager",
-        "department",
-        "first_Reporting_Manager__department",
-        "second_Reporting_Manager",
-        "second_Reporting_Manager__department",
-    ).only(
-        "id",
-        "name",
-        "email",
-        "typeOfEmployee",
-        "second_Reporting_Manager",
-        "first_Reporting_Manager",
-        "gender",
-        "department",
-        "job_Title",
-        "date_Of_Hire",
+    queryset = (
+        Profile.objects.prefetch_related(
+            "first_Reporting_Manager",
+            "department",
+            "first_Reporting_Manager__department",
+            "second_Reporting_Manager",
+            "second_Reporting_Manager__department",
+        )
+        .only(
+            "id",
+            "name",
+            "email",
+            "typeOfEmployee",
+            "second_Reporting_Manager",
+            "first_Reporting_Manager",
+            "gender",
+            "department",
+            "job_Title",
+            "date_Of_Hire",
+        )
+        .filter(user__is_active=True)
     )
 
 
@@ -61,7 +65,7 @@ class ShortListEmployees(generics.ListAPIView):
         "id",
         "name",
         "email",
-    )
+    ).filter(user__is_active=True)
 
 
 class CreateProfile(generics.CreateAPIView):
@@ -80,7 +84,7 @@ class ProfileView(generics.RetrieveUpdateDestroyAPIView):
         "second_Reporting_Manager",
         "first_Reporting_Manager__department",
         "second_Reporting_Manager__department",
-    ).all()
+    ).filter(user__is_active=True)
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -218,3 +222,21 @@ def reset_password(request):
             return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+from django.utils import timezone
+
+
+@api_view(["POST"])
+def resign_employee(request):
+    try:
+        id = request.data.get("id")
+        profile = get_object_or_404(Profile, id=id)
+        profile.resign_date = timezone.now()
+        profile.user.is_active = False
+        profile.save()
+        profile.user_appraisal_list_set.update(is_closed=True)
+        return Response("User is successfully resignd")
+
+    except:
+        return Response("An error accured", status=status.HTTP_400_BAD_REQUEST)

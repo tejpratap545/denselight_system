@@ -31,7 +31,7 @@ class ManagerAppraisal(generics.ListAPIView):
                 "overall_appraisal__appraisal_category",
                 "appraisal_category",
             )
-            .filter(manager=self.request.user.profile)
+            .filter(manager=self.request.user.profile, is_closed=False)
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
@@ -41,7 +41,28 @@ class ManagerAppraisal(generics.ListAPIView):
 
 
 class AllAppraisalView(generics.ListAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserAppraisalListSerializer
+
+    def get_queryset(self):
+
+        return User_Appraisal_List.objects.prefetch_related(
+            "overall_appraisal",
+            "employee",
+            "employee__department",
+            "manager",
+            "manager__department",
+            "overall_appraisal__appraisal_category",
+            "appraisal_category",
+        ).annotate(
+            goals_count=Count("goals"),
+            core_values_competencies_count=Count("competencies"),
+            skills_count=Count("skills"),
+        )
+
+
+class ClosedAllAppraisalView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = UserAppraisalListSerializer
 
     def get_queryset(self):
@@ -56,12 +77,12 @@ class AllAppraisalView(generics.ListAPIView):
                 "overall_appraisal__appraisal_category",
                 "appraisal_category",
             )
-            .all()
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
                 skills_count=Count("skills"),
             )
+            .filter(is_closed=True)
         )
 
 
@@ -100,7 +121,7 @@ class UserAppraisal(generics.ListAPIView):
                 "overall_appraisal__appraisal_category",
                 "appraisal_category",
             )
-            .filter(employee=self.request.user.profile)
+            .filter(employee=self.request.user.profile, is_closed=False)
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
@@ -135,7 +156,7 @@ class DetailUserAppraisal(generics.ListAPIView):
             "overall_appraisal__departmentalgoals_set__manager__department",
             "overall_appraisal__departmentalcompetencies_set",
             "overall_appraisal__departmentalcompetencies_set__competency_category",
-        ).filter(employee=self.request.user.profile)
+        ).filter(employee=self.request.user.profile, is_closed=False)
 
 
 class AppraisalCategoryViewSet(ModelViewSet):
