@@ -124,10 +124,11 @@
               label="Role"
               outlined
             ></v-select>
-
+            {{ user }} {{ newRole }} {{ employees }}
             <v-btn elevation="0" color="primary" @click="changeRole">
               Change Role</v-btn
             >
+
             <v-btn text @click="close"> Close </v-btn>
           </v-tab-item>
         </v-tabs-items>
@@ -140,25 +141,26 @@
 export default {
   props: ['id', 'dialog', 'employees'],
   async fetch() {
+    this.departments = await this.$axios.$get(`/api/department/`)
     try {
-      const response = await this.$axios.$get(`/api/profile/${this.id}`)
-      this.departments = await this.$axios.$get(`/api/department/`)
-
-      this.user = {
-        id: response.id,
-        name: response.name,
-        department: response.department.id,
-        email: response.email,
-        citizenship_Status: response.citizenship_Status,
-        division_Centre: response.division_Centre,
-        nric: response.nric,
-        phone: response.phone,
-        gender: response.gender,
-        job_Title: response.job_Title,
-        first_Reporting_Manager: response.first_Reporting_Manager.id,
-        second_Reporting_Manager: response.second_Reporting_Manager.id,
-      }
-      this.newRole.role = this.user.user.role
+      await this.$axios.$get(`/api/profile/${this.id}`).then((response) => {
+        this.user = {
+          id: response.id,
+          user: response.user,
+          name: response.name,
+          department: response.department.id,
+          email: response.email,
+          citizenship_Status: response.citizenship_Status,
+          division_Centre: response.division_Centre,
+          nric: response.nric,
+          phone: response.phone,
+          gender: response.gender,
+          job_Title: response.job_Title,
+          first_Reporting_Manager: response.first_Reporting_Manager.id,
+          second_Reporting_Manager: response.second_Reporting_Manager.id,
+        }
+        this.newRole.role = this.user.user.role
+      })
     } catch (error) {
       console.log(error)
     }
