@@ -182,6 +182,7 @@ export default {
         })
       })
     },
+
     async patchGoals() {
       this.goals.forEach(async (goal) => {
         await this.$axios.patch(`api/goal/${goal.id}`, {
