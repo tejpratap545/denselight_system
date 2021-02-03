@@ -57,6 +57,19 @@
                     </v-simple-table>
 
                     <v-row>
+                      <v-col> Goal Settings Stage Employee comments </v-col>
+                      <v-col>
+                        {{ item.goal_employees_comment || 'NIL' }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col> Goal Settings Stage Manager comments </v-col>
+                      <v-col>
+                        {{ item.goal_manager_comment || 'NIL' }}
+                      </v-col>
+                    </v-row>
+
+                    <v-row>
                       <v-col>Set tracking status</v-col>
                       <v-col>
                         {{ item.tracking_status }}

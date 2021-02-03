@@ -83,6 +83,18 @@
                   </v-simple-table>
 
                   <v-row>
+                    <v-col> Goal Settings Stage Employee comments </v-col>
+                    <v-col>
+                      {{ item.goal_employees_comment || 'NIL' }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col> Goal Settings Stage Manager comments </v-col>
+                    <v-col>
+                      {{ item.goal_manager_comment || 'NIL' }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
                     <v-col> tracking status</v-col>
                     <v-col>
                       {{ item.tracking_status }}
@@ -91,27 +103,27 @@
                   <v-row>
                     <v-col> Mid year employee comments </v-col>
                     <v-col>
-                      {{ item.MID_user_comments }}
+                      {{ item.MID_user_comments || 'NIL' }}
                     </v-col>
                   </v-row>
                   <v-row>
                     <v-col> Mid year employee comments </v-col>
                     <v-col>
-                      {{ item.MID_manager_comments }}
+                      {{ item.MID_manager_comments || 'NIL' }}
                     </v-col>
                   </v-row>
 
                   <v-row>
                     <v-col>End Year Employee Comment</v-col>
                     <v-col>
-                      {{ item.user_comments }}
+                      {{ item.user_comments || 'NIL' }}
                     </v-col>
                   </v-row>
 
                   <v-row>
                     <v-col>End Year Manager Comment</v-col>
                     <v-col>
-                      {{ item.manager_comments }}
+                      {{ item.manager_comments || 'NIL' }}
                     </v-col>
                   </v-row>
                   <v-row>
