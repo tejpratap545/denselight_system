@@ -1,4 +1,6 @@
 from ..models import Departments, Guide, Notification, Profile, User
+from backend.Appraisals.models import User_Appraisal_List
+from backend.GnC.models import Goals
 from rest_framework import serializers
 
 
@@ -87,6 +89,12 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
+
+    def update(self, instance, validated_data):
+        User_Appraisal_List.objects.filter(employee=instance).update(
+            manager=validated_data.get("first_Reporting_Manager")
+        )
+        return super().update(instance, validated_data)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
