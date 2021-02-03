@@ -497,7 +497,9 @@ def download_report(request):
     try:
 
         p = (
-            data.filter(status="S1BManager", mid_year_completion="Completed")
+            data.filter(
+                status="S1BManager", mid_year_completion="Completed", completion="null"
+            )
             .order_by("employee__second_Reporting_Manager")
             .annotate(
                 total1=Window(
@@ -593,7 +595,7 @@ def download_report(request):
     try:
 
         p = (
-            data.filter(status="S1BManager", completion="null")
+            data.filter(status="S1BManager", completion="Ecompleted")
             .order_by("employee__second_Reporting_Manager")
             .annotate(
                 total1=Window(
