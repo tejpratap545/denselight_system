@@ -23,6 +23,10 @@ export default {
                     name: '5. Far Exceed Expectations',
                 },
             ],
+            rules: {
+                required: value => !!value || 'Required.',
+                email: v => /.+@.+/.test(v) || 'E-mail must be valid',
+            }
         }
     },
 
