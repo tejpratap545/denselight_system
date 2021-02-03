@@ -6,29 +6,35 @@
           Create Core Values Competencies</v-card-title
         >
         <v-card-text>
-          <v-select
-            v-model="competencies.competency_category"
-            :items="categories"
-            item-text="name"
-            item-value="id"
-            label="Core Values Competency Category"
-          ></v-select>
-          <v-text-field
-            v-model="competencies.summary"
-            label="Core Values Competency"
-          ></v-text-field>
+          <v-form>
+            <v-select
+              v-model="competencies.competency_category"
+              :items="categories"
+              item-text="name"
+              item-value="id"
+              label="Core Values Competency Category"
+              :rules="[rules.required]"
+            ></v-select>
+            <v-text-field
+              v-model="competencies.summary"
+              label="Core Values Competency"
+              :rules="[rules.required]"
+            ></v-text-field>
 
-          <v-textarea
-            v-model="competencies.description"
-            label="Description"
-            outlined
-          ></v-textarea>
+            <v-textarea
+              v-model="competencies.description"
+              label="Description"
+              outlined
+              :rules="[rules.required]"
+            ></v-textarea>
 
-          <v-text-field
-            v-model="competencies.weightage"
-            label="Weightage (%)"
-            type="number"
-          ></v-text-field>
+            <v-text-field
+              v-model="competencies.weightage"
+              label="Weightage (%)"
+              type="number"
+              :rules="[rules.required]"
+            ></v-text-field>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

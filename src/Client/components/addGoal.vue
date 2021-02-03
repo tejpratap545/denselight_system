@@ -4,61 +4,75 @@
       <v-card>
         <v-card-title class="headline"> Add Goal </v-card-title>
         <v-card-text>
-          <v-select
-            v-model="createGoal.goal_category"
-            :items="categories"
-            item-text="name"
-            item-value="id"
-            label="Enter goal category"
-          ></v-select>
-          <v-text-field
-            v-model="createGoal.summary"
-            label="Goal Title "
-          ></v-text-field>
+          <v-form>
+            <v-select
+              v-model="createGoal.goal_category"
+              :items="categories"
+              item-text="name"
+              item-value="id"
+              label="Enter goal category"
+              :rules="[rules.required]"
+            ></v-select>
+            <v-text-field
+              v-model="createGoal.summary"
+              label="Goal Title "
+              :rules="[rules.required]"
+            ></v-text-field>
 
-          <v-textarea
-            v-model="createGoal.description"
-            label="Goal Objective "
-            outlined
-          ></v-textarea>
-          <v-text-field label="Tracking Source/Documents "></v-text-field>
-          <v-text-field
-            v-model="createGoal.weightage"
-            label="Weightage (%)"
-            type="number"
-          ></v-text-field>
+            <v-textarea
+              v-model="createGoal.description"
+              label="Goal Objective "
+              :rules="[rules.required]"
+              outlined
+            ></v-textarea>
+            <v-text-field
+              label="Tracking Source/Documents "
+              :rules="[rules.required]"
+              outlined
+            ></v-text-field>
+            <v-text-field
+              v-model="createGoal.weightage"
+              label="Weightage (%)"
+              type="number"
+              :rules="[rules.required]"
+              outlined
+            ></v-text-field>
 
-          <v-menu
-            ref="menu"
-            v-model="menu"
-            :close-on-content-click="false"
-            :return-value.sync="createGoal.due"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="createGoal.due"
-                label="Due Date"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="createGoal.due" no-title scrollable>
-              <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
-              <v-btn
-                text
-                color="primary"
-                @click="$refs.menu.save(createGoal.due)"
-              >
-                OK
-              </v-btn>
-            </v-date-picker>
-          </v-menu>
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              :return-value.sync="createGoal.due"
+              transition="scale-transition"
+              offset-y
+              :rules="[rules.required]"
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="createGoal.due"
+                  label="Due Date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="createGoal.due" no-title scrollable>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="menu = false">
+                  Cancel
+                </v-btn>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="$refs.menu.save(createGoal.due)"
+                >
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-menu>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -70,8 +84,12 @@
   </v-row>
 </template>
 <script>
+import global from '~/mixins/global'
+
 export default {
   name: 'AddGoal',
+  mixins: [global],
+
   props: {
     dialog: Boolean,
     appraisalId: Number,

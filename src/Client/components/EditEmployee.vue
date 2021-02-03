@@ -18,119 +18,140 @@
           v-model="tab"
           style="height: 600px; overflow-y: scroll; padding: 20px 5px"
         >
-          <v-tab-item>
-            <v-text-field
-              v-model="user.name"
-              label="Full Name"
-              outlined
-            ></v-text-field>
+          <v-form>
+            <v-tab-item>
+              <v-text-field
+                v-model="user.name"
+                label="Full Name"
+                outlined
+                :rules="[rules.required]"
+              ></v-text-field>
 
-            <v-select
-              v-model="user.department"
-              :items="departments"
-              item-text="name"
-              item-value="id"
-              label="Department"
-              outlined
-            ></v-select>
+              <v-select
+                v-model="user.department"
+                :items="departments"
+                item-text="name"
+                item-value="id"
+                label="Department"
+                outlined
+                :rules="[rules.required]"
+              ></v-select>
 
-            <v-text-field
-              v-model="user.email"
-              label="Email"
-              outlined
-            ></v-text-field>
+              <v-text-field
+                v-model="user.email"
+                label="Email"
+                outlined
+                :rules="[rules.required, rules.email]"
+              ></v-text-field>
 
-            <v-text-field
-              v-model="user.citizenship_Status"
-              label="Citizenship status"
-              outlined
-            ></v-text-field>
+              <v-text-field
+                v-model="user.citizenship_Status"
+                label="Citizenship status"
+                outlined
+                :rules="[rules.required]"
+              ></v-text-field>
 
-            <v-text-field
-              v-model="user.division_Centre"
-              label="Divison center"
-              outlined
-            ></v-text-field>
+              <v-text-field
+                v-model="user.division_Centre"
+                label="Divison center"
+                outlined
+                :rules="[rules.required]"
+              ></v-text-field>
 
-            <v-text-field
-              v-model="user.nric"
-              label="NRIC"
-              outlined
-            ></v-text-field>
+              <v-text-field
+                v-model="user.nric"
+                label="NRIC"
+                outlined
+                :rules="[rules.required]"
+              ></v-text-field>
 
-            <v-text-field
-              v-model="user.phone"
-              label="Phone"
-              outlined
-            ></v-text-field>
+              <v-text-field
+                v-model="user.phone"
+                label="Phone"
+                outlined
+                :rules="[rules.required]"
+              ></v-text-field>
 
-            <v-textarea v-model="user.address_1" label="Address" outlined>
-            </v-textarea>
+              <v-textarea
+                v-model="user.address_1"
+                label="Address"
+                :rules="[rules.required]"
+                outlined
+              >
+              </v-textarea>
 
-            <v-select
-              v-model="user.gender"
-              :items="gender"
-              label="Gender"
-              outlined
-            ></v-select>
+              <v-select
+                v-model="user.gender"
+                :items="gender"
+                label="Gender"
+                outlined
+                :rules="[rules.required]"
+              ></v-select>
 
-            <v-text-field
-              v-model="user.job_Title"
-              label="Job Title"
-              outlined
-            ></v-text-field>
+              <v-text-field
+                v-model="user.job_Title"
+                label="Job Title"
+                outlined
+                :rules="[rules.required]"
+              ></v-text-field>
 
-            <v-select
-              v-model="user.first_Reporting_Manager"
-              :items="employees"
-              item-text="name"
-              item-value="id"
-              label="First reporting manager"
-              outlined
-            ></v-select>
+              <v-select
+                v-model="user.first_Reporting_Manager"
+                :items="employees"
+                item-text="name"
+                item-value="id"
+                label="First reporting manager"
+                outlined
+                :rules="[rules.required]"
+              ></v-select>
 
-            <v-select
-              v-model="user.second_Reporting_Manager"
-              :items="employees"
-              item-text="name"
-              item-value="id"
-              label="Second reporting manager"
-              outlined
-            ></v-select>
+              <v-select
+                v-model="user.second_Reporting_Manager"
+                :items="employees"
+                item-text="name"
+                item-value="id"
+                label="Second reporting manager"
+                outlined
+                :rules="[rules.required]"
+              ></v-select>
 
-            <v-btn color="primary" @click="createUser"> Save </v-btn>
-            <v-btn text @click="close"> Close </v-btn>
-          </v-tab-item>
-          <v-tab-item>
-            <v-text-field
-              v-model="passwordReset.password1"
-              label="New Password"
-              outlined
-            ></v-text-field>
-            <v-text-field
-              v-model="passwordReset.password2"
-              label="Confirm Password"
-              outlined
-            ></v-text-field>
-            <v-btn elevation="0" color="primary" @click="changePassword">
-              Reset Password</v-btn
-            >
-            <v-btn text @click="close"> Close </v-btn>
-          </v-tab-item>
-          <v-tab-item>
-            <v-select
-              v-model="newRole.role"
-              :items="role"
-              label="Role"
-              outlined
-            ></v-select>
-            {{ user }} {{ newRole }} {{ employees }}
-            <v-btn elevation="0" color="primary" @click="changeRole">
-              Change Role</v-btn
-            >
+              <v-btn color="primary" @click="createUser"> Save </v-btn>
+              <v-btn text @click="close"> Close </v-btn>
+            </v-tab-item>
+            <v-tab-item>
+              <v-text-field
+                v-model="passwordReset.password1"
+                label="New Password"
+                outlined
+                :rules="[rules.required]"
+              ></v-text-field>
+              <v-text-field
+                v-model="passwordReset.password2"
+                label="Confirm Password"
+                outlined
+                :rules="[rules.required]"
+              ></v-text-field>
+              <v-btn elevation="0" color="primary" @click="changePassword">
+                Reset Password</v-btn
+              >
+              <v-btn text @click="close"> Close </v-btn>
+            </v-tab-item>
+            <v-tab-item>
+              <v-select
+                v-model="newRole.role"
+                :items="role"
+                label="Role"
+                outlined
+                :rules="[rules.required]"
+              ></v-select>
+              {{ user }} {{ newRole }} {{ employees }}
+              <v-btn elevation="0" color="primary" @click="changeRole">
+                Change Role</v-btn
+              >
 
-            <v-btn text @click="close"> Close </v-btn>
-          </v-tab-item>
+              <v-btn text @click="close"> Close </v-btn>
+            </v-tab-item>
+          </v-form>
         </v-tabs-items>
       </v-card-text>
     </v-card>
@@ -138,8 +159,11 @@
 </template>
 
 <script>
+import global from '~/mixins/global'
+
 export default {
   props: ['id', 'dialog', 'employees'],
+  mixins: [global],
   async fetch() {
     this.departments = await this.$axios.$get(`/api/department/`)
     try {
