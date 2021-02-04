@@ -3,7 +3,7 @@ from ..models import *
 from .serializers import *
 from backend.Profile.permissions import IsHr, IsHrManager
 from django.core.mail import send_mail
-from django.db.models import Count, Q, Window
+from django.db.models import Count, Prefetch, Q, Window
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
@@ -31,7 +31,11 @@ class ManagerAppraisal(generics.ListAPIView):
                 "overall_appraisal__appraisal_category",
                 "appraisal_category",
             )
-            .filter(manager=self.request.user.profile, is_closed=False)
+            .filter(
+                manager=self.request.user.profile,
+                is_closed=False,
+            )
+            .exclude(overall_appraisal__status="Completed")
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
@@ -46,18 +50,22 @@ class AllAppraisalView(generics.ListAPIView):
 
     def get_queryset(self):
 
-        return User_Appraisal_List.objects.prefetch_related(
-            "overall_appraisal",
-            "employee",
-            "employee__department",
-            "manager",
-            "manager__department",
-            "overall_appraisal__appraisal_category",
-            "appraisal_category",
-        ).annotate(
-            goals_count=Count("goals"),
-            core_values_competencies_count=Count("competencies"),
-            skills_count=Count("skills"),
+        return (
+            User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "employee__department",
+                "manager",
+                "manager__department",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            )
+            .exclude(overall_appraisal__status="Completed")
+            .annotate(
+                goals_count=Count("goals"),
+                core_values_competencies_count=Count("competencies"),
+                skills_count=Count("skills"),
+            )
         )
 
 
@@ -94,15 +102,19 @@ class AppraisalViewSet(ModelViewSet):
 
 class OverallAppraisal(generics.ListAPIView):
     permission_classes = [IsHr or IsHrManager]
-    queryset = Overall_Appraisal.objects.prefetch_related(
-        "appraisal_category",
-        "departmentalgoals_set",
-        "departmentalgoals_set__goal_category",
-        "departmentalgoals_set__manager",
-        "departmentalgoals_set__manager__department",
-        "departmentalcompetencies_set",
-        "departmentalcompetencies_set__competency_category",
-    ).filter(Q(status="Stage 1") | Q(status="Stage 2"))
+    queryset = (
+        Overall_Appraisal.objects.prefetch_related(
+            "appraisal_category",
+            "departmentalgoals_set",
+            "departmentalgoals_set__goal_category",
+            "departmentalgoals_set__manager",
+            "departmentalgoals_set__manager__department",
+            "departmentalcompetencies_set",
+            "departmentalcompetencies_set__competency_category",
+        )
+        .filter(Q(status="Stage 1") | Q(status="Stage 2"))
+        .exclude(status="Completed")
+    )
     serializer_class = DetailOverallAppraisalSerializer
 
 
@@ -122,6 +134,7 @@ class UserAppraisal(generics.ListAPIView):
                 "appraisal_category",
             )
             .filter(employee=self.request.user.profile, is_closed=False)
+            .exclude(overall_appraisal__status="Completed")
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
@@ -550,7 +563,16 @@ class ShortManagerAppraisal(generics.ListAPIView):
 
     def get_queryset(self):
         return Profile.objects.prefetch_related(
-            "user_appraisal_list_set", "user_appraisal_list_set__overall_appraisal"
+            Prefetch(
+                "user_appraisal_list_set",
+                queryset=User_Appraisal_List.objects.exclude(
+                    overall__appraisal__status="Completed"
+                ),
+            ),
+            Prefetch(
+                "user_appraisal_list_set__overall_appraisal",
+                queryset=User_Appraisal_List.objects.exclude(status="Completed"),
+            ),
         ).filter(first_Reporting_Manager=self.request.user.profile)
 
 
@@ -560,7 +582,54 @@ class ShortHodAppraisal(generics.ListAPIView):
 
     def get_queryset(self):
         return Profile.objects.prefetch_related(
-            "user_appraisal_list_set", "user_appraisal_list_set__overall_appraisal"
+            Prefetch(
+                "user_appraisal_list_set",
+                queryset=User_Appraisal_List.objects.exclude(
+                    overall__appraisal__status="Completed"
+                ),
+            ),
+            Prefetch(
+                "user_appraisal_list_set__overall_appraisal",
+                queryset=User_Appraisal_List.objects.exclude(status="Completed"),
+            ),
+        ).filter(second_Reporting_Manager=self.request.user.profile)
+
+
+class CompletedShortManagerAppraisal(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ShortAppraisal2HodSerializer
+
+    def get_queryset(self):
+        return Profile.objects.prefetch_related(
+            Prefetch(
+                "user_appraisal_list_set",
+                queryset=User_Appraisal_List.objects.exclude(
+                    overall__appraisal__status="Completed"
+                ),
+            ),
+            Prefetch(
+                "user_appraisal_list_set__overall_appraisal",
+                queryset=User_Appraisal_List.objects.exclude(status="Completed"),
+            ),
+        ).filter(first_Reporting_Manager=self.request.user.profile)
+
+
+class CompletedShortHodAppraisal(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ShortAppraisal2HodSerializer
+
+    def get_queryset(self):
+        return Profile.objects.prefetch_related(
+            Prefetch(
+                "user_appraisal_list_set",
+                queryset=User_Appraisal_List.objects.filter(
+                    overall__appraisal__status="Completed"
+                ),
+            ),
+            Prefetch(
+                "user_appraisal_list_set__overall_appraisal",
+                queryset=User_Appraisal_List.objects.filter(status="Completed"),
+            ),
         ).filter(second_Reporting_Manager=self.request.user.profile)
 
 
