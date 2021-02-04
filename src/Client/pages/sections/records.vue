@@ -67,53 +67,58 @@
           >
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length">
-                <v-list dense>
-                  <v-list-item
-                    v-for="appraisal in item.user_appraisals"
-                    :key="appraisal.id"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-html="appraisal.dat.appraisal_name"
-                      ></v-list-item-title>
-                    </v-list-item-content>
-                    <v-list-item-action>
-                      <v-dialog
-                        v-model="appraisal.appraisal_dialog"
-                        scrollable
-                        max-width="1200"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            color="grey lighten-1"
-                            icon
-                            v-bind="attrs"
-                            v-on="on"
-                          >
-                            <v-icon>mdi-eye-circle</v-icon>
-                          </v-btn>
-                        </template>
-                        <v-card>
-                          <v-toolbar color="primary" dark>
-                            <b>{{ appraisal.dat.appraisal_name }}</b>
-                            <v-spacer></v-spacer>
+                <div v-if="item.user_appraisals.length != 0">
+                  <v-list dense>
+                    <v-list-item
+                      v-for="appraisal in item.user_appraisals"
+                      :key="appraisal.id"
+                    >
+                      <v-list-item-content>
+                        <v-list-item-title
+                          v-html="appraisal.dat.appraisal_name"
+                        ></v-list-item-title>
+                      </v-list-item-content>
+                      <v-list-item-action>
+                        <v-dialog
+                          v-model="appraisal.appraisal_dialog"
+                          scrollable
+                          max-width="1200"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
                             <v-btn
+                              color="grey lighten-1"
                               icon
-                              @click="appraisal.appraisal_dialog = false"
+                              v-bind="attrs"
+                              v-on="on"
                             >
-                              <v-icon>mdi-close</v-icon>
+                              <v-icon>mdi-eye-circle</v-icon>
                             </v-btn>
-                          </v-toolbar>
-                          <Appraisal
-                            v-if="appraisal.appraisal_dialog"
-                            :appraisal-id="appraisal.dat.id"
-                            is-editable="true"
-                          />
-                        </v-card>
-                      </v-dialog>
-                    </v-list-item-action>
-                  </v-list-item>
-                </v-list>
+                          </template>
+                          <v-card>
+                            <v-toolbar color="primary" dark>
+                              <b>{{ appraisal.dat.appraisal_name }}</b>
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                icon
+                                @click="appraisal.appraisal_dialog = false"
+                              >
+                                <v-icon>mdi-close</v-icon>
+                              </v-btn>
+                            </v-toolbar>
+                            <Appraisal
+                              v-if="appraisal.appraisal_dialog"
+                              :appraisal-id="appraisal.dat.id"
+                              is-editable="true"
+                            />
+                          </v-card>
+                        </v-dialog>
+                      </v-list-item-action>
+                    </v-list-item>
+                  </v-list>
+                </div>
+                <div v-else>
+                  <p>No appraisals found</p>
+                </div>
               </td>
             </template>
           </v-data-table>
@@ -132,52 +137,57 @@
           >
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length">
-                <v-list dense>
-                  <v-list-item
-                    v-for="appraisal in item.user_appraisals"
-                    :key="appraisal.id"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-html="appraisal.dat.appraisal_name"
-                      ></v-list-item-title>
-                    </v-list-item-content>
-                    <v-list-item-action>
-                      <v-dialog
-                        v-model="appraisal.appraisal_dialog"
-                        scrollable
-                        max-width="1200"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            color="grey lighten-1"
-                            icon
-                            v-bind="attrs"
-                            v-on="on"
-                          >
-                            <v-icon>mdi-eye-circle</v-icon>
-                          </v-btn>
-                        </template>
-                        <v-card>
-                          <v-toolbar color="primary" dark>
-                            <b>{{ appraisal.dat.appraisal_name }}</b>
-                            <v-spacer></v-spacer>
+                <div v-if="item.user_appraisals.length != 0">
+                  <v-list dense>
+                    <v-list-item
+                      v-for="appraisal in item.user_appraisals"
+                      :key="appraisal.id"
+                    >
+                      <v-list-item-content>
+                        <v-list-item-title
+                          v-html="appraisal.dat.appraisal_name"
+                        ></v-list-item-title>
+                      </v-list-item-content>
+                      <v-list-item-action>
+                        <v-dialog
+                          v-model="appraisal.appraisal_dialog"
+                          scrollable
+                          max-width="1200"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
                             <v-btn
+                              color="grey lighten-1"
                               icon
-                              @click="appraisal.appraisal_dialog = false"
+                              v-bind="attrs"
+                              v-on="on"
                             >
-                              <v-icon>mdi-close</v-icon>
+                              <v-icon>mdi-eye-circle</v-icon>
                             </v-btn>
-                          </v-toolbar>
-                          <Appraisal
-                            v-if="appraisal.appraisal_dialog"
-                            :appraisal-id="appraisal.dat.id"
-                          />
-                        </v-card>
-                      </v-dialog>
-                    </v-list-item-action>
-                  </v-list-item>
-                </v-list>
+                          </template>
+                          <v-card>
+                            <v-toolbar color="primary" dark>
+                              <b>{{ appraisal.dat.appraisal_name }}</b>
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                icon
+                                @click="appraisal.appraisal_dialog = false"
+                              >
+                                <v-icon>mdi-close</v-icon>
+                              </v-btn>
+                            </v-toolbar>
+                            <Appraisal
+                              v-if="appraisal.appraisal_dialog"
+                              :appraisal-id="appraisal.dat.id"
+                            />
+                          </v-card>
+                        </v-dialog>
+                      </v-list-item-action>
+                    </v-list-item>
+                  </v-list>
+                </div>
+                <div v-else>
+                  <p>No appraisals found</p>
+                </div>
               </td>
             </template>
           </v-data-table>
@@ -195,7 +205,9 @@ export default {
   mixins: [global],
   async fetch() {
     try {
-      this.previousApprials = await this.$axios.$get('/api/appraisals/list/me/completed')
+      this.previousApprials = await this.$axios.$get(
+        '/api/appraisals/list/me/completed'
+      )
 
       await this.department()
       this.loading = false
