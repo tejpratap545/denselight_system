@@ -217,12 +217,7 @@ export default {
   mixins: [global],
   async fetch() {
     try {
-      const response = await this.$axios.$get('/api/appraisals/list/detail/me')
-
-      response.forEach((appraisal) => {
-        if (appraisal.overall_appraisal.status == 'Completed')
-          this.previousApprials.push(appraisal)
-      })
+      this.previousApprials = await this.$axios.$get('/api/appraisals/list/me/completed')
 
       await this.department()
       this.loading = false
