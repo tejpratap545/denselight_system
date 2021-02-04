@@ -683,7 +683,7 @@ export default {
       try {
         this.loading = true
 
-     //   await this.fetchclosedAppraisals()
+        await this.fetchclosedAppraisals()
         await this.fetchoverallAppraisals()
         await this.fetchuserAppraisals()
 
