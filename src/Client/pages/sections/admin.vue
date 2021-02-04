@@ -639,6 +639,7 @@
 export default {
   layout: 'dashboard-template',
   name: 'Admin',
+  middleware: 'is-admin',
   async fetch() {
     this.goalsLaunchingTableItems = []
     this.midYearTableItems = []
