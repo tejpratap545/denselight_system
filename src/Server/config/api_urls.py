@@ -115,6 +115,7 @@ urlpatterns = [
     ),
     path("appraisals/list/short/hod/completed", CompletedShortHodAppraisal.as_view()),
     path("appraisals/list/me", UserAppraisal.as_view()),
+    path("appraisals/list/me/completed", CompletedUserAppraisal.as_view()),
     path("appraisals/list/detail/me", DetailUserAppraisal.as_view()),
     path("goal/create", CreateGoalView.as_view(), name="create_goal"),
     path("KPI/create", CreateKPI.as_view(), name="create_KPI"),

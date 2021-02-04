@@ -143,33 +143,61 @@ class UserAppraisal(generics.ListAPIView):
         )
 
 
+class CompletedUserAppraisal(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserAppraisalListSerializer
+
+    def get_queryset(self):
+        return (
+            User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "manager",
+                "manager__department",
+                "employee__department",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            )
+            .filter(employee=self.request.user.profile, is_closed=False,overall_appraisal__status="Completed")
+            .annotate(
+                goals_count=Count("goals"),
+                core_values_competencies_count=Count("competencies"),
+                skills_count=Count("skills"),
+            )
+        )
+
+
 class DetailUserAppraisal(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = DetailAppraisalSerializer
 
     def get_queryset(self):
-        return User_Appraisal_List.objects.prefetch_related(
-            "manager",
-            "employee",
-            "manager__department",
-            "employee__department",
-            "overall_appraisal",
-            "overall_appraisal__appraisal_category",
-            "appraisal_category",
-            "goals_set",
-            "competencies_set",
-            "goals_set__kpi_set",
-            "competencies_set__competencycomment_set",
-            "skills_set",
-            "skills_set__skill_category",
-            "goals_set__goal_category",
-            "overall_appraisal__departmentalgoals_set",
-            "overall_appraisal__departmentalgoals_set__goal_category",
-            "overall_appraisal__departmentalgoals_set__manager",
-            "overall_appraisal__departmentalgoals_set__manager__department",
-            "overall_appraisal__departmentalcompetencies_set",
-            "overall_appraisal__departmentalcompetencies_set__competency_category",
-        ).filter(employee=self.request.user.profile, is_closed=False)
+        return (
+            User_Appraisal_List.objects.prefetch_related(
+                "manager",
+                "employee",
+                "manager__department",
+                "employee__department",
+                "overall_appraisal",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+                "goals_set",
+                "competencies_set",
+                "goals_set__kpi_set",
+                "competencies_set__competencycomment_set",
+                "skills_set",
+                "skills_set__skill_category",
+                "goals_set__goal_category",
+                "overall_appraisal__departmentalgoals_set",
+                "overall_appraisal__departmentalgoals_set__goal_category",
+                "overall_appraisal__departmentalgoals_set__manager",
+                "overall_appraisal__departmentalgoals_set__manager__department",
+                "overall_appraisal__departmentalcompetencies_set",
+                "overall_appraisal__departmentalcompetencies_set__competency_category",
+            )
+            .filter(employee=self.request.user.profile, is_closed=False)
+            .exclude(overall_appraisal__status="Completed")
+        )
 
 
 class AppraisalCategoryViewSet(ModelViewSet):
