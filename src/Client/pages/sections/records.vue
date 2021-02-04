@@ -77,16 +77,6 @@
                       <v-list-item-title
                         v-html="appraisal.dat.appraisal_name"
                       ></v-list-item-title>
-                      <v-list-item-subtitle
-                        v-html="
-                          getStatus(
-                            appraisal.dat.overall_appraisal.status,
-                            appraisal.dat.status,
-                            appraisal.dat.mid_year_completion,
-                            appraisal.completion
-                          )
-                        "
-                      ></v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-action>
                       <v-dialog
@@ -153,16 +143,6 @@
                       <v-list-item-title
                         v-html="appraisal.dat.appraisal_name"
                       ></v-list-item-title>
-                      <v-list-item-subtitle
-                        v-html="
-                          getStatus(
-                            appraisal.dat.overall_appraisal.status,
-                            appraisal.dat.status,
-                            appraisal.dat.mid_year_completion,
-                            appraisal.completion
-                          )
-                        "
-                      ></v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-action>
                       <v-dialog

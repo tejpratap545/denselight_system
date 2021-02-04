@@ -29,7 +29,11 @@ from backend.Profile.api.views import (
     StatusView,
 )
 from backend.Profile.views import download_report
-from backend.Trainings.api.views import AdminCreateSkillsApiView, CreateSkillsApiView, SkillsApiView
+from backend.Trainings.api.views import (
+    AdminCreateSkillsApiView,
+    CreateSkillsApiView,
+    SkillsApiView,
+)
 from django.urls.conf import path
 
 

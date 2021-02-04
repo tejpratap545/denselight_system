@@ -158,7 +158,11 @@ class CompletedUserAppraisal(generics.ListAPIView):
                 "overall_appraisal__appraisal_category",
                 "appraisal_category",
             )
-            .filter(employee=self.request.user.profile, is_closed=False,overall_appraisal__status="Completed")
+            .filter(
+                employee=self.request.user.profile,
+                is_closed=False,
+                overall_appraisal__status="Completed",
+            )
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
@@ -594,7 +598,7 @@ class ShortManagerAppraisal(generics.ListAPIView):
             Prefetch(
                 "user_appraisal_list_set",
                 queryset=User_Appraisal_List.objects.exclude(
-                    overall__appraisal__status="Completed"
+                    overall_appraisal__status="Completed"
                 ),
             ),
             Prefetch(
@@ -613,7 +617,7 @@ class ShortHodAppraisal(generics.ListAPIView):
             Prefetch(
                 "user_appraisal_list_set",
                 queryset=User_Appraisal_List.objects.exclude(
-                    overall__appraisal__status="Completed"
+                    overall_appraisal__status="Completed"
                 ),
             ),
             Prefetch(
@@ -632,7 +636,7 @@ class CompletedShortManagerAppraisal(generics.ListAPIView):
             Prefetch(
                 "user_appraisal_list_set",
                 queryset=User_Appraisal_List.objects.exclude(
-                    overall__appraisal__status="Completed"
+                    overall_appraisal__status="Completed"
                 ),
             ),
             Prefetch(
@@ -651,7 +655,7 @@ class CompletedShortHodAppraisal(generics.ListAPIView):
             Prefetch(
                 "user_appraisal_list_set",
                 queryset=User_Appraisal_List.objects.filter(
-                    overall__appraisal__status="Completed"
+                    overall_appraisal__status="Completed"
                 ),
             ),
             Prefetch(
