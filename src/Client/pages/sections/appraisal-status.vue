@@ -125,14 +125,50 @@
                             :items="completedTableItems"
                             :items-per-page="10"
                           >
-                            <template v-slot:[`item.action`]="{ item }">
-                              <v-btn
-                                v-model="item.action"
-                                color="transparent"
-                                elevation="0"
-                              >
-                                <i class="fas fa-ellipsis-h"></i>
-                              </v-btn>
+                           <template v-slot:[`item.actions`]="{ item }">
+                              <div>
+                                <v-dialog
+                                  v-model="item.dialog_delete"
+                                  persistent
+                                  max-width="400"
+                                >
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      color="error"
+                                      dark
+                                      v-bind="attrs"
+                                      icon
+                                      v-on="on"
+                                    >
+                                      <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <v-card>
+                                    <v-card-title class="headline">
+                                      Permanently delete appraisal ?
+                                    </v-card-title>
+                                    <v-card-actions>
+                                      <v-spacer></v-spacer>
+                                      <v-btn
+                                        text
+                                        @click="item.dialog_delete = false"
+                                      >
+                                        Cancel
+                                      </v-btn>
+                                      <v-btn
+                                        color="green darken-1"
+                                        text
+                                        @click="
+                                          item.dialog_delete = false
+                                          deleteAppraisal(item.id)
+                                        "
+                                      >
+                                        OK
+                                      </v-btn>
+                                    </v-card-actions>
+                                  </v-card>
+                                </v-dialog>
+                              </div>
                             </template>
                           </v-data-table>
                         </v-card-text>
@@ -577,7 +613,7 @@ export default {
           text: 'Actions',
           align: 'center',
           sortable: false,
-          value: 'action',
+          value: 'actions',
         },
       ],
       completedTableItems: [],
@@ -647,7 +683,7 @@ export default {
       try {
         this.loading = true
 
-        await this.fetchclosedAppraisals()
+     //   await this.fetchclosedAppraisals()
         await this.fetchoverallAppraisals()
         await this.fetchuserAppraisals()
 
