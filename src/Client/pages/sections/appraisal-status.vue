@@ -125,7 +125,7 @@
                             :items="completedTableItems"
                             :items-per-page="10"
                           >
-                           <template v-slot:[`item.actions`]="{ item }">
+                            <template v-slot:[`item.actions`]="{ item }">
                               <div>
                                 <v-dialog
                                   v-model="item.dialog_delete"
@@ -456,7 +456,7 @@
             <v-card flat>
               <v-card-text>
                 <v-data-table
-                  :headers="goalsLaunchingTableHeader"
+                  :headers="previousAppraisalsHeader"
                   :items="previousAppraisals"
                   :items-per-page="10"
                   :loading="loading"
@@ -499,7 +499,7 @@
             <v-card flat>
               <v-card-text>
                 <v-data-table
-                  :headers="goalsLaunchingTableHeader"
+                  :headers="previousAppraisalsHeader"
                   :items="closedAppraisals"
                   :items-per-page="10"
                   :loading="loading"
@@ -673,7 +673,38 @@ export default {
       endYearTableItems: [],
       reportsTableItems: [],
       calibrationTableItems: [],
-
+      previousAppraisalsHeader: [
+        {
+          text: 'Appraisal Name',
+          align: 'center',
+          sortable: true,
+          value: 'appraisal_name',
+        },
+        {
+          text: 'Employee',
+          align: 'center',
+          sortable: true,
+          value: 'employee',
+        },
+        {
+          text: 'End Date',
+          align: 'center',
+          sortable: true,
+          value: 'end_date',
+        },
+        {
+          text: 'Manager',
+          align: 'center',
+          sortable: true,
+          value: 'manager',
+        },
+        {
+          text: 'Actions',
+          align: 'center',
+          sortable: false,
+          value: 'action',
+        },
+      ],
       previousAppraisals: [],
       closedAppraisals: [],
     }
@@ -703,11 +734,9 @@ export default {
           id: appraisal.id,
           appraisal_name: appraisal.appraisal_name,
           employee: appraisal.employee.name,
+          manager: appraisal.manager.name,
           mid_year_completion: appraisal.mid_year_completion,
-          goals_count: appraisal.goals_count,
-          core_values_count: appraisal.core_values_competencies_count,
           completion: appraisal.completion,
-          skills_count: appraisal.skills_count,
           end_date: appraisal.overall_appraisal.goals_setting_end_date,
           status: appraisal.status,
           appraisal_dialog: false,
@@ -758,6 +787,7 @@ export default {
           id: appraisal.id,
           appraisal_name: appraisal.appraisal_name,
           employee: appraisal.employee.name,
+          manager: appraisal.manager.name,
           mid_year_completion: appraisal.mid_year_completion,
           goals_count: appraisal.goals_count,
           core_values_count: appraisal.core_values_competencies_count,
