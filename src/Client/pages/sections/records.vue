@@ -62,7 +62,6 @@
             :items="myemployeesTableItems"
             :items-per-page="5"
             :loading="loading"
-            :expanded.sync="expanded"
             show-expand
             item-key="id"
           >
@@ -128,7 +127,6 @@
             :items="employeesTableItems"
             :items-per-page="5"
             :loading="loading"
-            :expanded.sync="expanded"
             show-expand
             item-key="id"
           >
@@ -208,7 +206,6 @@ export default {
   data() {
     return {
       appraisal_dialog: false,
-      expanded: [],
       loading: true,
       headers: [
         { text: 'Appraisal Name', value: 'appraisal_name' },

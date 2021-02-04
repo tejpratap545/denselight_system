@@ -88,7 +88,6 @@
               :items="myemployeesTableItems"
               :items-per-page="5"
               :loading="loading"
-              :expanded.sync="expanded"
               show-expand
               item-key="id"
             >
@@ -164,7 +163,6 @@
               :items="employeesTableItems"
               :items-per-page="5"
               :loading="loading"
-              :expanded.sync="expanded"
               show-expand
               item-key="id"
             >
@@ -805,7 +803,6 @@ export default {
   },
   data() {
     return {
-      expanded: [],
       loading: true,
       tabData: null,
       tabData2: null,
