@@ -6,6 +6,7 @@ from backend.Appraisals.api.views import (
     ClosedAllAppraisalView,
     CompletedShortHodAppraisal,
     CompletedShortManagerAppraisal,
+    CompletedUserAppraisal,
     CreatePeerAppraisal,
     DetailAppraisal,
     DetailUserAppraisal,
@@ -110,6 +111,8 @@ urlpatterns = [
     path("appraisals/list/short/manager", ShortManagerAppraisal.as_view()),
     path("appraisals/list/short/hod", ShortHodAppraisal.as_view()),
     path(
+
+        
         "appraisals/list/short/manager/completed",
         CompletedShortManagerAppraisal.as_view(),
     ),
