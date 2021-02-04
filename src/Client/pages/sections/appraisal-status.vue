@@ -10,15 +10,6 @@
     <div v-else class="ma-5">
       <div>
         <AppraisalCreate @reload-appraisals="$fetch()" />
-        <v-btn
-          color="green darken-1"
-          elevation="0"
-          dark
-          @click="report()"
-          style="float: right"
-        >
-          Download Emplyoees' Appraisal Report
-        </v-btn>
       </div>
 
       <div class="my-5">
@@ -31,8 +22,10 @@
         >
           <v-tab>Overall Appraisal</v-tab>
           <v-tab>User Appraisal</v-tab>
-          <v-tab>Reports</v-tab>
+          <v-tab>Previous Appraials</v-tab>
+          <v-tab>Closed Appraials</v-tab>
         </v-tabs>
+
         <v-tabs-items v-model="tabData">
           <v-tab-item>
             <v-card flat>
@@ -153,6 +146,22 @@
 
           <v-tab-item>
             <v-card flat>
+              <v-card-title>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="green darken-1"
+                  elevation="0"
+                  dark
+                  @click="report()"
+                  style="float: right"
+                  text
+                  :loading="loading"
+                >
+                  <v-icon>mdi-download-circle-outline</v-icon>
+                  <span class="ml-1">Download Report</span>
+                </v-btn>
+              </v-card-title>
+
               <v-card-text>
                 <div class="my-5">
                   <v-tabs background-color="transparent" color="#2952A4">
@@ -161,7 +170,6 @@
                     <v-tab class="justify-start">YEAR-END REVIEW</v-tab>
                     <v-tab class="justify-start">REPORTS</v-tab>
                     <v-tab class="justify-start">CALBRATION</v-tab>
-                    <v-tab class="justify-start">LOGS</v-tab>
 
                     <!-- GOALS LAUNCHING -->
                     <v-tab-item>
@@ -208,21 +216,53 @@
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
+
                     <!-- END-YEAR REVIEW -->
+                    <v-tab-item>
+                      <v-card flat>
+                        <v-card-text>
+                          <v-data-table
+                            :headers="goalsLaunchingTableHeader"
+                            :items="endYearTableItems"
+                            :items-per-page="10"
+                          >
+                            <template v-slot:[`item.action`]="{ item }">
+                              <v-btn
+                                v-model="item.action"
+                                color="transparent"
+                                elevation="0"
+                              >
+                                <i class="fas fa-ellipsis-h"></i>
+                              </v-btn>
+                            </template>
+                          </v-data-table>
+                        </v-card-text>
+                      </v-card>
+                    </v-tab-item>
 
                     <v-tab-item>
                       <v-card flat>
-                        <v-card-text> </v-card-text>
+                        <v-card-text>
+                          <v-data-table
+                            :headers="goalsLaunchingTableHeader"
+                            :items="reportsTableItems"
+                            :items-per-page="10"
+                            :loading="loading"
+                          ></v-data-table>
+                        </v-card-text>
                       </v-card>
                     </v-tab-item>
+
                     <v-tab-item>
                       <v-card flat>
-                        <v-card-text> </v-card-text>
-                      </v-card>
-                    </v-tab-item>
-                    <v-tab-item>
-                      <v-card flat>
-                        <v-card-text> </v-card-text>
+                        <v-card-text>
+                          <v-data-table
+                            :headers="goalsLaunchingTableHeader"
+                            :items="calibrationTableItems"
+                            :items-per-page="10"
+                            :loading="loading"
+                          ></v-data-table>
+                        </v-card-text>
                       </v-card>
                     </v-tab-item>
                   </v-tabs>
@@ -231,7 +271,30 @@
             </v-card>
           </v-tab-item>
 
-          <v-tab-item> </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <v-data-table
+                  :headers="goalsLaunchingTableHeader"
+                  :items="previousAppraisals"
+                  :items-per-page="10"
+                  :loading="loading"
+                ></v-data-table>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <v-data-table
+                  :headers="goalsLaunchingTableHeader"
+                  :items="closedAppraisals"
+                  :items-per-page="10"
+                  :loading="loading"
+                ></v-data-table>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
         </v-tabs-items>
       </div>
     </div>
@@ -361,45 +424,135 @@ export default {
           value: 'actions',
         },
       ],
+
       goalsLaunchingTableItems: [],
       midYearTableItems: [],
       endYearTableItems: [],
+      reportsTableItems: [],
+      calibrationTableItems: [],
+
+      previousAppraisals: [],
+      closedAppraisals: [],
     }
   },
   methods: {
     async init() {
       try {
-        this.completedTableItems = []
-        this.onGoingTableItems = []
-        const response = await this.$axios.$get('api/overallAppraisal/')
+        this.loading = true
 
-        response.forEach((appraisal) => {
-          const tableData = {
-            id: appraisal.id,
-            appraisal_name: appraisal.name,
+        await this.fetchclosedAppraisals()
+        await this.fetchoverallAppraisals()
+        await this.fetchuserAppraisals()
 
-            end_date: appraisal.goals_setting_end_date,
-            status: appraisal.status,
-            dialog_delete: false,
-
-            overallAppraisal: appraisal || {},
-          }
-
-          switch (appraisal.status) {
-            case 'ReviewCompleted':
-              this.completedTableItems.push(tableData)
-              break
-
-            default:
-              this.onGoingTableItems.push(tableData)
-              break
-          }
-        })
         this.loading = false
       } catch (error) {
         this.loading = false
         console.log(error)
       }
+    },
+    async fetchclosedAppraisals() {
+
+      const response = await this.$axios.$get('api/resign/employee/list/appraisals')
+
+      response.forEach((appraisal) => {
+        const tableData = {
+          id: appraisal.id,
+          appraisal_name: appraisal.appraisal_name,
+          employee: appraisal.employee.name,
+          mid_year_completion: appraisal.mid_year_completion,
+          goals_count: appraisal.goals_count,
+          core_values_count: appraisal.core_values_competencies_count,
+          completion: appraisal.completion,
+          skills_count: appraisal.skills_count,
+          end_date: appraisal.overall_appraisal.goals_setting_end_date,
+          status: appraisal.status,
+          appraisal_dialog: false,
+        }
+
+        this.closedAppraisals.push(tableData)
+      })
+    },
+    async fetchoverallAppraisals() {
+      this.completedTableItems = []
+      this.onGoingTableItems = []
+      const response = await this.$axios.$get('api/overallAppraisal/')
+
+      response.forEach((appraisal) => {
+        const tableData = {
+          id: appraisal.id,
+          appraisal_name: appraisal.name,
+
+          end_date: appraisal.goals_setting_end_date,
+          status: appraisal.status,
+          dialog_delete: false,
+
+          overallAppraisal: appraisal || {},
+        }
+
+        switch (appraisal.status) {
+          case 'ReviewCompleted':
+            this.completedTableItems.push(tableData)
+            break
+
+          default:
+            this.onGoingTableItems.push(tableData)
+            break
+        }
+      })
+    },
+    async fetchuserAppraisals() {
+      this.goalsLaunchingTableItems = []
+      this.midYearTableItems = []
+      this.endYearTableItems = []
+      this.reportsTableItems = []
+      this.calibrationTableItems = []
+
+      const response = await this.$axios.$get('api/appraisals/list/admin')
+
+      response.forEach((appraisal) => {
+        const tableData = {
+          id: appraisal.id,
+          appraisal_name: appraisal.appraisal_name,
+          employee: appraisal.employee.name,
+          mid_year_completion: appraisal.mid_year_completion,
+          goals_count: appraisal.goals_count,
+          core_values_count: appraisal.core_values_competencies_count,
+          completion: appraisal.completion,
+          skills_count: appraisal.skills_count,
+          end_date: appraisal.overall_appraisal.goals_setting_end_date,
+          status: appraisal.status,
+          appraisal_dialog: false,
+        }
+
+        switch (appraisal.overall_appraisal.status) {
+          case 'Stage 1':
+            this.goalsLaunchingTableItems.push(tableData)
+            break
+
+          case 'Stage 1B':
+            this.midYearTableItems.push(tableData)
+            break
+
+          case 'Stage 2':
+            this.endYearTableItems.push(tableData)
+            break
+
+          case 'Stage 3':
+            this.reportsTableItems.push(tableData)
+            break
+
+          case 'Stage 4':
+            this.calibrationTableItems.push(tableData)
+            break
+
+          case 'Completed':
+            this.previousAppraisals.push(tableData)
+            break
+
+          default:
+            break
+        }
+      })
     },
     deleteAppraisal(id) {
       this.$axios
@@ -419,13 +572,13 @@ export default {
           console.log(error)
         })
     },
-    report() {
-      this.$axios
+    async report() {
+      this.loading = true
+      await this.$axios
         .get('api/download/report', {
           responseType: 'blob',
         })
         .then((res) => {
-
           const url = window.URL.createObjectURL(new Blob([res.data]))
           const link = document.createElement('a')
           link.href = url
@@ -439,6 +592,7 @@ export default {
             color: 'info',
           })
         })
+      this.loading = false
     },
   },
 }

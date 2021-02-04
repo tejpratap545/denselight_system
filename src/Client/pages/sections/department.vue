@@ -88,7 +88,9 @@
               :items="myemployeesTableItems"
               :items-per-page="5"
               :loading="loading"
+              :expanded.sync="expanded"
               show-expand
+              item-key="id"
             >
               <template v-slot:expanded-item="{ headers, item }">
                 <td :colspan="headers.length">
@@ -162,7 +164,9 @@
               :items="employeesTableItems"
               :items-per-page="5"
               :loading="loading"
+              :expanded.sync="expanded"
               show-expand
+              item-key="id"
             >
               <template v-slot:expanded-item="{ headers, item }">
                 <td :colspan="headers.length">
@@ -359,7 +363,6 @@
                   <v-tab class="justify-start"
                     >Training/Competency Summary</v-tab
                   >
-                  <v-tab class="justify-start">LOGS</v-tab>
 
                   <!-- GOALS LAUNCHING -->
                   <v-tab-item>
@@ -770,12 +773,6 @@
                       </v-card-text>
                     </v-card>
                   </v-tab-item>
-
-                  <v-tab-item>
-                    <v-card flat>
-                      <v-card-text> </v-card-text>
-                    </v-card>
-                  </v-tab-item>
                 </v-tabs>
               </div>
             </v-card-text>
@@ -808,6 +805,7 @@ export default {
   },
   data() {
     return {
+      expanded: [],
       loading: true,
       tabData: null,
       tabData2: null,
@@ -919,6 +917,8 @@ export default {
       let response = await this.$axios.$get('api/appraisals/list/short/hod')
       response.forEach((employee) => {
         const data = {
+          id: employee.id,
+
           name: employee.name,
           department: employee.department.name,
           email: employee.email,
@@ -938,6 +938,8 @@ export default {
       response = await this.$axios.$get('api/appraisals/list/short/manager')
       response.forEach((employee) => {
         const data = {
+          id: employee.id,
+
           name: employee.name,
           department: employee.department.name,
           email: employee.email,
@@ -979,7 +981,7 @@ export default {
           goals_count: appraisal.goals_count,
           core_values_count: appraisal.core_values_competencies_count,
           completion: appraisal.completion,
-          skills_count: 0,
+          skills_count: appraisal.skills_count,
           end_date: appraisal.overall_appraisal.goals_setting_end_date,
           status: appraisal.status,
           appraisal_dialog: false,

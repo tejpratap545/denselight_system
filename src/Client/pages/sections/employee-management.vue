@@ -49,7 +49,7 @@
               <v-dialog v-model="item.resign_dialog" persistent max-width="400">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn color="error" dark v-bind="attrs" icon v-on="on">
-                    <v-icon>mdi-close</v-icon>
+                    <v-icon>mdi-account-remove-outline</v-icon>
                   </v-btn>
                 </template>
                 <v-card>
