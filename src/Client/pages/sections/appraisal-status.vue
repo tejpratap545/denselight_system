@@ -424,6 +424,36 @@
                   :items="previousAppraisals"
                   :items-per-page="10"
                   :loading="loading"
+                  ><template v-slot:[`item.action`]="{ item }">
+                    <v-dialog
+                      v-model="item.appraisal_dialog"
+                      scrollable
+                      max-width="1200"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          color="grey lighten-1"
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon>mdi-eye-circle</v-icon>
+                        </v-btn>
+                      </template>
+                      <v-card>
+                        <v-toolbar color="primary" dark>
+                          <b>{{ item.appraisal_name }}</b>
+                          <v-spacer></v-spacer>
+                          <v-btn icon @click="item.appraisal_dialog = false">
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </v-toolbar>
+                        <Appraisal
+                          v-if="item.appraisal_dialog"
+                          :appraisal-id="item.id"
+                        />
+                      </v-card>
+                    </v-dialog> </template
                 ></v-data-table>
               </v-card-text>
             </v-card>
@@ -437,6 +467,37 @@
                   :items="closedAppraisals"
                   :items-per-page="10"
                   :loading="loading"
+                >
+                  <template v-slot:[`item.action`]="{ item }">
+                    <v-dialog
+                      v-model="item.appraisal_dialog"
+                      scrollable
+                      max-width="1200"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          color="grey lighten-1"
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon>mdi-eye-circle</v-icon>
+                        </v-btn>
+                      </template>
+                      <v-card>
+                        <v-toolbar color="primary" dark>
+                          <b>{{ item.appraisal_name }}</b>
+                          <v-spacer></v-spacer>
+                          <v-btn icon @click="item.appraisal_dialog = false">
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </v-toolbar>
+                        <Appraisal
+                          v-if="item.appraisal_dialog"
+                          :appraisal-id="item.id"
+                        />
+                      </v-card>
+                    </v-dialog> </template
                 ></v-data-table>
               </v-card-text>
             </v-card>
