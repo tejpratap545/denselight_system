@@ -599,11 +599,7 @@ class ShortManagerAppraisal(generics.ListAPIView):
                 "user_appraisal_list_set",
                 queryset=User_Appraisal_List.objects.exclude(
                     overall_appraisal__status="Completed"
-                ),
-            ),
-            Prefetch(
-                "user_appraisal_list_set__overall_appraisal",
-                queryset=User_Appraisal_List.objects.exclude(status="Completed"),
+                ).prefetch_related("overall_appraisal"),
             ),
         ).filter(first_Reporting_Manager=self.request.user.profile)
 
@@ -618,11 +614,7 @@ class ShortHodAppraisal(generics.ListAPIView):
                 "user_appraisal_list_set",
                 queryset=User_Appraisal_List.objects.exclude(
                     overall_appraisal__status="Completed"
-                ),
-            ),
-            Prefetch(
-                "user_appraisal_list_set__overall_appraisal",
-                queryset=User_Appraisal_List.objects.exclude(status="Completed"),
+                ).prefetch_related("overall_appraisal"),
             ),
         ).filter(second_Reporting_Manager=self.request.user.profile)
 
@@ -635,13 +627,9 @@ class CompletedShortManagerAppraisal(generics.ListAPIView):
         return Profile.objects.prefetch_related(
             Prefetch(
                 "user_appraisal_list_set",
-                queryset=User_Appraisal_List.objects.exclude(
+                queryset=User_Appraisal_List.objects.filter(
                     overall_appraisal__status="Completed"
-                ),
-            ),
-            Prefetch(
-                "user_appraisal_list_set__overall_appraisal",
-                queryset=User_Appraisal_List.objects.exclude(status="Completed"),
+                ).prefetch_related("overall_appraisal"),
             ),
         ).filter(first_Reporting_Manager=self.request.user.profile)
 
@@ -656,11 +644,7 @@ class CompletedShortHodAppraisal(generics.ListAPIView):
                 "user_appraisal_list_set",
                 queryset=User_Appraisal_List.objects.filter(
                     overall_appraisal__status="Completed"
-                ),
-            ),
-            Prefetch(
-                "user_appraisal_list_set__overall_appraisal",
-                queryset=User_Appraisal_List.objects.filter(status="Completed"),
+                ).prefetch_related("overall_appraisal"),
             ),
         ).filter(second_Reporting_Manager=self.request.user.profile)
 
