@@ -345,7 +345,7 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                     except:
                         pass
         else:
-            if a == "Stage 1B":
+            if a == 1:
                 for app in instance.user_appraisal_list_set.all():
                     title = f"{app.appraisal_name} shifted from goal settings stage to mid year review"
                     description = (
@@ -373,7 +373,7 @@ class OverallAppraisalSerializer(serializers.ModelSerializer):
                         )
                     except:
                         pass
-            if a == "Stage 2":
+            if a == 2:
                 for app in instance.user_appraisal_list_set.all():
                     title = f"{app.appraisal_name} shifted from mid year review to end  year review"
                     description = (
