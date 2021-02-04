@@ -23,45 +23,107 @@
           hide-details
         ></v-text-field>
       </v-card-title>
-      <v-data-table
-        :loading="loading"
-        :headers="headers"
-        :items="employees"
-        :search="search"
+      <v-tabs
+        v-model="tabData"
+        background-color="transparent"
+        color="#2952A4"
+        centered
+        grow
       >
-        <template v-slot:[`item.action`]="{ item }">
-          <v-btn color="success" dark icon @click="editEmployee(item.id)">
-            <v-icon>mdi-circle-edit-outline</v-icon>
-          </v-btn>
-
-          <v-dialog v-model="item.dialog_delete" persistent max-width="400">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn color="error" dark v-bind="attrs" icon v-on="on">
-                <v-icon>mdi-close</v-icon>
+        <v-tab>Employees</v-tab>
+        <v-tab>Resigned Employee</v-tab>
+      </v-tabs>
+      <v-tabs-items v-model="tabData">
+        <v-tab-item>
+          <v-data-table
+            :loading="loading"
+            :headers="headers"
+            :items="employees"
+            :search="search"
+          >
+            <template v-slot:[`item.action`]="{ item }">
+              <v-btn color="success" dark icon @click="editEmployee(item.id)">
+                <v-icon>mdi-circle-edit-outline</v-icon>
               </v-btn>
+
+              <v-dialog v-model="item.resign_dialog" persistent max-width="400">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="error" dark v-bind="attrs" icon v-on="on">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="headline">
+                    <span class="subtitle"> Do You want to resign </span>
+                    {{ item.name }} ?
+                  </v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text @click="item.resign_dialog = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="
+                        item.resign_dialog = false
+                        resginEmployee(item.id)
+                      "
+                    >
+                      OK
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </template>
-            <v-card>
-              <v-card-title class="headline">
-                Permanently delete user ?
-              </v-card-title>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn text @click="item.dialog_delete = false"> Cancel </v-btn>
-                <v-btn
-                  color="green darken-1"
-                  text
-                  @click="
-                    item.dialog_delete = false
-                    deleteUser(item.id)
-                  "
-                >
-                  OK
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </template>
-      </v-data-table>
+          </v-data-table>
+        </v-tab-item>
+
+        <!-- resigned employee  -->
+        <v-tab-item>
+          <v-data-table
+            :headers="resginedEmployeeHeader"
+            :items="resginedEmployee"
+            class="elevation-1"
+            :search="search"
+            :loading="loading"
+          >
+            <template v-slot:[`item.action`]="{ item }">
+              <v-dialog v-model="item.delete_dialog" persistent max-width="600">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="error" dark v-bind="attrs" icon v-on="on">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="headline">
+                    <span class="subtitle"
+                      >Do You want to permanently delete
+                    </span>
+                    {{ item.name }} ?
+                  </v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text @click="item.delete_dialog = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="
+                        item.delete_dialog = false
+                        deleteEmployee(item.id)
+                      "
+                    >
+                      OK
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </template>
+          </v-data-table>
+        </v-tab-item>
+      </v-tabs-items>
     </v-card>
   </div>
 </template>
@@ -74,16 +136,42 @@ export default {
 
   async fetch() {
     try {
+      this.employees = []
+      this.resginedEmployee = []
+
       const response = await this.$axios.$get('api/employee/list/')
+      await this.$axios.$get('api/resign/employee/list').then((response) => {
+        response.forEach((employee) => {
+          this.resginedEmployee.push({
+            id: employee.id,
+            name: employee.name,
+            department: employee.department ? employee.department.name : 'NIL',
+            position: employee.job_Title,
+            supervisor: employee.first_Reporting_Manager
+              ? employee.first_Reporting_Manager.name
+              : 'NIL',
+            delete_dialog: false,
+
+            dateOfHire: employee.date_Of_Hire,
+            resignDate: employee.resign_date,
+
+            email: employee.email,
+          })
+        })
+      })
 
       response.forEach((employee) => {
         this.employees.push({
           id: employee.id,
           name: employee.name,
-          department: employee.department.name,
+          department: employee.department ? employee.department.name : 'NIL',
           position: employee.job_Title,
-          supervisor: employee.first_Reporting_Manager.name,
-          dialog_delete: false,
+          supervisor: employee.first_Reporting_Manager
+            ? employee.first_Reporting_Manager.name
+            : 'NIL',
+          resign_dialog: false,
+          dateOfHire: employee.date_Of_Hire,
+
           email: employee.email,
         })
       })
@@ -100,6 +188,30 @@ export default {
       search: '',
       loading: true,
       currentEmployeeId: 1,
+      tabData: 0,
+      resginedEmployee: [],
+      resginedEmployeeHeader: [
+        {
+          text: 'Name',
+          align: 'start',
+          value: 'name',
+          sortable: true,
+        },
+        { text: 'Email', value: 'email' },
+        {
+          text: 'Date Of Hire',
+          value: 'dateOfHire',
+        },
+        {
+          text: 'Date Of Resign',
+          value: 'resignDate',
+        },
+        { text: 'Department', value: 'department', sortable: true },
+        { text: 'Position', value: 'position', sortable: true },
+
+        { text: 'Supervisor', value: 'supervisor', sortable: true },
+        { text: 'Action', value: 'action' },
+      ],
 
       editEmployeeDialog: false,
       headers: [
@@ -108,6 +220,10 @@ export default {
           align: 'start',
           value: 'name',
           sortable: true,
+        },
+        {
+          text: 'Date Of Hire',
+          value: 'dateOfHire',
         },
         { text: 'Email', value: 'email' },
         { text: 'Department', value: 'department', sortable: true },
@@ -121,12 +237,14 @@ export default {
   },
 
   methods: {
-    deleteUser(id) {
+    resginEmployee(id) {
       this.$axios
-        .$delete(`api/profile/${id}`)
+        .$post(`api/resign/employee`, {
+          id,
+        })
         .then((res) => {
           this.$notifier.showMessage({
-            content: 'Successfully deleted user',
+            content: 'Successfully resigend employee',
             color: 'info',
           })
 
@@ -134,7 +252,26 @@ export default {
         })
         .catch((error) => {
           this.$notifier.showMessage({
-            content: 'Error deleting user',
+            content: 'Error resiging employee',
+            color: 'error',
+          })
+          console.log(error)
+        })
+    },
+    deleteEmployee() {
+      this.$axios
+        .$post(`api/profile/${id}`)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Successfully deleted employee',
+            color: 'info',
+          })
+
+          this.$fetch()
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error deleting employee',
             color: 'error',
           })
           console.log(error)
