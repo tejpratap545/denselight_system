@@ -308,19 +308,16 @@
                     v-model="appraisal.goal_weightage"
                     label="Goal Weightage"
                     placeholder="25"
-                    :rules="[rules.required]"
                   ></v-text-field>
                   <v-text-field
                     v-model="appraisal.competency_weightage"
                     label="Competency Weightage"
                     placeholder="25"
-                    :rules="[rules.required]"
                   ></v-text-field>
                   <v-text-field
                     v-model="appraisal.skill_weightage"
                     label="Skill Weightage"
                     placeholder="50"
-                    :rules="[rules.required]"
                   ></v-text-field>
 
                   <small>Sum of all weightage should be 100</small>
