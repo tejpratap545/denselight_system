@@ -42,10 +42,10 @@
               outlined
             ></v-text-field>
 
-            <v-alert type="warning" v-if="emailinputError">
+            <v-alert type="warning" v-if="emailinputError" dense>
               Email must be unique
             </v-alert>
-            <v-alert type="success" v-if="!emailinputError && user.email != ''">
+            <v-alert type="success" v-if="!emailinputError && user.email != ''" dense>
               Email is valid
             </v-alert>
 

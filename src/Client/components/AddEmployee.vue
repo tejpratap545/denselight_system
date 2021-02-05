@@ -22,10 +22,10 @@
           outlined
         ></v-text-field>
 
-        <v-alert type="warning" v-if="userinputError">
+        <v-alert type="warning" v-if="userinputError" dense>
           Username must be unique
         </v-alert>
-        <v-alert type="success" v-if="!userinputError && user.username != ''">
+        <v-alert type="success" v-if="!userinputError && user.username != ''" dense>
           Username is valid
         </v-alert>
 
@@ -56,10 +56,10 @@
           outlined
         ></v-text-field>
 
-        <v-alert type="warning" v-if="emailinputError">
+        <v-alert type="warning" v-if="emailinputError" dense>
           Email must be unique
         </v-alert>
-        <v-alert type="success" v-if="!emailinputError && user.email != ''">
+        <v-alert type="success" v-if="!emailinputError && user.email != ''" dense>
           Email is valid
         </v-alert>
 
@@ -131,7 +131,7 @@
           outlined
         ></v-select>
 
-        <v-alert type="warning" v-if="!formValid"
+        <v-alert type="warning" v-if="!formValid" dense
           >One or more entries are invalid</v-alert
         >
       </v-card-text>
