@@ -25,6 +25,9 @@
         <v-alert type="warning" v-if="userinputError">
           Username must be unique
         </v-alert>
+        <v-alert type="success" v-if="!userinputError && user.username != ''">
+          Username is valid
+        </v-alert>
 
         <v-text-field
           v-model="user.password"
@@ -55,6 +58,9 @@
 
         <v-alert type="warning" v-if="emailinputError">
           Email must be unique
+        </v-alert>
+        <v-alert type="success" v-if="!emailinputError && user.email != ''">
+          Email is valid
         </v-alert>
 
         <v-select
