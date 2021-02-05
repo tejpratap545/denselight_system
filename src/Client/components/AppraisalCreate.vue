@@ -308,16 +308,22 @@
                     v-model="appraisal.goal_weightage"
                     label="Goal Weightage"
                     placeholder="25"
+                    :rules="[rules.required]"
+                    type="number"
                   ></v-text-field>
                   <v-text-field
                     v-model="appraisal.competency_weightage"
                     label="Competency Weightage"
                     placeholder="25"
+                    :rules="[rules.required]"
+                    type="number"
                   ></v-text-field>
                   <v-text-field
                     v-model="appraisal.skill_weightage"
                     label="Skill Weightage"
                     placeholder="50"
+                    :rules="[rules.required]"
+                    type="number"
                   ></v-text-field>
 
                   <small>Sum of all weightage should be 100</small>
@@ -459,9 +465,9 @@ export default {
       }
 
       if (
-        this.appraisal.goal_weightage +
-          this.appraisal.competency_weightage +
-          this.appraisal.skill_weightage ==
+        parseInt(this.appraisal.goal_weightage) +
+          parseInt(this.appraisal.competency_weightage) +
+          parseInt(this.appraisal.skill_weightage) ===
         100
       ) {
         await this.$axios
