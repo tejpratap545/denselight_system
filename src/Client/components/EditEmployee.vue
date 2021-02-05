@@ -36,9 +36,15 @@
 
             <v-text-field
               v-model="user.email"
-              label="Email"
+              label="email"
+              @change="checkEmail"
+              :error="emailinputError"
               outlined
             ></v-text-field>
+
+            <v-alert type="warning" v-if="emailinputError">
+              Email must be unique
+            </v-alert>
 
             <v-text-field
               v-model="user.citizenship_Status"
@@ -69,7 +75,7 @@
 
             <v-select
               v-model="user.gender"
-              :items="gender"
+              :items="['Male', 'Female']"
               label="Gender"
               outlined
             ></v-select>
@@ -99,9 +105,16 @@
               outlined
             ></v-select>
 
-            <v-btn color="primary" @click="createUser"> Save </v-btn>
+            <v-alert type="warning" v-if="!formValid"
+              >One or more entries are invalid</v-alert
+            >
+
+            <v-btn color="primary" @click="createUser" :disabled="!formValid">
+              Save
+            </v-btn>
             <v-btn text @click="close"> Close </v-btn>
           </v-tab-item>
+
           <v-tab-item>
             <v-text-field
               v-model="passwordReset.password1"
@@ -121,7 +134,7 @@
           <v-tab-item>
             <v-select
               v-model="newRole.role"
-              :items="role"
+              :items="['HRManager', 'Hr', 'Manager', 'Employee', 'Admin']"
               label="Role"
               outlined
             ></v-select>
@@ -154,8 +167,6 @@ export default {
       tab: null,
       employees: '',
 
-      role: ['HRManager', 'Hr', 'Manager', 'Employee', 'Admin'],
-      gender: ['Male', 'Female'],
       departments: [],
       user: '',
       passwordReset: {
@@ -167,6 +178,8 @@ export default {
         id: this.id,
         role: '',
       },
+      emailUnique: false,
+      emailinputError: false,
     }
   },
   methods: {
@@ -246,6 +259,25 @@ export default {
         .finally(() => {
           this.close()
         })
+    },
+    checkEmail() {
+      this.$axios
+        .$post('api/check/email', {
+          email: this.user.email,
+        })
+        .then((_) => {
+          this.emailUnique = true
+          this.emailinputError = false
+        })
+        .catch((_) => {
+          this.emailUnique = false
+          this.emailinputError = true
+        })
+    },
+  },
+  computed: {
+    formValid: function () {
+      return this.emailUnique
     },
   },
 }

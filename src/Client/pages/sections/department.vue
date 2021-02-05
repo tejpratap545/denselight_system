@@ -989,7 +989,7 @@ export default {
           core_values_count: appraisal.core_values_competencies_count,
           completion: appraisal.completion,
           skills_count: appraisal.skills_count,
-          end_date: appraisal.overall_appraisal.goals_setting_end_date,
+          end_date: appraisal.overall_appraisal.calibration_end_date,
           status: appraisal.status,
           appraisal_dialog: false,
         }

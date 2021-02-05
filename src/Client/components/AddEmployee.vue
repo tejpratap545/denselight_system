@@ -17,8 +17,15 @@
         <v-text-field
           v-model="user.username"
           label="Username"
+          @change="checkUser"
+          :error="userinputError"
           outlined
         ></v-text-field>
+
+        <v-alert type="warning" v-if="userinputError">
+          Username must be unique
+        </v-alert>
+
         <v-text-field
           v-model="user.password"
           label="Password"
@@ -41,12 +48,18 @@
         <v-text-field
           v-model="user.email"
           label="email"
+          @change="checkEmail"
+          :error="emailinputError"
           outlined
         ></v-text-field>
 
+        <v-alert type="warning" v-if="emailinputError">
+          Email must be unique
+        </v-alert>
+
         <v-select
           v-model="user.gender"
-          :items="gender"
+          :items="['Male', 'Female']"
           label="Gender"
           outlined
         ></v-select>
@@ -64,17 +77,20 @@
           outlined
         ></v-text-field>
 
-        <v-text-field v-model="user.nric" label="NRIC" outlined></v-text-field>
+        <v-text-field v-model="user.nric" label="NRIC" outlined> </v-text-field>
+
         <v-text-field
           v-model="user.address_1"
           label="Address"
           outlined
         ></v-text-field>
+
         <v-text-field
           v-model="user.division_Centre"
           label="Division center"
           outlined
         ></v-text-field>
+
         <v-select
           v-model="user.department"
           :items="departments"
@@ -108,9 +124,15 @@
           label="Second reporting manager"
           outlined
         ></v-select>
+
+        <v-alert type="warning" v-if="!formValid"
+          >One or more entries are invalid</v-alert
+        >
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" @click="createUser"> Create </v-btn>
+        <v-btn color="primary" @click="createUser" :disabled="!formValid">
+          Create
+        </v-btn>
         <v-btn
           text
           @click="
@@ -140,7 +162,6 @@ export default {
       dialog: false,
       role: ['Admin', 'HRManager', 'Hr', 'Manager', 'Employee'],
       departments: [],
-      gender: ['Male', 'Female'],
       employees: [],
       user: {
         username: '',
@@ -162,6 +183,10 @@ export default {
         first_Reporting_Manager: 0,
         second_Reporting_Manager: 0,
       },
+      userUnique: false,
+      emailUnique: false,
+      userinputError: false,
+      emailinputError: false,
     }
   },
   methods: {
@@ -210,6 +235,39 @@ export default {
         .finally(() => {
           this.$emit('close')
         })
+    },
+    checkUser() {
+      this.$axios
+        .$post('api/check/username', {
+          username: this.user.username,
+        })
+        .then((_) => {
+          this.userUnique = true
+          this.userinputError = false
+        })
+        .catch((_) => {
+          this.userUnique = false
+          this.userinputError = true
+        })
+    },
+    checkEmail() {
+      this.$axios
+        .$post('api/check/email', {
+          email: this.user.email,
+        })
+        .then((_) => {
+          this.emailUnique = true
+          this.emailinputError = false
+        })
+        .catch((_) => {
+          this.emailUnique = false
+          this.emailinputError = true
+        })
+    },
+  },
+  computed: {
+    formValid: function () {
+      return this.userUnique && this.emailUnique
     },
   },
 }
