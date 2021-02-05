@@ -177,7 +177,7 @@ export default {
       this.$axios
         .patch(`/api/profile/${this.id}`, {
           name: this.user.name,
-          department: this.user.department,
+          department: this.user.department.id,
           email: this.user.email,
           citizenship_Status: this.user.citizenship_Status,
           division_Centre: this.user.division_Centre,
@@ -185,8 +185,8 @@ export default {
           phone: this.user.phone,
           gender: this.user.gender,
           job_Title: this.user.job_Title,
-          first_Reporting_Manager: this.user.first_Reporting_Manager,
-          second_Reporting_Manager: this.user.first_Reporting_Manager,
+          first_Reporting_Manager: this.user.first_Reporting_Manager.id,
+          second_Reporting_Manager: this.user.first_Reporting_Manager.id,
         })
         .then((res) => {
           this.$notifier.showMessage({

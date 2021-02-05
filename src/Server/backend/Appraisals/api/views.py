@@ -50,22 +50,18 @@ class AllAppraisalView(generics.ListAPIView):
 
     def get_queryset(self):
 
-        return (
-            User_Appraisal_List.objects.prefetch_related(
-                "overall_appraisal",
-                "employee",
-                "employee__department",
-                "manager",
-                "manager__department",
-                "overall_appraisal__appraisal_category",
-                "appraisal_category",
-            )
-            .exclude(overall_appraisal__status="Completed")
-            .annotate(
-                goals_count=Count("goals"),
-                core_values_competencies_count=Count("competencies"),
-                skills_count=Count("skills"),
-            )
+        return User_Appraisal_List.objects.prefetch_related(
+            "overall_appraisal",
+            "employee",
+            "employee__department",
+            "manager",
+            "manager__department",
+            "overall_appraisal__appraisal_category",
+            "appraisal_category",
+        ).annotate(
+            goals_count=Count("goals"),
+            core_values_competencies_count=Count("competencies"),
+            skills_count=Count("skills"),
         )
 
 
