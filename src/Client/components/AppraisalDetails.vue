@@ -521,15 +521,13 @@ export default {
         { text: 'Due date', value: 'due' },
         { text: 'Category', value: 'goal_category' },
       ],
-      departmentGoalsItems: this.appraisal.overall_appraisal
-        .departmentalgoals_set,
+      departmentGoalsItems: '',
       departmentValuesHeader: [
         { text: 'Summary', value: 'summary' },
         { text: 'Description', value: 'description' },
         { text: 'Category', value: 'competency_category' },
       ],
-      departmentValuesItems: this.appraisal.overall_appraisal
-        .departmentalcompetencies_set,
+      departmentValuesItems: '',
     }
   },
   watch: {
@@ -624,6 +622,10 @@ export default {
       this.myGoalsTableItems = data.goals
       this.myValuesTableItems = data.core_values
       this.mySkillsTableItems = data.skills
+
+      this.departmentGoalsItems = this.appraisal.overall_appraisal.departmentalgoals_set
+
+      this.departmentValuesItems = this.appraisal.overall_appraisal.departmentalcompetencies_set
 
       this.name = `${appraisal.employee.name}'s`
     },
