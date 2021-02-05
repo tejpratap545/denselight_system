@@ -11,29 +11,9 @@ from backend.GnC.api.views import (
     KPIApiView,
     reject_goal,
 )
-from backend.Profile.api.views import (
-    change_role,
-    ChangePassword,
-    CreateProfile,
-    get_supervisor,
-    get_token,
-    ListEmployees,
-    ProfileInfoView,
-    ProfileView,
-    ReginListEmployees,
-    reset_password,
-    resign_employee,
-    set_profile_picture,
-    SetPassword,
-    ShortListEmployees,
-    StatusView,
-)
+from backend.Profile.api.views import *
 from backend.Profile.views import download_report
-from backend.Trainings.api.views import (
-    AdminCreateSkillsApiView,
-    CreateSkillsApiView,
-    SkillsApiView,
-)
+from backend.Trainings.api.views import AdminCreateSkillsApiView, CreateSkillsApiView, SkillsApiView
 from django.urls.conf import path
 
 
@@ -103,4 +83,6 @@ urlpatterns = [
     path("resign/employee", resign_employee),
     path("resign/employee/list", ReginListEmployees.as_view()),
     path("resign/employee/list/appraisals", ClosedAllAppraisalView.as_view()),
+    path("check/username", check_username),
+    path("check/email", check_email),
 ]

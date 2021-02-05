@@ -208,6 +208,7 @@ import secrets
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def get_token(request):
     email = request.data.get("email", "")
     if email != "" or email is not None:
@@ -229,6 +230,7 @@ def get_token(request):
 
 
 @api_view(["POST"])
+@permission_classes([IsHrManager])
 def reset_password(request):
     token = request.data.get("token", "")
     password1 = request.data.get("password1", "")
@@ -257,6 +259,7 @@ from django.utils import timezone
 
 
 @api_view(["POST"])
+@permission_classes([IsHrManager])
 def resign_employee(request):
     try:
         id = request.data.get("id")
@@ -270,3 +273,27 @@ def resign_employee(request):
 
     except:
         return Response("An error accured", status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@permission_classes([IsHrManager])
+def check_username(request):
+    try:
+        username = request.data.get("username")
+        if not User.objects.filter(username=username).exists():
+            return Response("username is available")
+        return Response("username not is available", status=status.HTTP_400_BAD_REQUEST)
+    except:
+        return Response("username not is available", status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@permission_classes([IsHrManager])
+def check_email(request):
+    try:
+        email = request.data.get("email")
+        if not User.objects.filter(email=email).exists():
+            return Response("email is available")
+        return Response("email not is available", status=status.HTTP_400_BAD_REQUEST)
+    except:
+        return Response("email not is available", status=status.HTTP_400_BAD_REQUEST)
