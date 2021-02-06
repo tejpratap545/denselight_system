@@ -191,7 +191,7 @@
                   @click="report()"
                   style="float: right"
                   text
-                  :loading="loading"
+                  :loading="reportLoading"
                 >
                   <v-icon>mdi-download-circle-outline</v-icon>
                   <span class="ml-1">Download Report</span>
@@ -214,7 +214,8 @@
                           <v-data-table
                             :headers="goalsLaunchingTableHeader"
                             :items="goalsLaunchingTableItems"
-                            :items-per-page="10"
+                            :loading="loading"
+                            hide-default-footer
                           >
                             <template v-slot:[`item.action`]="{ item }">
                               <v-dialog
@@ -262,7 +263,8 @@
                           <v-data-table
                             :headers="goalsLaunchingTableHeader"
                             :items="midYearTableItems"
-                            :items-per-page="10"
+                            :loading="loading"
+                            hide-default-footer
                           >
                             <template v-slot:[`item.action`]="{ item }">
                               <v-dialog
@@ -310,7 +312,8 @@
                           <v-data-table
                             :headers="goalsLaunchingTableHeader"
                             :items="endYearTableItems"
-                            :items-per-page="10"
+                            :loading="loading"
+                            hide-default-footer
                           >
                             <template v-slot:[`item.action`]="{ item }">
                               <v-dialog
@@ -357,8 +360,8 @@
                           <v-data-table
                             :headers="goalsLaunchingTableHeader"
                             :items="reportsTableItems"
-                            :items-per-page="10"
                             :loading="loading"
+                            hide-default-footer
                           >
                             <template v-slot:[`item.action`]="{ item }">
                               <v-dialog
@@ -405,8 +408,8 @@
                           <v-data-table
                             :headers="goalsLaunchingTableHeader"
                             :items="calibrationTableItems"
-                            :items-per-page="10"
                             :loading="loading"
+                            hide-default-footer
                           >
                             <template v-slot:[`item.action`]="{ item }">
                               <v-dialog
@@ -447,6 +450,10 @@
                       </v-card>
                     </v-tab-item>
                   </v-tabs>
+                </div>
+
+                <div class="text-center">
+                  <v-pagination v-model="page" :length="6"></v-pagination>
                 </div>
               </v-card-text>
             </v-card>
@@ -705,8 +712,10 @@ export default {
           value: 'action',
         },
       ],
+      page: 1,
       previousAppraisals: [],
       closedAppraisals: [],
+      reportLoading: false
     }
   },
   methods: {
@@ -780,9 +789,11 @@ export default {
       this.reportsTableItems = []
       this.calibrationTableItems = []
 
-      const response = await this.$axios.$get('api/appraisals/list/admin')
+      const response = await this.$axios.$get(
+        `api/appraisals/list/admin?overall_appraisal__status=Stage+1&page=${this.page}`
+      )
 
-      response.forEach((appraisal) => {
+      response.results.forEach((appraisal) => {
         const tableData = {
           id: appraisal.id,
           appraisal_name: appraisal.appraisal_name,
@@ -847,7 +858,7 @@ export default {
         })
     },
     async report() {
-      this.loading = true
+      this.reportLoading = true
       await this.$axios
         .get('api/download/report', {
           responseType: 'blob',
@@ -866,7 +877,12 @@ export default {
             color: 'info',
           })
         })
-      this.loading = false
+      this.reportLoading = false
+    },
+  },
+  watch: {
+    page(_newval, _oldval) {
+      this.init()
     },
   },
 }
