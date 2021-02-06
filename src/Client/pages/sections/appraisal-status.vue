@@ -22,7 +22,6 @@
         >
           <v-tab>Overall Appraisal</v-tab>
           <v-tab>User Appraisal</v-tab>
-          <v-tab>Previous Appraials</v-tab>
           <v-tab>Closed Appraials</v-tab>
         </v-tabs>
 
@@ -253,49 +252,6 @@
               <v-card-text>
                 <v-data-table
                   :headers="previousAppraisalsHeader"
-                  :items="previousAppraisals"
-                  :items-per-page="10"
-                  :loading="loading"
-                  ><template v-slot:[`item.action`]="{ item }">
-                    <v-dialog
-                      v-model="item.appraisal_dialog"
-                      scrollable
-                      max-width="1200"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          color="grey lighten-1"
-                          icon
-                          v-bind="attrs"
-                          v-on="on"
-                        >
-                          <v-icon>mdi-eye-circle</v-icon>
-                        </v-btn>
-                      </template>
-                      <v-card>
-                        <v-toolbar color="primary" dark>
-                          <b>{{ item.appraisal_name }}</b>
-                          <v-spacer></v-spacer>
-                          <v-btn icon @click="item.appraisal_dialog = false">
-                            <v-icon>mdi-close</v-icon>
-                          </v-btn>
-                        </v-toolbar>
-                        <Appraisal
-                          v-if="item.appraisal_dialog"
-                          :appraisal-id="item.id"
-                        />
-                      </v-card>
-                    </v-dialog> </template
-                ></v-data-table>
-              </v-card-text>
-            </v-card>
-          </v-tab-item>
-
-          <v-tab-item>
-            <v-card flat>
-              <v-card-text>
-                <v-data-table
-                  :headers="previousAppraisalsHeader"
                   :items="closedAppraisals"
                   :items-per-page="10"
                   :loading="loading"
@@ -464,7 +420,7 @@ export default {
         },
       ],
       userTableData: [],
-      previousAppraisalsHeader: [
+      /*previousAppraisalsHeader: [
         {
           text: 'Appraisal Name',
           align: 'center',
@@ -490,17 +446,23 @@ export default {
           value: 'manager',
         },
         {
+          text: 'Stage',
+          align: 'center',
+          sortable: true,
+          value: 'stage',
+        },
+        {
           text: 'Actions',
           align: 'center',
           sortable: false,
           value: 'action',
         },
-      ],
+      ],*/
       page: 1,
-      previousAppraisals: [],
+     // previousAppraisals: [],
       closedAppraisals: [],
       reportLoading: false,
-      count: 6
+      count: 6,
     }
   },
   methods: {
