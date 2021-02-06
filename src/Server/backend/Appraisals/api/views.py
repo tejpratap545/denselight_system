@@ -1,7 +1,9 @@
 from ...Profile.models import Notification
 from ..models import *
+from .pagination import StandardResultsSetPagination
 from .serializers import *
 from backend.Profile.permissions import IsHr, IsHrManager
+from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models import Count, Prefetch, Q, Window
 from django.utils.decorators import method_decorator
@@ -47,6 +49,8 @@ class ManagerAppraisal(generics.ListAPIView):
 class AllAppraisalView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserAppraisalListSerializer
+    pagination_class = StandardResultsSetPagination
+    filterset_fields = ["overall_appraisal__status"]
 
     def get_queryset(self):
 
@@ -243,9 +247,6 @@ class DetailAppraisal(generics.RetrieveAPIView):
             "overall_appraisal__departmentalcompetencies_set__competency_category",
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
-
-
-from django.conf import settings
 
 
 @api_view(["POST"])
