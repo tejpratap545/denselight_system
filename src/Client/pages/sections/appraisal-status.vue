@@ -200,260 +200,49 @@
 
               <v-card-text>
                 <div class="my-5">
-                  <v-tabs background-color="transparent" color="#2952A4">
-                    <v-tab class="justify-start">GOALS LAUNCHING</v-tab>
-                    <v-tab class="justify-start">MID-YEAR REVIEW</v-tab>
-                    <v-tab class="justify-start">YEAR-END REVIEW</v-tab>
-                    <v-tab class="justify-start">REPORTS</v-tab>
-                    <v-tab class="justify-start">CALBRATION</v-tab>
-
-                    <!-- GOALS LAUNCHING -->
-                    <v-tab-item>
-                      <v-card flat>
-                        <v-card-text>
-                          <v-data-table
-                            :headers="goalsLaunchingTableHeader"
-                            :items="goalsLaunchingTableItems"
-                            :loading="loading"
-                            hide-default-footer
+                  <v-data-table
+                    :headers="userTableHeader"
+                    :items="userTableData"
+                    :loading="loading"
+                    group-by="stage"
+                    hide-default-footer
+                  >
+                    <template v-slot:[`item.action`]="{ item }">
+                      <v-dialog
+                        v-model="item.appraisal_dialog"
+                        scrollable
+                        max-width="1200"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            color="grey lighten-1"
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
                           >
-                            <template v-slot:[`item.action`]="{ item }">
-                              <v-dialog
-                                v-model="item.appraisal_dialog"
-                                scrollable
-                                max-width="1200"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    color="grey lighten-1"
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  >
-                                    <v-icon>mdi-eye-circle</v-icon>
-                                  </v-btn>
-                                </template>
-                                <v-card>
-                                  <v-toolbar color="primary" dark>
-                                    <b>{{ item.appraisal_name }}</b>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                      icon
-                                      @click="item.appraisal_dialog = false"
-                                    >
-                                      <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                  </v-toolbar>
-                                  <Appraisal
-                                    v-if="item.appraisal_dialog"
-                                    :appraisal-id="item.id"
-                                  />
-                                </v-card>
-                              </v-dialog>
-                            </template>
-                          </v-data-table>
-                        </v-card-text>
-                      </v-card>
-                    </v-tab-item>
-
-                    <!-- MID-YEAR REVIEW -->
-                    <v-tab-item>
-                      <v-card flat>
-                        <v-card-text>
-                          <v-data-table
-                            :headers="goalsLaunchingTableHeader"
-                            :items="midYearTableItems"
-                            :loading="loading"
-                            hide-default-footer
-                          >
-                            <template v-slot:[`item.action`]="{ item }">
-                              <v-dialog
-                                v-model="item.appraisal_dialog"
-                                scrollable
-                                max-width="1200"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    color="grey lighten-1"
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  >
-                                    <v-icon>mdi-eye-circle</v-icon>
-                                  </v-btn>
-                                </template>
-                                <v-card>
-                                  <v-toolbar color="primary" dark>
-                                    <b>{{ item.appraisal_name }}</b>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                      icon
-                                      @click="item.appraisal_dialog = false"
-                                    >
-                                      <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                  </v-toolbar>
-                                  <Appraisal
-                                    v-if="item.appraisal_dialog"
-                                    :appraisal-id="item.id"
-                                  />
-                                </v-card>
-                              </v-dialog>
-                            </template>
-                          </v-data-table>
-                        </v-card-text>
-                      </v-card>
-                    </v-tab-item>
-
-                    <!-- END-YEAR REVIEW -->
-                    <v-tab-item>
-                      <v-card flat>
-                        <v-card-text>
-                          <v-data-table
-                            :headers="goalsLaunchingTableHeader"
-                            :items="endYearTableItems"
-                            :loading="loading"
-                            hide-default-footer
-                          >
-                            <template v-slot:[`item.action`]="{ item }">
-                              <v-dialog
-                                v-model="item.appraisal_dialog"
-                                scrollable
-                                max-width="1200"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    color="grey lighten-1"
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  >
-                                    <v-icon>mdi-eye-circle</v-icon>
-                                  </v-btn>
-                                </template>
-                                <v-card>
-                                  <v-toolbar color="primary" dark>
-                                    <b>{{ item.appraisal_name }}</b>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                      icon
-                                      @click="item.appraisal_dialog = false"
-                                    >
-                                      <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                  </v-toolbar>
-                                  <Appraisal
-                                    v-if="item.appraisal_dialog"
-                                    :appraisal-id="item.id"
-                                  />
-                                </v-card>
-                              </v-dialog>
-                            </template>
-                          </v-data-table>
-                        </v-card-text>
-                      </v-card>
-                    </v-tab-item>
-
-                    <v-tab-item>
-                      <v-card flat>
-                        <v-card-text>
-                          <v-data-table
-                            :headers="goalsLaunchingTableHeader"
-                            :items="reportsTableItems"
-                            :loading="loading"
-                            hide-default-footer
-                          >
-                            <template v-slot:[`item.action`]="{ item }">
-                              <v-dialog
-                                v-model="item.appraisal_dialog"
-                                scrollable
-                                max-width="1200"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    color="grey lighten-1"
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  >
-                                    <v-icon>mdi-eye-circle</v-icon>
-                                  </v-btn>
-                                </template>
-                                <v-card>
-                                  <v-toolbar color="primary" dark>
-                                    <b>{{ item.appraisal_name }}</b>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                      icon
-                                      @click="item.appraisal_dialog = false"
-                                    >
-                                      <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                  </v-toolbar>
-                                  <Appraisal
-                                    v-if="item.appraisal_dialog"
-                                    :appraisal-id="item.id"
-                                  />
-                                </v-card>
-                              </v-dialog>
-                            </template>
-                          </v-data-table>
-                        </v-card-text>
-                      </v-card>
-                    </v-tab-item>
-
-                    <v-tab-item>
-                      <v-card flat>
-                        <v-card-text>
-                          <v-data-table
-                            :headers="goalsLaunchingTableHeader"
-                            :items="calibrationTableItems"
-                            :loading="loading"
-                            hide-default-footer
-                          >
-                            <template v-slot:[`item.action`]="{ item }">
-                              <v-dialog
-                                v-model="item.appraisal_dialog"
-                                scrollable
-                                max-width="1200"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    color="grey lighten-1"
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  >
-                                    <v-icon>mdi-eye-circle</v-icon>
-                                  </v-btn>
-                                </template>
-                                <v-card>
-                                  <v-toolbar color="primary" dark>
-                                    <b>{{ item.appraisal_name }}</b>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                      icon
-                                      @click="item.appraisal_dialog = false"
-                                    >
-                                      <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                  </v-toolbar>
-                                  <Appraisal
-                                    v-if="item.appraisal_dialog"
-                                    :appraisal-id="item.id"
-                                  />
-                                </v-card>
-                              </v-dialog>
-                            </template>
-                          </v-data-table>
-                        </v-card-text>
-                      </v-card>
-                    </v-tab-item>
-                  </v-tabs>
+                            <v-icon>mdi-eye-circle</v-icon>
+                          </v-btn>
+                        </template>
+                        <v-card>
+                          <v-toolbar color="primary" dark>
+                            <b>{{ item.appraisal_name }}</b>
+                            <v-spacer></v-spacer>
+                            <v-btn icon @click="item.appraisal_dialog = false">
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                          </v-toolbar>
+                          <Appraisal
+                            v-if="item.appraisal_dialog"
+                            :appraisal-id="item.id"
+                          />
+                        </v-card>
+                      </v-dialog>
+                    </template>
+                  </v-data-table>
                 </div>
 
                 <div class="text-center">
-                  <v-pagination v-model="page" :length="6"></v-pagination>
+                  <v-pagination v-model="page" :length="count"></v-pagination>
                 </div>
               </v-card-text>
             </v-card>
@@ -624,7 +413,7 @@ export default {
         },
       ],
       completedTableItems: [],
-      goalsLaunchingTableHeader: [
+      userTableHeader: [
         {
           text: 'Appraisal Name',
           align: 'center',
@@ -662,10 +451,10 @@ export default {
           value: 'end_date',
         },
         {
-          text: 'Status',
+          text: 'Stage',
           align: 'center',
           sortable: true,
-          value: 'status',
+          value: 'stage',
         },
         {
           text: 'Actions',
@@ -674,12 +463,7 @@ export default {
           value: 'action',
         },
       ],
-
-      goalsLaunchingTableItems: [],
-      midYearTableItems: [],
-      endYearTableItems: [],
-      reportsTableItems: [],
-      calibrationTableItems: [],
+      userTableData: [],
       previousAppraisalsHeader: [
         {
           text: 'Appraisal Name',
@@ -715,7 +499,8 @@ export default {
       page: 1,
       previousAppraisals: [],
       closedAppraisals: [],
-      reportLoading: false
+      reportLoading: false,
+      count: 6
     }
   },
   methods: {
@@ -783,15 +568,13 @@ export default {
       })
     },
     async fetchuserAppraisals() {
-      this.goalsLaunchingTableItems = []
-      this.midYearTableItems = []
-      this.endYearTableItems = []
-      this.reportsTableItems = []
-      this.calibrationTableItems = []
+      this.userTableData = []
 
       const response = await this.$axios.$get(
-        `api/appraisals/list/admin?overall_appraisal__status=Stage+1&page=${this.page}`
+        `api/appraisals/list/admin?page=${this.page}`
       )
+
+      this.count = parseInt(response.count / 10) + 1
 
       response.results.forEach((appraisal) => {
         const tableData = {
@@ -803,40 +586,13 @@ export default {
           goals_count: appraisal.goals_count,
           core_values_count: appraisal.core_values_competencies_count,
           completion: appraisal.completion,
+          stage: appraisal.overall_appraisal.status,
           skills_count: appraisal.skills_count,
           end_date: appraisal.overall_appraisal.calibration_end_date,
-          status: appraisal.status,
           appraisal_dialog: false,
         }
 
-        switch (appraisal.overall_appraisal.status) {
-          case 'Stage 1':
-            this.goalsLaunchingTableItems.push(tableData)
-            break
-
-          case 'Stage 1B':
-            this.midYearTableItems.push(tableData)
-            break
-
-          case 'Stage 2':
-            this.endYearTableItems.push(tableData)
-            break
-
-          case 'Stage 3':
-            this.reportsTableItems.push(tableData)
-            break
-
-          case 'Stage 4':
-            this.calibrationTableItems.push(tableData)
-            break
-
-          case 'Completed':
-            this.previousAppraisals.push(tableData)
-            break
-
-          default:
-            break
-        }
+        this.userTableData.push(tableData)
       })
     },
     deleteAppraisal(id) {
@@ -881,8 +637,8 @@ export default {
     },
   },
   watch: {
-    page(_newval, _oldval) {
-      this.init()
+    async page(_newval, _oldval) {
+      await this.init()
     },
   },
 }
