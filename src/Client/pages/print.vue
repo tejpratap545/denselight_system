@@ -224,7 +224,7 @@ export default {
         case 5:
           return '5. Far Exceed Expectations'
         default:
-          return '0. Far Exceed Expectations'
+          return ''
       }
     },
   },

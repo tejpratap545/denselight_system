@@ -24,9 +24,9 @@ export default {
                 },
             ],
             rules: {
-                required: value => !!value || 'Required.',
-                email: v => /.+@.+/.test(v) || 'E-mail must be valid',
-            }
+                required: (value) => !!value || 'Required.',
+                email: (v) => /.+@.+/.test(v) || 'E-mail must be valid',
+            },
         }
     },
 
@@ -51,7 +51,10 @@ export default {
             }
 
             // end year stage
-            else if (overallAppraisalStatus === 'Stage 2' && (appraisalStatus === 'S1BManager' || appraisalStatus === 'S2Employee')) {
+            else if (
+                overallAppraisalStatus === 'Stage 2' &&
+                (appraisalStatus === 'S1BManager' || appraisalStatus === 'S2Employee')
+            ) {
                 return 'End Year Assessment: My Rating Stage'
             } else if (overallAppraisalStatus === 'Stage 2' && appraisalStatus === 'S2Manager') {
                 return 'End Year Assessment: Manager/Supervisor Rating Stage'
@@ -78,7 +81,7 @@ export default {
                 case 5:
                     return '5. Far Exceed Expectations'
                 default:
-                    return '0. Far Exceed Expectations'
+                    return ''
             }
         },
     },
