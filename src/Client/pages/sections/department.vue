@@ -802,14 +802,10 @@ export default {
   layout: 'dashboard-template',
   mixins: [global],
   async fetch() {
-    try {
-      await this.department()
-      await this.subordinateAppraisal()
+    await this.department()
+    await this.subordinateAppraisal()
 
-      await this.departmentalAppraisal()
-    } catch (error) {
-      console.log(error)
-    }
+    await this.departmentalAppraisal()
   },
   data() {
     return {

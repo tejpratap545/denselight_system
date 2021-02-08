@@ -2,6 +2,7 @@ from ...Profile.models import Notification
 from ..models import *
 from .pagination import StandardResultsSetPagination
 from .serializers import *
+from backend.GnC.models import DepartmentalCompetencies, DepartmentalGoals
 from backend.Profile.permissions import IsHr, IsHrManager
 from django.conf import settings
 from django.core.mail import send_mail
@@ -192,12 +193,25 @@ class DetailUserAppraisal(generics.ListAPIView):
                 "skills_set",
                 "skills_set__skill_category",
                 "goals_set__goal_category",
-                "overall_appraisal__departmentalgoals_set",
-                "overall_appraisal__departmentalgoals_set__goal_category",
-                "overall_appraisal__departmentalgoals_set__manager",
-                "overall_appraisal__departmentalgoals_set__manager__department",
-                "overall_appraisal__departmentalcompetencies_set",
-                "overall_appraisal__departmentalcompetencies_set__competency_category",
+                Prefetch(
+                    "overall_appraisal__departmentalgoals_set",
+                    queryset=DepartmentalGoals.objects.filter(
+                        department=self.request.user.profile.department
+                    ).prefetch_related(
+                        "overall_appraisal__departmentalgoals_set__goal_category",
+                        "overall_appraisal__departmentalgoals_set__manager",
+                        "overall_appraisal__departmentalgoals_set__manager",
+                        "overall_appraisal__departmentalgoals_set__manager__department",
+                    ),
+                ),
+                Prefetch(
+                    "overall_appraisal__departmentalcompetencies_set",
+                    queryset=DepartmentalCompetencies.objects.filter(
+                        department=self.request.user.profile.department
+                    ).prefetch_related(
+                        "overall_appraisal__departmentalcompetencies_set__competency_category"
+                    ),
+                ),
             )
             .filter(employee=self.request.user.profile, is_closed=False)
             .exclude(overall_appraisal__status="Completed")
@@ -240,11 +254,25 @@ class DetailAppraisal(generics.RetrieveAPIView):
             "skills_set",
             "skills_set__skill_category",
             "goals_set__goal_category",
-            "overall_appraisal__departmentalgoals_set",
-            "overall_appraisal__departmentalgoals_set__goal_category",
-            "overall_appraisal__departmentalgoals_set__manager",
-            "overall_appraisal__departmentalcompetencies_set",
-            "overall_appraisal__departmentalcompetencies_set__competency_category",
+            Prefetch(
+                "overall_appraisal__departmentalgoals_set",
+                queryset=DepartmentalGoals.objects.filter(
+                    department=self.request.user.profile.department
+                ).prefetch_related(
+                    "overall_appraisal__departmentalgoals_set__goal_category",
+                    "overall_appraisal__departmentalgoals_set__manager",
+                    "overall_appraisal__departmentalgoals_set__manager",
+                    "overall_appraisal__departmentalgoals_set__manager__department",
+                ),
+            ),
+            Prefetch(
+                "overall_appraisal__departmentalcompetencies_set",
+                queryset=DepartmentalCompetencies.objects.filter(
+                    department=self.request.user.profile.department
+                ).prefetch_related(
+                    "overall_appraisal__departmentalcompetencies_set__competency_category"
+                ),
+            ),
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
 

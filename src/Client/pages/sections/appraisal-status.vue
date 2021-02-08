@@ -188,10 +188,10 @@
                   color="green darken-1"
                   elevation="0"
                   dark
-                  @click="report()"
                   style="float: right"
                   text
                   :loading="reportLoading"
+                  @click="report()"
                 >
                   <v-icon>mdi-download-circle-outline</v-icon>
                   <span class="ml-1">Download Report</span>
@@ -517,6 +517,18 @@ export default {
       count_previous: 1,
     }
   },
+  watch: {
+    async page_user(_newval, _oldval) {
+      this.loading = true
+      await this.fetchuserAppraisals()
+      this.loading = false
+    },
+    async page_previous(_newval, _oldval) {
+      this.loading = true
+      await this.fetchpreviousAppraisals()
+      this.loading = false
+    },
+  },
   methods: {
     async init() {
       try {
@@ -613,7 +625,7 @@ export default {
       this.userTableData = []
 
       const response = await this.$axios.$get(
-        `api/appraisals/list/admin?page=${this.page_user}`
+        `api/appraisals/list/admin?page=${this.page_user},overall_appraisal__status=!Completed`
       )
 
       this.count_user = parseInt(response.count / 10) + 1
@@ -676,18 +688,6 @@ export default {
           })
         })
       this.reportLoading = false
-    },
-  },
-  watch: {
-    async page_user(_newval, _oldval) {
-      this.loading = true
-      await this.fetchuserAppraisals()
-      this.loading = false
-    },
-    async page_previous(_newval, _oldval) {
-      this.loading = true
-      await this.fetchpreviousAppraisals()
-      this.loading = false
     },
   },
 }
