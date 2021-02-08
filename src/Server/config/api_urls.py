@@ -89,4 +89,5 @@ urlpatterns = [
     path("resign/employee/list/appraisals", ClosedAllAppraisalView.as_view()),
     path("check/username", check_username),
     path("check/email", check_email),
+    path("upload/bulk/employee", bulk_profile_upload),
 ]

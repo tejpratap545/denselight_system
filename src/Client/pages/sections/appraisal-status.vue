@@ -625,7 +625,7 @@ export default {
       this.userTableData = []
 
       const response = await this.$axios.$get(
-        `api/appraisals/list/admin?page=${this.page_user},overall_appraisal__status=!Completed`
+        `api/appraisals/list/admin?page=${this.page_user}`
       )
 
       this.count_user = parseInt(response.count / 10) + 1

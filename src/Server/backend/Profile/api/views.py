@@ -1,6 +1,7 @@
 from ...Appraisals.models import peerAppraisal, User_Appraisal_List
 from ..permissions import IsOwner
 from .serializers import *
+from backend.GnC.models import Departments
 from backend.Profile.models import ResetPasswordToken
 from backend.Profile.permissions import IsHrManager
 from django.core.cache import cache
@@ -297,3 +298,126 @@ def check_email(request):
         return Response("email not is available", status=status.HTTP_400_BAD_REQUEST)
     except:
         return Response("email not is available", status=status.HTTP_400_BAD_REQUEST)
+
+
+from io import BytesIO
+from openpyxl import load_workbook
+
+import datetime
+
+
+@api_view(["POST"])
+@permission_classes([IsHrManager])
+def bulk_profile_upload(request):
+    password = request.data.get("password", "DenselightPassword1234")
+    f = request.FILES["file"].read()
+    if not f:
+        return Response("No file ", status=status.HTTP_400_BAD_REQUEST)
+    wb = load_workbook(filename=BytesIO(f))
+    result = []
+    ws = wb.active
+    for row in ws.iter_rows(min_row=2):
+        username = row[0].value
+        email = row[1].value
+        name = row[2].value
+
+        role = row[3].value
+        job_title = row[4].value
+        nric = row[5].value
+        address = row[6].value
+        division_center = row[7].value
+        department = row[8].value
+
+        if not username or username:
+            result.append({})
+        return_user = {"user": username, "errors": []}
+        result.append(return_user)
+        if not email or email == "":
+            return_user["errors"].append("Email Must be valid")
+            continue
+
+        try:
+            if not User.objects.filter(username=username).exists():
+                return_user["errors"].append("Username must be unique.")
+                continue
+        except:
+            return_user["errors"].append("Not valid username field")
+
+        try:
+            if not User.objects.filter(email=email).exists():
+                return_user["errors"].append("Email must be unique.")
+                continue
+        except:
+            return_user["errors"].append("Not valid email field")
+        if not department or department == "":
+            return_user["errors"].append("Deaprtment must be include")
+            continue
+
+        try:
+
+            if not Departments.objects.filter(
+                Q(name=department) | Q(id=department)
+            ).exists():
+                continue
+        except:
+            return_user["errors"].append("Deaprtment must be valid")
+
+        if role not in ["Admin", "HRManager", "Hr", "Manager", "Admin", "Employee"]:
+            return_user["errors"].append("Employee role muxt be valid.")
+            continue
+        user = User.objects.create_user(
+            username=username, email=email, password=password, role=role
+        )
+        Profile.objects.create(
+            user=user,
+            name=name,
+            email=email,
+            job_title=job_title,
+            nric=nric,
+            address=address,
+            division_center=division_center,
+            department=department,
+        )
+
+    for row in ws.iter_rows(min_row=2):
+        username = row[0].value
+        email = row[1].value
+        name = row[2].value
+        first_reporting_manager_value = row[9].value
+        second_reporting_manager_value = row[10].value
+        if not Profile.objects.filter(
+            Q(id=first_reporting_manager_value)
+            | Q(user__email=first_reporting_manager_value)
+            | Q(name=first_reporting_manager_value)
+            | Q(user__username=first_reporting_manager_value)
+        ).exists():
+
+            continue
+
+        if not Profile.objects.filter(
+            Q(id=second_reporting_manager_value)
+            | Q(user__email=second_reporting_manager_value)
+            | Q(name=second_reporting_manager_value)
+            | Q(user__username=second_reporting_manager_value)
+        ).exists():
+            continue
+
+        first_reporting_manager = Profile.objects.filter(
+            Q(id=first_reporting_manager_value)
+            | Q(user__email=first_reporting_manager_value)
+            | Q(name=first_reporting_manager_value)
+            | Q(user__username=first_reporting_manager_value)
+        )
+        second_reporting_manager = Profile.objects.filter(
+            Q(id=second_reporting_manager_value)
+            | Q(user__email=second_reporting_manager_value)
+            | Q(name=second_reporting_manager_value)
+            | Q(user__username=second_reporting_manager_value)
+        )
+
+        Profile.objects.filter(email=email).update(
+            first_Reporting_Manager=first_reporting_manager,
+            second_reporting_manager=second_reporting_manager,
+        )
+
+    return Response(result)
