@@ -10,6 +10,7 @@
         @close="editEmployeeDialog = false"
       />
       <AddEmployee />
+      <BulkUpload />
     </div>
     <v-card flat class="ma-5">
       <v-card-title>

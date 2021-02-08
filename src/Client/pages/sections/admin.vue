@@ -37,6 +37,19 @@
         <v-btn color="primary" @click="createAppraisalDialog = true">
           <v-icon>mdi-plus</v-icon></v-btn
         >
+        <v-spacer></v-spacer>
+        <v-btn
+          color="green darken-1"
+          elevation="0"
+          dark
+          style="float: right"
+          text
+          :loading="reportLoading"
+          @click="report()"
+        >
+          <v-icon>mdi-download-circle-outline</v-icon>
+          <span class="ml-1">Download Report</span>
+        </v-btn>
       </v-card-title>
 
       <v-card-text>
@@ -782,6 +795,7 @@ export default {
       categories_data_goals: [],
       categories_data_skills: [],
       categories_data_corevalues: [],
+      reportLoading: false,
     }
   },
   methods: {
@@ -876,6 +890,28 @@ export default {
             })
           })
       }
+    },
+    async report() {
+      this.reportLoading = true
+      await this.$axios
+        .get('api/download/report', {
+          responseType: 'blob',
+        })
+        .then((res) => {
+          const url = window.URL.createObjectURL(new Blob([res.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'report.xlsx')
+          document.body.appendChild(link)
+          link.click()
+
+          console.log(res)
+          this.$notifier.showMessage({
+            content: 'Report Downloaded',
+            color: 'info',
+          })
+        })
+      this.reportLoading = false
     },
   },
 }
