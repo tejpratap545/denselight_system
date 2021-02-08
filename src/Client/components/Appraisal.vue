@@ -337,6 +337,8 @@ export default {
           MID_user_comments: goal.MID_user_comments,
           user_rating: goal.user_rating,
           user_comments: goal.user_comments,
+          manager_rating: goal.manager_rating,
+          manager_comments: goal.manager_comments,
         })
       })
     },
