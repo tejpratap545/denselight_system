@@ -32,7 +32,7 @@
 
           <v-text-field
             v-model="user.password1"
-            label="Password"
+            label="New Password"
             :rules="[(v) => !!v || 'Password is required']"
             clearable
             type="password"
@@ -41,7 +41,7 @@
 
           <v-text-field
             v-model="user.password2"
-            label="Confirm Password"
+            label="Confirm New Password"
             :rules="[(v) => !!v || 'Password is required']"
             clearable
             type="password"

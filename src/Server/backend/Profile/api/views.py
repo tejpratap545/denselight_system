@@ -287,6 +287,14 @@ def check_username(request):
 
 
 @api_view(["POST"])
+def check_password(request):
+    password = request.data.get("password")
+    if check_password_strength(password):
+        return HttpResponse("Password is good")
+    return HttpResponse("Weak Password", status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
 @permission_classes([IsHrManager])
 def check_email(request):
     try:
@@ -298,6 +306,7 @@ def check_email(request):
         return Response("email not is available", status=status.HTTP_400_BAD_REQUEST)
 
 
+from backend.Profile.backend import check_password_strength
 from io import BytesIO
 from openpyxl import load_workbook
 

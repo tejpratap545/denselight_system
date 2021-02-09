@@ -204,14 +204,8 @@ class DetailUserAppraisal(generics.ListAPIView):
                         "overall_appraisal__departmentalgoals_set__manager__department",
                     ),
                 ),
-                Prefetch(
-                    "overall_appraisal__departmentalcompetencies_set",
-                    queryset=DepartmentalCompetencies.objects.filter(
-                        department=self.request.user.profile.department
-                    ).prefetch_related(
-                        "overall_appraisal__departmentalcompetencies_set__competency_category"
-                    ),
-                ),
+                "overall_appraisal__departmentalcompetencies_set",
+                "overall_appraisal__departmentalcompetencies_set__competency_category",
             )
             .filter(employee=self.request.user.profile, is_closed=False)
             .exclude(overall_appraisal__status="Completed")
@@ -265,14 +259,8 @@ class DetailAppraisal(generics.RetrieveAPIView):
                     "overall_appraisal__departmentalgoals_set__manager__department",
                 ),
             ),
-            Prefetch(
-                "overall_appraisal__departmentalcompetencies_set",
-                queryset=DepartmentalCompetencies.objects.filter(
-                    department=self.request.user.profile.department
-                ).prefetch_related(
-                    "overall_appraisal__departmentalcompetencies_set__competency_category"
-                ),
-            ),
+            "overall_appraisal__departmentalcompetencies_set",
+            "overall_appraisal__departmentalcompetencies_set__competency_category",
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
 
