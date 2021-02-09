@@ -871,11 +871,30 @@ export default {
       })
     },
     async fetchuserAppraisals(stage, page) {
-      this.goalsLaunchingTableItems = []
-      this.midYearTableItems = []
-      this.endYearTableItems = []
-      this.reportsTableItems = []
-      this.calibrationTableItems = []
+      switch (stage) {
+        case 'Stage+1':
+          this.goalsLaunchingTableItems = []
+          break
+
+        case 'Stage+1B':
+          this.midYearTableItems = []
+          break
+
+        case 'Stage+2':
+          this.endYearTableItems = []
+          break
+
+        case 'Stage+3':
+          this.reportsTableItems = []
+          break
+
+        case 'Stage+4':
+          this.calibrationTableItems = []
+          break
+
+        default:
+          break
+      }
 
       await this.$axios
         .$get(
