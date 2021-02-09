@@ -216,7 +216,8 @@
               <v-col>End Year Board rating</v-col>
               <v-col> {{ ratingName(item.board_rating) }}</v-col>
             </v-row>
-            <div v-if="checkHodComment">
+
+            <div v-if="checkHodComment()">
               <v-row>
                 <v-col>End Year Board Comment</v-col>
                 <v-col>
@@ -467,12 +468,13 @@ export default {
       this.$fetch()
     },
     checkHodComment() {
-      if (
+      const result =
         this.appraisal.overall_appraisal.status === 'Stage 2' &&
         this.appraisal.status === 'Approved' &&
         this.appraisal.completion === 'MCompleted' &&
         this.appraisal.employee.second_Reporting_Manager == this.$auth.user.id
-      ) {
+      console.log(this.appraisal, result)
+      if (result) {
         return true
       } else {
         return false

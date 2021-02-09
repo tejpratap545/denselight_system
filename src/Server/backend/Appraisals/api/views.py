@@ -511,7 +511,7 @@ def approve_endyear_manager(request, *args, **kwargs):
         and app.manager == request.user.profile
     ) and (app.status == "S2Manager" and app.completion == "MCompleted"):
         app.status = "Approved"
-        app.completion = "Approved"
+        app.completion = "MCompleted"
         app.save()
         title = f"{app.manager.name} approve endyear review of {app.appraisal_name}"
         description = f"Hi {app.employee.name} Manager {app.manager.name} approve endyear review of{app.appraisal_name} . "
