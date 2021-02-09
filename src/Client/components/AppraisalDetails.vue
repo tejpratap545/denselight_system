@@ -204,7 +204,9 @@
                             class="my-5"
                           >
                             <v-card-text>
-                              <p>{{ kpi.description }}</p>
+                              <v-textarea v-model="kpi.description" @change="update_kpi(kpi.id, kpi.description)" outlined>
+                              </v-textarea>
+
                               <small
                                 >Progress : <b>{{ kpi.progress }}</b></small
                               >
@@ -653,7 +655,27 @@ export default {
         })
         .catch(() => {
           this.$notifier.showMessage({
-            content: 'Error commenting',
+            content: 'Error  adding kpi',
+            color: 'error',
+          })
+        })
+    },
+    async update_kpi(id, description) {
+      const data = {
+        description: description,
+      }
+
+      await this.$axios
+        .$patch(`api/KPI/${id}`, data)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Successfully updated KPI',
+            color: 'info',
+          })
+        })
+        .catch(() => {
+          this.$notifier.showMessage({
+            content: 'Error updating kpi',
             color: 'error',
           })
         })

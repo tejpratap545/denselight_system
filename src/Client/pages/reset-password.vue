@@ -67,7 +67,7 @@
             required
           ></v-text-field>
 
-          <v-alert type="warning" v-if="!passwordStrong"
+          <v-alert type="warning" v-if="!passwordStrong && user.password1 != ''"
             >One or more entries are invalid</v-alert
           >
 
