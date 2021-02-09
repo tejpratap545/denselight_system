@@ -34,7 +34,7 @@ urlpatterns = [
     path("employee/list/", ListEmployees.as_view()),
     path("overallAppraisal/list", OverallAppraisal.as_view()),
     path("employee/short/list", ShortListEmployees.as_view()),
-    path("mananger/short/list", ShortListManager.as_view()),
+    path("manager/short/list", ShortListManager.as_view()),
     path("appraisals/list/manager", ManagerAppraisal.as_view()),
     path("appraisals/list/admin", AllAppraisalView.as_view()),
     path("appraisals/list/short/manager", ShortManagerAppraisal.as_view()),
