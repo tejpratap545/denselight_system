@@ -746,12 +746,32 @@ export default {
     }
   },
   watch: {
-    async page_user(_newval, _oldval) {
+    async page_user1(newval, _) {
       this.loading = true
-      await this.fetchuserAppraisals()
+      await this.fetchuserAppraisals('Stage+1', newval)
       this.loading = false
     },
-    async page_previous(_newval, _oldval) {
+    async page_user2(newval, _) {
+      this.loading = true
+      await this.fetchuserAppraisals('Stage+1B', newval)
+      this.loading = false
+    },
+    async page_user3(newval, _) {
+      this.loading = true
+      await this.fetchuserAppraisals('Stage+2', newval)
+      this.loading = false
+    },
+    async page_user4(newval, _) {
+      this.loading = true
+      await this.fetchuserAppraisals('Stage+3', newval)
+      this.loading = false
+    },
+    async page_user5(newval, _) {
+      this.loading = true
+      await this.fetchuserAppraisals('Stage+4', newval)
+      this.loading = false
+    },
+    async page_previous(_newval, _) {
       this.loading = true
       await this.fetchpreviousAppraisals()
       this.loading = false
@@ -765,7 +785,12 @@ export default {
         await this.fetchpreviousAppraisals()
         await this.fetchclosedAppraisals()
         await this.fetchoverallAppraisals()
-        await this.fetchuserAppraisals()
+
+        const stages = ['Stage+1', 'Stage+1B', 'Stage+2', 'Stage+3', 'Stage+4']
+
+        stages.forEach((stage) => {
+          this.fetchuserAppraisals(stage, 1)
+        })
 
         this.loading = false
       } catch (error) {
@@ -845,90 +870,67 @@ export default {
         }
       })
     },
-    async fetchuserAppraisals() {
-      this.userTableData = []
+    async fetchuserAppraisals(stage, page) {
+      this.goalsLaunchingTableItems = []
+      this.midYearTableItems = []
+      this.endYearTableItems = []
+      this.reportsTableItems = []
+      this.calibrationTableItems = []
 
-      var stages = ['Stage+1', 'Stage+1B', 'Stage+2', 'Stage+3', 'Stage+4']
+      await this.$axios
+        .$get(
+          `api/appraisals/list/admin?page=${page}&overall_appraisal__status=${stage}`
+        )
+        .then((response) => {
+          var i = parseInt(response.count / 10) + 1
 
-      stages.forEach((stage) => {
-        var url = `api/appraisals/list/admin?page=${this.page_user1}&overall_appraisal__status=${stage}`
+          response.results.forEach((appraisal) => {
+            const tableData = {
+              id: appraisal.id,
+              appraisal_name: appraisal.appraisal_name,
+              employee: appraisal.employee.name,
+              manager: appraisal.manager.name,
+              mid_year_completion: appraisal.mid_year_completion,
+              goals_count: appraisal.goals_count,
+              core_values_count: appraisal.core_values_competencies_count,
+              completion: appraisal.completion,
+              skills_count: appraisal.skills_count,
+              end_date: appraisal.overall_appraisal.calibration_end_date,
+              appraisal_dialog: false,
+            }
 
-        switch (stage) {
-          case 'Stage+1':
-            url = `api/appraisals/list/admin?page=${this.page_user1}&overall_appraisal__status=${stage}`
-            break
+            switch (stage) {
+              case 'Stage+1':
+                this.count_user1 = i
+                this.goalsLaunchingTableItems.push(tableData)
+                break
 
-          case 'Stage+1B':
-            url = `api/appraisals/list/admin?page=${this.page_user2}&overall_appraisal__status=${stage}`
-            break
+              case 'Stage+1B':
+                this.count_user2 = i
+                this.midYearTableItems.push(tableData)
+                break
 
-          case 'Stage+2':
-            url = `api/appraisals/list/admin?page=${this.page_user3}&overall_appraisal__status=${stage}`
-            break
+              case 'Stage+2':
+                this.count_user3 = i
+                this.endYearTableItems.push(tableData)
+                break
 
-          case 'Stage+3':
-            url = `api/appraisals/list/admin?page=${this.page_user4}&overall_appraisal__status=${stage}`
-            break
+              case 'Stage+3':
+                this.count_user4 = i
+                this.reportsTableItems.push(tableData)
+                break
 
-          case 'Stage+4':
-            url = `api/appraisals/list/admin?page=${this.page_user5}&overall_appraisal__status=${stage}`
-            break
+              case 'Stage+4':
+                this.count_user5 = i
+                this.calibrationTableItems.push(tableData)
+                break
 
-          default:
-            break
-        }
-
-        this.$axios
-          .$get(url)
-          .then((response) => {
-            response.results.forEach((appraisal) => {
-              const tableData = {
-                id: appraisal.id,
-                appraisal_name: appraisal.appraisal_name,
-                employee: appraisal.employee.name,
-                manager: appraisal.manager.name,
-                mid_year_completion: appraisal.mid_year_completion,
-                goals_count: appraisal.goals_count,
-                core_values_count: appraisal.core_values_competencies_count,
-                completion: appraisal.completion,
-                skills_count: appraisal.skills_count,
-                end_date: appraisal.overall_appraisal.calibration_end_date,
-                appraisal_dialog: false,
-              }
-
-              switch (stage) {
-                case 'Stage+1':
-                  this.count_user1 = parseInt(response.count / 10) + 1
-                  this.goalsLaunchingTableItems.push(tableData)
-                  break
-
-                case 'Stage+1B':
-                  this.count_user2 = parseInt(response.count / 10) + 1
-                  this.midYearTableItems.push(tableData)
-                  break
-
-                case 'Stage+2':
-                  this.count_user3 = parseInt(response.count / 10) + 1
-                  this.endYearTableItems.push(tableData)
-                  break
-
-                case 'Stage+3':
-                  this.count_user4 = parseInt(response.count / 10) + 1
-                  this.reportsTableItems.push(tableData)
-                  break
-
-                case 'Stage+4':
-                  this.count_user5 = parseInt(response.count / 10) + 1
-                  this.calibrationTableItems.push(tableData)
-                  break
-
-                default:
-                  break
-              }
-            })
+              default:
+                break
+            }
           })
-          .catch((err) => {})
-      })
+        })
+        .catch((err) => console.log(err))
     },
     deleteAppraisal(id) {
       this.$axios
