@@ -159,7 +159,7 @@ ADMINS = [("""Tejpratap Singh""", "Tejpratapsingh545@outlook.com")]
 MANAGERS = ADMINS
 
 
-OFFICIAL_MAIL = "dummy@denselight.com"
+OFFICIAL_MAIL = "epmphr@denselight.com"
 # LOGGING
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#logging
@@ -239,5 +239,5 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = "hunetdenselight-static"
 
 STATIC_URL = "https://%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
-STATICFILES_STORAGE = 'backend.storage_backends.StaticStorage'
-DEFAULT_FILE_STORAGE = 'backend.storage_backends.MediaStorage'
+STATICFILES_STORAGE = "backend.storage_backends.StaticStorage"
+DEFAULT_FILE_STORAGE = "backend.storage_backends.MediaStorage"
