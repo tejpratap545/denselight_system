@@ -212,8 +212,8 @@
                                 v-model="kpi.progress"
                                 :items="['Working', 'Completed']"
                                 label="Progress"
-                                @change="update_kpi(kpi.id, kpi.progress)"
                                 outlined
+                                @change="update_kpi(kpi.id, kpi.progress)"
                               ></v-select>
 
                               <small
@@ -349,12 +349,22 @@
                       </v-col>
                     </v-row>
                     <v-row>
+                      <v-col>Moderation commitee Comment</v-col>
+                      <v-col>
+                        {{ item.board_comments || 'NIL' }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
                       <v-col>Employee Self rating</v-col>
                       <v-col> {{ ratingName(item.user_rating) }}</v-col>
                     </v-row>
                     <v-row>
                       <v-col>Manager rating</v-col>
                       <v-col> {{ ratingName(item.manager_rating) }}</v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Moderation commitee rating(final)</v-col>
+                      <v-col> {{ ratingName(item.board_rating) }}</v-col>
                     </v-row>
                   </td>
                 </template>
@@ -608,6 +618,8 @@ export default {
           user_rating: goal.user_rating,
           user_comments: goal.user_comments,
           manager_comments: goal.manager_comments,
+          board_comments: goal.board_comments,
+          board_rating: goal.board_rating,
         })
       })
 
@@ -668,7 +680,7 @@ export default {
     },
     async update_kpi(id, progress) {
       const data = {
-        progress: progress,
+        progress,
       }
 
       await this.$axios
