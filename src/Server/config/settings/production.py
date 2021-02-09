@@ -42,11 +42,12 @@ DATABASES["default"]["CONN_MAX_AGE"] = os.environ.get(
 # Email Service
 # https://sendgrid.com/docs/for-developers/sending-email/django/
 
-EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_HOST_USER = os.environ.get("SENDGRID_USER_NAME")
-EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY")
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mirxesinfo@gmail.com'
+EMAIL_HOST_PASSWORD = 'fsvjadilshcelnqp'
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 # LOGGING
 # ------------------------------------------------------------------------------

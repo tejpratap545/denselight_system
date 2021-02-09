@@ -59,7 +59,7 @@ export default {
             } else if (overallAppraisalStatus === 'Stage 2' && appraisalStatus === 'S2Manager') {
                 return 'End Year Assessment: Manager/Supervisor Rating Stage'
             } else if (overallAppraisalStatus === 'Stage 2' && appraisalStatus === 'Approved') {
-                return 'End Year Assessment: Board Rating Stage'
+                return 'End Year Assessment: Moderation commitee rating(final)'
             } else if (overallAppraisalStatus === 'Stage 3') {
                 return 'End Year Assessment: Reports Stage'
             } else if (overallAppraisalStatus === 'Stage 4') {

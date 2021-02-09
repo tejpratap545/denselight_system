@@ -327,13 +327,17 @@ def bulk_profile_upload(request):
         address = row[6].value
         division_center = row[7].value
         department = row[8].value
-
-        if not username or username:
-            result.append({})
-        return_user = {"user": username, "errors": []}
+        if not name or name == "":
+            continue
+        return_user = {"user": name, "errors": []}
         result.append(return_user)
+
+        if not username or username == "":
+            return_user["errors"].append("User Must have username")
+            continue
+
         if not email or email == "":
-            return_user["errors"].append("Email Must be valid")
+            return_user["errors"].append("User Must have Email")
             continue
 
         try:
@@ -391,6 +395,9 @@ def bulk_profile_upload(request):
             | Q(name=first_reporting_manager_value)
             | Q(user__username=first_reporting_manager_value)
         ).exists():
+            for i in result:
+                if i.user == name:
+                    i.errors.append("Can Not set first reporting manager")
 
             continue
 
@@ -400,6 +407,10 @@ def bulk_profile_upload(request):
             | Q(name=second_reporting_manager_value)
             | Q(user__username=second_reporting_manager_value)
         ).exists():
+            for i in result:
+                if i.user == name:
+                    i.errors.append("Can Not set second reporting manager")
+
             continue
 
         first_reporting_manager = Profile.objects.filter(

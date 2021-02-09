@@ -66,12 +66,12 @@ TEMPLATES = [
     }
 ]
 
-# EMAIL
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-host
-EMAIL_HOST = os.environ.get("EMAIL_HOST", default="mailhog")
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-port
-EMAIL_PORT = 1025
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mirxesinfo@gmail.com'
+EMAIL_HOST_PASSWORD = 'fsvjadilshcelnqp'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 
 # django-debug-toolbar

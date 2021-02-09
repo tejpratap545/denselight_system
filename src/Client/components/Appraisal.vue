@@ -206,6 +206,36 @@
               <v-col>Manager rating</v-col>
               <v-col> {{ ratingName(item.manager_rating) }}</v-col>
             </v-row>
+            <div v-if="checkHodComment">
+              <v-row>
+                <v-col>End Year Board Comment</v-col>
+                <v-col>
+                  <v-textarea
+                    v-model="item.board_comments"
+                    outlined
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col>End Year Board rating</v-col>
+                <v-col>
+                  <v-select
+                    v-model="item.board_rating"
+                    :items="ratings"
+                    item-text="name"
+                    item-value="value"
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn color="primary" elevation="0" @click="submitBoardRating">
+                  Submit
+                </v-btn>
+              </v-card-actions>
+            </div>
           </td>
         </template>
       </v-data-table>
@@ -425,6 +455,43 @@ export default {
     },
     reload() {
       this.$fetch()
+    },
+    checkHodComment() {
+      if (
+        this.appraisal.overall_appraisal.status === 'Stage 2' &&
+        this.appraisal.status === 'Approved' &&
+        this.appraisal.completion === 'MCompleted'
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
+    submitBoardRating() {
+      this.appraisal.goals_set.forEach(async (goal) => {
+        await this.$axios.patch(`api/goal/${goal.id}`, {
+          board_comments: goal.board_comments,
+          board_rating: goal.board_rating,
+        })
+      })
+      this.$axios
+        .post(`api/submit/board/endyear/${this.appraisalId}`)
+        .then(() => {
+          this.$notifier.showMessage({
+            content:
+              'You  have   Successfully submitted end year board  review .',
+            color: 'info',
+          })
+
+          this.$fetch()
+        })
+        .catch(() => {
+          this.$notifier.showMessage({
+            content: 'An error found please validate or try again',
+            color: 'error',
+          })
+          this.close()
+        })
     },
   },
 }

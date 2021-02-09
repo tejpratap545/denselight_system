@@ -13,11 +13,7 @@ from backend.GnC.api.views import (
 )
 from backend.Profile.api.views import *
 from backend.Profile.views import download_report
-from backend.Trainings.api.views import (
-    AdminCreateSkillsApiView,
-    CreateSkillsApiView,
-    SkillsApiView,
-)
+from backend.Trainings.api.views import AdminCreateSkillsApiView, CreateSkillsApiView, SkillsApiView
 from django.urls.conf import path
 
 
@@ -77,6 +73,7 @@ urlpatterns = [
     path("input/manager/endyear/<int:pk>", input_endyear_manager),
     path("reject/manager/endyear/<int:pk>", EndYearRejection.as_view()),
     path("approve/manager/endyear/<int:pk>", approve_endyear_manager),
+    path("submit/board/endyear/<int:pk>", submit_endyear_board),
     path("peerappraisal/create", CreatePeerAppraisal.as_view()),
     path("peerappraisal/me", EmployeePeerAppraisal.as_view()),
     path("peerappraisal/manager", ManagerPeerAppraisal.as_view()),

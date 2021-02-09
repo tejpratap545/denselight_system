@@ -542,6 +542,35 @@ def approve_endyear_manager(request, *args, **kwargs):
     return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def submit_endyear_board(request, *args, **kwargs):
+    id = kwargs.get("pk")
+    app = get_object_or_404(User_Appraisal_List, id=id)
+    if (
+        app.overall_appraisal.status == "Stage 2"
+        and app.employee.second_Reporting_Manager == request.user.profile
+    ) and (app.status == "Approved" and app.completion == "MCompleted"):
+        app.status = "Approved"
+        app.completion = "BCompleted"
+        app.save()
+        title = f"{request.user.profile.name} approve endyear Moderation commitee rating(final) review of {app.appraisal_name}"
+        description = f"Hi {app.employee.name} HOD {request.user.profile.name} approve endyear  Moderation commitee rating(final) review of{app.appraisal_name} . "
+        Notification.objects.create(
+            user=app.employee, title=title, description=description, color="success"
+        )
+        try:
+            send_mail(title, description, settings.OFFICIAL_MAIL, [app.employee.email])
+        except:
+            pass
+        return Response(
+            {"msg": "Goal are successfully approves by manager/supervisor"},
+            status=status.HTTP_202_ACCEPTED,
+        )
+
+    return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class RejectGoals(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = GoalsSettingRejectionSerializer
