@@ -108,24 +108,49 @@
       <v-col>
         <div class="panel pa-5">
           <h3 class="my-5">Reset Password</h3>
-          <v-text-field
-            v-model="passwordReset.old_password"
-            label="Old Password"
-            outlined
-          ></v-text-field>
-          <v-text-field
-            v-model="passwordReset.password1"
-            label="New Password"
-            outlined
-          ></v-text-field>
-          <v-text-field
-            v-model="passwordReset.password2"
-            label="Confirm Password"
-            outlined
-          ></v-text-field>
-          <v-btn elevation="0" color="primary" @click="changePassword">
-            Reset Password</v-btn
-          >
+            <v-text-field
+              v-model="passwordReset.password1"
+              label="New Password"
+              @change="checkPassword"
+              :error="passwordinputError"
+              outlined
+            ></v-text-field>
+
+            <v-alert type="warning" v-if="passwordinputError" text dense>
+              Password is weak, password must include
+              <ul>
+                <li>8 minimum character</li>
+                <li>Capital letter</li>
+                <li>Numbers & symbols</li>
+              </ul>
+            </v-alert>
+            <v-alert
+              type="success"
+              v-else-if="!passwordinputError && passwordReset.password1 != ''"
+              text
+              dense
+            >
+              Password is strong
+            </v-alert>
+
+            <v-text-field
+              v-model="passwordReset.password2"
+              label="Confirm Password"
+              outlined
+            ></v-text-field>
+
+            <v-alert type="warning" v-if="!passwordStrong"
+              >One or more entries are invalid</v-alert
+            >
+
+            <v-btn
+              elevation="0"
+              color="primary"
+              @click="changePassword"
+              :disabled="!passwordStrong"
+            >
+              Reset Password</v-btn
+            >
         </div>
       </v-col>
     </v-row>
@@ -147,9 +172,26 @@ export default {
         profile: this.$auth.user.id,
       },
       file: null,
+
+      passwordStrong: false,
+      passwordinputError: false,
     }
   },
   methods: {
+        checkPassword() {
+      this.$axios
+        .$post('api/check/password', {
+          password: this.passwordReset.password1,
+        })
+        .then((_) => {
+          this.passwordStrong = true
+          this.passwordinputError = false
+        })
+        .catch((_) => {
+          this.passwordStrong = false
+          this.passwordinputError = true
+        })
+    },
     changePassword() {
       this.$axios
         .$post('/api/profile/changepassword', this.passwordReset)

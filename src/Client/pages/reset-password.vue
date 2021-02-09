@@ -36,8 +36,27 @@
             :rules="[(v) => !!v || 'Password is required']"
             clearable
             type="password"
+            @change="checkPassword"
             required
           ></v-text-field>
+
+          <v-alert type="warning" v-if="passwordinputError" text dense>
+            Password is weak, password must include
+            <ul>
+              <li>8 minimum character</li>
+              <li>Capital letter</li>
+              <li>Numbers & symbols</li>
+            </ul>
+          </v-alert>
+
+          <v-alert
+            type="success"
+            v-else-if="!passwordinputError && user.password1 != ''"
+            text
+            dense
+          >
+            Password is strong
+          </v-alert>
 
           <v-text-field
             v-model="user.password2"
@@ -48,8 +67,16 @@
             required
           ></v-text-field>
 
+          <v-alert type="warning" v-if="!passwordStrong"
+            >One or more entries are invalid</v-alert
+          >
+
           <div class="text-center">
-            <v-btn color="primary" elevation="2" type="submit"
+            <v-btn
+              color="primary"
+              elevation="2"
+              :disabled="!passwordStrong"
+              type="submit"
               >Reset Password
             </v-btn>
           </div>
@@ -78,10 +105,27 @@ export default {
         password1: '',
         password2: '',
       },
+
+      passwordStrong: false,
+      passwordinputError: false,
     }
   },
 
   methods: {
+    checkPassword() {
+      this.$axios
+        .$post('api/check/password', {
+          password: this.user.password1,
+        })
+        .then((_) => {
+          this.passwordStrong = true
+          this.passwordinputError = false
+        })
+        .catch((_) => {
+          this.passwordStrong = false
+          this.passwordinputError = true
+        })
+    },
     resetPassword() {
       if (this.$refs.form.validate()) {
         this.$axios
