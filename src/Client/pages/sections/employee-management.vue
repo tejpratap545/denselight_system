@@ -162,7 +162,7 @@ export default {
       this.employees = []
       this.resginedEmployee = []
       this.departments = await this.$axios.$get('api/department/')
-      this.managers =  await this.$axios.$get('/api/manager/short/list')
+      this.managers = await this.$axios.$get('/api/manager/short/list')
 
       await this.$axios.$get('api/resign/employee/list').then((response) => {
         response.forEach((employee) => {
@@ -217,19 +217,25 @@ export default {
       resginedEmployee: [],
       departmentTableHeader: [
         {
+          text: 'Id',
+          align: 'start',
+          value: 'id',
+          sortable: true,
+        },
+        {
           text: 'Name',
           align: 'start',
           value: 'name',
           sortable: true,
         },
-        {
-          text: 'Manager',
-          align: 'start',
-          value: 'manager',
-          sortable: true,
-        },
       ],
       managerTableHeader: [
+        {
+          text: 'Id',
+          align: 'start',
+          value: 'id',
+          sortable: true,
+        },
         {
           text: 'Name',
           align: 'start',
