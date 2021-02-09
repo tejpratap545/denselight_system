@@ -25,15 +25,40 @@
         <v-alert type="warning" v-if="userinputError" text dense>
           Username must be unique
         </v-alert>
-        <v-alert type="success" v-if="!userinputError && user.username != ''" text dense>
+        <v-alert
+          type="success"
+          v-if="!userinputError && user.username != ''"
+          text
+          dense
+        >
           Username is valid
         </v-alert>
 
         <v-text-field
           v-model="user.password"
-          label="Password"
+          label="New Password"
+          @change="checkPassword"
+          :error="passwordinputError"
           outlined
         ></v-text-field>
+
+        <v-alert type="warning" v-if="passwordinputError" text dense>
+          Password is weak, password must include
+          <ul>
+            <li>8 minimum character</li>
+            <li>Capital letter</li>
+            <li>Numbers & symbols</li>
+          </ul>
+        </v-alert>
+
+        <v-alert
+          type="success"
+          v-else-if="!passwordinputError && user.password != ''"
+          text
+          dense
+        >
+          Password is strong
+        </v-alert>
 
         <v-select
           v-model="user.role"
@@ -59,7 +84,12 @@
         <v-alert type="warning" v-if="emailinputError" text dense>
           Email must be unique
         </v-alert>
-        <v-alert type="success" v-if="!emailinputError && user.email != ''" text dense>
+        <v-alert
+          type="success"
+          v-if="!emailinputError && user.email != ''"
+          text
+          dense
+        >
           Email is valid
         </v-alert>
 
@@ -193,6 +223,8 @@ export default {
       emailUnique: false,
       userinputError: false,
       emailinputError: false,
+      passwordStrong: false,
+      passwordinputError: false,
     }
   },
   methods: {
@@ -270,10 +302,24 @@ export default {
           this.emailinputError = true
         })
     },
+    checkPassword() {
+      this.$axios
+        .$post('api/check/password', {
+          password: this.user.password,
+        })
+        .then((_) => {
+          this.passwordStrong = true
+          this.passwordinputError = false
+        })
+        .catch((_) => {
+          this.passwordStrong = false
+          this.passwordinputError = true
+        })
+    },
   },
   computed: {
     formValid: function () {
-      return this.userUnique && this.emailUnique
+      return this.userUnique && this.emailUnique && this.passwordStrong
     },
   },
 }

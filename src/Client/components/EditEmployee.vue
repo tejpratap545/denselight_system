@@ -45,7 +45,12 @@
             <v-alert type="warning" v-if="emailinputError" text dense>
               Email must be unique
             </v-alert>
-            <v-alert type="success" v-if="!emailinputError && user.email != ''" text dense>
+            <v-alert
+              type="success"
+              v-else-if="!emailinputError && user.email != ''"
+              text
+              dense
+            >
               Email is valid
             </v-alert>
 
@@ -108,11 +113,11 @@
               outlined
             ></v-select>
 
-            <v-alert type="warning" v-if="!formValid"
+            <v-alert type="warning" v-if="!emailUnique"
               >One or more entries are invalid</v-alert
             >
 
-            <v-btn color="primary" @click="createUser" :disabled="!formValid">
+            <v-btn color="primary" @click="createUser" :disabled="!emailUnique">
               Save
             </v-btn>
             <v-btn text @click="close"> Close </v-btn>
@@ -122,18 +127,49 @@
             <v-text-field
               v-model="passwordReset.password1"
               label="New Password"
+              @change="checkPassword"
+              :error="passwordinputError"
               outlined
             ></v-text-field>
+
+            <v-alert type="warning" v-if="passwordinputError" text dense>
+              Password is weak, password must include
+              <ul>
+                <li>8 minimum character</li>
+                <li>Capital letter</li>
+                <li>Numbers & symbols</li>
+              </ul>
+            </v-alert>
+            <v-alert
+              type="success"
+              v-else-if="!passwordinputError && passwordReset.password1 != ''"
+              text
+              dense
+            >
+              Password is strong
+            </v-alert>
+
             <v-text-field
               v-model="passwordReset.password2"
               label="Confirm Password"
               outlined
             ></v-text-field>
-            <v-btn elevation="0" color="primary" @click="changePassword">
+
+            <v-alert type="warning" v-if="!passwordStrong"
+              >One or more entries are invalid</v-alert
+            >
+
+            <v-btn
+              elevation="0"
+              color="primary"
+              @click="changePassword"
+              :disabled="!passwordStrong"
+            >
               Reset Password</v-btn
             >
             <v-btn text @click="close"> Close </v-btn>
           </v-tab-item>
+
           <v-tab-item>
             <v-select
               v-model="newRole.role"
@@ -183,6 +219,9 @@ export default {
       },
       emailUnique: false,
       emailinputError: false,
+
+      passwordStrong: false,
+      passwordinputError: false,
     }
   },
   methods: {
@@ -277,10 +316,19 @@ export default {
           this.emailinputError = true
         })
     },
-  },
-  computed: {
-    formValid: function () {
-      return this.emailUnique
+    checkPassword() {
+      this.$axios
+        .$post('api/check/password', {
+          password: this.passwordReset.password1,
+        })
+        .then((_) => {
+          this.passwordStrong = true
+          this.passwordinputError = false
+        })
+        .catch((_) => {
+          this.passwordStrong = false
+          this.passwordinputError = true
+        })
     },
   },
 }
