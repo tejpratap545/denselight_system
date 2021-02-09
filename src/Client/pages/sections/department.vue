@@ -255,16 +255,21 @@
                         </template>
 
                         <v-list>
-                          <v-list-item
-                            v-for="(x, y) in appraisalData"
-                            :key="y"
-                            link
-                            @click="changeAppraisal(x)"
+                          <v-list-item-group
+                            v-model="selectedItem"
+                            color="primary"
                           >
-                            <v-list-item-title>
-                              {{ x.name }}
-                            </v-list-item-title>
-                          </v-list-item>
+                            <v-list-item
+                              v-for="(x, y) in appraisalData"
+                              :key="y"
+                              link
+                              @click="changeAppraisal(x)"
+                            >
+                              <v-list-item-title>
+                                {{ x.name }}
+                              </v-list-item-title>
+                            </v-list-item>
+                          </v-list-item-group>
                         </v-list>
                       </v-menu>
                     </v-col>
@@ -809,6 +814,7 @@ export default {
   },
   data() {
     return {
+      selectedItem:0,
       loading: true,
       tabData: null,
       tabData2: null,
@@ -1043,6 +1049,8 @@ export default {
       this.appraisalSelectedIndex = this.appraisalSelected.id
       this.departmentGoalsItems = this.appraisalSelected.departmentalgoals_set
       this.departmentValuesItems = this.appraisalSelected.departmentalcompetencies_set
+
+      this.selectedItem = this.appraisalSelected.id
     },
   },
 }

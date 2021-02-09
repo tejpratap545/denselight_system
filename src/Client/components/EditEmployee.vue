@@ -36,6 +36,7 @@
 
             <v-text-field
               v-model="user.email"
+              type="email"
               label="email"
               @change="checkEmail"
               :error="emailinputError"
@@ -195,7 +196,7 @@ export default {
   props: ['id', 'dialog'],
   async fetch() {
     this.departments = await this.$axios.$get(`/api/department/`)
-    this.employees = await this.$axios.$get('/api/employee/short/list')
+    this.employees = await this.$axios.$get('/api/manager/short/list')
 
     this.user = await this.$axios.$get(`/api/profile/${this.id}`)
 
@@ -217,7 +218,7 @@ export default {
         id: this.id,
         role: '',
       },
-      emailUnique: false,
+      emailUnique: true,
       emailinputError: false,
 
       passwordStrong: false,

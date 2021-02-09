@@ -33,6 +33,8 @@
       >
         <v-tab>Employees</v-tab>
         <v-tab>Resigned Employee</v-tab>
+        <v-tab>Departments</v-tab>
+        <v-tab>Managers</v-tab>
       </v-tabs>
       <v-tabs-items v-model="tabData">
         <v-tab-item>
@@ -124,6 +126,26 @@
             </template>
           </v-data-table>
         </v-tab-item>
+
+        <v-tab-item>
+          <v-data-table
+            :headers="departmentTableHeader"
+            :items="departments"
+            class="elevation-1"
+            :search="search"
+            :loading="loading"
+          ></v-data-table>
+        </v-tab-item>
+
+        <v-tab-item>
+          <v-data-table
+            :headers="managerTableHeader"
+            :items="managers"
+            class="elevation-1"
+            :search="search"
+            :loading="loading"
+          ></v-data-table>
+        </v-tab-item>
       </v-tabs-items>
     </v-card>
   </div>
@@ -139,8 +161,9 @@ export default {
     try {
       this.employees = []
       this.resginedEmployee = []
+      this.departments = await this.$axios.$get('api/department/')
+      this.managers =  await this.$axios.$get('/api/manager/short/list')
 
-      const response = await this.$axios.$get('api/employee/list/')
       await this.$axios.$get('api/resign/employee/list').then((response) => {
         response.forEach((employee) => {
           this.resginedEmployee.push({
@@ -161,6 +184,7 @@ export default {
         })
       })
 
+      const response = await this.$axios.$get('api/employee/list/')
       response.forEach((employee) => {
         this.employees.push({
           id: employee.id,
@@ -191,6 +215,31 @@ export default {
       currentEmployeeId: 1,
       tabData: 0,
       resginedEmployee: [],
+      departmentTableHeader: [
+        {
+          text: 'Name',
+          align: 'start',
+          value: 'name',
+          sortable: true,
+        },
+        {
+          text: 'Manager',
+          align: 'start',
+          value: 'manager',
+          sortable: true,
+        },
+      ],
+      managerTableHeader: [
+        {
+          text: 'Name',
+          align: 'start',
+          value: 'name',
+          sortable: true,
+        },
+        { text: 'Email', value: 'email' },
+      ],
+      managers: [],
+      departments: [],
       resginedEmployeeHeader: [
         {
           text: 'Name',

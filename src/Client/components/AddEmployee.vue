@@ -187,7 +187,7 @@
 export default {
   async fetch() {
     try {
-      this.employees = await this.$axios.$get('/api/employee/short/list')
+      this.employees = await this.$axios.$get('/api/manager/short/list')
       this.departments = await this.$axios.$get('/api/department/')
     } catch (error) {
       console.log(error)

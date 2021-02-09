@@ -178,7 +178,7 @@ export default {
     }
   },
   methods: {
-        checkPassword() {
+    checkPassword() {
       this.$axios
         .$post('api/check/password', {
           password: this.passwordReset.password1,
@@ -200,7 +200,6 @@ export default {
             content: 'Password changed successully',
             color: 'info',
           })
-          this.close()
         })
         .catch((error) => {
           this.$notifier.showMessage({
@@ -220,7 +219,8 @@ export default {
             content: 'Profile picture uploaded success',
             color: 'info',
           })
-          this.close()
+
+          location.reload()
         })
         .catch((error) => {
           this.$notifier.showMessage({

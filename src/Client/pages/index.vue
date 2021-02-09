@@ -61,6 +61,10 @@
               </template>
 
               <v-list>
+                  <v-list-item-group
+                            v-model="selectedItem"
+                            color="primary"
+                          >
                 <v-list-item
                   v-for="(x, y) in appraisalData"
                   :key="y"
@@ -71,6 +75,7 @@
                     {{ x.appraisal_name }}
                   </v-list-item-title>
                 </v-list-item>
+                  </v-list-item-group>
               </v-list>
             </v-menu>
           </v-col>
@@ -212,6 +217,7 @@ export default {
   },
   data() {
     return {
+      selectedItem: 0,
       tabData: null,
       appraisalData: [],
       appraisalSelected: {},
@@ -235,6 +241,8 @@ export default {
       this.appraisalSelectedIndex = this.appraisalSelected.id
 
       window.localStorage.setItem('selected-appraisal', i)
+
+      this.selectedItem = i
     },
   },
   fetchOnServer: false,
