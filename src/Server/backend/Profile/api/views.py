@@ -209,7 +209,6 @@ import secrets
 
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
 def get_token(request):
     email = request.data.get("email", "")
     if email != "" or email is not None:
@@ -231,7 +230,6 @@ def get_token(request):
 
 
 @api_view(["POST"])
-@permission_classes([IsHrManager])
 def reset_password(request):
     token = request.data.get("token", "")
     password1 = request.data.get("password1", "")

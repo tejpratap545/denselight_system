@@ -199,12 +199,22 @@
               </v-col>
             </v-row>
             <v-row>
+              <v-col>End Year Board Comment</v-col>
+              <v-col>
+                {{ item.board_comments || 'NIL' }}
+              </v-col>
+            </v-row>
+            <v-row>
               <v-col>Employee Self rating</v-col>
               <v-col> {{ ratingName(item.user_rating) }}</v-col>
             </v-row>
             <v-row>
               <v-col>Manager rating</v-col>
               <v-col> {{ ratingName(item.manager_rating) }}</v-col>
+            </v-row>
+            <v-row>
+              <v-col>End Year Board rating</v-col>
+              <v-col> {{ ratingName(item.board_rating) }}</v-col>
             </v-row>
             <div v-if="checkHodComment">
               <v-row>
@@ -460,7 +470,8 @@ export default {
       if (
         this.appraisal.overall_appraisal.status === 'Stage 2' &&
         this.appraisal.status === 'Approved' &&
-        this.appraisal.completion === 'MCompleted'
+        this.appraisal.completion === 'MCompleted' &&
+        this.appraisal.employee.second_Reporting_Manager == this.$auth.user.id
       ) {
         return true
       } else {

@@ -44,6 +44,8 @@ class ShortProfileSerializer(serializers.ModelSerializer):
             "email",
             "department",
             "date_Of_Hire",
+            "first_Reporting_Manager",
+            "second_Reporting_Manager",
         )
 
 
@@ -115,7 +117,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
             "department",
             "job_Title",
             "date_Of_Hire",
-            "resign_date"
+            "resign_date",
         )
 
 
