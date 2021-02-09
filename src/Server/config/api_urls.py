@@ -13,7 +13,11 @@ from backend.GnC.api.views import (
 )
 from backend.Profile.api.views import *
 from backend.Profile.views import download_report
-from backend.Trainings.api.views import AdminCreateSkillsApiView, CreateSkillsApiView, SkillsApiView
+from backend.Trainings.api.views import (
+    AdminCreateSkillsApiView,
+    CreateSkillsApiView,
+    SkillsApiView,
+)
 from django.urls.conf import path
 
 
@@ -30,6 +34,7 @@ urlpatterns = [
     path("employee/list/", ListEmployees.as_view()),
     path("overallAppraisal/list", OverallAppraisal.as_view()),
     path("employee/short/list", ShortListEmployees.as_view()),
+    path("mananger/short/list", ShortListManager.as_view()),
     path("appraisals/list/manager", ManagerAppraisal.as_view()),
     path("appraisals/list/admin", AllAppraisalView.as_view()),
     path("appraisals/list/short/manager", ShortManagerAppraisal.as_view()),

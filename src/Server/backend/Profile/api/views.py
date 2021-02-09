@@ -98,6 +98,16 @@ class ShortListEmployees(generics.ListAPIView):
     ).filter(user__is_active=True)
 
 
+class ShortListManager(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ShortEmployeeSerializer
+    queryset = Profile.objects.only(
+        "id",
+        "name",
+        "email",
+    ).filter(user__is_active=True).exclude(user__role='Employee')
+
+
 class CreateProfile(generics.CreateAPIView):
     permission_classes = [IsHrManager]
     serializer_class = ProfileCreateSerializer
