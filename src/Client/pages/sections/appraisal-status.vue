@@ -811,17 +811,20 @@ export default {
       this.userTableData = []
 
       var stages = ['Stage+1', 'Stage+1B', 'Stage+2', 'Stage+3', 'Stage+4']
-      var counts = []
+      var pages = 1
 
-      stages.forEach((stage) => {
-        this.$axios
+      stages.forEach(async (stage) => {
+        this.loading = true
+
+        await this.$axios
           .$get(
             `api/appraisals/list/admin?page=${this.page_user}&overall_appraisal__status=${stage}`
           )
-          .then(async (response) => {
-            counts.push(parseInt(response.count / 10) + 1)
+          .then((response) => {
+            var i = parseInt(response.count / 10) + 1
+            if (i > pages) pages = i
 
-            await response.results.forEach((appraisal) => {
+            response.results.forEach((appraisal) => {
               const tableData = {
                 id: appraisal.id,
                 appraisal_name: appraisal.appraisal_name,
@@ -862,11 +865,11 @@ export default {
               }
             })
           })
+
+        this.loading = false
       })
 
-      console.log(this.goalsLaunchingTableItems)
-
-      this.count_user = Math.max.apply(null, counts)
+      this.count_user = pages
     },
     deleteAppraisal(id) {
       this.$axios
