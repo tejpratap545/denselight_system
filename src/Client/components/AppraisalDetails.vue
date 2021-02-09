@@ -204,12 +204,18 @@
                             class="my-5"
                           >
                             <v-card-text>
-                              <v-textarea v-model="kpi.description" @change="update_kpi(kpi.id, kpi.description)" outlined>
-                              </v-textarea>
+                              <p>
+                                {{ kpi.description }}
+                              </p>
 
-                              <small
-                                >Progress : <b>{{ kpi.progress }}</b></small
-                              >
+                              <v-select
+                                v-model="kpi.progress"
+                                :items="['Working', 'Completed']"
+                                label="Progress"
+                                @change="update_kpi(kpi.id, kpi.progress)"
+                                outlined
+                              ></v-select>
+
                               <small
                                 >Due : <b>{{ kpi.due }}</b></small
                               >
@@ -660,9 +666,9 @@ export default {
           })
         })
     },
-    async update_kpi(id, description) {
+    async update_kpi(id, progress) {
       const data = {
-        description: description,
+        progress: progress,
       }
 
       await this.$axios
