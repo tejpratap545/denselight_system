@@ -251,6 +251,13 @@
                           </v-dialog>
                         </template>
                       </v-data-table>
+
+                      <div class="text-center">
+                        <v-pagination
+                          v-model="page_user1"
+                          :length="count_user1"
+                        ></v-pagination>
+                      </div>
                     </v-tab-item>
 
                     <v-tab-item>
@@ -295,6 +302,13 @@
                           </v-dialog>
                         </template>
                       </v-data-table>
+
+                      <div class="text-center">
+                        <v-pagination
+                          v-model="page_user2"
+                          :length="count_user2"
+                        ></v-pagination>
+                      </div>
                     </v-tab-item>
 
                     <v-tab-item>
@@ -339,6 +353,13 @@
                           </v-dialog>
                         </template>
                       </v-data-table>
+
+                      <div class="text-center">
+                        <v-pagination
+                          v-model="page_user3"
+                          :length="count_user3"
+                        ></v-pagination>
+                      </div>
                     </v-tab-item>
 
                     <v-tab-item>
@@ -383,6 +404,13 @@
                           </v-dialog>
                         </template>
                       </v-data-table>
+
+                      <div class="text-center">
+                        <v-pagination
+                          v-model="page_user4"
+                          :length="count_user4"
+                        ></v-pagination>
+                      </div>
                     </v-tab-item>
 
                     <v-tab-item>
@@ -427,15 +455,15 @@
                           </v-dialog>
                         </template>
                       </v-data-table>
+
+                      <div class="text-center">
+                        <v-pagination
+                          v-model="page_user5"
+                          :length="count_user5"
+                        ></v-pagination>
+                      </div>
                     </v-tab-item>
                   </v-tabs>
-                </div>
-
-                <div class="text-center">
-                  <v-pagination
-                    v-model="page_user"
-                    :length="count_user"
-                  ></v-pagination>
                 </div>
               </v-card-text>
             </v-card>
@@ -659,7 +687,18 @@ export default {
           value: 'action',
         },
       ],
-      page_user: 1,
+
+      page_user1: 1,
+      page_user2: 1,
+      page_user3: 1,
+      page_user4: 1,
+      page_user5: 1,
+
+      count_user1: 1,
+      count_user2: 1,
+      count_user3: 1,
+      count_user4: 1,
+      count_user5: 1,
 
       goalsLaunchingTableItems: [],
       midYearTableItems: [],
@@ -703,7 +742,6 @@ export default {
       previousAppraisals: [],
       closedAppraisals: [],
       reportLoading: false,
-      count_user: 1,
       count_previous: 1,
     }
   },
@@ -811,19 +849,38 @@ export default {
       this.userTableData = []
 
       var stages = ['Stage+1', 'Stage+1B', 'Stage+2', 'Stage+3', 'Stage+4']
-      var pages = 1
 
-      stages.forEach(async (stage) => {
-        this.loading = true
+      stages.forEach((stage) => {
+        var url = `api/appraisals/list/admin?page=${this.page_user1}&overall_appraisal__status=${stage}`
 
-        await this.$axios
-          .$get(
-            `api/appraisals/list/admin?page=${this.page_user}&overall_appraisal__status=${stage}`
-          )
+        switch (stage) {
+          case 'Stage+1':
+            url = `api/appraisals/list/admin?page=${this.page_user1}&overall_appraisal__status=${stage}`
+            break
+
+          case 'Stage+1B':
+            url = `api/appraisals/list/admin?page=${this.page_user2}&overall_appraisal__status=${stage}`
+            break
+
+          case 'Stage+2':
+            url = `api/appraisals/list/admin?page=${this.page_user3}&overall_appraisal__status=${stage}`
+            break
+
+          case 'Stage+3':
+            url = `api/appraisals/list/admin?page=${this.page_user4}&overall_appraisal__status=${stage}`
+            break
+
+          case 'Stage+4':
+            url = `api/appraisals/list/admin?page=${this.page_user5}&overall_appraisal__status=${stage}`
+            break
+
+          default:
+            break
+        }
+
+        this.$axios
+          .$get(url)
           .then((response) => {
-            var i = parseInt(response.count / 10) + 1
-            if (i > pages) pages = i
-
             response.results.forEach((appraisal) => {
               const tableData = {
                 id: appraisal.id,
@@ -841,22 +898,27 @@ export default {
 
               switch (stage) {
                 case 'Stage+1':
+                  this.count_user1 = parseInt(response.count / 10) + 1
                   this.goalsLaunchingTableItems.push(tableData)
                   break
 
                 case 'Stage+1B':
+                  this.count_user2 = parseInt(response.count / 10) + 1
                   this.midYearTableItems.push(tableData)
                   break
 
                 case 'Stage+2':
+                  this.count_user3 = parseInt(response.count / 10) + 1
                   this.endYearTableItems.push(tableData)
                   break
 
                 case 'Stage+3':
+                  this.count_user4 = parseInt(response.count / 10) + 1
                   this.reportsTableItems.push(tableData)
                   break
 
                 case 'Stage+4':
+                  this.count_user5 = parseInt(response.count / 10) + 1
                   this.calibrationTableItems.push(tableData)
                   break
 
@@ -865,11 +927,8 @@ export default {
               }
             })
           })
-
-        this.loading = false
+          .catch((err) => {})
       })
-
-      this.count_user = pages
     },
     deleteAppraisal(id) {
       this.$axios
