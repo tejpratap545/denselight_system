@@ -219,7 +219,6 @@ class Overall_Appraisal(models.Model):
     )
 
     RATING_CHOICES = (("Denselight System", "Denselight System"), ("MiRXes", "MiRXes"))
-    
 
     name = models.CharField(max_length=50, blank=False, null=True)
     appraisal_category = models.ForeignKey(
@@ -382,6 +381,9 @@ class User_Appraisal_List(models.Model):
     final_employee_rating = models.IntegerField(blank=True, null=True)
     final_manager_rating = models.IntegerField(blank=True, null=True)
     final_board_rating = models.IntegerField(blank=True, null=True)
+    end_year_employee_file = models.FileField(
+        upload_to="endyear/file/employee", null=True
+    )
 
     def __str__(self):
         return "{}:'s Appraisal".format(self.employee.name)
