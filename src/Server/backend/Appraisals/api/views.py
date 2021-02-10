@@ -39,6 +39,7 @@ class ManagerAppraisal(generics.ListAPIView):
                 is_closed=False,
             )
             .exclude(overall_appraisal__status="Completed")
+            .order_by()
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
@@ -55,18 +56,22 @@ class AllAppraisalView(generics.ListAPIView):
 
     def get_queryset(self):
 
-        return User_Appraisal_List.objects.prefetch_related(
-            "overall_appraisal",
-            "employee",
-            "employee__department",
-            "manager",
-            "manager__department",
-            "overall_appraisal__appraisal_category",
-            "appraisal_category",
-        ).annotate(
-            goals_count=Count("goals"),
-            core_values_competencies_count=Count("competencies"),
-            skills_count=Count("skills"),
+        return (
+            User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "employee__department",
+                "manager",
+                "manager__department",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            )
+            .order_by()
+            .annotate(
+                goals_count=Count("goals"),
+                core_values_competencies_count=Count("competencies"),
+                skills_count=Count("skills"),
+            )
         )
 
 
@@ -86,6 +91,7 @@ class ClosedAllAppraisalView(generics.ListAPIView):
                 "overall_appraisal__appraisal_category",
                 "appraisal_category",
             )
+            .order_by()
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
@@ -136,6 +142,7 @@ class UserAppraisal(generics.ListAPIView):
             )
             .filter(employee=self.request.user.profile, is_closed=False)
             .exclude(overall_appraisal__status="Completed")
+            .order_by()
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
@@ -164,6 +171,7 @@ class CompletedUserAppraisal(generics.ListAPIView):
                 is_closed=False,
                 overall_appraisal__status="Completed",
             )
+            .order_by()
             .annotate(
                 goals_count=Count("goals"),
                 core_values_competencies_count=Count("competencies"),
@@ -197,11 +205,6 @@ class DetailUserAppraisal(generics.ListAPIView):
                     "overall_appraisal__departmentalgoals_set",
                     queryset=DepartmentalGoals.objects.filter(
                         department=self.request.user.profile.department
-                    ).prefetch_related(
-                        "overall_appraisal__departmentalgoals_set__goal_category",
-                        "overall_appraisal__departmentalgoals_set__manager",
-                        "overall_appraisal__departmentalgoals_set__manager",
-                        "overall_appraisal__departmentalgoals_set__manager__department",
                     ),
                 ),
                 "overall_appraisal__departmentalcompetencies_set",
@@ -252,11 +255,6 @@ class DetailAppraisal(generics.RetrieveAPIView):
                 "overall_appraisal__departmentalgoals_set",
                 queryset=DepartmentalGoals.objects.filter(
                     department=self.request.user.profile.department
-                ).prefetch_related(
-                    "overall_appraisal__departmentalgoals_set__goal_category",
-                    "overall_appraisal__departmentalgoals_set__manager",
-                    "overall_appraisal__departmentalgoals_set__manager",
-                    "overall_appraisal__departmentalgoals_set__manager__department",
                 ),
             ),
             "overall_appraisal__departmentalcompetencies_set",

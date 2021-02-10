@@ -199,7 +199,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col>End Year Board Comment</v-col>
+              <v-col>Moderation commitee Comment</v-col>
               <v-col>
                 {{ item.board_comments || 'NIL' }}
               </v-col>
@@ -213,7 +213,7 @@
               <v-col> {{ ratingName(item.manager_rating) }}</v-col>
             </v-row>
             <v-row>
-              <v-col>End Year Board rating</v-col>
+              <v-col>Moderation commitee rating(final)</v-col>
               <v-col> {{ ratingName(item.board_rating) }}</v-col>
             </v-row>
 
