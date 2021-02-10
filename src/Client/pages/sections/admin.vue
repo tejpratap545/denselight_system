@@ -34,21 +34,22 @@
       <v-card-title>
         Manage Employees Appraisals
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="createAppraisalDialog = true">
+        <v-btn
+          class="mx-2"
+          color="primary"
+          @click="createAppraisalDialog = true"
+        >
           <v-icon>mdi-plus</v-icon></v-btn
         >
-        <v-spacer></v-spacer>
+
         <v-btn
+          class="mx-2"
           color="green darken-1"
           elevation="0"
-          dark
-          style="float: right"
-          text
           :loading="reportLoading"
           @click="report()"
         >
           <v-icon>mdi-download-circle-outline</v-icon>
-          <span class="ml-1">Download Report</span>
         </v-btn>
       </v-card-title>
 
@@ -73,6 +74,13 @@
                     single-line
                     hide-details
                   ></v-text-field>
+
+                  <div class="text-center">
+                    <v-pagination
+                      v-model="page_user1"
+                      :length="count_user1"
+                    ></v-pagination>
+                  </div>
                 </v-card-title>
                 <v-card-text>
                   <v-data-table
@@ -227,6 +235,12 @@
                       </v-btn>
                     </template>
                   </v-data-table>
+                  <div class="text-center">
+                    <v-pagination
+                      v-model="page_user2"
+                      :length="count_user2"
+                    ></v-pagination>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -328,6 +342,12 @@
                       </v-btn>
                     </template>
                   </v-data-table>
+                  <div class="text-center">
+                    <v-pagination
+                      v-model="page_user3"
+                      :length="count_user3"
+                    ></v-pagination>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -407,6 +427,12 @@
                       </v-btn>
                     </template>
                   </v-data-table>
+                  <div class="text-center">
+                    <v-pagination
+                      v-model="page_user4"
+                      :length="count_user4"
+                    ></v-pagination>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -486,6 +512,12 @@
                       </v-btn>
                     </template>
                   </v-data-table>
+                  <div class="text-center">
+                    <v-pagination
+                      v-model="page_user5"
+                      :length="count_user5"
+                    ></v-pagination>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -654,61 +686,14 @@ export default {
   name: 'Admin',
   middleware: 'is-admin',
   async fetch() {
-    this.goalsLaunchingTableItems = []
-    this.midYearTableItems = []
-    this.endYearTableItems = []
-    this.reportsTableItems = []
-    this.calibrationTableItems = []
     this.categories_data_goals = []
     this.categories_data_skills = []
     this.categories_data_corevalues = []
 
-    await this.$axios.$get('/api/appraisals/list/admin').then((res) => {
-      res.forEach((appraisal) => {
-        const tableData = {
-          id: appraisal.id,
-          appraisal_name: appraisal.appraisal_name,
+    const stages = ['Stage+1', 'Stage+1B', 'Stage+2', 'Stage+3', 'Stage+4']
 
-          employee: appraisal.employee,
-          manager: appraisal.manager,
-          employeeDepartment: appraisal.employee.department.name,
-          manager1: appraisal.manager ? appraisal.manager.name : '---',
-          goals_count: appraisal.goals_count,
-          core_values_count: appraisal.core_values_competencies_count,
-          skills_count: appraisal.skills_count,
-          end_date: appraisal.overall_appraisal.calibration_end_date,
-          overallStage: appraisal.overall_appraisal.status,
-          status: appraisal.status,
-          mid_year_completion: appraisal.mid_year_completion,
-          completion: appraisal.completion,
-          appraisal_dialog: false,
-        }
-
-        switch (appraisal.overall_appraisal.status) {
-          case 'Stage 1':
-            this.goalsLaunchingTableItems.push(tableData)
-            break
-
-          case 'Stage 1B':
-            this.midYearTableItems.push(tableData)
-            break
-
-          case 'Stage 2':
-            this.endYearTableItems.push(tableData)
-            break
-
-          case 'Stage 3':
-            this.reportsTableItems.push(tableData)
-            break
-
-          case 'Stage 4':
-            this.calibrationTableItems.push(tableData)
-            break
-
-          default:
-            break
-        }
-      })
+    stages.forEach((stage) => {
+      this.fetchuserAppraisals(stage, 1)
     })
 
     await this.$axios
@@ -735,6 +720,19 @@ export default {
       endYearTableItems: [],
       reportsTableItems: [],
       calibrationTableItems: [],
+
+      page_user1: 1,
+      page_user2: 1,
+      page_user3: 1,
+      page_user4: 1,
+      page_user5: 1,
+
+      count_user1: 1,
+      count_user2: 1,
+      count_user3: 1,
+      count_user4: 1,
+      count_user5: 1,
+
       appraisalList: '',
 
       search: '',
@@ -797,6 +795,33 @@ export default {
       categories_data_corevalues: [],
       reportLoading: false,
     }
+  },
+  watch: {
+    async page_user1(newval, _) {
+      this.loading = true
+      await this.fetchuserAppraisals('Stage+1', newval)
+      this.loading = false
+    },
+    async page_user2(newval, _) {
+      this.loading = true
+      await this.fetchuserAppraisals('Stage+1B', newval)
+      this.loading = false
+    },
+    async page_user3(newval, _) {
+      this.loading = true
+      await this.fetchuserAppraisals('Stage+2', newval)
+      this.loading = false
+    },
+    async page_user4(newval, _) {
+      this.loading = true
+      await this.fetchuserAppraisals('Stage+3', newval)
+      this.loading = false
+    },
+    async page_user5(newval, _) {
+      this.loading = true
+      await this.fetchuserAppraisals('Stage+4', newval)
+      this.loading = false
+    },
   },
   methods: {
     showAppraisal(id) {
@@ -890,6 +915,87 @@ export default {
             })
           })
       }
+    },
+    async fetchuserAppraisals(stage, page) {
+      switch (stage) {
+        case 'Stage+1':
+          this.goalsLaunchingTableItems = []
+          break
+
+        case 'Stage+1B':
+          this.midYearTableItems = []
+          break
+
+        case 'Stage+2':
+          this.endYearTableItems = []
+          break
+
+        case 'Stage+3':
+          this.reportsTableItems = []
+          break
+
+        case 'Stage+4':
+          this.calibrationTableItems = []
+          break
+
+        default:
+          break
+      }
+
+      await this.$axios
+        .$get(
+          `api/appraisals/list/admin?page=${page}&overall_appraisal__status=${stage}`
+        )
+        .then((response) => {
+          var i = parseInt(response.count / 10) + 1
+
+          response.results.forEach((appraisal) => {
+            const tableData = {
+              id: appraisal.id,
+              appraisal_name: appraisal.appraisal_name,
+              employee: appraisal.employee.name,
+              manager: appraisal.manager.name,
+              mid_year_completion: appraisal.mid_year_completion,
+              goals_count: appraisal.goals_count,
+              core_values_count: appraisal.core_values_competencies_count,
+              completion: appraisal.completion,
+              skills_count: appraisal.skills_count,
+              end_date: appraisal.overall_appraisal.calibration_end_date,
+              appraisal_dialog: false,
+            }
+
+            switch (stage) {
+              case 'Stage+1':
+                this.count_user1 = i
+                this.goalsLaunchingTableItems.push(tableData)
+                break
+
+              case 'Stage+1B':
+                this.count_user2 = i
+                this.midYearTableItems.push(tableData)
+                break
+
+              case 'Stage+2':
+                this.count_user3 = i
+                this.endYearTableItems.push(tableData)
+                break
+
+              case 'Stage+3':
+                this.count_user4 = i
+                this.reportsTableItems.push(tableData)
+                break
+
+              case 'Stage+4':
+                this.count_user5 = i
+                this.calibrationTableItems.push(tableData)
+                break
+
+              default:
+                break
+            }
+          })
+        })
+        .catch((err) => console.log(err))
     },
     async report() {
       this.reportLoading = true
