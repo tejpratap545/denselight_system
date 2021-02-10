@@ -2,9 +2,6 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent>
       <v-card>
-        <v-card-title class="headline">
-          {{ appraisal.name }}
-        </v-card-title>
         <div v-if="$fetchState.pending">
           <v-skeleton-loader
             class="px-10 my-5"
@@ -13,6 +10,10 @@
         </div>
         <div v-else-if="$fetchState.error">An error occurred</div>
         <v-card-text v-else>
+          <v-card-title class="headline">
+            {{ appraisal.name }}
+          </v-card-title>
+
           <v-simple-table class="my-5">
             <template v-slot:default>
               <tbody>
@@ -99,7 +100,7 @@ export default {
     },
   },
   async fetch() {
-    this.managers = await this.$axios.$get('/api/employee/short/list')
+    this.managers = await this.$axios.$get('/api/manager/short/list')
   },
   data() {
     return {

@@ -74,13 +74,6 @@
                     single-line
                     hide-details
                   ></v-text-field>
-
-                  <div class="text-center">
-                    <v-pagination
-                      v-model="page_user1"
-                      :length="count_user1"
-                    ></v-pagination>
-                  </div>
                 </v-card-title>
                 <v-card-text>
                   <v-data-table
@@ -88,6 +81,7 @@
                     :items="goalsLaunchingTableItems"
                     :items-per-page="10"
                     :search="search"
+                    hide-default-footer
                   >
                     <template v-slot:[`item.stage_1`]="{ item }">
                       <v-icon
@@ -140,6 +134,13 @@
                       </v-btn>
                     </template>
                   </v-data-table>
+
+                  <div class="text-center">
+                    <v-pagination
+                      v-model="page_user1"
+                      :length="count_user1"
+                    ></v-pagination>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -162,6 +163,7 @@
                     :items="midYearTableItems"
                     :items-per-page="10"
                     :search="search"
+                    hide-default-footer
                   >
                     <template v-slot:[`item.stage_1`]="{ item }">
                       <v-icon
@@ -263,6 +265,7 @@
                     :items="endYearTableItems"
                     :items-per-page="10"
                     :search="search"
+                    hide-default-footer
                   >
                     <template v-slot:[`item.stage_1`]="{ item }">
                       <v-icon
@@ -370,6 +373,7 @@
                     :items="reportsTableItems"
                     :items-per-page="10"
                     :search="search"
+                    hide-default-footer
                   >
                     <template v-slot:[`item.stage_1`]="{ item }">
                       <v-icon
@@ -455,6 +459,7 @@
                     :items="calibrationTableItems"
                     :items-per-page="10"
                     :search="search"
+                    hide-default-footer
                   >
                     <template v-slot:[`item.stage_1`]="{ item }">
                       <v-icon
