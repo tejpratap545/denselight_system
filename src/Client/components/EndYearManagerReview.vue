@@ -123,6 +123,12 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
+
+            <a :href="appraisal.end_year_employee_file" target="_blank">
+              <v-btn>
+                <v-icon>mdi-download-box-outline</v-icon>
+              </v-btn>
+            </a>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>

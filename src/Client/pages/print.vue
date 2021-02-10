@@ -17,6 +17,12 @@
         <v-btn icon @click="print">
           <v-icon>mdi-printer</v-icon>
         </v-btn>
+
+        <a :href="appraisal.end_year_employee_file" target="_blank">
+          <v-btn icon>
+            <v-icon>mdi-download-box-outline</v-icon>
+          </v-btn>
+        </a>
       </div>
 
       <div class="row py-4">

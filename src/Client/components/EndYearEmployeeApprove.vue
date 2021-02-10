@@ -22,6 +22,12 @@
                 <v-icon>mdi-printer</v-icon>
               </v-btn>
             </a>
+
+            <a :href="appraisal.end_year_employee_file" target="_blank">
+              <v-btn icon>
+                <v-icon>mdi-download-box-outline</v-icon>
+              </v-btn>
+            </a>
           </v-card-title>
 
           <v-card-text>

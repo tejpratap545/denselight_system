@@ -95,24 +95,27 @@
               outlined
             ></v-text-field>
 
-            <v-select
-              v-model="user.first_Reporting_Manager.id"
+            <v-combobox
+              v-model="user.first_Reporting_Manager"
               :items="employees"
               item-text="name"
               item-value="id"
               label="First reporting manager"
               outlined
-              @change="user.first_Reporting_Manager.id = $event.target.value"
-            ></v-select>
+              chips
+              return-object
+            ></v-combobox>
 
-            <v-select
-              v-model="user.second_Reporting_Manager.id"
+            <v-combobox
+              v-model="user.second_Reporting_Manager"
               :items="employees"
               item-text="name"
               item-value="id"
               label="Second reporting manager"
+              chips
+              return-object
               outlined
-            ></v-select>
+            ></v-combobox>
 
             <v-alert type="warning" v-if="!emailUnique"
               >One or more entries are invalid</v-alert
@@ -156,7 +159,9 @@
               outlined
             ></v-text-field>
 
-            <v-alert type="warning" v-if="!passwordStrong && passwordReset.password1 != ''"
+            <v-alert
+              type="warning"
+              v-if="!passwordStrong && passwordReset.password1 != ''"
               >One or more entries are invalid</v-alert
             >
 
@@ -195,12 +200,16 @@
 export default {
   props: ['id', 'dialog'],
   async fetch() {
-    this.departments = await this.$axios.$get(`/api/department/`)
-    this.employees = await this.$axios.$get('/api/manager/short/list')
+    try {
+      this.departments = await this.$axios.$get(`/api/department/`)
+      this.employees = await this.$axios.$get('/api/manager/short/list')
 
-    this.user = await this.$axios.$get(`/api/profile/${this.id}`)
+      this.user = await this.$axios.$get(`/api/profile/${this.id}`)
 
-    this.newRole.role = this.user.user.role
+      this.newRole.role = this.user.user.role
+    } catch (err) {
+      console.log(err)
+    }
   },
   data() {
     return {
@@ -208,7 +217,7 @@ export default {
       employees: '',
 
       departments: [],
-      user: '',
+      user: {},
       passwordReset: {
         password1: '',
         password2: '',
