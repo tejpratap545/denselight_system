@@ -947,20 +947,25 @@ export default {
           `api/appraisals/list/admin?page=${page}&overall_appraisal__status=${stage}`
         )
         .then((response) => {
-          var i = parseInt(response.count / 10) + 1
+          const i = parseInt(response.count / 10) + 1
 
           response.results.forEach((appraisal) => {
             const tableData = {
               id: appraisal.id,
               appraisal_name: appraisal.appraisal_name,
-              employee: appraisal.employee.name,
-              manager: appraisal.manager.name,
-              mid_year_completion: appraisal.mid_year_completion,
+
+              employee: appraisal.employee,
+              manager: appraisal.manager,
+              employeeDepartment: appraisal.employee.department.name,
+              manager1: appraisal.manager ? appraisal.manager.name : '---',
               goals_count: appraisal.goals_count,
               core_values_count: appraisal.core_values_competencies_count,
-              completion: appraisal.completion,
               skills_count: appraisal.skills_count,
               end_date: appraisal.overall_appraisal.calibration_end_date,
+              overallStage: appraisal.overall_appraisal.status,
+              status: appraisal.status,
+              mid_year_completion: appraisal.mid_year_completion,
+              completion: appraisal.completion,
               appraisal_dialog: false,
             }
 
