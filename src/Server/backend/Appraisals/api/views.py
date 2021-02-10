@@ -255,11 +255,6 @@ class DetailAppraisal(generics.RetrieveAPIView):
                 "overall_appraisal__departmentalgoals_set",
                 queryset=DepartmentalGoals.objects.filter(
                     department=self.request.user.profile.department
-                ).prefetch_related(
-                    "overall_appraisal__departmentalgoals_set__goal_category",
-                    "overall_appraisal__departmentalgoals_set__manager",
-                    "overall_appraisal__departmentalgoals_set__manager",
-                    "overall_appraisal__departmentalgoals_set__manager__department",
                 ),
             ),
             "overall_appraisal__departmentalcompetencies_set",
