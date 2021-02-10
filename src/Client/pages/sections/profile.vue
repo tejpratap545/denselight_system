@@ -107,50 +107,67 @@
       </v-col>
       <v-col>
         <div class="panel pa-5">
-          <h3 class="my-5">Reset Password</h3>
-            <v-text-field
-              v-model="passwordReset.password1"
-              label="New Password"
-              @change="checkPassword"
-              :error="passwordinputError"
-              outlined
-            ></v-text-field>
+          <h3 class="my-5">Update Password</h3>
+          <v-text-field
+            v-model="passwordReset.old_password"
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            label="Old Password"
+            :type="show1 ? 'text' : 'password'"
+            outlined
+            @click:append="show1 = !show1"
+          ></v-text-field>
+          <v-text-field
+            v-model="passwordReset.password1"
+            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+            label="New Password"
+            :type="show2 ? 'text' : 'password'"
+            :error="passwordinputError"
+            outlined
+            @click:append="show2 = !show2"
+            @change="checkPassword"
+          ></v-text-field>
 
-            <v-alert type="warning" v-if="passwordinputError" text dense>
-              Password is weak, password must include
-              <ul>
-                <li>8 minimum character</li>
-                <li>Capital letter</li>
-                <li>Numbers & symbols</li>
-              </ul>
-            </v-alert>
-            <v-alert
-              type="success"
-              v-else-if="!passwordinputError && passwordReset.password1 != ''"
-              text
-              dense
-            >
-              Password is strong
-            </v-alert>
+          <v-alert v-if="passwordinputError" type="warning" text dense>
+            Password is weak, password must include
+            <ul>
+              <li>8 minimum character</li>
+              <li>Capital letter</li>
+              <li>Numbers & symbols</li>
+            </ul>
+          </v-alert>
+          <v-alert
+            v-else-if="!passwordinputError && passwordReset.password1 != ''"
+            type="success"
+            text
+            dense
+          >
+            Password is strong
+          </v-alert>
 
-            <v-text-field
-              v-model="passwordReset.password2"
-              label="Confirm Password"
-              outlined
-            ></v-text-field>
+          <v-text-field
+            v-model="passwordReset.password2"
+            :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+            label="Confirm Password"
+            outlined
+            :rules="confirmPasswordRules"
+            :type="show3 ? 'text' : 'password'"
+            @click:append="show3 = !show3"
+          ></v-text-field>
 
-            <v-alert type="warning" v-if="!passwordStrong && passwordReset.password1 != ''"
-              >One or more entries are invalid</v-alert
-            >
+          <v-alert
+            v-if="!passwordStrong && passwordReset.password1 != ''"
+            type="warning"
+            >One or more entries are invalid</v-alert
+          >
 
-            <v-btn
-              elevation="0"
-              color="primary"
-              @click="changePassword"
-              :disabled="!passwordStrong"
-            >
-              Reset Password</v-btn
-            >
+          <v-btn
+            elevation="0"
+            color="primary"
+            :disabled="!passwordStrong"
+            @click="changePassword"
+          >
+            Reset Password</v-btn
+          >
         </div>
       </v-col>
     </v-row>
@@ -164,6 +181,9 @@ export default {
   layout: 'dashboard-template',
   data() {
     return {
+      show3: false,
+      show1: false,
+      show2: false,
       profile: this.$auth.user,
       passwordReset: {
         password1: '',
@@ -175,6 +195,12 @@ export default {
 
       passwordStrong: false,
       passwordinputError: false,
+      confirmPasswordRules: [
+        (value) => !!value || 'type confirm password',
+        (value) =>
+          value === this.passwordReset.password1 ||
+          'The password confirmation does not match.',
+      ],
     }
   },
   methods: {
@@ -196,6 +222,13 @@ export default {
       this.$axios
         .$post('/api/profile/changepassword', this.passwordReset)
         .then((res) => {
+          this.passwordReset = {
+            password1: '',
+            password2: '',
+            old_password: '',
+            profile: this.$auth.user.id,
+          }
+
           this.$notifier.showMessage({
             content: 'Password changed successully',
             color: 'info',
