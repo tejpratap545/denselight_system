@@ -3,7 +3,6 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         color="success"
-        outlined
         elevation="0"
         dark
         v-bind="attrs"

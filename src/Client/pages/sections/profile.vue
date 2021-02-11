@@ -25,7 +25,7 @@
             <v-file-input
               v-model="file"
               label="Upload new picture"
-              filled
+              outlined
               prepend-icon="mdi-camera"
               name="profilePicture"
               @change="uploadPicture"

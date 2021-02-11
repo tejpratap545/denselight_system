@@ -100,7 +100,31 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
+
+            <v-textarea
+              v-model="employeeComment"
+              label="Core value Comment"
+              outlined
+            >
+            </v-textarea>
+
+            <v-file-input
+              v-model="file"
+              label="End year review file"
+              outlined
+              name="file"
+              @change="endyearFile"
+            ></v-file-input>
+
+            <div v-if="appraisal.end_year_employee_file">
+              <v-alert type="success">
+                Endyear file uploaded
+                <a :href="appraisal.end_year_employee_file" target="_blank">Download</a>
+              </v-alert>
+            </div>
+
           </v-card-text>
+
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="close"> Close </v-btn>
@@ -121,23 +145,26 @@ export default {
   mixins: [global],
   props: { dialog: Boolean, appraisalId: Number },
   async fetch() {
-    await this.$axios
-      .$get(`api/appraisals/detail/${this.appraisalId}`)
-      .then((res) => {
-        this.init(res)
-      })
+    this.appraisal = await this.$axios.$get(
+      `api/appraisals/detail/${this.appraisalId}`
+    )
+
+    this.init()
   },
   data() {
     return {
       goals: [],
+      employeeComment: '',
+      file: '',
+      appraisal: {},
     }
   },
   methods: {
     close() {
       this.$emit('close-end-year-dialog')
     },
-    init(appraisal) {
-      appraisal.goals_set.forEach((goal) => {
+    init() {
+      this.appraisal.goals_set.forEach((goal) => {
         this.goals.push({
           id: goal.id,
           goal_title: goal.summary,
@@ -184,6 +211,27 @@ export default {
             this.close()
           })
       })
+    },
+    endyearFile() {
+      const bodyFormData = new FormData()
+      bodyFormData.append('end_year_employee_file', this.file)
+
+      this.$axios
+        .$patch(`api/appraisals/admin/${this.appraisalId}/`, bodyFormData)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'EndYear File uploaded success',
+            color: 'info',
+          })
+
+          this.$emit('reload')
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'EndYear File uploaded failed',
+            color: 'error',
+          })
+        })
     },
   },
 }
