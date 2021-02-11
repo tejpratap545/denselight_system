@@ -170,8 +170,8 @@ class CompetenciesAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_serializer_class(self):
         if self.request.method == "POST":
-            return CompetenciesSerializer
-        return CreateCompetenciesSerializer
+            return CreateCompetenciesSerializer
+        return CompetenciesSerializer
 
 
 class GoalCategoryViewSet(ModelViewSet):
