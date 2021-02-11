@@ -9,6 +9,8 @@
         <v-card v-else>
           <v-card-title class="headline"> End Year Review </v-card-title>
           <v-card-text>
+            <h3 class="font-weight-medium my-2">Goals</h3>
+
             <v-expansion-panels>
               <v-expansion-panel
                 v-for="item in goals"
@@ -20,8 +22,8 @@
                   color="primary lighten-1"
                 >
                   <h3 class="title-topbar">
-                    <b>{{ item.goal_title }}</b> <v-spacer />
-                    <small>{{ item.category.name }}</small>
+                    <b>{{ item.summary }}</b> <v-spacer />
+                    <small>{{ item.description }}</small>
                   </h3>
                 </v-expansion-panel-header>
 
@@ -101,12 +103,20 @@
               </v-expansion-panel>
             </v-expansion-panels>
 
+            <h3 class="font-weight-medium my-2">Core Values</h3>
+
             <v-textarea
               v-model="employeeComment"
               label="Core value Comment"
               outlined
             >
             </v-textarea>
+
+            <v-data-table
+              :headers="headers"
+              :items="core_values"
+              hide-default-footer
+            ></v-data-table>
 
             <v-file-input
               v-model="file"
@@ -119,10 +129,11 @@
             <div v-if="appraisal.end_year_employee_file">
               <v-alert type="success">
                 Endyear file uploaded
-                <a :href="appraisal.end_year_employee_file" target="_blank">Download</a>
+                <a :href="appraisal.end_year_employee_file" target="_blank"
+                  >Download</a
+                >
               </v-alert>
             </div>
-
           </v-card-text>
 
           <v-card-actions>
@@ -154,6 +165,27 @@ export default {
   data() {
     return {
       goals: [],
+      headers: [
+        {
+          text: 'Summary',
+          align: 'start',
+          value: 'summary',
+          sortable: true,
+        },
+        {
+          text: 'Description',
+          align: 'start',
+          value: 'description',
+          sortable: true,
+        },
+        {
+          text: 'User Comments',
+          align: 'start',
+          value: 'user_comments',
+          sortable: true,
+        },
+      ],
+      core_values: [],
       employeeComment: '',
       file: '',
       appraisal: {},
@@ -164,23 +196,8 @@ export default {
       this.$emit('close-end-year-dialog')
     },
     init() {
-      this.appraisal.goals_set.forEach((goal) => {
-        this.goals.push({
-          id: goal.id,
-          goal_title: goal.summary,
-          description: goal.description,
-          due: goal.due,
-          category: goal.goal_category,
-          user_comments: goal.user_comments,
-          user_rating: goal.user_rating,
-
-          MID_user_comments: goal.MID_user_comments,
-          MID_manager_comments: goal.MID_manager_comments,
-
-          tracking_status: goal.tracking_status,
-          kpi_set: goal.kpi_set,
-        })
-      })
+      this.goals = this.appraisal.goals_set
+      this.core_values = this.appraisal.competencies_set
     },
     async patchGoals() {
       this.goals.forEach(async (goal) => {
@@ -190,27 +207,34 @@ export default {
         })
       })
     },
-    async submit() {
-      await this.patchGoals().then(() => {
-        this.$axios
-          .post(`api/input/employee/endyear/${this.appraisalId}`)
-          .then(() => {
-            this.$notifier.showMessage({
-              content:
-                'You  have   Successfully submitted end year review . Please confirm review',
-              color: 'info',
-            })
-            this.close()
-            this.$emit('reload')
-          })
-          .catch(() => {
-            this.$notifier.showMessage({
-              content: 'An error found please validate or try again',
-              color: 'error',
-            })
-            this.close()
-          })
+    async patchCoreValues() {
+      this.core_values.forEach(async (core_value) => {
+        await this.$axios.patch(`api/competencies/${core_value.id}`, {
+          user_comments: employeeComment,
+        })
       })
+    },
+    async submit() {
+      try {
+        await this.patchGoals()
+        await this.patchCoreValues()
+        await this.$axios.post(`api/input/employee/endyear/${this.appraisalId}`)
+
+        this.$notifier.showMessage({
+          content:
+            'You have Successfully submitted end year review. Please confirm review',
+          color: 'info',
+        })
+
+        this.$emit('reload')
+      } catch (error) {
+        this.$notifier.showMessage({
+          content: 'An error found please validate or try again',
+          color: 'error',
+        })
+      }
+
+      this.close()
     },
     endyearFile() {
       const bodyFormData = new FormData()

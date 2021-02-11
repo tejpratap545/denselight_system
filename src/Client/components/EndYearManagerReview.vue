@@ -19,6 +19,8 @@
             End Manager/supervisor Year Review
           </v-card-title>
           <v-card-text>
+            <h3 class="font-weight-medium my-2">Goals</h3>
+
             <v-expansion-panels>
               <v-expansion-panel
                 v-for="item in goals"
@@ -30,8 +32,8 @@
                   color="primary lighten-1"
                 >
                   <h3 class="title-topbar">
-                    <b>{{ item.goal_title }}</b> <v-spacer />
-                    <small>{{ item.category.name }}</small>
+                    <b>{{ item.summary }}</b> <v-spacer />
+                    <small>{{ item.description }}</small>
                   </h3>
                 </v-expansion-panel-header>
 
@@ -124,11 +126,29 @@
               </v-expansion-panel>
             </v-expansion-panels>
 
-            <a :href="appraisal.end_year_employee_file" target="_blank">
-              <v-btn>
-                <v-icon>mdi-download-box-outline</v-icon>
-              </v-btn>
-            </a>
+            <h3 class="font-weight-medium my-2">Core Values</h3>
+
+            <v-textarea
+              v-model="managerComments"
+              label="Core value Comment"
+              outlined
+            >
+            </v-textarea>
+
+            <v-data-table
+              :headers="headers"
+              :items="core_values"
+              hide-default-footer
+            ></v-data-table>
+
+            <div v-if="appraisal.end_year_employee_file">
+              <v-alert type="success">
+                Endyear file uploaded
+                <a :href="appraisal.end_year_employee_file" target="_blank"
+                  >Download</a
+                >
+              </v-alert>
+            </div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -165,6 +185,28 @@ export default {
     return {
       rejectDialog: false,
       goals: [],
+      headers: [
+        {
+          text: 'Summary',
+          align: 'start',
+          value: 'summary',
+          sortable: true,
+        },
+        {
+          text: 'Description',
+          align: 'start',
+          value: 'description',
+          sortable: true,
+        },
+        {
+          text: 'User Comments',
+          align: 'start',
+          value: 'user_comments',
+          sortable: true,
+        },
+      ],
+      core_values: [],
+      managerComments: '',
     }
   },
   methods: {
@@ -172,23 +214,9 @@ export default {
       this.$emit('close-end-year-manager-dialog')
     },
     init(appraisal) {
-      appraisal.goals_set.forEach((goal) => {
-        this.goals.push({
-          id: goal.id,
-          goal_title: goal.summary,
-          description: goal.description,
-          due: goal.due,
-          category: goal.goal_category.name,
-          user_comments: goal.user_comments,
-          MID_user_comments: goal.MID_user_comments,
-          MID_manager_comments: goal.MID_manager_comments,
-          user_rating: goal.user_rating,
-          manager_comments: goal.manager_comments,
-          manager_rating: goal.manager_rating,
-        })
-      })
+      this.goals = appraisal.goals_set
+      this.core_values = this.appraisal.competencies_set
     },
-
     async patchGoals() {
       this.goals.forEach(async (goal) => {
         await this.$axios.patch(`api/goal/${goal.id}`, {
@@ -197,28 +225,34 @@ export default {
         })
       })
     },
-    async submit() {
-      await this.patchGoals().then(() => {
-        this.$axios
-          .post(`api/input/manager/endyear/${this.appraisalId}`)
-          .then(() => {
-            this.$notifier.showMessage({
-              content:
-                'You  have   Successfully submitted end year review . Please confirm review',
-              color: 'info',
-            })
-
-            this.close()
-            this.$emit('reload')
-          })
-          .catch(() => {
-            this.$notifier.showMessage({
-              content: 'An error found please validate or try again',
-              color: 'error',
-            })
-            this.close()
-          })
+    async patchCoreValues() {
+      this.core_values.forEach(async (core_value) => {
+        await this.$axios.patch(`api/competencies/${core_value.id}`, {
+          manager_comments: managerComments,
+        })
       })
+    },
+    async submit() {
+      try {
+        await this.patchGoals()
+        await this.patchCoreValues()
+        await this.$axios.post(`api/input/manager/endyear/${this.appraisalId}`)
+
+        this.$notifier.showMessage({
+          content:
+            'You have Successfully submitted end year review. Please confirm review',
+          color: 'info',
+        })
+
+        this.$emit('reload')
+      } catch (error) {
+        this.$notifier.showMessage({
+          content: 'An error found please validate or try again',
+          color: 'error',
+        })
+      }
+
+      this.close()
     },
   },
 }
