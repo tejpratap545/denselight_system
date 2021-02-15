@@ -169,6 +169,7 @@ export default {
           this.resginedEmployee.push({
             id: employee.id,
             name: employee.name,
+            user: employee.user,
             department: employee.department ? employee.department.name : 'NIL',
             position: employee.job_Title,
             supervisor: employee.first_Reporting_Manager
@@ -189,6 +190,7 @@ export default {
         this.employees.push({
           id: employee.id,
           name: employee.name,
+          user: employee.user,
           department: employee.department ? employee.department.name : 'NIL',
           position: employee.job_Title,
           supervisor: employee.first_Reporting_Manager
@@ -196,6 +198,7 @@ export default {
             : 'NIL',
           resign_dialog: false,
           dateOfHire: employee.date_Of_Hire,
+          username: employee.username,
 
           email: employee.email,
         })
@@ -253,6 +256,11 @@ export default {
           value: 'name',
           sortable: true,
         },
+        {
+          text: 'Username',
+          value: 'user.username',
+        },
+
         { text: 'Email', value: 'email' },
         {
           text: 'Date Of Hire',
@@ -276,6 +284,10 @@ export default {
           align: 'start',
           value: 'name',
           sortable: true,
+        },
+        {
+          text: 'Username',
+          value: 'user.username',
         },
         {
           text: 'Date Of Hire',

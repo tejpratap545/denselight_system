@@ -103,6 +103,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     first_Reporting_Manager = ShortProfileSerializer()
     second_Reporting_Manager = ShortProfileSerializer()
     department = DepartmentSerializer()
+    user = UserSerializer()
 
     class Meta:
         model = Profile
@@ -118,6 +119,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
             "job_Title",
             "date_Of_Hire",
             "resign_date",
+            "user",
         )
 
 

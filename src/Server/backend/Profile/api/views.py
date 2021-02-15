@@ -42,6 +42,7 @@ class ListEmployees(generics.ListAPIView):
             "first_Reporting_Manager__department",
             "second_Reporting_Manager",
             "second_Reporting_Manager__department",
+            "user",
         )
         .only(
             "id",
@@ -55,6 +56,7 @@ class ListEmployees(generics.ListAPIView):
             "job_Title",
             "date_Of_Hire",
             "resign_date",
+            "user",
         )
         .filter(user__is_active=True)
     )
@@ -70,6 +72,7 @@ class ReginListEmployees(generics.ListAPIView):
             "first_Reporting_Manager__department",
             "second_Reporting_Manager",
             "second_Reporting_Manager__department",
+            "user",
         )
         .only(
             "id",
@@ -83,6 +86,7 @@ class ReginListEmployees(generics.ListAPIView):
             "job_Title",
             "date_Of_Hire",
             "resign_date",
+            "user",
         )
         .filter(user__is_active=False)
     )
@@ -101,11 +105,15 @@ class ShortListEmployees(generics.ListAPIView):
 class ShortListManager(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ShortEmployeeSerializer
-    queryset = Profile.objects.only(
-        "id",
-        "name",
-        "email",
-    ).filter(user__is_active=True).exclude(user__role='Employee')
+    queryset = (
+        Profile.objects.only(
+            "id",
+            "name",
+            "email",
+        )
+        .filter(user__is_active=True)
+        .exclude(user__role="Employee")
+    )
 
 
 class CreateProfile(generics.CreateAPIView):
