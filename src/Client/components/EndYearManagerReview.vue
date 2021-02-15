@@ -207,6 +207,7 @@ export default {
       ],
       core_values: [],
       managerComments: '',
+      appraisal: {},
     }
   },
   methods: {
@@ -214,8 +215,9 @@ export default {
       this.$emit('close-end-year-manager-dialog')
     },
     init(appraisal) {
+      this.appraisal = appraisal
       this.goals = appraisal.goals_set
-      this.core_values = this.appraisal.competencies_set
+      this.core_values = appraisal.competencies_set
     },
     async patchGoals() {
       this.goals.forEach(async (goal) => {
