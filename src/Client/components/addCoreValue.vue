@@ -47,8 +47,12 @@
 </template>
 
 <script>
+import global from '~/mixins/global'
+
 export default {
   name: 'AddCoreValue',
+  mixins: [global],
+
   props: {
     dialog: Boolean,
     appraisalId: Number,

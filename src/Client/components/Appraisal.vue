@@ -18,6 +18,12 @@
           <v-icon>mdi-printer</v-icon>
         </v-btn>
       </a>
+
+      <a :href="appraisal.end_year_employee_file" target="_blank">
+        <v-btn icon>
+          <v-icon>mdi-download-box-outline</v-icon>
+        </v-btn>
+      </a>
     </v-card-title>
 
     <v-card-text>
@@ -256,17 +262,17 @@
           <thead>
             <tr>
               <th>Core values</th>
-              <th>Employee's Rating</th>
-              <th>Comments</th>
+              <th>Employee's Comments</th>
+              <th>Manager's Comments</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in appraisal.competencies_set" :key="item.id">
-              <th>{{ item.summary }}</th>
-              <th>
-                {{ ratingName(item.user_rating) }}
-              </th>
-              <td>{{ item.user_comments }}</td>
+              <td>{{ item.summary }}</td>
+              <td>
+                {{ item.user_comments }}
+              </td>
+              <td>{{ item.manager_comments }}</td>
             </tr>
           </tbody>
         </template>
@@ -277,17 +283,17 @@
           <thead>
             <tr>
               <th>Skills</th>
-              <th>Employee's Rating</th>
-              <th>Comments</th>
+              <th>Employee's Comments</th>
+              <th>Manager's Comments</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in appraisal.skills_set" :key="item.id">
-              <th>{{ item.description }}</th>
-              <th>
-                {{ ratingName(item.user_rating) }}
-              </th>
-              <td>{{ item.user_comments }}</td>
+              <td>{{ item.summary }}</td>
+              <td>
+                {{ item.user_comments }}
+              </td>
+              <td>{{ item.manager_comments }}</td>
             </tr>
           </tbody>
         </template>
