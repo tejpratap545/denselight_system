@@ -210,7 +210,7 @@ export default {
     async patchCoreValues() {
       this.core_values.forEach(async (core_value) => {
         await this.$axios.patch(`api/competencies/${core_value.id}`, {
-          user_comments: employeeComment,
+          user_comments: this.employeeComment,
         })
       })
     },

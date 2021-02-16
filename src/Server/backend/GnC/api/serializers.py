@@ -1,9 +1,7 @@
-from rest_framework import serializers
-from ..models import *
-
-from django.db.models import Sum
-
 from ...Profile.api.serializers import ShortProfileSerializer
+from ..models import *
+from django.db.models import Sum
+from rest_framework import serializers
 
 
 class GoalCategorySerializer(serializers.ModelSerializer):
