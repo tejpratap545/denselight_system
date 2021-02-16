@@ -263,7 +263,9 @@
             <tr>
               <th>Core values</th>
               <th>Employee's Comments</th>
+              <th>Employee's Rating</th>
               <th>Manager's Comments</th>
+              <th>Manager's Rating</th>
             </tr>
           </thead>
           <tbody>
@@ -272,7 +274,13 @@
               <td>
                 {{ item.user_comments }}
               </td>
+               <td>
+                {{ ratingName(item.user_rating) }}
+              </td>
               <td>{{ item.manager_comments }}</td>
+               <td>
+                {{ ratingName(item.manager_rating) }}
+              </td>
             </tr>
           </tbody>
         </template>

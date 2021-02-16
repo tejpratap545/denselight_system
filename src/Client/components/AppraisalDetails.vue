@@ -407,7 +407,37 @@
                 :headers="myValuesTableHeader"
                 :items="myValuesTableItems"
                 :items-per-page="5"
-              ></v-data-table>
+                show-expand
+              >
+                <template v-slot:expanded-item="{ headers, item }">
+                  <td :colspan="headers.length">
+                    <v-row>
+                      <v-col>Employee Comment</v-col>
+                      <v-col>
+                        {{ item.user_comments || 'NIL' }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Manager Comment</v-col>
+                      <v-col>
+                        {{ item.manager_comments || 'NIL' }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Employee Self rating</v-col>
+                      <v-col> {{ ratingName(item.user_rating) }}</v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Manager rating</v-col>
+                      <v-col> {{ ratingName(item.manager_rating) }}</v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>Board rating</v-col>
+                      <v-col> {{ ratingName(item.board_comments) }}</v-col>
+                    </v-row>
+                  </td>
+                </template>
+              </v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -526,6 +556,7 @@ export default {
           text: 'Weightage',
           value: 'weightage',
         },
+        { text: '', value: 'data-table-expand' },
       ],
       editable: this.appraisal.employee.email == this.$auth.user.email,
       name: 'My',

@@ -135,11 +135,56 @@
             >
             </v-textarea>
 
-            <v-data-table
-              :headers="headers"
-              :items="core_values"
-              hide-default-footer
-            ></v-data-table>
+            <v-expansion-panels>
+              <v-expansion-panel
+                v-for="item in core_values"
+                :key="item.id"
+                class="my-2"
+              >
+                <v-expansion-panel-header
+                  class="pa-2"
+                  color="primary lighten-1"
+                >
+                  <h3 class="title-topbar">
+                    <b>{{ item.summary }}</b> <v-spacer />
+                    <small>{{ item.description }}</small>
+                  </h3>
+                </v-expansion-panel-header>
+
+                <v-expansion-panel-content>
+                  <div class="ma-2">
+                    <v-row>
+                      <v-col>End Year Employee Comment</v-col>
+                      <v-col>{{ item.user_comments }}</v-col>
+                    </v-row>
+
+                    <v-row>
+                      <v-col>End Year Manager Comment</v-col>
+                      <v-col>{{ item.manager_comments }}</v-col>
+                    </v-row>
+
+                    <v-row>
+                      <v-col>Employee self rating</v-col>
+                      <v-col>
+                        {{ ratingName(item.user_rating) }}
+                      </v-col>
+                    </v-row>
+
+                    <v-row>
+                      <v-col>Manager rating</v-col>
+                      <v-col>
+                        <v-select
+                          v-model="item.manager_rating"
+                          :items="ratings"
+                          item-text="name"
+                          item-value="value"
+                        ></v-select>
+                      </v-col>
+                    </v-row>
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
 
             <div v-if="appraisal.end_year_employee_file">
               <v-alert type="success">
@@ -185,26 +230,6 @@ export default {
     return {
       rejectDialog: false,
       goals: [],
-      headers: [
-        {
-          text: 'Summary',
-          align: 'start',
-          value: 'summary',
-          sortable: true,
-        },
-        {
-          text: 'Description',
-          align: 'start',
-          value: 'description',
-          sortable: true,
-        },
-        {
-          text: 'User Comments',
-          align: 'start',
-          value: 'user_comments',
-          sortable: true,
-        },
-      ],
       core_values: [],
       managerComments: '',
       appraisal: {},
@@ -231,6 +256,7 @@ export default {
       this.core_values.forEach(async (core_value) => {
         await this.$axios.patch(`api/competencies/${core_value.id}`, {
           manager_comments: this.managerComments,
+          manager_rating: core_value.manager_rating,
         })
       })
     },
