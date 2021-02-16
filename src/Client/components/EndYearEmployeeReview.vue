@@ -112,43 +112,12 @@
             >
             </v-textarea>
 
-            <v-expansion-panels>
-              <v-expansion-panel
-                v-for="item in core_values"
-                :key="item.id"
-                class="my-2"
-              >
-                <v-expansion-panel-header
-                  class="pa-2"
-                  color="primary lighten-1"
-                >
-                  <h3 class="title-topbar">
-                    <b>{{ item.summary }}</b> <v-spacer />
-                    <small>{{ item.description }}</small>
-                  </h3>
-                </v-expansion-panel-header>
+            <v-data-table
+              :headers="headers"
+              :items="core_values"
+            ></v-data-table>
 
-                <v-expansion-panel-content>
-                  <div class="ma-2">
-                    <v-row>
-                      <v-col>End Year Employee Comment</v-col>
-                      <v-col>{{ item.user_comments }}</v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>Employee Self rating</v-col>
-                      <v-col>
-                        <v-select
-                          v-model="item.user_rating"
-                          :items="ratings"
-                          item-text="name"
-                          item-value="value"
-                        ></v-select>
-                      </v-col>
-                    </v-row>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
+            <br/>
 
             <v-file-input
               v-model="file"

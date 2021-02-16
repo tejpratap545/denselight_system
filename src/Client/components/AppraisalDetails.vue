@@ -423,18 +423,6 @@
                         {{ item.manager_comments || 'NIL' }}
                       </v-col>
                     </v-row>
-                    <v-row>
-                      <v-col>Employee Self rating</v-col>
-                      <v-col> {{ ratingName(item.user_rating) }}</v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>Manager rating</v-col>
-                      <v-col> {{ ratingName(item.manager_rating) }}</v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>Board rating</v-col>
-                      <v-col> {{ ratingName(item.board_comments) }}</v-col>
-                    </v-row>
                   </td>
                 </template>
               </v-data-table>
