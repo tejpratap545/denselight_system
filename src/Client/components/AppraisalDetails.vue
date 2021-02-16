@@ -534,7 +534,7 @@ export default {
       myValuesTableHeader: [
         {
           text: 'Core Values Competency',
-          value: 'value',
+          value: 'summary',
         },
         {
           text: 'Description',
@@ -588,7 +588,7 @@ export default {
         end_date: appraisal.end_date,
         goals: [],
         skills: [],
-        core_values: [],
+        core_values: appraisal.competencies_set,
       }
 
       appraisal.goals_set.forEach((goal) => {
@@ -647,14 +647,6 @@ export default {
           skill: skill.skill_category.name,
           description: skill.description,
           weightage: skill.weightage,
-        })
-      })
-
-      appraisal.competencies_set.forEach((value) => {
-        data.core_values.push({
-          value: value.summary,
-          description: value.description,
-          weightage: value.weightage,
         })
       })
 
