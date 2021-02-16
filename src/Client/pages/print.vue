@@ -138,8 +138,6 @@
           <thead>
             <tr>
               <th>Competency</th>
-              <th>Employee's Rating</th>
-              <th>Manager's Rating</th>
               <th>Employee's Comments</th>
               <th>Manager's Comments</th>
             </tr>
@@ -150,8 +148,6 @@
               :key="competency.id"
             >
               <td>{{ competency.summary }}</td>
-              <td>{{ competency.user_rating }}/5</td>
-              <td>{{ competency.manager_rating }}/5</td>
               <td>{{ competency.user_comments }}</td>
               <td>{{ competency.manager_comments }}</td>
             </tr>
@@ -172,8 +168,6 @@
           <thead>
             <tr>
               <th>Skill</th>
-              <th>Employee's Rating</th>
-              <th>Manager's Rating</th>
               <th>Employee's Comments</th>
               <th>Manager's Comments</th>
             </tr>
@@ -181,8 +175,6 @@
           <tbody>
             <tr v-for="skill in appraisal.skills_set" :key="skill.id">
               <td>{{ skill.summary }}</td>
-              <td>{{ skill.user_rating }}/5</td>
-              <td>{{ skill.manager_rating }}/5</td>
               <td>{{ skill.user_comments }}</td>
               <td>{{ skill.manager_comments }}</td>
             </tr>
