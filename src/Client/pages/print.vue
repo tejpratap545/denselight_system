@@ -138,8 +138,8 @@
           <thead>
             <tr>
               <th>Competency</th>
-              <th>Employee's Comments</th>
-              <th>Manager's Comments</th>
+                <th>Description</th>
+              <th>Weightage</th>
             </tr>
           </thead>
           <tbody>
@@ -148,11 +148,20 @@
               :key="competency.id"
             >
               <td>{{ competency.summary }}</td>
-              <td>{{ competency.user_comments }}</td>
-              <td>{{ competency.manager_comments }}</td>
+              <td>{{ competency.description }}</td>
+              <td>{{ competency.weightage }}</td>
             </tr>
           </tbody>
         </table>
+
+        <v-row class="ml-2">
+          <v-col><b>Employee's comment</b></v-col>
+          <v-col>{{ appraisal.competencies_set[0].user_comments }}</v-col>
+        </v-row>
+        <v-row class="ml-2">
+          <v-col><b>Manager's comment</b></v-col>
+          <v-col>{{ appraisal.competencies_set[0].manager_comments }}</v-col>
+        </v-row>
       </div>
 
       <div v-else>

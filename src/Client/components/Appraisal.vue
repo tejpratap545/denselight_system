@@ -262,21 +262,30 @@
           <thead>
             <tr>
               <th>Core values</th>
-              <th>Employee's Comments</th>
-              <th>Manager's Comments</th>
+              <th>Description</th>
+              <th>Weightage</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in appraisal.competencies_set" :key="item.id">
               <td>{{ item.summary }}</td>
-              <td>
-                {{ item.user_comments }}
-              </td>
-              <td>{{ item.manager_comments }}</td>
+              <td>{{ item.description }}</td>
+              <td>{{ item.weightage }}</td>
             </tr>
           </tbody>
         </template>
       </v-simple-table>
+
+      <div v-if="appraisal.competencies_set.length != 0">
+        <v-row class="ml-2">
+          <v-col><b>Employee's comment</b></v-col>
+          <v-col>{{ appraisal.competencies_set[0].user_comments }}</v-col>
+        </v-row>
+        <v-row class="ml-2">
+          <v-col><b>Manager's comment</b></v-col>
+          <v-col>{{ appraisal.competencies_set[0].manager_comments }}</v-col>
+        </v-row>
+      </div>
 
       <v-simple-table class="my-5">
         <template v-slot:default>
