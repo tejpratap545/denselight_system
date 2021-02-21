@@ -17,6 +17,11 @@
           </EndyearRejection>
           <v-card-title class="headline">
             End Manager/supervisor Year Review
+
+             <v-spacer />
+            <v-btn @click="close" icon>
+              <v-icon>mdi-close</v-icon>
+            </v-btn> 
           </v-card-title>
           <v-card-text>
             <h3 class="font-weight-medium my-2">Goals</h3>

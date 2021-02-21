@@ -5,7 +5,13 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <v-card v-else>
-      <v-card-title class="headline py-5"> Edit Employee </v-card-title>
+      <v-card-title class="headline py-5"> Edit Employee 
+
+         <v-spacer />
+            <v-btn @click="close" icon>
+              <v-icon>mdi-close</v-icon>
+            </v-btn> 
+      </v-card-title>
 
       <v-card-text>
         <v-tabs v-model="tab">

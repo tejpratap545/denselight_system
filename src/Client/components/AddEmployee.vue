@@ -11,7 +11,13 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <v-card v-else>
-      <v-card-title class="headline py-5"> Add Employee </v-card-title>
+      <v-card-title class="headline py-5"> Add Employee 
+
+         <v-spacer />
+            <v-btn @click="close" icon>
+              <v-icon>mdi-close</v-icon>
+            </v-btn> 
+      </v-card-title>
 
       <v-card-text style="height: 500px overflow-y:scroll">
         <v-text-field
@@ -228,6 +234,11 @@ export default {
     }
   },
   methods: {
+    close(){
+      this.dialog = false
+      this.reset()
+      this.$emit('close')
+    },
     reset() {
       this.user = {
         username: '',

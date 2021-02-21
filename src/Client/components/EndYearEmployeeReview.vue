@@ -7,7 +7,13 @@
         </div>
         <div v-else-if="$fetchState.error">An error occurred</div>
         <v-card v-else>
-          <v-card-title class="headline"> End Year Review </v-card-title>
+          <v-card-title class="headline"> End Year Review 
+
+             <v-spacer />
+            <v-btn @click="close" icon>
+              <v-icon>mdi-close</v-icon>
+            </v-btn> 
+          </v-card-title>
           <v-card-text>
             <h3 class="font-weight-medium my-2">Goals</h3>
 
