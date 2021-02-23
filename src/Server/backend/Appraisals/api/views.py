@@ -75,6 +75,50 @@ class AllAppraisalView(generics.ListAPIView):
         )
 
 
+class FilterAppraisal(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserAppraisalListSerializer
+
+    def get_queryset(self):
+
+        appraisal = self.request.data.get("appraisal", "")
+        employee_list = self.request.data.get("employee_list", [])
+        manager_list = self.request.data.get("manager_list", [])
+        department_list = self.request.data.get("department_list", [])
+        if appraisal is "" or appraisal is None:
+            return User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "employee__department",
+                "manager",
+                "manager__department",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            ).filter(
+                Q(employee__in=employee_list)
+                | Q(manager__in=manager_list)
+                | Q(employee__department__in=department_list),
+            )
+
+        else:
+            return User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "employee__department",
+                "manager",
+                "manager__department",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            ).filter(
+                Q(overall_appraisal=appraisal),
+               
+                    Q(employee__in=employee_list)
+                    | Q(manager__in=manager_list)
+                    | Q(employee__department__in=department_list),
+             
+            )
+
+
 class ClosedAllAppraisalView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserAppraisalListSerializer
