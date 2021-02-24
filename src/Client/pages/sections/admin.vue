@@ -30,10 +30,22 @@
           @close="createAppraisalDialog = false"
           @reload="$fetch"
         />
+        <FilterAppraisal
+          v-if="filterdialog"
+          :dialog="filterdialog"
+          @close-filter-appraisal="filterdialog = false"
+          @filter-done="(appraisals) => {goalsLaunchingTableItems = appraisals}"
+        />
       </div>
       <v-card-title>
         Manage Employees Appraisals
         <v-spacer></v-spacer>
+        <v-btn 
+          class="mx-2"
+          @click="filterdialog = true" 
+          color="primary">
+          <v-icon>mdi-filter-variant</v-icon>
+        </v-btn> 
         <v-btn
           class="mx-2"
           color="primary"
@@ -44,8 +56,7 @@
 
         <v-btn
           class="mx-2"
-          color="green darken-1"
-          elevation="0"
+          color="primary"
           :loading="reportLoading"
           @click="report()"
         >
@@ -713,6 +724,7 @@ export default {
   },
   data() {
     return {
+      filterdialog: false,
       createAppraisalDialog: false,
       showAppraisalDialog: false,
       changeStatusDialog: false,

@@ -9,7 +9,19 @@
     <div v-else-if="$fetchState.error">An error occurred</div>
     <div v-else class="ma-5">
       <div>
+        <FilterAppraisal
+          v-if="filterdialog"
+          :dialog="filterdialog"
+          @close-filter-appraisal="filterdialog = false"
+          @filter-done="(appraisals) => {onGoingTableItems = appraisals}"
+        />
+      </div>
+      <div>
         <AppraisalCreate @reload-appraisals="$fetch()" />
+
+        <v-btn @click="filterdialog = true" color="success">
+          <v-icon>mdi-filter-variant</v-icon> Filters
+        </v-btn> 
       </div>
 
       <div class="my-5">
@@ -581,6 +593,7 @@ export default {
   },
   data() {
     return {
+      filterdialog: false,
       loading: true,
       tabData: null,
       tabData2: null,
