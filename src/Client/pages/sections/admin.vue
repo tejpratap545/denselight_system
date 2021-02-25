@@ -907,8 +907,8 @@ export default {
           id: appraisal.id,
           appraisal_name: appraisal.appraisal_name,
 
-          employee: appraisal.employee.name,
-          manager: appraisal.manager.name,
+          employee: appraisal.employee,
+          manager: appraisal.manager,
           employeeDepartment: appraisal.employee.department.name,
           manager1: appraisal.manager ? appraisal.manager.name : '---',
           goals_count: appraisal.goals_count,
@@ -1033,8 +1033,8 @@ export default {
               id: appraisal.id,
               appraisal_name: appraisal.appraisal_name,
 
-              employee: appraisal.employee.name,
-              manager: appraisal.manager.name,
+              employee: appraisal.employee,
+              manager: appraisal.manager,
               employeeDepartment: appraisal.employee.department.name,
               manager1: appraisal.manager ? appraisal.manager.name : '---',
               goals_count: appraisal.goals_count,
@@ -1049,27 +1049,27 @@ export default {
             }
 
             switch (stage) {
-              case 'Stage 1':
+              case 'Stage+1':
                 this.count_user1 = i
                 this.goalsLaunchingTableItems.push(tableData)
                 break
 
-              case 'Stage 1B':
+              case 'Stage+1B':
                 this.count_user2 = i
                 this.midYearTableItems.push(tableData)
                 break
 
-              case 'Stage 2':
+              case 'Stage+2':
                 this.count_user3 = i
                 this.endYearTableItems.push(tableData)
                 break
 
-              case 'Stage 3':
+              case 'Stage+3':
                 this.count_user4 = i
                 this.reportsTableItems.push(tableData)
                 break
 
-              case 'Stage 4':
+              case 'Stage+4':
                 this.count_user5 = i
                 this.calibrationTableItems.push(tableData)
                 break
