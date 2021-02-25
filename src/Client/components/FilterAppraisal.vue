@@ -89,9 +89,7 @@ export default {
       this.employees = await this.$axios.$get('api/employee/list/')
       this.managers = await this.$axios.$get('api/manager/short/list')
       this.departments = await this.$axios.$get('api/department/')
-      this.appraisals = await this.$axios.$get(
-        'api/overallAppraisal/'
-      )
+      this.appraisals = await this.$axios.$get('api/overallAppraisal/')
     } catch (error) {
       console.log(error)
     }
@@ -116,7 +114,7 @@ export default {
     },
     submit() {
       this.$axios
-        .$get(`api/filter/appraisal`, {
+        .$post(`api/filter/appraisal`, {
           employee_list: this.filter.employee_list.map((i) => i.id),
           manager_list: this.filter.manager_list.map((i) => i.id),
           department_list: this.filter.department_list.map((i) => i.id),

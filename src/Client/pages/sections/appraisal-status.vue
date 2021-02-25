@@ -13,15 +13,15 @@
           v-if="filterdialog"
           :dialog="filterdialog"
           @close-filter-appraisal="filterdialog = false"
-          @filter-done="(appraisals) => {onGoingTableItems = appraisals}"
+          @filter-done="pushFilterData"
         />
       </div>
       <div>
         <AppraisalCreate @reload-appraisals="$fetch()" />
 
-        <v-btn @click="filterdialog = true" color="success">
+        <v-btn color="success" @click="filterdialog = true">
           <v-icon>mdi-filter-variant</v-icon> Filters
-        </v-btn> 
+        </v-btn>
       </div>
 
       <div class="my-5">
@@ -791,6 +791,68 @@ export default {
     },
   },
   methods: {
+    pushFilterData(data) {
+      this.goalsLaunchingTableItems = []
+      this.midYearTableItems = []
+      this.reportsTableItems = []
+      this.endYearTableItems = []
+      this.calibrationTableItems = []
+      this.count_user1 = 1
+      this.count_user2 = 1
+      this.count_user3 = 1
+      this.count_user4 = 1
+      this.count_user5 = 1
+
+      data.forEach((appraisal) => {
+        const tableData = {
+          id: appraisal.id,
+          appraisal_name: appraisal.appraisal_name,
+
+          employee: appraisal.employee.name,
+          manager: appraisal.manager.name,
+          employeeDepartment: appraisal.employee.department.name,
+          manager1: appraisal.manager ? appraisal.manager.name : '---',
+          goals_count: appraisal.goals_count,
+          core_values_count: appraisal.core_values_competencies_count,
+          skills_count: appraisal.skills_count,
+          end_date: appraisal.overall_appraisal.calibration_end_date,
+          overallStage: appraisal.overall_appraisal.status,
+          status: appraisal.status,
+          mid_year_completion: appraisal.mid_year_completion,
+          completion: appraisal.completion,
+          appraisal_dialog: false,
+        }
+
+        switch (appraisal.overall_appraisal.status) {
+          case 'Stage 1':
+            this.goalsLaunchingTableItems.push(tableData)
+            break
+
+          case 'Stage 1B':
+            this.midYearTableItems.push(tableData)
+
+            break
+
+          case 'Stage 2':
+            this.endYearTableItems.push(tableData)
+
+            break
+
+          case 'Stage 3':
+            this.reportsTableItems.push(tableData)
+
+            break
+
+          case 'Stage 4':
+            this.calibrationTableItems.push(tableData)
+
+            break
+
+          default:
+            break
+        }
+      })
+    },
     async init() {
       try {
         this.loading = true
@@ -914,7 +976,7 @@ export default {
           `api/appraisals/list/admin?page=${page}&overall_appraisal__status=${stage}`
         )
         .then((response) => {
-          var i = parseInt(response.count / 10) + 1
+          const i = parseInt(response.count / 10) + 1
 
           response.results.forEach((appraisal) => {
             const tableData = {

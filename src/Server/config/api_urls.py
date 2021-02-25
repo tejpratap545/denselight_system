@@ -93,5 +93,5 @@ urlpatterns = [
     path("check/email", check_email),
     path("check/password", check_password),
     path("upload/bulk/employee", bulk_profile_upload),
-    path("filter/appraisal", FilterAppraisal.as_view()),
+    path("filter/appraisal", filter_appraisal),
 ]

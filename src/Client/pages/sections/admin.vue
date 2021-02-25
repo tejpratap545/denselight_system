@@ -30,22 +30,20 @@
           @close="createAppraisalDialog = false"
           @reload="$fetch"
         />
+
         <FilterAppraisal
           v-if="filterdialog"
           :dialog="filterdialog"
           @close-filter-appraisal="filterdialog = false"
-          @filter-done="(appraisals) => {goalsLaunchingTableItems = appraisals}"
+          @filter-done="adminPushdata"
         />
       </div>
       <v-card-title>
         Manage Employees Appraisals
         <v-spacer></v-spacer>
-        <v-btn 
-          class="mx-2"
-          @click="filterdialog = true" 
-          color="primary">
+        <v-btn class="mx-2" color="primary" @click="filterdialog = true">
           <v-icon>mdi-filter-variant</v-icon>
-        </v-btn> 
+        </v-btn>
         <v-btn
           class="mx-2"
           color="primary"
@@ -892,9 +890,73 @@ export default {
     close() {
       this.editdialog = false
     },
+    adminPushdata(data) {
+      this.goalsLaunchingTableItems = []
+      this.midYearTableItems = []
+      this.reportsTableItems = []
+      this.endYearTableItems = []
+      this.calibrationTableItems = []
+      this.count_user1 = 1
+      this.count_user2 = 1
+      this.count_user3 = 1
+      this.count_user4 = 1
+      this.count_user5 = 1
+
+      data.forEach((appraisal) => {
+        const tableData = {
+          id: appraisal.id,
+          appraisal_name: appraisal.appraisal_name,
+
+          employee: appraisal.employee.name,
+          manager: appraisal.manager.name,
+          employeeDepartment: appraisal.employee.department.name,
+          manager1: appraisal.manager ? appraisal.manager.name : '---',
+          goals_count: appraisal.goals_count,
+          core_values_count: appraisal.core_values_competencies_count,
+          skills_count: appraisal.skills_count,
+          end_date: appraisal.overall_appraisal.calibration_end_date,
+          overallStage: appraisal.overall_appraisal.status,
+          status: appraisal.status,
+          mid_year_completion: appraisal.mid_year_completion,
+          completion: appraisal.completion,
+          appraisal_dialog: false,
+        }
+
+        switch (appraisal.overall_appraisal.status) {
+          case 'Stage 1':
+            this.goalsLaunchingTableItems.push(tableData)
+            break
+
+          case 'Stage 1B':
+            this.midYearTableItems.push(tableData)
+
+            break
+
+          case 'Stage 2':
+            this.endYearTableItems.push(tableData)
+
+            break
+
+          case 'Stage 3':
+            this.reportsTableItems.push(tableData)
+
+            break
+
+          case 'Stage 4':
+            this.calibrationTableItems.push(tableData)
+
+            break
+
+          default:
+            break
+        }
+      })
+    },
+
     submit() {
       if (this.category_id != 0) {
         this.$axios
+
           .$patch(`/api/category/${this.current_dialog}/${this.category_id}/`, {
             name: this.category_text,
           })
@@ -971,8 +1033,8 @@ export default {
               id: appraisal.id,
               appraisal_name: appraisal.appraisal_name,
 
-              employee: appraisal.employee,
-              manager: appraisal.manager,
+              employee: appraisal.employee.name,
+              manager: appraisal.manager.name,
               employeeDepartment: appraisal.employee.department.name,
               manager1: appraisal.manager ? appraisal.manager.name : '---',
               goals_count: appraisal.goals_count,
@@ -987,27 +1049,27 @@ export default {
             }
 
             switch (stage) {
-              case 'Stage+1':
+              case 'Stage 1':
                 this.count_user1 = i
                 this.goalsLaunchingTableItems.push(tableData)
                 break
 
-              case 'Stage+1B':
+              case 'Stage 1B':
                 this.count_user2 = i
                 this.midYearTableItems.push(tableData)
                 break
 
-              case 'Stage+2':
+              case 'Stage 2':
                 this.count_user3 = i
                 this.endYearTableItems.push(tableData)
                 break
 
-              case 'Stage+3':
+              case 'Stage 3':
                 this.count_user4 = i
                 this.reportsTableItems.push(tableData)
                 break
 
-              case 'Stage+4':
+              case 'Stage 4':
                 this.count_user5 = i
                 this.calibrationTableItems.push(tableData)
                 break

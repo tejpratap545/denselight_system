@@ -409,17 +409,16 @@
                 :items-per-page="5"
               ></v-data-table>
 
-              
-      <div v-if="myValuesTableItems.length != 0">
-        <v-row class="ml-2">
-          <v-col><b>Employee's comment</b></v-col>
-          <v-col>{{ myValuesTableItems[0].user_comments }}</v-col>
-        </v-row>
-        <v-row class="ml-2">
-          <v-col><b>Manager's comment</b></v-col>
-          <v-col>{{ myValuesTableItems[0].manager_comments }}</v-col>
-        </v-row>
-      </div>
+              <div v-if="myValuesTableItems.length != 0">
+                <v-row class="ml-2">
+                  <v-col><b>Employee's comment</b></v-col>
+                  <v-col>{{ myValuesTableItems[0].user_comments }}</v-col>
+                </v-row>
+                <v-row class="ml-2">
+                  <v-col><b>Manager's comment</b></v-col>
+                  <v-col>{{ myValuesTableItems[0].manager_comments }}</v-col>
+                </v-row>
+              </div>
             </v-card-text>
           </v-card>
         </v-tab-item>
