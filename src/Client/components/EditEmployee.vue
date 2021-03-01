@@ -5,12 +5,13 @@
     </div>
     <div v-else-if="$fetchState.error">An error occurred</div>
     <v-card v-else>
-      <v-card-title class="headline py-5"> Edit Employee 
+      <v-card-title class="headline py-5">
+        Edit Employee
 
-         <v-spacer />
-            <v-btn @click="close" icon>
-              <v-icon>mdi-close</v-icon>
-            </v-btn> 
+        <v-spacer />
+        <v-btn icon @click="close">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </v-card-title>
 
       <v-card-text>
@@ -44,17 +45,17 @@
               v-model="user.email"
               type="email"
               label="email"
-              @change="checkEmail"
               :error="emailinputError"
               outlined
+              @change="checkEmail"
             ></v-text-field>
 
-            <v-alert type="warning" v-if="emailinputError" text dense>
+            <v-alert v-if="emailinputError" type="warning" text dense>
               Email must be unique
             </v-alert>
             <v-alert
-              type="success"
               v-else-if="!emailinputError && user.email != ''"
+              type="success"
               text
               dense
             >
@@ -123,11 +124,11 @@
               outlined
             ></v-combobox>
 
-            <v-alert type="warning" v-if="!emailUnique"
+            <v-alert v-if="!emailUnique" type="warning"
               >One or more entries are invalid</v-alert
             >
 
-            <v-btn color="primary" @click="createUser" :disabled="!emailUnique">
+            <v-btn color="primary" :disabled="!emailUnique" @click="createUser">
               Save
             </v-btn>
             <v-btn text @click="close"> Close </v-btn>
@@ -137,12 +138,12 @@
             <v-text-field
               v-model="passwordReset.password1"
               label="New Password"
-              @change="checkPassword"
               :error="passwordinputError"
               outlined
+              @change="checkPassword"
             ></v-text-field>
 
-            <v-alert type="warning" v-if="passwordinputError" text dense>
+            <v-alert v-if="passwordinputError" type="warning" text dense>
               Password is weak, password must include
               <ul>
                 <li>8 minimum character</li>
@@ -151,8 +152,8 @@
               </ul>
             </v-alert>
             <v-alert
-              type="success"
               v-else-if="!passwordinputError && passwordReset.password1 != ''"
+              type="success"
               text
               dense
             >
@@ -166,16 +167,16 @@
             ></v-text-field>
 
             <v-alert
-              type="warning"
               v-if="!passwordStrong && passwordReset.password1 != ''"
+              type="warning"
               >One or more entries are invalid</v-alert
             >
 
             <v-btn
               elevation="0"
               color="primary"
-              @click="changePassword"
               :disabled="!passwordStrong"
+              @click="changePassword"
             >
               Reset Password</v-btn
             >
@@ -257,7 +258,7 @@ export default {
           gender: this.user.gender,
           job_Title: this.user.job_Title,
           first_Reporting_Manager: this.user.first_Reporting_Manager.id,
-          second_Reporting_Manager: this.user.first_Reporting_Manager.id,
+          second_Reporting_Manager: this.user.second_Reporting_Manager.id,
         })
         .then((res) => {
           this.$notifier.showMessage({

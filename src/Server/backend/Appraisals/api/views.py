@@ -96,7 +96,7 @@ def filter_appraisal(request):
             Q(employee__in=employee_list)
             | Q(manager__in=manager_list)
             | Q(employee__department__in=department_list),
-        )
+        ).exclude(overall_appraisal__status="Completed")
 
     else:
         data = User_Appraisal_List.objects.prefetch_related(
@@ -107,7 +107,7 @@ def filter_appraisal(request):
             "manager__department",
             "overall_appraisal__appraisal_category",
             "appraisal_category",
-        ).filter(overall_appraisal=appraisal)
+        ).filter(overall_appraisal=appraisal).exclude(overall_appraisal__status="Completed")
         if employee_list is not []:
             data.filter(employee__in=employee_list)
         if manager_list is not []:
