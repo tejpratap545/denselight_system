@@ -41,11 +41,12 @@
       <v-card-title>
         Manage Employees Appraisals
         <v-spacer></v-spacer>
-        <v-btn class="mx-2" color="primary" @click="filterdialog = true">
+        <v-btn text class="mx-2" color="primary" @click="filterdialog = true">
           <v-icon>mdi-filter-variant</v-icon>
         </v-btn>
         <v-btn
           class="mx-2"
+          text
           color="primary"
           @click="createAppraisalDialog = true"
         >
@@ -54,6 +55,7 @@
 
         <v-btn
           class="mx-2"
+          text
           color="primary"
           :loading="reportLoading"
           @click="report()"

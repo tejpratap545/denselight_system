@@ -386,7 +386,7 @@ export default {
               ],
             },
           ],
-          kpi_set: goal.kpi_set,
+          kpi_set: goal.kpi_set.reverse(),
           goal_employees_comment: goal.goal_employees_comment,
           goal_manager_comment: goal.goal_manager_comment,
           tracking_status: goal.tracking_status,

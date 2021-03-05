@@ -69,7 +69,9 @@
         </v-list-item>
         <v-list-item
           v-if="
-            $auth.user.user.role == 'HRManager' || $auth.user.user.role == 'Hr'
+            $auth.user.user.role == 'HRManager' ||
+            $auth.user.user.role == 'Hr' ||
+            $auth.user.user.role == 'Admin'
           "
           to="/sections/appraisal-status"
         >
@@ -82,7 +84,10 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          v-if="$auth.user.user.role == 'HRManager'"
+          v-if="
+            $auth.user.user.role == 'HRManager' ||
+            $auth.user.user.role == 'Admin'
+          "
           to="/sections/employee-management"
         >
           <v-list-item-icon>

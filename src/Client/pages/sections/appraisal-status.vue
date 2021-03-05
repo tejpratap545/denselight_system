@@ -18,10 +18,6 @@
       </div>
       <div>
         <AppraisalCreate @reload-appraisals="$fetch()" />
-
-        <v-btn color="success" @click="filterdialog = true">
-          <v-icon>mdi-filter-variant</v-icon> Filters
-        </v-btn>
       </div>
 
       <div class="my-5">
@@ -196,6 +192,10 @@
             <v-card flat>
               <v-card-title>
                 <v-spacer></v-spacer>
+
+                <v-btn text color="success" @click="filterdialog = true">
+                  <v-icon>mdi-filter-variant</v-icon>
+                </v-btn>
                 <v-btn
                   color="green darken-1"
                   elevation="0"
@@ -206,7 +206,6 @@
                   @click="report()"
                 >
                   <v-icon>mdi-download-circle-outline</v-icon>
-                  <span class="ml-1">Download Report</span>
                 </v-btn>
               </v-card-title>
 

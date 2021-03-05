@@ -53,7 +53,12 @@
       </div>
 
       <div v-if="appraisal.goals_set != 0">
-        <div v-for="goal in appraisal.goals_set" :key="goal.id" class="py-4">
+        <div
+          v-for="(goal, index) in appraisal.goals_set"
+          :key="goal.id"
+          class="py-4"
+        >
+          {{ index + 1 }}
           <table class="table table-bordered shadow-sm p-5">
             <thead>
               <tr>
@@ -63,6 +68,7 @@
                 <th>Tracking</th>
               </tr>
             </thead>
+
             <tbody>
               <tr>
                 <td>{{ goal.summary }}</td>
@@ -94,6 +100,23 @@
                         <td>{{ goal.user_comments || 'NIl' }}</td>
                         <td>{{ goal.manager_comments || 'NIl' }}</td>
                       </tr>
+                      <tr>
+                        <th>End Year Rating</th>
+                        <td>{{ ratingName(goal.user_rating || '1') }}</td>
+                        <td>{{ ratingName(goal.manager_rating || '1') }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-bordered p-3 my-2">
+                    <tbody>
+                      <tr>
+                        <td>Borad Comment</td>
+                        <td>{{ goal.board_comments }}</td>
+                      </tr>
+                      <tr>
+                        <td>Borad Rating</td>
+                        <td>{{ ratingName(goal.board_rating || '1') }}</td>
+                      </tr>
                     </tbody>
                   </table>
                 </td>
@@ -108,7 +131,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="kpi in goal.kpi_set" :key="kpi.id">
+                      <tr v-for="kpi in goal.kpi_set.reverse()" :key="kpi.id">
                         <td>
                           {{ kpi.description }}
                         </td>
@@ -138,7 +161,7 @@
           <thead>
             <tr>
               <th>Competency</th>
-                <th>Description</th>
+              <th>Description</th>
               <th>Weightage</th>
             </tr>
           </thead>
@@ -199,8 +222,10 @@
 </template>
 
 <script>
+import global from '~/mixins/global'
 export default {
   name: 'PrintAppraisal',
+  mixins: [global],
 
   async fetch() {
     const id = this.$route.query.id
@@ -217,22 +242,6 @@ export default {
   methods: {
     print() {
       print()
-    },
-    ratingName(rating) {
-      switch (rating) {
-        case 1:
-          return '1. Major Improvement Needed'
-        case 2:
-          return '2. Needs Improvement'
-        case 3:
-          return '3. Meet Expectations'
-        case 4:
-          return '4. Exceed Expectations'
-        case 5:
-          return '5. Far Exceed Expectations'
-        default:
-          return ''
-      }
     },
   },
 
