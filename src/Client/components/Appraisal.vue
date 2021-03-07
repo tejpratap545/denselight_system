@@ -245,13 +245,6 @@
                   ></v-select>
                 </v-col>
               </v-row>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-
-                <v-btn color="primary" elevation="0" @click="submitBoardRating">
-                  Submit
-                </v-btn>
-              </v-card-actions>
             </div>
           </td>
         </template>
@@ -308,6 +301,13 @@
         </template>
       </v-simple-table>
     </v-card-text>
+    <v-card-actions v-if="checkHodComment()">
+      <v-spacer></v-spacer>
+
+      <v-btn color="primary" elevation="0" @click="submitBoardRating">
+        Submit
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
