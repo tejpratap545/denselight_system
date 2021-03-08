@@ -130,26 +130,26 @@ class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
     profile_Picture = models.ImageField(upload_to="profile", blank=True, null=True)
-    name = models.CharField(max_length=200, blank=False, null=False)
+    name = models.CharField(max_length=200, blank=True, null=False)
 
     employee_ID = models.CharField(
-        max_length=15, blank=False, null=True, default="S123456D"
+        max_length=15, blank=True, null=True, default="S123456D"
     )
 
-    nric = models.CharField(max_length=20, blank=False, null=True)
+    nric = models.CharField(max_length=20, blank=True, null=True)
 
     typeOfEmployee = models.CharField(
-        max_length=50, blank=False, null=True, choices=DIRECT_CHOICES, default="DIRECT"
+        max_length=50, blank=True, null=True, choices=DIRECT_CHOICES, default="DIRECT"
     )
 
-    email = models.EmailField(blank=False, null=True)
+    email = models.EmailField(blank=True, null=True)
 
     department = models.ForeignKey(
-        Departments, blank=False, null=True, on_delete=models.SET_NULL
+        Departments, blank=True, null=True, on_delete=models.SET_NULL
     )
 
     gender = models.CharField(
-        max_length=6, choices=GENDER_CHOICE, blank=False, null=True
+        max_length=6, choices=GENDER_CHOICE, blank=True, null=True
     )
 
     address_1 = models.CharField(max_length=250, blank=True, null=True)
@@ -158,12 +158,12 @@ class Profile(models.Model):
     date_Of_Passport_Expiry = models.DateField(blank=True, null=True)
 
     citizenship_Status = models.CharField(
-        max_length=70, blank=False, null=False, default="-"
+        max_length=70, blank=True, null=False, default="-"
     )
 
-    date_Of_Hire = models.DateField(blank=False, null=True)
+    date_Of_Hire = models.DateField(blank=True, null=True)
 
-    job_Title = models.CharField(max_length=100, blank=False, null=True)
+    job_Title = models.CharField(max_length=100, blank=True, null=True)
 
     employment_Type = models.CharField(
         max_length=30, choices=EMPLOYMENT_TYPE_CHOICE, default="Full-time"
@@ -185,7 +185,7 @@ class Profile(models.Model):
         on_delete=models.SET_NULL,
         related_name="second_reporting_manager",
     )
-    resign_date = models.DateField(null=True)
+    resign_date = models.DateField(null=True,blank=True)
 
     division_Centre = models.CharField(max_length=150, blank=True, null=True)
 
