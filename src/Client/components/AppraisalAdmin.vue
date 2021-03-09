@@ -846,31 +846,10 @@ export default {
       this.currentGoal = goal
     },
     submitBoardRating() {
-      this.$axios
-        .patch(`api/appraisals/admin/${this.appraisal.id}/`, {
-          board_comments: this.appraisal.board_comments,
-          board_rating: this.appraisal.board_rating,
-        })
-        .then(() => {
-          this.$axios
-            .post(`api/submit/board/endyear/${this.appraisalId}`)
-            .then(() => {
-              this.$notifier.showMessage({
-                content:
-                  'You  have   Successfully submitted end year board  review .',
-                color: 'info',
-              })
-
-              this.$fetch()
-            })
-            .catch(() => {
-              this.$notifier.showMessage({
-                content: 'An error found please validate or try again',
-                color: 'error',
-              })
-              this.close()
-            })
-        })
+      this.$axios.patch(`api/appraisals/admin/${this.appraisal.id}/`, {
+        board_comments: this.appraisal.board_comments,
+        board_rating: this.appraisal.board_rating,
+      })
     },
 
     approvedGoal() {
