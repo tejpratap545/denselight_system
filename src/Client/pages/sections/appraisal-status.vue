@@ -590,6 +590,7 @@ export default {
   async fetch() {
     await this.init()
   },
+  fetchOnServer: false,
   data() {
     return {
       filterdialog: false,

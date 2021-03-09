@@ -812,9 +812,10 @@ export default {
 
     await this.departmentalAppraisal()
   },
+  fetchOnServer: false,
   data() {
     return {
-      selectedItem:0,
+      selectedItem: 0,
       loading: true,
       tabData: null,
       tabData2: null,

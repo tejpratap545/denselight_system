@@ -118,6 +118,7 @@ export default {
       deleteDialog: false,
     }
   },
+  fetchOnServer: false,
   methods: {
     deleteVideo(id) {
       this.$axios

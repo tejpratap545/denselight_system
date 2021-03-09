@@ -210,6 +210,7 @@ export default {
       console.log(error)
     }
   },
+  fetchOnServer: false,
 
   data() {
     return {
