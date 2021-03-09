@@ -371,7 +371,7 @@
                 <v-row>
                   <v-col>Moderation commitee Rating(Final)</v-col>
                   <v-col>
-                    {{ ratingName(appraisal.board_comments) }}
+                    {{ ratingName(appraisal.board_rating) }}
                   </v-col>
                 </v-row>
               </div>

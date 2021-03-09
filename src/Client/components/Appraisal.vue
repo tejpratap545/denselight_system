@@ -296,7 +296,7 @@
             item-value="value"
           ></v-select>
           <div v-else>
-            {{ ratingName(appraisal.board_comments || 1) }}
+            {{ ratingName(appraisal.board_rating || 1) }}
           </div>
         </v-col>
       </v-row>

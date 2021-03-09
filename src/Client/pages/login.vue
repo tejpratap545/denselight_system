@@ -2,10 +2,7 @@
   <v-container fluid fill-height class="pa-0 align-stretch">
     <v-row>
       <v-col cols="0" sm="7" md="8" lg="9" style="padding: 0">
-        <img
-          src="~assets/epmp.jpg"
-          style="width: 100%; height: 100%"
-        />
+        <img src="~assets/epmp.jpg" style="width: 100%; height: 100%" />
       </v-col>
 
       <v-col cols="12" sm="5" md="4" lg="3" class="pa-5 pa-sm-10">
@@ -52,7 +49,8 @@
           </div>
           <div class="my-4">
             <p class="font-weight-light text-center">
-              Don't remeber your password? <a href="/forgot-password">Forget Password</a>
+              Don't remeber your password?
+              <a href="/forgot-password">Forget Password</a>
             </p>
           </div>
         </v-form>

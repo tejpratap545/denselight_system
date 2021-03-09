@@ -183,11 +183,20 @@ export default {
         },
         {
           id: 8,
-          name: 'End Year Approved',
+          name: 'End Year Board Rating Stage',
           status: {
             status: 'Approved',
             mid_year_completion: 'Completed',
             completion: 'MCompleted',
+          },
+        },
+        {
+          id: 9,
+          name: 'End Year Approved',
+          status: {
+            status: 'Approved',
+            mid_year_completion: 'Completed',
+            completion: 'BCompleted',
           },
         },
       ],
@@ -216,7 +225,15 @@ export default {
       this.appraisal.status === 'S1BReview'
     ) {
       this.currentStage = this.appraisalStatus[4]
-    } else if (this.appraisal.status === 'Approved') {
+    } else if (
+      this.appraisal.status === 'Approved' &&
+      this.appraisal.completion === 'BCompleted'
+    ) {
+      this.currentStage = this.appraisalStatus[9]
+    } else if (
+      this.appraisal.status === 'Approved' &&
+      this.appraisal.completion === 'MCompleted'
+    ) {
       this.currentStage = this.appraisalStatus[8]
     } else if (
       this.appraisal.status === 'S2Manager' &&
