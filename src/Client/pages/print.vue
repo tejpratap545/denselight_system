@@ -58,94 +58,97 @@
           :key="goal.id"
           class="py-4"
         >
-          {{ index + 1 }}
-          <table class="table table-bordered shadow-sm p-5">
-            <thead>
-              <tr>
-                <th>Goal</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Tracking</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td>{{ goal.summary }}</td>
-                <td>{{ goal.description }}</td>
-                <td>{{ goal.goal_category.name }}</td>
-                <td>{{ goal.tracking_status }}</td>
-              </tr>
-              <tr>
-                <td colspan="4">
-                  <table class="table table-bordered p-3 my-2">
-                    <tbody>
-                      <tr>
-                        <th>Stage</th>
-                        <th>Employee Comment</th>
-                        <th>Manager Comment</th>
-                      </tr>
-                      <tr>
-                        <th>Goal Setting Stage</th>
-                        <td>{{ goal.goal_employees_comment || 'NIl' }}</td>
-                        <td>{{ goal.goal_manager_comment || 'NIl' }}</td>
-                      </tr>
-                      <tr>
-                        <th>Mid Year</th>
-                        <td>{{ goal.MID_user_comments || 'NIl' }}</td>
-                        <td>{{ goal.MID_manager_comments || 'NIl' }}</td>
-                      </tr>
-                      <tr>
-                        <th>End Year</th>
-                        <td>{{ goal.user_comments || 'NIl' }}</td>
-                        <td>{{ goal.manager_comments || 'NIl' }}</td>
-                      </tr>
-                      <tr>
-                        <th>End Year Rating</th>
-                        <td>{{ ratingName(goal.user_rating || '1') }}</td>
-                        <td>{{ ratingName(goal.manager_rating || '1') }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table class="table table-bordered p-3 my-2">
-                    <tbody>
-                      <tr>
-                        <td>Borad Comment</td>
-                        <td>{{ goal.board_comments }}</td>
-                      </tr>
-                      <tr>
-                        <td>Borad Rating</td>
-                        <td>{{ ratingName(goal.board_rating || '1') }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="4">
-                  <table class="table table-bordered p-3 my-2">
-                    <thead>
-                      <tr>
-                        <th>KPI</th>
-                        <th>Due</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="kpi in goal.kpi_set.reverse()" :key="kpi.id">
-                        <td>
-                          {{ kpi.description }}
-                        </td>
-                        <td>
-                          {{ kpi.due }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <v-row>
+            <v-col cols="1">
+              <b> {{ index + 1 }} . </b>
+            </v-col>
+            <v-col>
+              <table class="table table-bordered shadow-sm p-5">
+                <thead>
+                  <tr>
+                    <th>Goal</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Tracking</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ goal.summary }}</td>
+                    <td>{{ goal.description }}</td>
+                    <td>{{ goal.goal_category.name }}</td>
+                    <td>{{ goal.tracking_status }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <table class="table table-bordered p-3 my-2">
+                        <tbody>
+                          <tr>
+                            <th>Stage</th>
+                            <th>Employee Comment / Rating</th>
+                            <th>Manager Comment / Rating</th>
+                          </tr>
+                          <tr>
+                            <th>Goal Setting Stage Comment</th>
+                            <td>{{ goal.goal_employees_comment || 'NIl' }}</td>
+                            <td>{{ goal.goal_manager_comment || 'NIl' }}</td>
+                          </tr>
+                          <tr>
+                            <th>Mid Year Comment</th>
+                            <td>{{ goal.MID_user_comments || 'NIl' }}</td>
+                            <td>{{ goal.MID_manager_comments || 'NIl' }}</td>
+                          </tr>
+                          <tr>
+                            <th>End Year Comment</th>
+                            <td>{{ goal.user_comments || 'NIl' }}</td>
+                            <td>{{ goal.manager_comments || 'NIl' }}</td>
+                          </tr>
+                          <tr>
+                            <th>End Year Rating</th>
+                            <td>{{ ratingName(goal.user_rating || 'NIl') }}</td>
+                            <td>
+                              {{ ratingName(goal.manager_rating || 'NIl') }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <table class="table table-bordered p-3 my-2">
+                        <thead>
+                          <tr>
+                            <th>KPI</th>
+                            <th>Due</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="kpi in goal.kpi_set" :key="kpi.id">
+                            <td>
+                              {{ kpi.description }}
+                            </td>
+                            <td>
+                              {{ kpi.due }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </v-col>
+          </v-row>
         </div>
+        <v-row class="ml-2">
+          <v-col><b>Moderation commitee Comment</b></v-col>
+          <v-col>{{ appraisal.board_comments || 'NIL' }}</v-col>
+        </v-row>
+        <v-row class="ml-2">
+          <v-col><b>Moderation commitee Rating (final)</b></v-col>
+          <v-col> {{ ratingName(appraisal.board_rating || 1) }}</v-col>
+        </v-row>
       </div>
 
       <div v-else>
@@ -222,29 +225,38 @@
 </template>
 
 <script>
-import global from '~/mixins/global'
 export default {
   name: 'PrintAppraisal',
-  mixins: [global],
-
   async fetch() {
     const id = this.$route.query.id
-
     this.appraisal = await this.$axios.$get(`/api/appraisals/detail/${id}`)
   },
-
   data() {
     return {
       appraisal: {},
     }
   },
-
   methods: {
     print() {
       print()
     },
+    ratingName(rating) {
+      switch (rating) {
+        case 1:
+          return '1. Major Improvement Needed'
+        case 2:
+          return '2. Needs Improvement'
+        case 3:
+          return '3. Meet Expectations'
+        case 4:
+          return '4. Exceed Expectations'
+        case 5:
+          return '5. Far Exceed Expectations'
+        default:
+          return ''
+      }
+    },
   },
-
   head: {
     title: 'Appraisal',
     link: [

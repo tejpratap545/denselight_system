@@ -1,21 +1,17 @@
-from django.db import models
-from datetime import datetime
-from datetime import date
-from backend.Profile.models import Profile
-from backend.Profile.models import Departments
 from backend.Appraisals.models import Appraisal, Overall_Appraisal, User_Appraisal_List
-from django.core.validators import MaxValueValidator, MinValueValidator
-
+from backend.Profile.models import Departments, Profile
+from datetime import date, datetime
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
 class GoalComment(models.Model):
-    goal = models.ForeignKey("Goals", blank=False, null=False, on_delete=models.CASCADE)
+    goal = models.ForeignKey("Goals", blank=True, null=False, on_delete=models.CASCADE)
     comments = models.TextField(blank=False, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.CASCADE
+        Profile, blank=True, null=True, on_delete=models.CASCADE
     )
 
     def __str__(self):
@@ -24,12 +20,12 @@ class GoalComment(models.Model):
 
 class CompetencyComment(models.Model):
     competency = models.ForeignKey(
-        "Competencies", blank=False, null=False, on_delete=models.CASCADE
+        "Competencies", blank=True, null=False, on_delete=models.CASCADE
     )
     comments = models.TextField(blank=False, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.CASCADE
+        Profile, blank=True, null=True, on_delete=models.CASCADE
     )
 
     def __str__(self):
@@ -39,14 +35,14 @@ class CompetencyComment(models.Model):
 class DepartmentalGoalComment(models.Model):
     departmental_goal = models.ForeignKey(
         "DepartmentalGoals",
-        blank=False,
+        blank=True,
         null=False,
         on_delete=models.CASCADE,
     )
     comments = models.TextField(blank=False, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.CASCADE
+        Profile, blank=True, null=True, on_delete=models.CASCADE
     )
 
     def __str__(self):
@@ -56,14 +52,14 @@ class DepartmentalGoalComment(models.Model):
 class DepartmentalCompetenciesComment(models.Model):
     departmental_competencies = models.ForeignKey(
         "DepartmentalCompetencies",
-        blank=False,
+        blank=True,
         null=False,
         on_delete=models.CASCADE,
     )
     comments = models.TextField(blank=False, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.CASCADE
+        Profile, blank=True, null=True, on_delete=models.CASCADE
     )
 
     def __str__(self):
@@ -78,7 +74,7 @@ class KPI(models.Model):
     date_created = models.DateField(null=True, default=date.today)
     progress = models.CharField(
         max_length=20,
-        blank=False,
+        blank=True,
         null=False,
         choices=PROGRESS_CHOICES,
         default="Working",
@@ -89,7 +85,7 @@ class KPI(models.Model):
 
 
 class GoalCategory(models.Model):
-    name = models.CharField(max_length=70, blank=False, null=False)
+    name = models.CharField(max_length=70, blank=True, null=False)
 
     def __str__(self):
         return self.name
@@ -110,53 +106,53 @@ class Goals(models.Model):
         ("Not On Track", "Not On Track"),
     ]
     appraisal = models.ForeignKey(
-        User_Appraisal_List, blank=False, null=True, on_delete=models.SET_NULL
+        User_Appraisal_List, blank=True, null=True, on_delete=models.SET_NULL
     )
     employee = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.SET_NULL
+        Profile, blank=True, null=True, on_delete=models.SET_NULL
     )
     summary = models.TextField(blank=True, null=True)
     goal_category = models.ForeignKey(
-        GoalCategory, blank=False, null=True, on_delete=models.CASCADE
+        GoalCategory, blank=True, null=True, on_delete=models.CASCADE
     )
     description = models.TextField(blank=True, null=True)
     due = models.DateField()
     weightage = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(100)],
-        blank=False,
+        blank=True,
         null=False,
     )
     metrics_Used = models.TextField(blank=True, null=True)
     goal_employees_comment = models.TextField(null=True)
     goal_manager_comment = models.TextField(null=True)
     MID_user_comments = models.TextField(
-        max_length=2000, blank=False, null=False, default="NIL"
+        max_length=2000, blank=True, null=False, default="NIL"
     )
     MID_manager_comments = models.TextField(
-        max_length=2000, blank=False, null=False, default="NIL"
+        max_length=2000, blank=True, null=False, default="NIL"
     )
 
     user_rating = models.IntegerField(
-        choices=RATING_CHOICES, blank=False, null=False, default=1
+        choices=RATING_CHOICES, blank=True, null=False, default=1
     )
     manager_rating = models.IntegerField(
-        choices=RATING_CHOICES, blank=False, null=False, default=1
+        choices=RATING_CHOICES, blank=True, null=False, default=1
     )
     board_rating = models.IntegerField(
-        choices=RATING_CHOICES, blank=False, null=False, default=1
+        choices=RATING_CHOICES, blank=True, null=False, default=1
     )
 
     user_comments = models.CharField(
-        max_length=2000, blank=False, null=False, default="NIL"
+        max_length=2000, blank=True, null=False, default="NIL"
     )
     manager_comments = models.CharField(
-        max_length=2000, blank=False, null=False, default="NIL"
+        max_length=2000, blank=True, null=False, default="NIL"
     )
     board_comments = models.CharField(
-        max_length=2000, blank=False, null=False, default="NIL"
+        max_length=2000, blank=True, null=False, default="NIL"
     )
     tracking_status = models.CharField(
-        max_length=50, blank=False, null=True, default="null", choices=TRACKING_CHOICES
+        max_length=50, blank=True, null=True, default="null", choices=TRACKING_CHOICES
     )
     metrics_evidence = models.ImageField(blank=True, null=True)
     STATUS_CHOICE = (
@@ -203,40 +199,40 @@ class Competencies(models.Model):
     ]
 
     appraisal = models.ForeignKey(
-        User_Appraisal_List, blank=False, null=True, on_delete=models.SET_NULL
+        User_Appraisal_List, blank=True, null=True, on_delete=models.SET_NULL
     )
     employee = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.SET_NULL
+        Profile, blank=True, null=True, on_delete=models.SET_NULL
     )
     competency_category = models.ForeignKey(
-        CompetencyCategory, blank=False, null=True, on_delete=models.CASCADE
+        CompetencyCategory, blank=True, null=True, on_delete=models.CASCADE
     )
-    summary = models.CharField(max_length=1500, blank=False, null=False)
+    summary = models.CharField(max_length=1500, blank=True, null=False)
     description = models.TextField(blank=True, null=True)
     weightage = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(100)],
-        blank=False,
+        blank=True,
         null=False,
     )
 
     user_rating = models.IntegerField(
-        choices=RATING_CHOICES, blank=False, null=False, default=1
+        choices=RATING_CHOICES, blank=True, null=False, default=1
     )
     manager_rating = models.IntegerField(
-        choices=RATING_CHOICES, blank=False, null=False, default=1
+        choices=RATING_CHOICES, blank=True, null=False, default=1
     )
     board_rating = models.IntegerField(
-        choices=RATING_CHOICES, blank=False, null=False, default=1
+        choices=RATING_CHOICES, blank=True, null=False, default=1
     )
 
     user_comments = models.CharField(
-        max_length=2000, blank=False, null=False, default="NIL"
+        max_length=2000, blank=True, null=False, default="NIL"
     )
     manager_comments = models.CharField(
-        max_length=2000, blank=False, null=False, default="NIL"
+        max_length=2000, blank=True, null=False, default="NIL"
     )
     board_comments = models.CharField(
-        max_length=2000, blank=False, null=False, default="NIL"
+        max_length=2000, blank=True, null=False, default="NIL"
     )
 
     def __str__(self):
@@ -245,15 +241,15 @@ class Competencies(models.Model):
 
 class DepartmentalGoals(models.Model):
     manager = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.SET_NULL
+        Profile, blank=True, null=True, on_delete=models.SET_NULL
     )
     appraisal = models.ForeignKey(
-        Overall_Appraisal, blank=False, null=True, on_delete=models.CASCADE
+        Overall_Appraisal, blank=True, null=True, on_delete=models.CASCADE
     )
     department = models.ForeignKey(Departments, null=True, on_delete=models.CASCADE)
     summary = models.TextField(blank=True, null=True)
     goal_category = models.ForeignKey(
-        GoalCategory, blank=False, null=True, on_delete=models.CASCADE
+        GoalCategory, blank=True, null=True, on_delete=models.CASCADE
     )
     description = models.TextField(blank=True, null=True)
     due = models.DateField()
@@ -264,15 +260,15 @@ class DepartmentalGoals(models.Model):
 
 class DepartmentalCompetencies(models.Model):
     manager = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.SET_NULL
+        Profile, blank=True, null=True, on_delete=models.SET_NULL
     )
     appraisal = models.ForeignKey(
-        Overall_Appraisal, blank=False, null=True, on_delete=models.CASCADE
+        Overall_Appraisal, blank=True, null=True, on_delete=models.CASCADE
     )
     department = models.ForeignKey(Departments, null=True, on_delete=models.CASCADE)
     summary = models.TextField(blank=True, null=True)
     competency_category = models.ForeignKey(
-        CompetencyCategory, blank=False, null=True, on_delete=models.CASCADE
+        CompetencyCategory, blank=True, null=True, on_delete=models.CASCADE
     )
     description = models.TextField(blank=True, null=True)
 
@@ -282,11 +278,11 @@ class DepartmentalCompetencies(models.Model):
 
 ######
 class CommentBox(models.Model):
-    goal = models.ForeignKey("Goals", blank=False, null=False, on_delete=models.CASCADE)
+    goal = models.ForeignKey("Goals", blank=True, null=False, on_delete=models.CASCADE)
     comment = models.TextField(blank=False, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.CASCADE
+        Profile, blank=True, null=True, on_delete=models.CASCADE
     )
 
     def __str__(self):
@@ -295,11 +291,11 @@ class CommentBox(models.Model):
 
 class MidYrCommentBox(models.Model):
     id = models.AutoField(primary_key=True)
-    goal = models.ForeignKey("Goals", blank=False, null=False, on_delete=models.CASCADE)
+    goal = models.ForeignKey("Goals", blank=True, null=False, on_delete=models.CASCADE)
     comment = models.TextField(blank=False, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.CASCADE
+        Profile, blank=True, null=True, on_delete=models.CASCADE
     )
 
     def __str__(self):
@@ -308,11 +304,11 @@ class MidYrCommentBox(models.Model):
 
 class EndYrCommentBox(models.Model):
     id = models.AutoField(primary_key=True)
-    goal = models.ForeignKey("Goals", blank=False, null=False, on_delete=models.CASCADE)
+    goal = models.ForeignKey("Goals", blank=True, null=False, on_delete=models.CASCADE)
     comment = models.TextField(blank=False, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.CASCADE
+        Profile, blank=True, null=True, on_delete=models.CASCADE
     )
 
     def __str__(self):

@@ -204,12 +204,7 @@
                 {{ item.manager_comments || 'NIL' }}
               </v-col>
             </v-row>
-            <v-row>
-              <v-col>Moderation commitee Comment</v-col>
-              <v-col>
-                {{ item.board_comments || 'NIL' }}
-              </v-col>
-            </v-row>
+
             <v-row>
               <v-col>Employee Self rating</v-col>
               <v-col> {{ ratingName(item.user_rating) }}</v-col>
@@ -218,34 +213,6 @@
               <v-col>Manager rating</v-col>
               <v-col> {{ ratingName(item.manager_rating) }}</v-col>
             </v-row>
-            <v-row>
-              <v-col>Moderation commitee rating(final)</v-col>
-              <v-col> {{ ratingName(item.board_rating) }}</v-col>
-            </v-row>
-
-            <div v-if="checkHodComment()">
-              <v-row>
-                <v-col>End Year Board Comment</v-col>
-                <v-col>
-                  <v-textarea
-                    v-model="item.board_comments"
-                    outlined
-                  ></v-textarea>
-                </v-col>
-              </v-row>
-
-              <v-row>
-                <v-col>End Year Board rating</v-col>
-                <v-col>
-                  <v-select
-                    v-model="item.board_rating"
-                    :items="ratings"
-                    item-text="name"
-                    item-value="value"
-                  ></v-select>
-                </v-col>
-              </v-row>
-            </div>
           </td>
         </template>
       </v-data-table>
@@ -301,13 +268,46 @@
         </template>
       </v-simple-table>
     </v-card-text>
-    <v-card-actions v-if="checkHodComment()">
-      <v-spacer></v-spacer>
+    <div>
+      <v-row>
+        <v-col>Moderation commitee Comment </v-col>
 
-      <v-btn color="primary" elevation="0" @click="submitBoardRating">
-        Submit
-      </v-btn>
-    </v-card-actions>
+        <v-col>
+          <div v-if="checkHodComment()">
+            <v-textarea
+              v-model="appraisal.board_comments"
+              outlined
+            ></v-textarea>
+          </div>
+          <div v-else>
+            {{ appraisal.board_comments || 'NIL' }}
+          </div>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>Moderation commitee Rating(Final)</v-col>
+        <v-col>
+          <v-select
+            v-if="checkHodComment()"
+            v-model="appraisal.board_rating"
+            :items="ratings"
+            item-text="name"
+            item-value="value"
+          ></v-select>
+          <div v-else>
+            {{ ratingName(appraisal.board_comments || 1) }}
+          </div>
+        </v-col>
+      </v-row>
+      <v-row v-if="checkHodComment()">
+        <v-spacer></v-spacer>
+
+        <v-btn color="primary" elevation="0" @click="submitBoardRating">
+          Submit
+        </v-btn>
+      </v-row>
+    </div>
   </v-card>
 </template>
 
@@ -487,38 +487,37 @@ export default {
         this.appraisal.overall_appraisal.status === 'Stage 2' &&
         this.appraisal.status === 'Approved' &&
         this.appraisal.completion === 'MCompleted' &&
-        this.appraisal.employee.second_Reporting_Manager == this.$auth.user.id
-      console.log(this.appraisal, result)
-      if (result) {
-        return true
-      } else {
-        return false
-      }
+        (this.appraisal.employee.second_Reporting_Manager ===
+          this.$auth.user.id ||
+          this.$auth.user.user.role === 'Admin')
+
+      return result
     },
     submitBoardRating() {
-      this.appraisal.goals_set.forEach(async (goal) => {
-        await this.$axios.patch(`api/goal/${goal.id}`, {
-          board_comments: goal.board_comments,
-          board_rating: goal.board_rating,
-        })
-      })
       this.$axios
-        .post(`api/submit/board/endyear/${this.appraisalId}`)
-        .then(() => {
-          this.$notifier.showMessage({
-            content:
-              'You  have   Successfully submitted end year board  review .',
-            color: 'info',
-          })
-
-          this.$fetch()
+        .patch(`api/appraisals/admin/${this.appraisal.id}/`, {
+          board_comments: this.appraisal.board_comments,
+          board_rating: this.appraisal.board_rating,
         })
-        .catch(() => {
-          this.$notifier.showMessage({
-            content: 'An error found please validate or try again',
-            color: 'error',
-          })
-          this.close()
+        .then(() => {
+          this.$axios
+            .post(`api/submit/board/endyear/${this.appraisalId}`)
+            .then(() => {
+              this.$notifier.showMessage({
+                content:
+                  'You  have   Successfully submitted end year board  review .',
+                color: 'info',
+              })
+
+              this.$fetch()
+            })
+            .catch(() => {
+              this.$notifier.showMessage({
+                content: 'An error found please validate or try again',
+                color: 'error',
+              })
+              this.close()
+            })
         })
     },
   },

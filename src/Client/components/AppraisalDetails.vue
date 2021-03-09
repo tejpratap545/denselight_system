@@ -348,12 +348,7 @@
                         {{ item.manager_comments || 'NIL' }}
                       </v-col>
                     </v-row>
-                    <v-row>
-                      <v-col>Moderation commitee Comment</v-col>
-                      <v-col>
-                        {{ item.board_comments || 'NIL' }}
-                      </v-col>
-                    </v-row>
+
                     <v-row>
                       <v-col>Employee Self rating</v-col>
                       <v-col> {{ ratingName(item.user_rating) }}</v-col>
@@ -362,13 +357,24 @@
                       <v-col>Manager rating</v-col>
                       <v-col> {{ ratingName(item.manager_rating) }}</v-col>
                     </v-row>
-                    <v-row>
-                      <v-col>Moderation commitee rating(final)</v-col>
-                      <v-col> {{ ratingName(item.board_rating) }}</v-col>
-                    </v-row>
                   </td>
                 </template>
               </v-data-table>
+              <div>
+                <v-row>
+                  <v-col>Moderation commitee Comment</v-col>
+                  <v-col>
+                    {{ appraisal.board_comments }}
+                  </v-col>
+                </v-row>
+
+                <v-row>
+                  <v-col>Moderation commitee Rating(Final)</v-col>
+                  <v-col>
+                    {{ ratingName(appraisal.board_comments) }}
+                  </v-col>
+                </v-row>
+              </div>
             </v-card-text>
           </v-card>
         </v-tab-item>

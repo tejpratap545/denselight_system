@@ -469,6 +469,41 @@
                       </td>
                     </template>
                   </v-data-table>
+
+                  <div>
+                    <v-row>
+                      <v-col>Moderation commitee Comment</v-col>
+                      <v-col>
+                        <v-textarea
+                          v-model="appraisal.board_comments"
+                          outlined
+                        ></v-textarea>
+                      </v-col>
+                    </v-row>
+
+                    <v-row>
+                      <v-col>Moderation commitee Rating(Final)</v-col>
+                      <v-col>
+                        <v-select
+                          v-model="appraisal.board_rating"
+                          :items="ratings"
+                          item-text="name"
+                          item-value="value"
+                        ></v-select>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-spacer></v-spacer>
+
+                      <v-btn
+                        color="primary"
+                        elevation="0"
+                        @click="submitBoardRating"
+                      >
+                        Submit
+                      </v-btn>
+                    </v-row>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -809,6 +844,33 @@ export default {
     changeStatus(goal) {
       this.goalsApprovedDialog = true
       this.currentGoal = goal
+    },
+    submitBoardRating() {
+      this.$axios
+        .patch(`api/appraisals/admin/${this.appraisal.id}/`, {
+          board_comments: this.appraisal.board_comments,
+          board_rating: this.appraisal.board_rating,
+        })
+        .then(() => {
+          this.$axios
+            .post(`api/submit/board/endyear/${this.appraisalId}`)
+            .then(() => {
+              this.$notifier.showMessage({
+                content:
+                  'You  have   Successfully submitted end year board  review .',
+                color: 'info',
+              })
+
+              this.$fetch()
+            })
+            .catch(() => {
+              this.$notifier.showMessage({
+                content: 'An error found please validate or try again',
+                color: 'error',
+              })
+              this.close()
+            })
+        })
     },
 
     approvedGoal() {

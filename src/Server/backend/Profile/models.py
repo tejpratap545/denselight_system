@@ -28,7 +28,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50, unique=True, null=False)
     last_name = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(
-        blank=False,
+        blank=True,
         null=False,
     )
     is_active = models.BooleanField(default=True)
@@ -68,10 +68,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Qualifications(models.Model):
     employee = models.ForeignKey(
-        "Profile", blank=False, null=True, on_delete=models.CASCADE
+        "Profile", blank=True, null=True, on_delete=models.CASCADE
     )
     institution = models.CharField(max_length=150, blank=True, null=True)
-    name = models.CharField(max_length=150, blank=False, null=False)
+    name = models.CharField(max_length=150, blank=True, null=False)
     graduation_year = models.IntegerField(
         validators=[MinValueValidator(1920), MaxValueValidator(2200)],
         blank=True,
@@ -83,7 +83,7 @@ class Qualifications(models.Model):
 
 
 class DiscardSkills(models.Model):
-    name = models.CharField(max_length=150, blank=False, null=False)
+    name = models.CharField(max_length=150, blank=True, null=False)
     course_Attended = models.CharField(max_length=150, blank=True, null=True)
 
     def __str__(self):
@@ -91,7 +91,7 @@ class DiscardSkills(models.Model):
 
 
 class Departments(models.Model):
-    name = models.CharField(max_length=100, blank=False, null=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
 
     manager = models.ForeignKey(
         "Profile", blank=True, null=True, on_delete=models.CASCADE
@@ -185,7 +185,7 @@ class Profile(models.Model):
         on_delete=models.SET_NULL,
         related_name="second_reporting_manager",
     )
-    resign_date = models.DateField(null=True,blank=True)
+    resign_date = models.DateField(null=True, blank=True)
 
     division_Centre = models.CharField(max_length=150, blank=True, null=True)
 

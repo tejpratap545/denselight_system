@@ -220,24 +220,24 @@ class Overall_Appraisal(models.Model):
 
     RATING_CHOICES = (("Denselight System", "Denselight System"), ("MiRXes", "MiRXes"))
 
-    name = models.CharField(max_length=50, blank=False, null=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
     appraisal_category = models.ForeignKey(
-        Appraisal_Category, null=True, blank=False, on_delete=models.SET_NULL
+        Appraisal_Category, null=True, blank=True, on_delete=models.SET_NULL
     )
 
     goal_weightage = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(100)],
-        blank=False,
+        blank=True,
         null=True,
     )
     competency_weightage = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(100)],
-        blank=False,
+        blank=True,
         null=True,
     )
     skill_weightage = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(100)],
-        blank=False,
+        blank=True,
         null=True,
     )
 
@@ -255,14 +255,14 @@ class Overall_Appraisal(models.Model):
     # Temporary no foreignkey
     rating_scale = models.CharField(
         max_length=50,
-        blank=False,
+        blank=True,
         null=True,
         choices=RATING_CHOICES,
         default="Denselight System",
     )
 
     status = models.CharField(
-        max_length=100, choices=STAGES_CHOICES, blank=False, null=True
+        max_length=100, choices=STAGES_CHOICES, blank=True, null=True
     )
 
     def __str__(self):
@@ -270,8 +270,8 @@ class Overall_Appraisal(models.Model):
 
 
 class Rating_Scale(models.Model):
-    name = models.CharField(max_length=50, blank=False, null=False)
-    description = models.CharField(max_length=5000, blank=False, null=False)
+    name = models.CharField(max_length=50, blank=True, null=False)
+    description = models.CharField(max_length=5000, blank=True, null=False)
     limiter = models.IntegerField(blank=False, null=False)
 
     def __str__(self):
@@ -314,25 +314,25 @@ class User_Appraisal_List(models.Model):
     is_closed = models.BooleanField(default=False)
 
     employee = models.ForeignKey(
-        Profile, blank=False, null=True, on_delete=models.CASCADE
+        Profile, blank=True, null=True, on_delete=models.CASCADE
     )
     manager = models.ForeignKey(
         Profile,
-        blank=False,
+        blank=True,
         null=True,
         related_name="manager",
         on_delete=models.CASCADE,
     )
     overall_appraisal = models.ForeignKey(
-        Overall_Appraisal, blank=False, null=True, on_delete=models.CASCADE
+        Overall_Appraisal, blank=True, null=True, on_delete=models.CASCADE
     )
 
     status = models.CharField(
-        max_length=30, blank=False, null=False, choices=STATUS_CHOICE
+        max_length=30, blank=True, null=False, choices=STATUS_CHOICE
     )
-    appraisal_name = models.CharField(max_length=50, blank=False, null=True)
+    appraisal_name = models.CharField(max_length=50, blank=True, null=True)
     appraisal_category = models.ForeignKey(
-        Appraisal_Category, blank=False, null=True, on_delete=models.SET_NULL
+        Appraisal_Category, blank=True, null=True, on_delete=models.SET_NULL
     )
 
     overall_board_comments = models.CharField(
@@ -342,40 +342,40 @@ class User_Appraisal_List(models.Model):
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
     completion = models.CharField(
-        max_length=50, blank=False, null=True, default="null", choices=COMPLETION_CHOICE
+        max_length=50, blank=True, null=True, default="null", choices=COMPLETION_CHOICE
     )
 
     goals_settingM_rejection = models.CharField(
-        max_length=3000, blank=False, null=False, default="NIL"
+        max_length=3000, blank=True, null=False, default="NIL"
     )
     mid_yearM_rejection = models.CharField(
-        max_length=3000, blank=False, null=False, default="NIL"
+        max_length=3000, blank=True, null=False, default="NIL"
     )
     end_yearM_rejection = models.CharField(
-        max_length=3000, blank=False, null=False, default="NIL"
+        max_length=3000, blank=True, null=False, default="NIL"
     )
     appraisalHR_rejection = models.CharField(
-        max_length=3000, blank=False, null=False, default="NIL"
+        max_length=3000, blank=True, null=False, default="NIL"
     )
     mid_year_completion = models.CharField(
         max_length=15,
         choices=MID_YEAR_COMPLETION_CHOICE,
-        blank=False,
+        blank=True,
         null=False,
         default="Uncompleted",
     )
 
     incrementRecommendation = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(100)],
-        blank=False,
+        blank=True,
         null=False,
         default=0,
     )
     bonusRecommendation = models.CharField(
-        max_length=1000, blank=False, null=False, default="NIL"
+        max_length=1000, blank=True, null=False, default="NIL"
     )
     recommendationComments = models.CharField(
-        max_length=1000, blank=False, null=False, default="NIL"
+        max_length=1000, blank=True, null=False, default="NIL"
     )
 
     final_employee_rating = models.IntegerField(blank=True, null=True)
@@ -383,6 +383,13 @@ class User_Appraisal_List(models.Model):
     final_board_rating = models.IntegerField(blank=True, null=True)
     end_year_employee_file = models.FileField(
         upload_to="endyear/file/employee", null=True
+    )
+
+    board_comments = models.CharField(
+        max_length=2000, blank=True, null=True, default="NIL"
+    )
+    board_rating = models.IntegerField(
+        choices=RATING_CHOICES, blank=True, null=True, default=1
     )
 
     def __str__(self):
@@ -529,31 +536,31 @@ class User_Appraisal_List(models.Model):
 class Appraisal(models.Model):
     STATUS_CHOICE = (("Employee", "Employee"), ("Manager", "Manager"), ("HR", "HR"))
     employee_list = models.OneToOneField(
-        User_Appraisal_List, blank=False, null=True, on_delete=models.SET_NULL
+        User_Appraisal_List, blank=True, null=True, on_delete=models.SET_NULL
     )
     user = models.ForeignKey(
-        Profile, blank=False, related_name="userA", null=True, on_delete=models.CASCADE
+        Profile, blank=True, related_name="userA", null=True, on_delete=models.CASCADE
     )
     manager = models.ForeignKey(
         Profile,
-        blank=False,
+        blank=True,
         related_name="managersA",
         null=True,
         on_delete=models.CASCADE,
     )
 
     status = models.CharField(
-        max_length=30, blank=False, null=False, choices=STATUS_CHOICE
+        max_length=30, blank=True, null=False, choices=STATUS_CHOICE
     )
     created_by = models.ForeignKey(
         Profile,
-        blank=False,
+        blank=True,
         related_name="creatorA",
         null=True,
         on_delete=models.CASCADE,
     )
     rating_scale = models.ForeignKey(
-        Rating_Scale, null=True, blank=False, on_delete=models.SET_NULL
+        Rating_Scale, null=True, blank=True, on_delete=models.SET_NULL
     )
 
     def __str__(self):
@@ -563,35 +570,35 @@ class Appraisal(models.Model):
 class peerAppraisal(models.Model):
     COMPLETION_CHOICE = (("Uncompleted", "Uncompleted"), ("Completed", "Completed"))
     appraisal = models.ForeignKey(
-        User_Appraisal_List, blank=False, null=True, on_delete=models.CASCADE
+        User_Appraisal_List, blank=True, null=True, on_delete=models.CASCADE
     )
     manager = models.ForeignKey(
         Profile,
-        blank=False,
+        blank=True,
         related_name="managersPA",
         null=True,
         on_delete=models.CASCADE,
     )
     viewer = models.ForeignKey(
-        Profile, blank=False, related_name="viewer", null=True, on_delete=models.CASCADE
+        Profile, blank=True, related_name="viewer", null=True, on_delete=models.CASCADE
     )
 
-    title1 = models.CharField(max_length=200, blank=False, null=False)
+    title1 = models.CharField(max_length=200, blank=True, null=False)
     strength1 = models.CharField(max_length=3000, blank=True, null=True)
     weaknessdevelopment1 = models.CharField(max_length=3000, blank=True, null=True)
 
-    title2 = models.CharField(max_length=200, blank=False, null=False, default="NIL")
+    title2 = models.CharField(max_length=200, blank=True, null=False, default="NIL")
     strength2 = models.CharField(max_length=3000, blank=True, null=True)
     weaknessdevelopment2 = models.CharField(max_length=3000, blank=True, null=True)
 
-    title3 = models.CharField(max_length=200, blank=False, null=False, default="NIL")
+    title3 = models.CharField(max_length=200, blank=True, null=False, default="NIL")
     strength3 = models.CharField(max_length=3000, blank=True, null=True)
     weaknessdevelopment3 = models.CharField(max_length=3000, blank=True, null=True)
 
     completion = models.CharField(
         max_length=20,
         default="Uncompleted",
-        blank=False,
+        blank=True,
         null=True,
         choices=COMPLETION_CHOICE,
     )
@@ -611,14 +618,14 @@ class peerAppraisalQuestion(models.Model):
     COMPLETION_CHOICE = (("Uncompleted", "Uncompleted"), ("Completed", "Completed"))
 
     appraisal = models.ForeignKey(
-        peerAppraisal, blank=False, null=True, on_delete=models.CASCADE
+        peerAppraisal, blank=True, null=True, on_delete=models.CASCADE
     )
     title = models.CharField(max_length=200, blank=True, null=True)
     answer = models.CharField(max_length=1000, blank=True, null=True)
     completed = models.CharField(
         max_length=20,
         default="Uncompleted",
-        blank=False,
+        blank=True,
         null=True,
         choices=COMPLETION_CHOICE,
     )
