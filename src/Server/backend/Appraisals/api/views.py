@@ -84,30 +84,38 @@ def filter_appraisal(request):
     manager_list = request.data.get("manager_list", [])
     department_list = request.data.get("department_list", [])
     if appraisal is 0 or appraisal is None:
-        data = User_Appraisal_List.objects.prefetch_related(
-            "overall_appraisal",
-            "employee",
-            "employee__department",
-            "manager",
-            "manager__department",
-            "overall_appraisal__appraisal_category",
-            "appraisal_category",
-        ).filter(
-            Q(employee__in=employee_list)
-            | Q(manager__in=manager_list)
-            | Q(employee__department__in=department_list),
-        ).exclude(overall_appraisal__status="Completed")
+        data = (
+            User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "employee__department",
+                "manager",
+                "manager__department",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            )
+            .filter(
+                Q(employee__in=employee_list)
+                | Q(manager__in=manager_list)
+                | Q(employee__department__in=department_list),
+            )
+            .exclude(overall_appraisal__status="Completed")
+        )
 
     else:
-        data = User_Appraisal_List.objects.prefetch_related(
-            "overall_appraisal",
-            "employee",
-            "employee__department",
-            "manager",
-            "manager__department",
-            "overall_appraisal__appraisal_category",
-            "appraisal_category",
-        ).filter(overall_appraisal=appraisal).exclude(overall_appraisal__status="Completed")
+        data = (
+            User_Appraisal_List.objects.prefetch_related(
+                "overall_appraisal",
+                "employee",
+                "employee__department",
+                "manager",
+                "manager__department",
+                "overall_appraisal__appraisal_category",
+                "appraisal_category",
+            )
+            .filter(overall_appraisal=appraisal)
+            .exclude(overall_appraisal__status="Completed")
+        )
         if employee_list is not []:
             data.filter(employee__in=employee_list)
         if manager_list is not []:
@@ -579,7 +587,10 @@ def submit_endyear_board(request, *args, **kwargs):
     app = get_object_or_404(User_Appraisal_List, id=id)
     if (
         app.overall_appraisal.status == "Stage 2"
-        and app.employee.second_Reporting_Manager == request.user.profile
+        and (
+            app.employee.second_Reporting_Manager == request.user.profile
+            or request.user.profile.role == "Admin"
+        )
     ) and (app.status == "Approved" and app.completion == "MCompleted"):
         app.status = "Approved"
         app.completion = "BCompleted"

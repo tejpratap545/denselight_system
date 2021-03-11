@@ -141,14 +141,6 @@
             </v-col>
           </v-row>
         </div>
-        <v-row class="ml-2">
-          <v-col><b>Moderation commitee Comment</b></v-col>
-          <v-col>{{ appraisal.board_comments || 'NIL' }}</v-col>
-        </v-row>
-        <v-row class="ml-2">
-          <v-col><b>Moderation commitee Rating (final)</b></v-col>
-          <v-col> {{ ratingName(appraisal.board_rating || 1) }}</v-col>
-        </v-row>
       </div>
 
       <div v-else>
@@ -220,6 +212,15 @@
       <div v-else>
         <p>No skills set</p>
       </div>
+
+      <v-row class="ml-2">
+        <v-col><b>Moderation commitee Comment</b></v-col>
+        <v-col>{{ appraisal.board_comments || 'NIL' }}</v-col>
+      </v-row>
+      <v-row class="ml-2">
+        <v-col><b>Moderation commitee Rating (final)</b></v-col>
+        <v-col> {{ ratingName(appraisal.board_rating || 1) }}</v-col>
+      </v-row>
     </div>
   </div>
 </template>
