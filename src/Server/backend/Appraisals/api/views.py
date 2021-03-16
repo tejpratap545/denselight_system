@@ -172,7 +172,6 @@ class OverallAppraisal(generics.ListAPIView):
             "departmentalcompetencies_set__competency_category",
         )
         .filter(Q(status="Stage 1") | Q(status="Stage 2"))
-        .exclude(status="Completed")
     )
     serializer_class = DetailOverallAppraisalSerializer
 

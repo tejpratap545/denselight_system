@@ -214,6 +214,7 @@ class DepartmentalGoalsVieSet(ModelViewSet):
             manager=self.request.user.profile,
             department=self.request.user.profile.department,
         )
+        return serializer.data
 
 
 class DepartmentalCompetenciesVieSet(ModelViewSet):
