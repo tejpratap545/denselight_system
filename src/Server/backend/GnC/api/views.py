@@ -205,7 +205,7 @@ class EndYrCommentBoxViewSet(ModelViewSet):
 
 
 class DepartmentalGoalsVieSet(ModelViewSet):
-    serializer_class = DepartmentGoalSerializer()
+    serializer_class = DepartmentGoalSerializer
     queryset = DepartmentalGoals.objects.all()
     permission_classes = [IsAuthenticated]
 
