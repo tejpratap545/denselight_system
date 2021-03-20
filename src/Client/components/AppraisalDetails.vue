@@ -35,6 +35,7 @@
         <v-tab>Core Values</v-tab>
         <v-tab>Skills</v-tab>
         <v-tab>Rating</v-tab>
+        <v-tab>Career Aspirations</v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tabData">
@@ -460,8 +461,52 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text class="text-center">
-              Ratings implementation coming soon
+              <v-row>
+                <v-col>Final Employee Rating</v-col>
+                <v-col>
+                  {{ ratingName(appraisal.final_employee_rating) }}
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col>Final Employee Rating</v-col>
+                <v-col>
+                  {{ ratingName(appraisal.final_manager_rating) }}
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col>Moderation commitee Rating(Final)</v-col>
+                <v-col>
+                  {{ ratingName(appraisal.board_rating) }}
+                </v-col>
+              </v-row>
             </v-card-text>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text class="text-center">
+              <v-row>
+                <v-col class="body-1"
+                  >where do you want to be in 5 years?</v-col
+                >
+                <v-col>
+                  <v-textarea
+                    v-model="careerAspiration.comment"
+                    label="  Comment"
+                    outlined
+                  >
+                  </v-textarea>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-actions
+              ><v-spacer></v-spacer>
+              <v-btn text color="success" @click="submitCareerAspiration">
+                Submit
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -474,8 +519,12 @@ import global from '~/mixins/global'
 export default {
   mixins: [global],
   props: ['appraisal'],
+  fetch() {
+    this.getCareerAspiration()
+  },
   data() {
     return {
+      careerAspiration: '',
       newComment: '',
 
       addGoalsDialog: false,
@@ -657,6 +706,31 @@ export default {
       this.departmentValuesItems = this.appraisal.overall_appraisal.departmentalcompetencies_set
 
       this.name = `${appraisal.employee.name}'s`
+    },
+    getCareerAspiration() {
+      this.$axios.$get('api/career_aspiration/me').then((res) => {
+        this.careerAspiration = res
+      })
+    },
+
+    submitCareerAspiration() {
+      this.$axios
+        .$post('api/career_aspiration/submit', {
+          comment: this.careerAspiration.comment,
+        })
+        .then(() => {
+          this.getCareerAspiration()
+          this.$notifier.showMessage({
+            content: 'Successfully Submit Career Aspiration',
+            color: 'success',
+          })
+        })
+        .catch(() => {
+          this.$notifier.showMessage({
+            content: 'Error Submitting Career Aspiration',
+            color: 'error',
+          })
+        })
     },
     async add_kpi(goal) {
       const data = {

@@ -18,10 +18,10 @@
           <v-card-title class="headline">
             End Manager/supervisor Year Review
 
-             <v-spacer />
-            <v-btn @click="close" icon>
+            <v-spacer />
+            <v-btn icon @click="close">
               <v-icon>mdi-close</v-icon>
-            </v-btn> 
+            </v-btn>
           </v-card-title>
           <v-card-text>
             <h3 class="font-weight-medium my-2">Goals</h3>
@@ -140,13 +140,31 @@
             >
             </v-textarea>
 
-
             <v-data-table
               :headers="headers"
               :items="core_values"
             ></v-data-table>
 
-            <br/>
+            <br />
+
+            <v-row>
+              <v-col>Final Employee Rating</v-col>
+              <v-col>
+                {{ ratingName(appraisal.final_employee_rating) }}
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col>Final Manager Rating</v-col>
+              <v-col>
+                <v-select
+                  v-model="appraisal.final_manager_rating"
+                  :items="ratings"
+                  item-text="name"
+                  item-value="value"
+                ></v-select>
+              </v-col>
+            </v-row>
 
             <div v-if="appraisal.end_year_employee_file">
               <v-alert type="success">
@@ -191,7 +209,7 @@ export default {
   data() {
     return {
       rejectDialog: false,
-       headers: [
+      headers: [
         {
           text: 'Summary',
           align: 'start',
@@ -252,6 +270,9 @@ export default {
       try {
         await this.patchGoals()
         await this.patchCoreValues()
+        this.$axios.patch(`api/appraisals/admin/${this.appraisal.id}/`, {
+          final_manager_rating: this.appraisal.final_manager_rating,
+        })
         await this.$axios.post(`api/input/manager/endyear/${this.appraisalId}`)
 
         this.$notifier.showMessage({

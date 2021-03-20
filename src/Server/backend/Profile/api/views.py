@@ -324,6 +324,47 @@ def check_email(request):
         return Response("email not is available", status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def submit_career_aspiration(request):
+    comment = request.data.get("comment")
+    obj, created = CareerAspiration.objects.update_or_create(
+        employee=request.user.profile,
+        defaults={
+            "comment": comment,
+        },
+    )
+    serializer = CareerAspirationSerializer(obj)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_career_aspiration(request):
+    data, created = CareerAspiration.objects.get_or_create(
+        employee=request.user.profile,
+        defaults={"comment": ""},
+    )
+
+    serializer = CareerAspirationSerializer(data)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_career_aspiration_appraisal(request):
+    appraisal = get_object_or_404(
+        User_Appraisal_List, id=request.query_params.get("id")
+    )
+    data, created = CareerAspiration.objects.get_or_create(
+        employee=appraisal.employee,
+        defaults={"comment": ""},
+    )
+
+    serializer = CareerAspirationSerializer(data)
+    return Response(serializer.data)
+
+
 from backend.Profile.backend import check_password_strength
 from io import BytesIO
 from openpyxl import load_workbook

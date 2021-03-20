@@ -82,7 +82,6 @@ export default {
       this.$axios
         .$post('api/get_supervisor', this.user)
         .then((res) => (this.supervisor = 'Supervisor:' + res.Supervisor))
-        .catch((err) => (this.supervisor = ' '))
     },
     logIn() {
       if (this.$refs.form.validate()) {

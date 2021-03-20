@@ -285,3 +285,8 @@ class ResetPasswordToken(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     token = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class CareerAspiration(models.Model):
+    employee=models.ForeignKey(Profile,on_delete=models.CASCADE)
+    comment=models.TextField(blank=True,null=True)

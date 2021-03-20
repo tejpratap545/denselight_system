@@ -7,12 +7,13 @@
         </div>
         <div v-else-if="$fetchState.error">An error occurred</div>
         <v-card v-else>
-          <v-card-title class="headline"> End Year Review 
+          <v-card-title class="headline">
+            End Year Review
 
-             <v-spacer />
-            <v-btn @click="close" icon>
+            <v-spacer />
+            <v-btn icon @click="close">
               <v-icon>mdi-close</v-icon>
-            </v-btn> 
+            </v-btn>
           </v-card-title>
           <v-card-text>
             <h3 class="font-weight-medium my-2">Goals</h3>
@@ -123,7 +124,19 @@
               :items="core_values"
             ></v-data-table>
 
-            <br/>
+            <br />
+
+            <v-row>
+              <v-col>Final Employee Rating</v-col>
+              <v-col>
+                <v-select
+                  v-model="appraisal.final_employee_rating"
+                  :items="ratings"
+                  item-text="name"
+                  item-value="value"
+                ></v-select>
+              </v-col>
+            </v-row>
 
             <v-file-input
               v-model="file"
@@ -206,7 +219,7 @@ export default {
       this.goals = this.appraisal.goals_set
       this.core_values = this.appraisal.competencies_set
     },
-    async patchGoals() {
+    patchGoals() {
       this.goals.forEach(async (goal) => {
         await this.$axios.patch(`api/goal/${goal.id}`, {
           user_comments: goal.user_comments,
@@ -214,19 +227,27 @@ export default {
         })
       })
     },
-    async patchCoreValues() {
-      this.core_values.forEach(async (core_value) => {
-        await this.$axios.patch(`api/competencies/${core_value.id}`, {
+    patchCoreValues() {
+      this.core_values.forEach(async (coreValue) => {
+        await this.$axios.patch(`api/competencies/${coreValue.id}`, {
           user_comments: this.employeeComment,
-          user_rating: core_value.user_rating
+          user_rating: coreValue.user_rating,
         })
       })
     },
     async submit() {
       try {
-        await this.patchGoals()
-        await this.patchCoreValues()
-        await this.$axios.post(`api/input/employee/endyear/${this.appraisalId}`)
+        this.patchGoals()
+        this.patchCoreValues()
+        this.$axios
+          .patch(`api/appraisals/admin/${this.appraisal.id}/`, {
+            final_employee_rating: this.appraisal.final_employee_rating,
+          })
+          .then(async () => {
+            await this.$axios.post(
+              `api/input/employee/endyear/${this.appraisalId}`
+            )
+          })
 
         this.$notifier.showMessage({
           content:

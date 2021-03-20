@@ -1,6 +1,7 @@
 from ..models import Departments, Guide, Notification, Profile, User
 from backend.Appraisals.models import User_Appraisal_List
 from backend.GnC.models import Goals
+from backend.Profile.models import CareerAspiration
 from rest_framework import serializers
 
 
@@ -189,4 +190,10 @@ class StatusSerializer(serializers.Serializer):
 class GuideSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guide
+        fields = "__all__"
+
+
+class CareerAspirationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CareerAspiration
         fields = "__all__"

@@ -183,6 +183,13 @@
                 </tbody>
               </template>
             </v-simple-table>
+
+            <v-row>
+              <v-col>Final Employee Rating</v-col>
+              <v-col>
+                {{ ratingName(appraisal.final_employee_rating) }}
+              </v-col>
+            </v-row>
           </v-card-text>
 
           <v-card-actions>

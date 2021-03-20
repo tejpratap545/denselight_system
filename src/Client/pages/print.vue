@@ -213,14 +213,46 @@
         <p>No skills set</p>
       </div>
 
+      <div class="row py-4">
+        <h4 class="display-8">Career Aspirations</h4>
+      </div>
+
+      <v-row>
+        <v-col class="body-1">where do you want to be in 5 years?</v-col>
+        <v-col>
+          {{ careerAspiration.comment }}
+        </v-col>
+      </v-row>
+
       <v-row class="ml-2">
         <v-col><b>Moderation commitee Comment</b></v-col>
         <v-col>{{ appraisal.board_comments || 'NIL' }}</v-col>
       </v-row>
-      <v-row class="ml-2">
-        <v-col><b>Moderation commitee Rating (final)</b></v-col>
-        <v-col> {{ ratingName(appraisal.board_rating || 1) }}</v-col>
-      </v-row>
+
+      <v-card flat>
+        <v-card-text class="text-center">
+          <v-row>
+            <v-col>Final Employee Rating</v-col>
+            <v-col>
+              {{ ratingName(appraisal.final_employee_rating) }}
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>Final Employee Rating</v-col>
+            <v-col>
+              {{ ratingName(appraisal.final_manager_rating) }}
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>Moderation commitee Rating(Final)</v-col>
+            <v-col>
+              {{ ratingName(appraisal.board_rating) }}
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
     </div>
   </div>
 </template>
@@ -231,10 +263,16 @@ export default {
   async fetch() {
     const id = this.$route.query.id
     this.appraisal = await this.$axios.$get(`/api/appraisals/detail/${id}`)
+    await this.$axios
+      .$get(`api/career_aspiration/appraisal?id=${id}`)
+      .then((res) => {
+        this.careerAspiration = res
+      })
   },
   data() {
     return {
       appraisal: {},
+      careerAspiration: {},
     }
   },
   methods: {

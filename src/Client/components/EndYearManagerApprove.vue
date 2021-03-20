@@ -146,7 +146,7 @@
               </template>
             </v-data-table>
 
-             <v-simple-table class="my-5">
+            <v-simple-table class="my-5">
               <template v-slot:default>
                 <thead>
                   <tr>
@@ -198,6 +198,20 @@
                 </tbody>
               </template>
             </v-simple-table>
+
+            <v-row>
+              <v-col>Final Employee Rating</v-col>
+              <v-col>
+                {{ ratingName(appraisal.final_employee_rating) }}
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col>Final Employee Rating</v-col>
+              <v-col>
+                {{ ratingName(appraisal.final_manager_rating) }}
+              </v-col>
+            </v-row>
           </v-card-text>
 
           <v-card-actions>

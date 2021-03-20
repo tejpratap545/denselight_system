@@ -1,13 +1,14 @@
 from .backend import decode_jwt_token, encode_jwt_token
 from .models import AccessToken, Profile, RefreshToken, User
-from backend.Appraisals.models import User_Appraisal_List
+from backend.Appraisals.models import Overall_Appraisal, User_Appraisal_List
 from datetime import timedelta
-from django.db.models import Count, F, Q, Window
+from django.db.models import Count, F, Prefetch, Q, Window
 from django.http import HttpResponse
 from django.shortcuts import get_list_or_404, render
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view
+
 # Create your views here.
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -94,6 +95,85 @@ class TokenView(APIView):
 
         else:
             return self._invalid_grant_response()
+
+
+@api_view(["POST"])
+def download_bell_curve(request):
+    overall_appraisals = request.data.get("appraisal_list")
+    departments = request.data.get("department_list")
+
+    data = Overall_Appraisal.objects.filter(id__in=overall_appraisals)
+    if departments is not []:
+        data = data.prefetch_related(
+            Prefetch(
+                "user_appraisal_list_set",
+                queryset=User_Appraisal_List.objects.filter(
+                    employee__departments__in=departments
+                ),
+            ),
+        )
+
+    # data.values('user_appraisal_list__board_rating').annotate(total=Count('user_appraisal_list__board_rating'))
+
+    a1 = data.filter(user_appraisal_list__final_manager_rating=1).count()
+    a2 = data.filter(user_appraisal_list__final_manager_rating=2).count()
+    a3 = data.filter(user_appraisal_list__final_manager_rating=3).count()
+    a4 = data.filter(user_appraisal_list__final_manager_rating=4).count()
+    a5 = data.filter(user_appraisal_list__final_manager_rating=5).count()
+    total = total1 = a1 + a2 + a3 + a4 + a5
+    if total is 0 or None:
+        total = 1
+
+    b1 = data.filter(user_appraisal_list__board_rating=1).count()
+    b2 = data.filter(user_appraisal_list__board_rating=2).count()
+    b3 = data.filter(user_appraisal_list__board_rating=3).count()
+    b4 = data.filter(user_appraisal_list__board_rating=4).count()
+    b5 = data.filter(user_appraisal_list__board_rating=5).count()
+
+    output = io.BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet1 = workbook.add_worksheet("Sheet")
+
+    bold = workbook.add_format({"bold": True})
+    text12 = workbook.add_format({"font_size": 12, "bold": True})
+
+    worksheet1.write(2, 2, "Performance Rating", text12)
+    worksheet1.write(2, 3, "No. Of Employee", text12)
+    worksheet1.write(2, 4, "% Of Pop", text12)
+
+    worksheet1.write(3, 2, "CM", text12)
+    worksheet1.write(3, 3, a1, text12)
+    worksheet1.write(3, 4, (a1 * 100) / total)
+
+    worksheet1.write(4, 2, "CT+", text12)
+    worksheet1.write(4, 3, a2, text12)
+    worksheet1.write(4, 4, (a2 * 100) / total)
+
+    worksheet1.write(5, 2, "CT", text12)
+    worksheet1.write(5, 3, a3, text12)
+    worksheet1.write(5, 4, (a3 * 100) / total)
+
+    worksheet1.write(6, 2, "CT-", text12)
+    worksheet1.write(6, 3, a4, text12)
+    worksheet1.write(6, 4, (a4 * 100) / total)
+
+    worksheet1.write(7, 2, "RI", text12)
+    worksheet1.write(7, 3, a5, text12)
+    worksheet1.write(7, 4, (a5 * 100) / total)
+
+    worksheet1.write(8, 2, "Grand Total", text12)
+    worksheet1.write(8, 3, total1, text12)
+
+    workbook.close()
+    output.seek(0)
+    filename = "bell-curve.xlsx"
+    response = HttpResponse(
+        output,
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    response["Content-Disposition"] = "attachment; filename=%s" % filename
+
+    return response
 
 
 def download_report(request):

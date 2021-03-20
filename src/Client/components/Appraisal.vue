@@ -300,6 +300,38 @@
           </div>
         </v-col>
       </v-row>
+
+      <v-card flat>
+        <v-card-text class="text-center">
+          <v-row>
+            <v-col>Final Employee Rating</v-col>
+            <v-col>
+              {{ ratingName(appraisal.final_employee_rating) }}
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>Final Employee Rating</v-col>
+            <v-col>
+              {{ ratingName(appraisal.final_manager_rating) }}
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>Moderation commitee Rating(Final)</v-col>
+            <v-col>
+              {{ ratingName(appraisal.board_rating) }}
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col class="body-1">where do you want to be in 5 years?</v-col>
+            <v-col>
+              {{ careerAspiration.comment }}
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+
       <v-row v-if="checkHodComment()">
         <v-spacer></v-spacer>
 
@@ -325,11 +357,18 @@ export default {
       .then((res) => {
         this.init(res)
       })
+
+    await this.$axios
+      .$get(`api/career_aspiration/appraisal?id=${this.appraisalId}`)
+      .then((res) => {
+        this.careerAspiration = res
+      })
   },
   data() {
     return {
       tabData: null,
       newComment: '',
+      careerAspiration: '',
       goalHeaders: [
         { text: 'Goal', value: 'goal_title' },
         {

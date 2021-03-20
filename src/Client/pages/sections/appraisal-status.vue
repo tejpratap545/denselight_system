@@ -15,6 +15,11 @@
           @close-filter-appraisal="filterdialog = false"
           @filter-done="pushFilterData"
         />
+        <BellCurve
+          v-if="bellCurvedialog"
+          :dialog="bellCurvedialog"
+          @close-filter-appraisal="bellCurvedialog = false"
+        />
       </div>
       <div>
         <AppraisalCreate @reload-appraisals="$fetch()" />
@@ -192,6 +197,10 @@
             <v-card flat>
               <v-card-title>
                 <v-spacer></v-spacer>
+
+                <v-btn text color="success" @click="bellCurvedialog = true">
+                  <v-icon>mdi-vector-curve</v-icon>
+                </v-btn>
 
                 <v-btn text color="success" @click="filterdialog = true">
                   <v-icon>mdi-filter-variant</v-icon>
@@ -594,6 +603,7 @@ export default {
   data() {
     return {
       filterdialog: false,
+      bellCurvedialog: false,
       loading: true,
       tabData: null,
       tabData2: null,
