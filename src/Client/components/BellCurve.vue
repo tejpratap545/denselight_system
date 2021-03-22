@@ -77,11 +77,13 @@ export default {
     },
     submit() {
       this.$axios
-        .$post(`api/download/bellcurve`, {
+        .post(`api/download/bellcurve`, {
           department_list: this.filter.department_list.map((i) => i.id),
           appraisal_list: this.filter.appraisal_list.map((i) => i.id),
+          responseType: 'blob',
         })
         .then((res) => {
+          console.log(res)
           const url = window.URL.createObjectURL(new Blob([res.data]))
           const link = document.createElement('a')
           link.href = url
@@ -89,7 +91,6 @@ export default {
           document.body.appendChild(link)
           link.click()
 
-          console.log(res)
           this.$notifier.showMessage({
             content: 'Report Downloaded',
             color: 'info',

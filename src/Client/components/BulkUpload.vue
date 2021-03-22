@@ -1,13 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn
-        color="success"
-        elevation="0"
-        dark
-        v-bind="attrs"
-        v-on="on"
-      >
+      <v-btn color="success" elevation="0" dark v-bind="attrs" v-on="on">
         Bulk Upload Employees
       </v-btn>
     </template>

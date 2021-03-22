@@ -8,7 +8,6 @@ from django.shortcuts import get_list_or_404, render
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view
-
 # Create your views here.
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -95,6 +94,38 @@ class TokenView(APIView):
 
         else:
             return self._invalid_grant_response()
+
+
+@api_view(["POST"])
+def get_curve_data(request):
+    overall_appraisals = request.data.get("appraisal_list")
+    departments = request.data.get("department_list")
+
+    data = Overall_Appraisal.objects.filter(id__in=overall_appraisals)
+    if departments is not []:
+        data = data.prefetch_related(
+            Prefetch(
+                "user_appraisal_list_set",
+                queryset=User_Appraisal_List.objects.filter(
+                    employee__departments__in=departments
+                ),
+            ),
+        )
+
+    return Response(
+        {
+            "a1": data.filter(user_appraisal_list__final_manager_rating=1).count(),
+            "a2": data.filter(user_appraisal_list__final_manager_rating=2).count(),
+            "a3": data.filter(user_appraisal_list__final_manager_rating=3).count(),
+            "a4": data.filter(user_appraisal_list__final_manager_rating=4).count(),
+            "a5": data.filter(user_appraisal_list__final_manager_rating=5).count(),
+            "b1": data.filter(user_appraisal_list__board_rating=1).count(),
+            "b2": data.filter(user_appraisal_list__board_rating=2).count(),
+            "b3": data.filter(user_appraisal_list__board_rating=3).count(),
+            "b4": data.filter(user_appraisal_list__board_rating=4).count(),
+            "b5": data.filter(user_appraisal_list__board_rating=5).count(),
+        }
+    )
 
 
 @api_view(["POST"])
