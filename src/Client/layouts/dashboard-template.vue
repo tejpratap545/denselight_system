@@ -119,6 +119,7 @@
             <v-list-item-title>Admin</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        
         <v-list-item to="/sections/guide">
           <v-list-item-icon>
             <v-icon>mdi-television-guide</v-icon>
@@ -126,6 +127,16 @@
 
           <v-list-item-content>
             <v-list-item-title>Guide</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item to="/sections/performance">
+          <v-list-item-icon>
+            <v-icon>mdi-chart-bell-curve</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Performance</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

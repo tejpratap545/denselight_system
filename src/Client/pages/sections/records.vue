@@ -10,7 +10,7 @@
     <div v-else class="ma-5">
       <v-card flat>
         <v-card-title>
-          <h3 class="my-5 text-center">Performance</h3>
+          <h3 class="my-5 text-center">Records</h3>
         </v-card-title>
 
         <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
@@ -52,6 +52,7 @@
             </v-dialog>
           </template>
         </v-data-table>
+
         <div v-if="$auth.user.user.role != 'Employee'">
           <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
             <b>First Reporting Employees</b>
