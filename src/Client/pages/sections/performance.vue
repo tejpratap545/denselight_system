@@ -63,31 +63,31 @@
                             <v-row>
                                 <v-col>CM</v-col>
                                 <v-col>{{ performance_data.a1 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.a1/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5))*100 }}</v-col>
+                                <v-col>{{ (performance_data.a1/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col>CT+</v-col>
                                 <v-col>{{ performance_data.a2 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.a2/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5))*100 }}</v-col>
+                                <v-col>{{  (performance_data.a2/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col>CT</v-col>
                                 <v-col>{{ performance_data.a3 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.a3/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5))*100 }}</v-col>
+                                <v-col>{{ parseInt(performance_data.a3/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col>CT-</v-col>
                                 <v-col>{{ performance_data.a4 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.a4/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5))*100 }}</v-col>
+                                <v-col>{{ parseInt(performance_data.a4/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col>RI</v-col>
                                 <v-col>{{ performance_data.a5 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.a5/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5))*100 }}</v-col>
+                                <v-col>{{ parseInt(performance_data.a5/(performance_data.a1 + performance_data.a2 + performance_data.a3 + performance_data.a4 + performance_data.a5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                              <v-row>
@@ -122,31 +122,31 @@
                             <v-row>
                                 <v-col>CM</v-col>
                                 <v-col>{{ performance_data.b1 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.b1/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5))*100 }}</v-col>
+                                <v-col>{{  (performance_data.b1/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col>CT+</v-col>
                                 <v-col>{{ performance_data.b2 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.b2/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5))*100 }}</v-col>
+                                <v-col>{{  (performance_data.b2/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col>CT</v-col>
                                 <v-col>{{ performance_data.b3 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.b3/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5))*100 }}</v-col>
+                                <v-col>{{  (performance_data.b3/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col>CT-</v-col>
                                 <v-col>{{ performance_data.b4 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.b4/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5))*100 }}</v-col>
+                                <v-col>{{  (performance_data.b4/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col>RI</v-col>
                                 <v-col>{{ performance_data.b5 }}</v-col>
-                                <v-col>{{ parseInt(performance_data.b5/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5))*100 }}</v-col>
+                                <v-col>{{  (performance_data.b5/(performance_data.b1 + performance_data.b2 + performance_data.b3 + performance_data.b4 + performance_data.b5)*100).toFixed(2) }} %</v-col>
                             </v-row>
 
                              <v-row>
@@ -296,7 +296,7 @@ export default {
                 (this.performance_data.a4 - u1)**2 + 
                 (this.performance_data.a5 - u1)**2) / 5)
 
-      var bell1 = []
+      const bell1 = []
       for(var i=-3*sd1; i< 3*sd1; i += .5) 
       {
          bell1.push((Math.E**(-1/2 * (i-u1/sd1)**2))/(sd1*Math.sqrt(2*Math.PI)))
@@ -326,7 +326,7 @@ export default {
                 (this.performance_data.b4 - u2)**2 + 
                 (this.performance_data.b5 - u2)**2) / 5)
 
-      var bell2 = []
+      const bell2 = []
       for(var i=-3*sd2; i< 3*sd2; i += .5) 
       {
          bell2.push((Math.E**(-1/2 * (i-u2/sd2)**2))/(sd2*Math.sqrt(2*Math.PI)))
