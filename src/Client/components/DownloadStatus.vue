@@ -90,6 +90,11 @@ export default {
       link.click()
       link.remove()
 
+      this.$notifier.showMessage({
+        content: 'Report Downloaded',
+        color: 'info',
+      })
+
       /*
       await this.$axios
         .$get(
