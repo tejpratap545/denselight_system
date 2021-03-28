@@ -78,22 +78,25 @@ export default {
     async submit() {
       let departmentList = ''
       let appraisalList = ''
+
       this.filter.department_list.map((i) => (departmentList += `${i.id}_`))
       this.filter.appraisal_list.map((i) => (appraisalList += `${i.id}_`))
 
+      const link = document.createElement('a')
+      link.href = `${this.$axios.defaults.baseURL}api/download/report?department_list=${departmentList}&appraisal_list=${appraisalList}`
+      link.setAttribute('download', 'report.xlsx')
+      document.body.appendChild(link)
+
+      link.click()
+      link.remove()
+
+      /*
       await this.$axios
         .$get(
-          `api/download/report?department_list=${departmentList}&appraisal_list=${appraisalList}`,
-          {
-            responseType: 'blob',
-          }
+          `api/download/report?department_list=${departmentList}&appraisal_list=${appraisalList}`
         )
         .then((res) => {
-          const url = window.URL.createObjectURL(new Blob([res.data]))
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', 'report.xlsx')
-          document.body.appendChild(link)
+         
           link.click()
           link.remove()
 
@@ -104,6 +107,8 @@ export default {
           })
         })
         .catch((err) => console.log(err))
+
+        */
     },
   },
 }

@@ -51,7 +51,7 @@
 
 <script>
 export default {
-  name: 'FilterAppraisal',
+  name: 'BellCurve',
   props: { dialog: Boolean },
   async fetch() {
     try {
