@@ -304,14 +304,14 @@
       <v-card flat>
         <v-card-text class="text-center">
           <v-row>
-            <v-col>Final Employee Rating</v-col>
+            <v-col>Final Emplolyee's Self Rating</v-col>
             <v-col>
               {{ ratingName(appraisal.final_employee_rating) }}
             </v-col>
           </v-row>
 
           <v-row>
-            <v-col>Final Employee Rating</v-col>
+            <v-col>Final Manager Rating</v-col>
             <v-col>
               {{ ratingName(appraisal.final_manager_rating) }}
             </v-col>

@@ -334,6 +334,9 @@ export default {
       
       this.chartdata_hod_bell = {
               datasets: [
+
+
+                
         {
           label: 'bell curve',
           backgroundColor: '#4c99e6',

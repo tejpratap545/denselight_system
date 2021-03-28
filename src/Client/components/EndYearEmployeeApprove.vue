@@ -185,7 +185,7 @@
             </v-simple-table>
 
             <v-row>
-              <v-col>Final Employee Rating</v-col>
+              <v-col>Final Emplolyee's Self Rating</v-col>
               <v-col>
                 {{ ratingName(appraisal.final_employee_rating) }}
               </v-col>

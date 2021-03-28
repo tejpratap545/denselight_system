@@ -217,12 +217,18 @@
         <h4 class="display-8">Career Aspirations</h4>
       </div>
 
-      <v-row>
-        <v-col class="body-1">where do you want to be in 5 years?</v-col>
-        <v-col>
-          {{ careerAspiration.comment }}
-        </v-col>
-      </v-row>
+      <v-card-text class="text-center">
+        <v-row>
+          <v-col class="body-1">Where do you want to be in 2 years?</v-col>
+
+          <v-col>
+            {{ appraisal.career_aspiration_employee }}
+          </v-col>
+          <v-col>
+            {{ appraisal.career_aspiration_manager }}
+          </v-col>
+        </v-row>
+      </v-card-text>
 
       <v-row class="ml-2">
         <v-col><b>Moderation commitee Comment</b></v-col>
@@ -232,14 +238,14 @@
       <v-card flat>
         <v-card-text class="text-center">
           <v-row>
-            <v-col>Final Employee Rating</v-col>
+            <v-col>Final Emplolyee's Self Rating</v-col>
             <v-col>
               {{ ratingName(appraisal.final_employee_rating) }}
             </v-col>
           </v-row>
 
           <v-row>
-            <v-col>Final Employee Rating</v-col>
+            <v-col>Final Manager Rating</v-col>
             <v-col>
               {{ ratingName(appraisal.final_manager_rating) }}
             </v-col>

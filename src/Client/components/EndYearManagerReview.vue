@@ -148,7 +148,7 @@
             <br />
 
             <v-row>
-              <v-col>Final Employee Rating</v-col>
+              <v-col>Final Emplolyee's Self Rating</v-col>
               <v-col>
                 {{ ratingName(appraisal.final_employee_rating) }}
               </v-col>
@@ -165,6 +165,25 @@
                 ></v-select>
               </v-col>
             </v-row>
+
+            <v-card-text class="text-center">
+              <v-row>
+                <v-col class="body-1"
+                  >Where do you want to be in 2 years?</v-col
+                >
+                <v-col>
+                  {{ appraisal.career_aspiration_employee }}
+                </v-col>
+                <v-col>
+                  <v-textarea
+                    v-model="appraisal.career_aspiration_manager"
+                    label="  Comment"
+                    outlined
+                  >
+                  </v-textarea>
+                </v-col>
+              </v-row>
+            </v-card-text>
 
             <div v-if="appraisal.end_year_employee_file">
               <v-alert type="success">
@@ -272,6 +291,7 @@ export default {
         await this.patchCoreValues()
         this.$axios.patch(`api/appraisals/admin/${this.appraisal.id}/`, {
           final_manager_rating: this.appraisal.final_manager_rating,
+          career_aspiration_manager: this.appraisal.career_aspiration_manager,
         })
         await this.$axios.post(`api/input/manager/endyear/${this.appraisalId}`)
 

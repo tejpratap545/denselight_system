@@ -200,16 +200,29 @@
             </v-simple-table>
 
             <v-row>
-              <v-col>Final Employee Rating</v-col>
+              <v-col>Final Emplolyee's Self Rating</v-col>
               <v-col>
                 {{ ratingName(appraisal.final_employee_rating) }}
               </v-col>
             </v-row>
 
             <v-row>
-              <v-col>Final Employee Rating</v-col>
+              <v-col>Final Manager Rating</v-col>
               <v-col>
                 {{ ratingName(appraisal.final_manager_rating) }}
+              </v-col>
+            </v-row>
+          </v-card-text>
+
+          <v-card-text class="text-center">
+            <v-row>
+              <v-col class="body-1">Where do you want to be in 2 years?</v-col>
+
+              <v-col>
+                {{ appraisal.career_aspiration_employee }}
+              </v-col>
+              <v-col>
+                {{ appraisal.career_aspiration_manager }}
               </v-col>
             </v-row>
           </v-card-text>

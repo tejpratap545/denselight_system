@@ -13,11 +13,7 @@ from backend.GnC.api.views import (
 )
 from backend.Profile.api.views import *
 from backend.Profile.views import download_bell_curve, download_report, get_curve_data
-from backend.Trainings.api.views import (
-    AdminCreateSkillsApiView,
-    CreateSkillsApiView,
-    SkillsApiView,
-)
+from backend.Trainings.api.views import AdminCreateSkillsApiView, CreateSkillsApiView, SkillsApiView
 from django.urls.conf import path
 
 
@@ -48,6 +44,7 @@ urlpatterns = [
     path("appraisals/list/me/completed", CompletedUserAppraisal.as_view()),
     path("appraisals/list/detail/me", DetailUserAppraisal.as_view()),
     path("goal/create", CreateGoalView.as_view(), name="create_goal"),
+    path("skill/create", CreateSkillsApiView.as_view()),
     path("KPI/create", CreateKPI.as_view(), name="create_KPI"),
     path("competencies/create", CreateCompetenciesView.as_view()),
     path("admin/goal/create", AdminCreateGoalView.as_view(), name="create_ADMIN_goal"),

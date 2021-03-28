@@ -34,7 +34,7 @@
         <v-tab>Goals</v-tab>
         <v-tab>Core Values</v-tab>
         <v-tab>Skills</v-tab>
-        <v-tab>Rating</v-tab>
+        <v-tab>Overall Rating</v-tab>
         <v-tab>Career Aspirations</v-tab>
       </v-tabs>
 
@@ -462,14 +462,14 @@
           <v-card flat>
             <v-card-text class="text-center">
               <v-row>
-                <v-col>Final Employee Rating</v-col>
+                <v-col>Final Emplolyee's Self Rating</v-col>
                 <v-col>
                   {{ ratingName(appraisal.final_employee_rating) }}
                 </v-col>
               </v-row>
 
               <v-row>
-                <v-col>Final Employee Rating</v-col>
+                <v-col>Final Manager Rating</v-col>
                 <v-col>
                   {{ ratingName(appraisal.final_manager_rating) }}
                 </v-col>
@@ -489,15 +489,18 @@
             <v-card-text class="text-center">
               <v-row>
                 <v-col class="body-1"
-                  >where do you want to be in 5 years?</v-col
+                  >Where do you want to be in 2 years?</v-col
                 >
                 <v-col>
                   <v-textarea
-                    v-model="careerAspiration.comment"
+                    v-model="appraisal.career_aspiration_employee"
                     label="  Comment"
                     outlined
                   >
                   </v-textarea>
+                </v-col>
+                <v-col>
+                  {{ appraisal.career_aspiration_manager }}
                 </v-col>
               </v-row>
             </v-card-text>
@@ -519,9 +522,6 @@ import global from '~/mixins/global'
 export default {
   mixins: [global],
   props: ['appraisal'],
-  fetch() {
-    this.getCareerAspiration()
-  },
   data() {
     return {
       careerAspiration: '',
@@ -707,19 +707,13 @@ export default {
 
       this.name = `${appraisal.employee.name}'s`
     },
-    getCareerAspiration() {
-      this.$axios.$get('api/career_aspiration/me').then((res) => {
-        this.careerAspiration = res
-      })
-    },
 
     submitCareerAspiration() {
       this.$axios
-        .$post('api/career_aspiration/submit', {
-          comment: this.careerAspiration.comment,
+        .patch(`api/appraisals/admin/${this.appraisal.id}/`, {
+          career_aspiration_employee: this.appraisal.career_aspiration_employee,
         })
         .then(() => {
-          this.getCareerAspiration()
           this.$notifier.showMessage({
             content: 'Successfully Submit Career Aspiration',
             color: 'success',
