@@ -207,10 +207,24 @@ def download_bell_curve(request):
     return response
 
 
+@api_view(["GET"])
 def download_report(request):
+    department_list = list(
+        map(int, request.query_params.get("department_list").split("_")[:-1])
+    )
+    appraisal_list = list(
+        map(int, request.query_params.get("appraisal_list").split("_")[:-1])
+    )
+
     data = User_Appraisal_List.objects.prefetch_related(
         "employee__department", "employee"
     )
+
+    if appraisal_list is not None or appraisal_list is not []:
+        data = data.filter(overall_appraisal_id__in=appraisal_list)
+
+    if department_list != None or department_list != []:
+        data = data.filter(employee__department_id__in=department_list)
 
     output = io.BytesIO()
     workbook = xlsxwriter.Workbook(output)

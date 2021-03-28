@@ -20,6 +20,11 @@
           :dialog="bellCurvedialog"
           @close-filter-appraisal="bellCurvedialog = false"
         />
+        <DownloadStatus
+          v-if="downloadStatusdialog"
+          :dialog="downloadStatusdialog"
+          @close-filter-appraisal="downloadStatusdialog = false"
+        />
       </div>
       <div>
         <AppraisalCreate @reload-appraisals="$fetch()" />
@@ -206,13 +211,9 @@
                   <v-icon>mdi-filter-variant</v-icon>
                 </v-btn>
                 <v-btn
-                  color="green darken-1"
-                  elevation="0"
-                  dark
-                  style="float: right"
                   text
-                  :loading="reportLoading"
-                  @click="report()"
+                  color="success"
+                  @click="downloadStatusdialog = true"
                 >
                   <v-icon>mdi-download-circle-outline</v-icon>
                 </v-btn>
@@ -591,9 +592,11 @@
 </template>
 
 <script>
+import DownloadStatus from '~/components/DownloadStatus.vue'
 export default {
-  title: 'Appraisal Status',
   name: 'AppraisalStatus',
+  components: { DownloadStatus },
+  title: 'Appraisal Status',
   layout: 'dashboard-template',
 
   async fetch() {
@@ -604,6 +607,7 @@ export default {
     return {
       filterdialog: false,
       bellCurvedialog: false,
+      downloadStatusdialog: false,
       loading: true,
       tabData: null,
       tabData2: null,
@@ -1053,28 +1057,6 @@ export default {
           })
           console.log(error)
         })
-    },
-    async report() {
-      this.reportLoading = true
-      await this.$axios
-        .get('api/download/report', {
-          responseType: 'blob',
-        })
-        .then((res) => {
-          const url = window.URL.createObjectURL(new Blob([res.data]))
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', 'report.xlsx')
-          document.body.appendChild(link)
-          link.click()
-
-          console.log(res)
-          this.$notifier.showMessage({
-            content: 'Report Downloaded',
-            color: 'info',
-          })
-        })
-      this.reportLoading = false
     },
   },
 }
