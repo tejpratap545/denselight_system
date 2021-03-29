@@ -216,7 +216,9 @@ class User_Appraisal_List(models.Model):
         max_length=2000, blank=True, null=True, default="NIL"
     )
     board_rating = models.IntegerField(
-        choices=RATING_CHOICES, blank=True, null=True, default=1
+        choices=RATING_CHOICES,
+        blank=True,
+        null=True,
     )
 
     career_aspiration_employee = models.CharField(

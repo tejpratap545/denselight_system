@@ -412,16 +412,24 @@
                             >
                           </template>
                           <template v-slot:[`item.action`]="{ item }">
-                            <v-btn
-                              v-if="item.status !== 'Employee'"
-                              color="transparent"
-                              elevation="0"
-                              @click="showGaolApproval(item)"
-                            >
-                              <v-icon color="info"
-                                >mdi-format-list-checks
-                              </v-icon>
-                            </v-btn>
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                  v-if="item.status !== 'Employee'"
+                                  color="transparent"
+                                  elevation="0"
+                                  v-bind="attrs"
+                                  @click="showGaolApproval(item)"
+                                  v-on="on"
+                                >
+                                  <v-icon color="info"
+                                    >mdi-format-list-checks
+                                  </v-icon>
+                                </v-btn>
+                              </template>
+                              <span>Approve Goals</span>
+                            </v-tooltip>
+
                             <v-dialog
                               v-model="item.appraisal_dialog"
                               scrollable
@@ -516,31 +524,46 @@
                             <!--                              mdi-checkbox-marked-circle-outline</v-icon-->
                             <!--                            >-->
                             <div v-if="item.mid_year_completion != 'Completed'">
-                              <v-btn
-                                v-if="
-                                  item.status == 'S1BReview' ||
-                                  item.status == 'S1BManager'
-                                "
-                                v-model="item.action"
-                                color="transparent"
-                                elevation="0"
-                                @click="showMidReview(item)"
-                              >
-                                <v-icon color="info"
-                                  >mdi-format-list-checks
-                                </v-icon>
-                              </v-btn>
-                              <v-btn
-                                v-if="item.status == 'S1BManager'"
-                                v-model="item.action"
-                                color="transparent"
-                                elevation="0"
-                                @click="showMidSubmit(item)"
-                              >
-                                <v-icon color="info"
-                                  >mdi-checkbox-marked-circle-outline
-                                </v-icon>
-                              </v-btn>
+                              <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    v-if="
+                                      item.status == 'S1BReview' ||
+                                      item.status == 'S1BManager'
+                                    "
+                                    v-model="item.action"
+                                    color="transparent"
+                                    elevation="0"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="showMidReview(item)"
+                                  >
+                                    <v-icon color="info"
+                                      >mdi-format-list-checks
+                                    </v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>Give Mid Year Review</span>
+                              </v-tooltip>
+
+                              <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    v-if="item.status == 'S1BManager'"
+                                    v-model="item.action"
+                                    color="transparent"
+                                    elevation="0"
+                                    v-bind="attrs"
+                                    @click="showMidSubmit(item)"
+                                    v-on="on"
+                                  >
+                                    <v-icon color="info"
+                                      >mdi-checkbox-marked-circle-outline
+                                    </v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>Submit Mid Year Review</span>
+                              </v-tooltip>
                             </div>
                             <v-dialog
                               v-model="item.appraisal_dialog"
@@ -625,36 +648,51 @@
                           </template>
                           <template v-slot:[`item.action`]="{ item }">
                             <div v-if="item.status != 'Approved'">
-                              <v-btn
-                                v-if="
-                                  (item.status == 'S2Manager' &&
-                                    item.completion == 'Ecompleted') ||
-                                  (item.status == 'S2Manager' &&
-                                    item.completion == 'MCompleted')
-                                "
-                                v-model="item.action"
-                                color="transparent"
-                                elevation="0"
-                                @click="showEndReview(item)"
-                              >
-                                <v-icon color="info"
-                                  >mdi-format-list-checks
-                                </v-icon>
-                              </v-btn>
-                              <v-btn
-                                v-if="
-                                  item.status == 'S2Manager' &&
-                                  item.completion == 'MCompleted'
-                                "
-                                v-model="item.action"
-                                color="transparent"
-                                elevation="0"
-                                @click="showEndSubmit(item)"
-                              >
-                                <v-icon color="info"
-                                  >mdi-checkbox-marked-circle-outline
-                                </v-icon>
-                              </v-btn>
+                              <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    v-if="
+                                      (item.status == 'S2Manager' &&
+                                        item.completion == 'Ecompleted') ||
+                                      (item.status == 'S2Manager' &&
+                                        item.completion == 'MCompleted')
+                                    "
+                                    v-model="item.action"
+                                    v-bind="attrs"
+                                    color="transparent"
+                                    elevation="0"
+                                    v-on="on"
+                                    @click="showEndReview(item)"
+                                  >
+                                    <v-icon color="info"
+                                      >mdi-format-list-checks
+                                    </v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>Give End Year Review</span>
+                              </v-tooltip>
+
+                              <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    v-if="
+                                      item.status == 'S2Manager' &&
+                                      item.completion == 'MCompleted'
+                                    "
+                                    v-model="item.action"
+                                    color="transparent"
+                                    elevation="0"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="showEndSubmit(item)"
+                                  >
+                                    <v-icon color="info"
+                                      >mdi-checkbox-marked-circle-outline
+                                    </v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>Approved End Year Review</span>
+                              </v-tooltip>
                             </div>
                             <v-dialog
                               v-model="item.appraisal_dialog"
