@@ -1,9 +1,19 @@
 <template>
   <v-dialog v-model="dialog" width="800">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn v-bind="attrs" color="primary" icon v-on="on">
-        <v-icon>mdi-circle-edit-outline</v-icon>
-      </v-btn>
+    <template v-slot:activator="{ on: dialogon, attrs: dialogattrs }">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on: tooltip, attrs: tooltipattrs }">
+          <v-btn
+            v-bind="{ ...dialogattrs, ...tooltipattrs }"
+            color="primary"
+            icon
+            v-on="{ ...dialogon, ...tooltip }"
+          >
+            <v-icon>mdi-circle-edit-outline</v-icon>
+          </v-btn>
+        </template>
+        <span>Edit Appraisal</span>
+      </v-tooltip>
     </template>
 
     <v-card>

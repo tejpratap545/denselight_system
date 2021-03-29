@@ -1,9 +1,20 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="500">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn color="error" icon dark v-bind="attrs" v-on="on">
-        <v-icon>mdi-delete-outline</v-icon>
-      </v-btn>
+    <template v-slot:activator="{ on: dialogon, attrs: dialogattrs }">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on: tooltip, attrs: tooltipattrs }">
+          <v-btn
+            color="error"
+            icon
+            dark
+            v-bind="{ ...dialogattrs, ...tooltipattrs }"
+            v-on="{ ...dialogon, ...tooltip }"
+          >
+            <v-icon>mdi-delete-outline</v-icon>
+          </v-btn>
+        </template>
+        <span>Delete Goal</span>
+      </v-tooltip>
     </template>
 
     <v-card>

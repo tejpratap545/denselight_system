@@ -58,17 +58,24 @@
               <b>{{ name }} Goals</b>
               <v-spacer></v-spacer>
 
-              <v-btn
-                v-if="
-                  editable &&
-                  appraisal.overall_appraisal.status == 'Stage 1' &&
-                  appraisal.status == 'Employee'
-                "
-                icon
-                @click="addGoalsDialog = true"
-              >
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-if="
+                      editable &&
+                      appraisal.overall_appraisal.status == 'Stage 1' &&
+                      appraisal.status == 'Employee'
+                    "
+                    icon
+                    v-bind="attrs"
+                    @click="addGoalsDialog = true"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                </template>
+                <span>Add Goals</span>
+              </v-tooltip>
             </v-toolbar>
             <v-card-text>
               <v-data-table
@@ -92,10 +99,27 @@
                 <template v-slot:[`item.actions`]="{ item }">
                   <div>
                     <v-dialog v-model="item.dialog" scrollable max-width="800">
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn color="primary" icon v-bind="attrs" v-on="on">
-                          <v-icon>mdi-chat-outline</v-icon>
-                        </v-btn>
+                      <template
+                        v-slot:activator="{ on: dialogon, attrs: dialogattrs }"
+                      >
+                        <v-tooltip bottom>
+                          <template
+                            v-slot:activator="{
+                              on: tooltip,
+                              attrs: tooltipattrs,
+                            }"
+                          >
+                            <v-btn
+                              color="primary"
+                              icon
+                              v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                              v-on="{ ...dialogon, ...tooltip }"
+                            >
+                              <v-icon>mdi-chat-outline</v-icon>
+                            </v-btn>
+                          </template>
+                          <span>Edit Comments</span>
+                        </v-tooltip>
                       </template>
 
                       <v-card>
@@ -398,16 +422,24 @@
             <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Core Values</b>
               <v-spacer></v-spacer>
-              <v-btn
-                v-if="
-                  appraisal.overall_appraisal.status == 'Stage 1' &&
-                  appraisal.status == 'Employee'
-                "
-                icon
-                @click="addCoreValueDialog = true"
-              >
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-if="
+                      appraisal.overall_appraisal.status == 'Stage 1' &&
+                      appraisal.status == 'Employee'
+                    "
+                    icon
+                    v-bind="attrs"
+                    @click="addCoreValueDialog = true"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                </template>
+                <span>Add Core Value</span>
+              </v-tooltip>
             </v-toolbar>
             <v-card-text>
               <v-data-table
@@ -436,17 +468,24 @@
               <b>{{ name }} Skills</b>
               <v-spacer></v-spacer>
 
-              <v-btn
-                v-if="
-                  editable &&
-                  appraisal.overall_appraisal.status == 'Stage 1' &&
-                  appraisal.status == 'Employee'
-                "
-                icon
-                @click="addSkillsDialog = true"
-              >
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-if="
+                      editable &&
+                      appraisal.overall_appraisal.status == 'Stage 1' &&
+                      appraisal.status == 'Employee'
+                    "
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="addSkillsDialog = true"
+                  >
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                </template>
+                <span>Add Skills</span>
+              </v-tooltip>
             </v-toolbar>
             <v-card-text>
               <v-data-table
@@ -506,6 +545,7 @@
             </v-card-text>
             <v-card-actions
               ><v-spacer></v-spacer>
+
               <v-btn text color="success" @click="submitCareerAspiration">
                 Submit
               </v-btn>

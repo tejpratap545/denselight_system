@@ -207,16 +207,35 @@
                   <v-icon>mdi-vector-curve</v-icon>
                 </v-btn>
 
-                <v-btn text color="success" @click="filterdialog = true">
-                  <v-icon>mdi-filter-variant</v-icon>
-                </v-btn>
-                <v-btn
-                  text
-                  color="success"
-                  @click="downloadStatusdialog = true"
-                >
-                  <v-icon>mdi-download-circle-outline</v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      text
+                      color="success"
+                      v-on="on"
+                      @click="filterdialog = true"
+                    >
+                      <v-icon>mdi-filter-variant</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Filter Appraisal</span>
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      text
+                      color="success"
+                      v-bind="attrs"
+                      @click="downloadStatusdialog = true"
+                      v-on="on"
+                    >
+                      <v-icon>mdi-download-circle-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Download Report</span>
+                </v-tooltip>
               </v-card-title>
 
               <v-card-text>
@@ -243,15 +262,30 @@
                             scrollable
                             max-width="1200"
                           >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                color="grey lighten-1"
-                                icon
-                                v-bind="attrs"
-                                v-on="on"
-                              >
-                                <v-icon>mdi-eye-circle</v-icon>
-                              </v-btn>
+                            <template
+                              v-slot:activator="{
+                                on: dialog,
+                                attrs: dialogattrs,
+                              }"
+                            >
+                              <v-tooltip bottom>
+                                <template
+                                  v-slot:activator="{
+                                    on: tooltip,
+                                    attrs: tooltipattrs,
+                                  }"
+                                >
+                                  <v-btn
+                                    color="grey lighten-1"
+                                    icon
+                                    v-bind="{ ...tooltipattrs, ...dialogattrs }"
+                                    v-on="{ ...tooltip, ...dialog }"
+                                  >
+                                    <v-icon>mdi-eye-circle</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>Tooltip</span>
+                              </v-tooltip>
                             </template>
                             <v-card>
                               <v-toolbar color="primary" dark>
