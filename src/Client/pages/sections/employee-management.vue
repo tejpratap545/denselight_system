@@ -45,15 +45,42 @@
             :search="search"
           >
             <template v-slot:[`item.action`]="{ item }">
-              <v-btn color="success" dark icon @click="editEmployee(item.id)">
-                <v-icon>mdi-circle-edit-outline</v-icon>
-              </v-btn>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="success"
+                    dark
+                    icon
+                    v-bind="attrs"
+                    @click="editEmployee(item.id)"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-circle-edit-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>Edit Employee Detail</span>
+              </v-tooltip>
 
               <v-dialog v-model="item.resign_dialog" persistent max-width="400">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="error" dark v-bind="attrs" icon v-on="on">
-                    <v-icon>mdi-account-remove-outline</v-icon>
-                  </v-btn>
+                <template
+                  v-slot:activator="{ on: dialogon, attrs: dialogattrs }"
+                >
+                  <v-tooltip bottom>
+                    <template
+                      v-slot:activator="{ on: tooltip, attrs: tooltipattrs }"
+                    >
+                      <v-btn
+                        color="error"
+                        dark
+                        icon
+                        v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                        v-on="{ ...dialogon, ...tooltip }"
+                      >
+                        <v-icon>mdi-account-remove-outline</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Resign Employee</span>
+                  </v-tooltip>
                 </template>
                 <v-card>
                   <v-card-title class="headline">
@@ -93,10 +120,25 @@
           >
             <template v-slot:[`item.action`]="{ item }">
               <v-dialog v-model="item.delete_dialog" persistent max-width="600">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="error" dark v-bind="attrs" icon v-on="on">
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
+                <template
+                  v-slot:activator="{ on: dialogon, attrs: dialogattrs }"
+                >
+                  <v-tooltip bottom>
+                    <template
+                      v-slot:activator="{ on: tooltip, attrs: tooltipattrs }"
+                    >
+                      <v-btn
+                        color="error"
+                        dark
+                        v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                        icon
+                        v-on="{ ...dialogon, ...tooltip }"
+                      >
+                        <v-icon>mdi-close</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Delete Employee</span>
+                  </v-tooltip>
                 </template>
                 <v-card>
                   <v-card-title class="headline">

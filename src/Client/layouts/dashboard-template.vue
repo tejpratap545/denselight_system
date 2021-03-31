@@ -154,33 +154,57 @@
       <v-spacer></v-spacer>
 
       <div>
-        <v-btn icon>
-          <v-badge :content="statusEffect.a1"
-            ><v-icon>mdi-rocket-launch-outline</v-icon>
-          </v-badge>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" icon v-on="on">
+              <v-badge :content="statusEffect.a1"
+                ><v-icon>mdi-rocket-launch-outline</v-icon>
+              </v-badge>
+            </v-btn>
+          </template>
+          <span>Appraisals In Goal Settings Stage</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" icon v-on="on">
+              <v-badge :content="statusEffect.a2"
+                ><v-icon>mdi-calendar</v-icon>
+              </v-badge>
+            </v-btn>
+          </template>
+          <span>Appraisals In Mid Year Review Stage</span>
+        </v-tooltip>
 
-        <v-btn icon>
-          <v-badge :content="statusEffect.a2"
-            ><v-icon>mdi-calendar</v-icon>
-          </v-badge>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" icon v-on="on">
+              <v-badge :content="statusEffect.a3">
+                <v-icon>mdi-calendar</v-icon>
+              </v-badge>
+            </v-btn>
+          </template>
+          <span>Appraisals In End Year Review Stage</span>
+        </v-tooltip>
 
-        <v-btn icon>
-          <v-badge :content="statusEffect.a3">
-            <v-icon>mdi-calendar</v-icon>
-          </v-badge>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" icon v-on="on">
+              <v-badge :content="statusEffect.a4">
+                <v-icon>mdi-account-clock-outline</v-icon>
+              </v-badge>
+            </v-btn>
+          </template>
+          <span>Peer Appraisals</span>
+        </v-tooltip>
 
-        <v-btn icon>
-          <v-badge :content="statusEffect.a4">
-            <v-icon>mdi-account-clock-outline</v-icon>
-          </v-badge>
-        </v-btn>
-
-        <v-btn icon @click="toggleDarkTheme()">
-          <v-icon>mdi-theme-light-dark</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" icon v-on="on" @click="toggleDarkTheme()">
+              <v-icon>mdi-theme-light-dark</v-icon>
+            </v-btn>
+          </template>
+          <span>Change Theame</span>
+        </v-tooltip>
       </div>
 
       <Notifications />

@@ -54,10 +54,22 @@
         <v-row>
           <v-col v-if="appraisalSelectedIndex != 0" cols="3">
             <v-menu rounded="lg">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" fab v-bind="attrs" v-on="on">
-                  <v-icon>mdi-cached</v-icon>
-                </v-btn>
+              <template v-slot:activator="{ on: dialogon, attrs: dialogattrs }">
+                <v-tooltip bottom>
+                  <template
+                    v-slot:activator="{ on: tooltip, attrs: tooltipattrs }"
+                  >
+                    <v-btn
+                      color="primary"
+                      fab
+                      v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                      v-on="{ ...dialogon, ...tooltip }"
+                    >
+                      <v-icon>mdi-cached</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Change Appraisal</span>
+                </v-tooltip>
               </template>
 
               <v-list>

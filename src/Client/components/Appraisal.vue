@@ -14,15 +14,29 @@
       <v-spacer />
 
       <a target="_blank" :href="`/print/?id=${appraisal.id}`">
-        <v-btn icon>
-          <v-icon>mdi-printer</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" icon v-on="on">
+              <v-icon>mdi-printer</v-icon>
+            </v-btn>
+          </template>
+          <span>Print Appraisal</span>
+        </v-tooltip>
       </a>
 
-      <a :href="appraisal.end_year_employee_file" target="_blank">
-        <v-btn icon>
-          <v-icon>mdi-download-box-outline</v-icon>
-        </v-btn>
+      <a
+        v-if="appraisal.end_year_employee_file"
+        :href="appraisal.end_year_employee_file"
+        target="_blank"
+      >
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" icon v-on="on">
+              <v-icon>mdi-download-box-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Download End Year Employee File </span>
+        </v-tooltip>
       </a>
     </v-card-title>
 
@@ -59,19 +73,41 @@
       >
         <template v-slot:[`item.actions`]="{ item }">
           <v-dialog v-model="item.dialog" scrollable max-width="800">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" icon v-bind="attrs" v-on="on">
-                <v-icon>mdi-chat-outline</v-icon>
-              </v-btn>
+            <template v-slot:activator="{ on: dialogon, attrs: dialogattrs }">
+              <v-tooltip bottom>
+                <template
+                  v-slot:activator="{ on: tooltip, attrs: tooltipattrs }"
+                >
+                  <v-btn
+                    color="primary"
+                    icon
+                    v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                    v-on="{ ...dialogon, ...tooltip }"
+                  >
+                    <v-icon>mdi-chat-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>See Comments</span>
+              </v-tooltip>
             </template>
 
             <v-card>
               <v-toolbar color="primary" dark>
                 <b>{{ item.goal_title }}</b> : Comments
                 <v-spacer></v-spacer>
-                <v-btn icon @click="item.dialog = false">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      icon
+                      v-on="on"
+                      @click="item.dialog = false"
+                    >
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Close Dialog</span>
+                </v-tooltip>
               </v-toolbar>
 
               <v-card-text>
@@ -335,9 +371,20 @@
       <v-row v-if="checkHodComment()">
         <v-spacer></v-spacer>
 
-        <v-btn color="primary" elevation="0" @click="submitBoardRating">
-          Submit
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs"
+              color="primary"
+              elevation="0"
+              v-on="on"
+              @click="submitBoardRating"
+            >
+              Submit
+            </v-btn>
+          </template>
+          <span>Submit Moderation commitee Rating And Comments</span>
+        </v-tooltip>
       </v-row>
     </div>
   </v-card>

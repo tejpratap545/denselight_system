@@ -116,35 +116,60 @@
                         </v-list-item-content>
                         <v-list-item-action>
                           <v-dialog
-                            v-model="appraisal.appraisal_dialog"
+                            v-model="item.appraisal_dialog"
                             scrollable
-                            max-width="1200"
+                            max-width="800"
                           >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                color="grey lighten-1"
-                                icon
-                                v-bind="attrs"
-                                v-on="on"
-                              >
-                                <v-icon>mdi-eye-circle</v-icon>
-                              </v-btn>
+                            <template
+                              v-slot:activator="{
+                                on: dialogon,
+                                attrs: dialogattrs,
+                              }"
+                            >
+                              <v-tooltip bottom>
+                                <template
+                                  v-slot:activator="{
+                                    on: tooltip,
+                                    attrs: tooltipattrs,
+                                  }"
+                                >
+                                  <v-btn
+                                    color="primary"
+                                    icon
+                                    v-bind="{
+                                      ...dialogattrs,
+                                      ...tooltipattrs,
+                                    }"
+                                    v-on="{ ...dialogon, ...tooltip }"
+                                  >
+                                    <v-icon>mdi-eye-circle</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>View Appraisal</span>
+                              </v-tooltip>
                             </template>
                             <v-card>
                               <v-toolbar color="primary" dark>
-                                <b>{{ appraisal.dat.appraisal_name }}</b>
+                                <b>{{ item.appraisal_name }}</b>
                                 <v-spacer></v-spacer>
-                                <v-btn
-                                  icon
-                                  @click="appraisal.appraisal_dialog = false"
-                                >
-                                  <v-icon>mdi-close</v-icon>
-                                </v-btn>
+
+                                <v-tooltip bottom>
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      icon
+                                      v-bind="attrs"
+                                      v-on="on"
+                                      @click="item.appraisal_dialog = false"
+                                    >
+                                      <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>Close Dialog</span>
+                                </v-tooltip>
                               </v-toolbar>
                               <Appraisal
-                                v-if="appraisal.appraisal_dialog"
-                                :appraisal-id="appraisal.dat.id"
-                                is-editable="true"
+                                v-if="item.appraisal_dialog"
+                                :appraisal-id="item.id"
                               />
                             </v-card>
                           </v-dialog>
@@ -196,34 +221,60 @@
                         </v-list-item-content>
                         <v-list-item-action>
                           <v-dialog
-                            v-model="appraisal.appraisal_dialog"
+                            v-model="item.appraisal_dialog"
                             scrollable
-                            max-width="1200"
+                            max-width="800"
                           >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                color="grey lighten-1"
-                                icon
-                                v-bind="attrs"
-                                v-on="on"
-                              >
-                                <v-icon>mdi-eye-circle</v-icon>
-                              </v-btn>
+                            <template
+                              v-slot:activator="{
+                                on: dialogon,
+                                attrs: dialogattrs,
+                              }"
+                            >
+                              <v-tooltip bottom>
+                                <template
+                                  v-slot:activator="{
+                                    on: tooltip,
+                                    attrs: tooltipattrs,
+                                  }"
+                                >
+                                  <v-btn
+                                    color="primary"
+                                    icon
+                                    v-bind="{
+                                      ...dialogattrs,
+                                      ...tooltipattrs,
+                                    }"
+                                    v-on="{ ...dialogon, ...tooltip }"
+                                  >
+                                    <v-icon>mdi-eye-circle</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>View Appraisal</span>
+                              </v-tooltip>
                             </template>
                             <v-card>
                               <v-toolbar color="primary" dark>
-                                <b>{{ appraisal.dat.appraisal_name }}</b>
+                                <b>{{ item.appraisal_name }}</b>
                                 <v-spacer></v-spacer>
-                                <v-btn
-                                  icon
-                                  @click="appraisal.appraisal_dialog = false"
-                                >
-                                  <v-icon>mdi-close</v-icon>
-                                </v-btn>
+
+                                <v-tooltip bottom>
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      icon
+                                      v-bind="attrs"
+                                      v-on="on"
+                                      @click="item.appraisal_dialog = false"
+                                    >
+                                      <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>Close Dialog</span>
+                                </v-tooltip>
                               </v-toolbar>
                               <Appraisal
-                                v-if="appraisal.appraisal_dialog"
-                                :appraisal-id="appraisal.dat.id"
+                                v-if="item.appraisal_dialog"
+                                :appraisal-id="item.id"
                               />
                             </v-card>
                           </v-dialog>
@@ -248,10 +299,30 @@
                   <v-row>
                     <v-col v-if="appraisalSelectedIndex != 0" cols="3">
                       <v-menu rounded="lg">
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn color="primary" fab v-bind="attrs" v-on="on">
-                            <v-icon>mdi-cached</v-icon>
-                          </v-btn>
+                        <template
+                          v-slot:activator="{
+                            on: dialogon,
+                            attrs: dialogattrs,
+                          }"
+                        >
+                          <v-tooltip bottom>
+                            <template
+                              v-slot:activator="{
+                                on: tooltip,
+                                attrs: tooltipattrs,
+                              }"
+                            >
+                              <v-btn
+                                color="primary"
+                                fab
+                                v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                                v-on="{ ...dialogon, ...tooltip }"
+                              >
+                                <v-icon>mdi-cached</v-icon>
+                              </v-btn>
+                            </template>
+                            <span>Change Appraisal</span>
+                          </v-tooltip>
                         </template>
 
                         <v-list>
@@ -317,13 +388,20 @@
                 <b>Departmental Goals</b>
                 <v-spacer></v-spacer>
 
-                <v-btn
-                  v-if="appraisalSelected.status == 'Stage 1'"
-                  icon
-                  @click="addGoalsDialog = true"
-                >
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-if="appraisalSelected.status == 'Stage 1'"
+                      icon
+                      v-bind="attrs"
+                      @click="addGoalsDialog = true"
+                      v-on="on"
+                    >
+                      <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Add Departmental Goal</span>
+                </v-tooltip>
               </v-toolbar>
               <v-card-text>
                 <v-data-table
@@ -345,13 +423,20 @@
                 <b>Departmental Core Values</b>
                 <v-spacer></v-spacer>
 
-                <v-btn
-                  v-if="appraisalSelected.status == 'Stage 1'"
-                  icon
-                  @click="addCoreDialog = true"
-                >
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-if="appraisalSelected.status == 'Stage 1'"
+                      icon
+                      v-bind="attrs"
+                      @click="addCoreDialog = true"
+                      v-on="on"
+                    >
+                      <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Add Departmental Core Values</span>
+                </v-tooltip>
               </v-toolbar>
               <v-card-text>
                 <v-data-table
@@ -388,28 +473,43 @@
                           :loading="loading"
                         >
                           <template v-slot:[`item.status`]="{ item }">
-                            <v-icon
-                              v-if="item.status == 'Employee'"
-                              indeterminate
-                              color="primary"
-                            >
-                              mdi-account-clock</v-icon
-                            >
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn text v-bind="attrs" v-on="on">
+                                  <v-icon
+                                    v-if="item.status == 'Employee'"
+                                    indeterminate
+                                    color="primary"
+                                  >
+                                    mdi-account-clock</v-icon
+                                  >
 
-                            <v-icon
-                              v-if="item.status == 'Manager'"
-                              indeterminate
-                              color="info"
-                            >
-                              mdi-account-clock</v-icon
-                            >
-                            <v-icon
-                              v-if="item.status == 'S1BEmployee'"
-                              indeterminate
-                              color="success"
-                            >
-                              mdi-checkbox-marked-circle-outline</v-icon
-                            >
+                                  <v-icon
+                                    v-if="item.status == 'Manager'"
+                                    indeterminate
+                                    color="info"
+                                  >
+                                    mdi-account-clock</v-icon
+                                  >
+                                  <v-icon
+                                    v-if="item.status == 'S1BEmployee'"
+                                    indeterminate
+                                    color="success"
+                                  >
+                                    mdi-checkbox-marked-circle-outline</v-icon
+                                  >
+                                </v-btn>
+                              </template>
+                              <span v-if="item.status == 'Employee'">
+                                Employee has to Submit Goals
+                              </span>
+                              <span v-if="item.status == 'Manager'">
+                                Manager has to Approve Goals
+                              </span>
+                              <span v-if="item.status == 'S1BEmployee'">
+                                Goals Approved By The Manager
+                              </span>
+                            </v-tooltip>
                           </template>
                           <template v-slot:[`item.action`]="{ item }">
                             <v-tooltip bottom>
@@ -435,26 +535,52 @@
                               scrollable
                               max-width="800"
                             >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                  color="primary"
-                                  icon
-                                  v-bind="attrs"
-                                  v-on="on"
-                                >
-                                  <v-icon>mdi-eye-circle</v-icon>
-                                </v-btn>
+                              <template
+                                v-slot:activator="{
+                                  on: dialogon,
+                                  attrs: dialogattrs,
+                                }"
+                              >
+                                <v-tooltip bottom>
+                                  <template
+                                    v-slot:activator="{
+                                      on: tooltip,
+                                      attrs: tooltipattrs,
+                                    }"
+                                  >
+                                    <v-btn
+                                      color="primary"
+                                      icon
+                                      v-bind="{
+                                        ...dialogattrs,
+                                        ...tooltipattrs,
+                                      }"
+                                      v-on="{ ...dialogon, ...tooltip }"
+                                    >
+                                      <v-icon>mdi-eye-circle</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>View Appraisal</span>
+                                </v-tooltip>
                               </template>
                               <v-card>
                                 <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
-                                  <v-btn
-                                    icon
-                                    @click="item.appraisal_dialog = false"
-                                  >
-                                    <v-icon>mdi-close</v-icon>
-                                  </v-btn>
+
+                                  <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        icon
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        @click="item.appraisal_dialog = false"
+                                      >
+                                        <v-icon>mdi-close</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>Close Dialog</span>
+                                  </v-tooltip>
                                 </v-toolbar>
                                 <Appraisal
                                   v-if="item.appraisal_dialog"
@@ -570,26 +696,49 @@
                               scrollable
                               max-width="800"
                             >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                  color="primary"
-                                  icon
-                                  v-bind="attrs"
-                                  v-on="on"
-                                >
-                                  <v-icon>mdi-eye-circle</v-icon>
-                                </v-btn>
+                              <template
+                                v-slot:activator="{
+                                  on: dialogon,
+                                  attrs: dialogattrs,
+                                }"
+                              >
+                                <v-tooltip bottom>
+                                  <template
+                                    v-slot:activator="{
+                                      on: tooltip,
+                                      attrs: tooltipattrs,
+                                    }"
+                                  >
+                                    <v-btn
+                                      color="primary"
+                                      icon
+                                      v-bind="{
+                                        ...dialogattrs,
+                                        ...tooltipattrs,
+                                      }"
+                                      v-on="{ ...dialogon, ...tooltip }"
+                                    >
+                                      <v-icon>mdi-eye-circle</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>View Appraisal</span>
+                                </v-tooltip>
                               </template>
                               <v-card>
                                 <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
-                                  <v-btn
-                                    icon
-                                    @click="item.appraisal_dialog = false"
-                                  >
-                                    <v-icon>mdi-close</v-icon>
-                                  </v-btn>
+                                  <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        icon
+                                        @click="item.appraisal_dialog = false"
+                                      >
+                                        <v-icon>mdi-close</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>Close Dialog</span>
+                                  </v-tooltip>
                                 </v-toolbar>
                                 <Appraisal
                                   v-if="item.appraisal_dialog"
@@ -699,26 +848,52 @@
                               scrollable
                               max-width="800"
                             >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                  color="primary"
-                                  icon
-                                  v-bind="attrs"
-                                  v-on="on"
-                                >
-                                  <v-icon>mdi-eye-circle</v-icon>
-                                </v-btn>
+                              <template
+                                v-slot:activator="{
+                                  on: dialogon,
+                                  attrs: dialogattrs,
+                                }"
+                              >
+                                <v-tooltip bottom>
+                                  <template
+                                    v-slot:activator="{
+                                      on: tooltip,
+                                      attrs: tooltipattrs,
+                                    }"
+                                  >
+                                    <v-btn
+                                      color="primary"
+                                      icon
+                                      v-bind="{
+                                        ...dialogattrs,
+                                        ...tooltipattrs,
+                                      }"
+                                      v-on="{ ...dialogon, ...tooltip }"
+                                    >
+                                      <v-icon>mdi-eye-circle</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>View Appraisal</span>
+                                </v-tooltip>
                               </template>
                               <v-card>
                                 <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
-                                  <v-btn
-                                    icon
-                                    @click="item.appraisal_dialog = false"
-                                  >
-                                    <v-icon>mdi-close</v-icon>
-                                  </v-btn>
+
+                                  <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        icon
+                                        v-bind="attrs"
+                                        @click="item.appraisal_dialog = false"
+                                        v-on="on"
+                                      >
+                                        <v-icon>mdi-close</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>Close Dialog</span>
+                                  </v-tooltip>
                                 </v-toolbar>
                                 <Appraisal
                                   v-if="item.appraisal_dialog"
@@ -747,26 +922,52 @@
                               scrollable
                               max-width="800"
                             >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                  color="primary"
-                                  icon
-                                  v-bind="attrs"
-                                  v-on="on"
-                                >
-                                  <v-icon>mdi-eye-circle</v-icon>
-                                </v-btn>
+                              <template
+                                v-slot:activator="{
+                                  on: dialogon,
+                                  attrs: dialogattrs,
+                                }"
+                              >
+                                <v-tooltip bottom>
+                                  <template
+                                    v-slot:activator="{
+                                      on: tooltip,
+                                      attrs: tooltipattrs,
+                                    }"
+                                  >
+                                    <v-btn
+                                      color="primary"
+                                      icon
+                                      v-bind="{
+                                        ...dialogattrs,
+                                        ...tooltipattrs,
+                                      }"
+                                      v-on="{ ...dialogon, ...tooltip }"
+                                    >
+                                      <v-icon>mdi-eye-circle</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>Edit Appraisal</span>
+                                </v-tooltip>
                               </template>
                               <v-card>
                                 <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
-                                  <v-btn
-                                    icon
-                                    @click="item.appraisal_dialog = false"
-                                  >
-                                    <v-icon>mdi-close</v-icon>
-                                  </v-btn>
+
+                                  <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        icon
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        @click="item.appraisal_dialog = false"
+                                      >
+                                        <v-icon>mdi-close</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>Close Appraisal</span>
+                                  </v-tooltip>
                                 </v-toolbar>
                                 <Appraisal
                                   v-if="item.appraisal_dialog"
@@ -795,26 +996,52 @@
                               scrollable
                               max-width="800"
                             >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                  color="primary"
-                                  icon
-                                  v-bind="attrs"
-                                  v-on="on"
-                                >
-                                  <v-icon>mdi-eye-circle</v-icon>
-                                </v-btn>
+                              <template
+                                v-slot:activator="{
+                                  on: dialogon,
+                                  attrs: dialogattrs,
+                                }"
+                              >
+                                <v-tooltip bottom>
+                                  <template
+                                    v-slot:activator="{
+                                      on: tooltip,
+                                      attrs: tooltipattrs,
+                                    }"
+                                  >
+                                    <v-btn
+                                      color="primary"
+                                      icon
+                                      v-bind="{
+                                        ...dialogattrs,
+                                        ...tooltipattrs,
+                                      }"
+                                      v-on="{ ...dialogon, ...tooltip }"
+                                    >
+                                      <v-icon>mdi-eye-circle</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>Edit Appraisal</span>
+                                </v-tooltip>
                               </template>
                               <v-card>
                                 <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
-                                  <v-btn
-                                    icon
-                                    @click="item.appraisal_dialog = false"
-                                  >
-                                    <v-icon>mdi-close</v-icon>
-                                  </v-btn>
+
+                                  <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        icon
+                                        v-bind="attrs"
+                                        @click="item.appraisal_dialog = false"
+                                        v-on="on"
+                                      >
+                                        <v-icon>mdi-close</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>Close dialog</span>
+                                  </v-tooltip>
                                 </v-toolbar>
                                 <Appraisal :appraisal-id="item.id" />
                               </v-card>
