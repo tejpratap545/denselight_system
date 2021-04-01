@@ -39,6 +39,7 @@
               item-value="id"
               label="Department"
               outlined
+              return-object
             ></v-select>
 
             <v-text-field

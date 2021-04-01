@@ -698,6 +698,7 @@ export default {
       addGoalsDialog: false,
       addSkillsDialog: false,
       addCoreValueDialog: false,
+      skillDeleteDialog: false,
       tabData: null,
       myGoalsTableHeader: [
         {
