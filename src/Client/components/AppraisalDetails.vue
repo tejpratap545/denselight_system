@@ -58,7 +58,14 @@
               <b>{{ name }} Goals</b>
               <v-spacer></v-spacer>
 
-              <v-tooltip bottom>
+              <v-tooltip
+                v-if="
+                  editable &&
+                  appraisal.overall_appraisal.status == 'Stage 1' &&
+                  appraisal.status == 'Employee'
+                "
+                bottom
+              >
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     v-if="
@@ -423,7 +430,13 @@
               <b>{{ name }} Core Values</b>
               <v-spacer></v-spacer>
 
-              <v-tooltip bottom>
+              <v-tooltip
+                v-if="
+                  appraisal.overall_appraisal.status == 'Stage 1' &&
+                  appraisal.status == 'Employee'
+                "
+                bottom
+              >
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     v-if="
@@ -446,7 +459,61 @@
                 :headers="myValuesTableHeader"
                 :items="myValuesTableItems"
                 :items-per-page="5"
-              ></v-data-table>
+              >
+                <template v-slot:[`item.actions`]="{ item }">
+                  <v-dialog
+                    v-model="skillDeleteDialog"
+                    persistent
+                    max-width="400"
+                  >
+                    <template
+                      v-slot:activator="{ on: dialogon, attrs: dialogattrs }"
+                    >
+                      <v-tooltip bottom>
+                        <template
+                          v-slot:activator="{
+                            on: tooltip,
+                            attrs: tooltipattrs,
+                          }"
+                        >
+                          <v-btn
+                            color="error"
+                            dark
+                            icon
+                            v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                            v-on="{ ...dialogon, ...tooltip }"
+                          >
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Delete Core Value </span>
+                      </v-tooltip>
+                    </template>
+                    <v-card>
+                      <v-card-title class="headline">
+                        <span class="subtitle"> Do You want to delete </span>
+                        {{ item.summary }} ?
+                      </v-card-title>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text @click="skillDeleteDialog = false">
+                          Cancel
+                        </v-btn>
+                        <v-btn
+                          color="green darken-1"
+                          text
+                          @click="
+                            skillDeleteDialog = false
+                            deleteCoreValue(item.id)
+                          "
+                        >
+                          OK
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </template>
+              </v-data-table>
 
               <div v-if="myValuesTableItems.length != 0">
                 <v-row class="ml-2">
@@ -468,7 +535,14 @@
               <b>{{ name }} Skills</b>
               <v-spacer></v-spacer>
 
-              <v-tooltip bottom>
+              <v-tooltip
+                v-if="
+                  editable &&
+                  appraisal.overall_appraisal.status == 'Stage 1' &&
+                  appraisal.status == 'Employee'
+                "
+                bottom
+              >
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     v-if="
@@ -492,7 +566,61 @@
                 :headers="mySkillsTableHeader"
                 :items="mySkillsTableItems"
                 :items-per-page="5"
-              ></v-data-table>
+              >
+                <template v-slot:[`item.actions`]="{ item }">
+                  <v-dialog
+                    v-model="skillDeleteDialog"
+                    persistent
+                    max-width="500"
+                  >
+                    <template
+                      v-slot:activator="{ on: dialogon, attrs: dialogattrs }"
+                    >
+                      <v-tooltip bottom>
+                        <template
+                          v-slot:activator="{
+                            on: tooltip,
+                            attrs: tooltipattrs,
+                          }"
+                        >
+                          <v-btn
+                            color="error"
+                            dark
+                            icon
+                            v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                            v-on="{ ...dialogon, ...tooltip }"
+                          >
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Delete Skills </span>
+                      </v-tooltip>
+                    </template>
+                    <v-card>
+                      <v-card-title class="headline">
+                        <span class="subtitle"> Do You want to delete </span>
+                        {{ item.skill }} ?
+                      </v-card-title>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text @click="skillDeleteDialog = false">
+                          Cancel
+                        </v-btn>
+                        <v-btn
+                          color="green darken-1"
+                          text
+                          @click="
+                            skillDeleteDialog = false
+                            deleteSkill(item.id)
+                          "
+                        >
+                          OK
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </template>
+              </v-data-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -617,6 +745,11 @@ export default {
           text: 'Weightage',
           value: 'weightage',
         },
+        {
+          text: 'Action',
+          align: 'center',
+          value: 'actions',
+        },
       ],
       mySkillsTableItems: [],
       myValuesTableHeader: [
@@ -631,6 +764,11 @@ export default {
         {
           text: 'Weightage',
           value: 'weightage',
+        },
+        {
+          text: 'Action',
+          align: 'center',
+          value: 'actions',
         },
       ],
       editable: this.appraisal.employee.email == this.$auth.user.email,
@@ -732,6 +870,7 @@ export default {
       appraisal.skills_set.forEach((skill) => {
         data.skills.push({
           skill: skill.skill_category.name,
+          id: skill.id,
           description: skill.description,
           weightage: skill.weightage,
         })
@@ -892,6 +1031,45 @@ export default {
       } else {
         return false
       }
+    },
+
+    deleteSkill(id) {
+      this.$axios
+        .$delete(`api/skill/${id}`)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Successfully deleted Skill',
+            color: 'info',
+          })
+
+          this.reload()
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error deleting Skill',
+            color: 'error',
+          })
+          console.log(error)
+        })
+    },
+    deleteCoreValue(id) {
+      this.$axios
+        .$delete(`api/competencies/${id}`)
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Successfully deleted Core Value',
+            color: 'info',
+          })
+
+          this.reload()
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error deleting Core Value',
+            color: 'error',
+          })
+          console.log(error)
+        })
     },
 
     reload() {

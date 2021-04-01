@@ -68,7 +68,7 @@
                       <v-icon>mdi-cached</v-icon>
                     </v-btn>
                   </template>
-                  <span>Change Appraisal</span>
+                  <span>Change To Select Appraisal</span>
                 </v-tooltip>
               </template>
 
@@ -128,7 +128,13 @@
         style="display: flex; justify-content: center"
       >
         <!--          goal submit-->
-        <v-tooltip bottom>
+        <v-tooltip
+          v-if="
+            appraisalSelected.overall_appraisal.status === 'Stage 1' &&
+            appraisalSelected.status === 'Employee'
+          "
+          bottom
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               v-if="
@@ -148,7 +154,14 @@
         <!--          mid year buttons-->
 
         <div v-if="appraisalSelected.mid_year_completion === 'Uncompleted'">
-          <v-tooltip bottom>
+          <v-tooltip
+            v-if="
+              appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
+              (appraisalSelected.status === 'S1BEmployee' ||
+                appraisalSelected.status === 'S2BEmployee')
+            "
+            bottom
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 v-if="
@@ -166,7 +179,13 @@
             <span>Edit Mid Year Review</span>
           </v-tooltip>
 
-          <v-tooltip bottom>
+          <v-tooltip
+            v-if="
+              appraisalSelected.overall_appraisal.status === 'Stage 1B' &&
+              appraisalSelected.status === 'S2BEmployee'
+            "
+            bottom
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 v-if="
@@ -186,7 +205,16 @@
 
         <!--          end year buttons-->
 
-        <v-tooltip bottom>
+        <v-tooltip
+          v-if="
+            (appraisalSelected.overall_appraisal.status === 'Stage 2' &&
+              appraisalSelected.status === 'S1BManager') ||
+            ((appraisalSelected.overall_appraisal.status === 'Stage 2' &&
+              appraisalSelected.status) === 'S2Employee' &&
+              appraisalSelected.completion === 'Ecompleted')
+          "
+          bottom
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               v-if="
@@ -206,7 +234,14 @@
           <span>Edit End Year Review</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip
+          v-if="
+            appraisalSelected.overall_appraisal.status === 'Stage 2' &&
+            appraisalSelected.status === 'S2Employee' &&
+            appraisalSelected.completion === 'Ecompleted'
+          "
+          bottom
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               v-if="

@@ -84,10 +84,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          v-if="
-            $auth.user.user.role == 'HRManager' ||
-            $auth.user.user.role == 'Admin'
-          "
+          v-if="$auth.user.user.role == 'Admin'"
           to="/sections/employee-management"
         >
           <v-list-item-icon>
@@ -131,18 +128,15 @@
         </v-list-item>
 
         <v-list-item
-          v-if="
-            $auth.user.user.role == 'HRManager' ||
-            $auth.user.user.role == 'Admin'
-          "
-          to="/sections/performance"
+          v-if="$auth.user.user.role == 'Admin'"
+          to="/sections/bell-curve"
         >
           <v-list-item-icon>
             <v-icon>mdi-chart-bell-curve</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>Performance</v-list-item-title>
+            <v-list-item-title>Bell Curve</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -203,7 +197,7 @@
               <v-icon>mdi-theme-light-dark</v-icon>
             </v-btn>
           </template>
-          <span>Change Theame</span>
+          <span>Change Theme To Lighting</span>
         </v-tooltip>
       </div>
 

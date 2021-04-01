@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" elevation="0" dark v-bind="attrs" v-on="on">
-        Create Appraisal
+        Launching Appraisal
       </v-btn>
     </template>
     <div v-if="$fetchState.pending">

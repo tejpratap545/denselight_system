@@ -321,7 +321,7 @@
                                 <v-icon>mdi-cached</v-icon>
                               </v-btn>
                             </template>
-                            <span>Change Appraisal</span>
+                            <span>Change To Select Appraisal</span>
                           </v-tooltip>
                         </template>
 
@@ -388,7 +388,7 @@
                 <b>Departmental Goals</b>
                 <v-spacer></v-spacer>
 
-                <v-tooltip bottom>
+                <v-tooltip v-if="appraisalSelected.status == 'Stage 1'" bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       v-if="appraisalSelected.status == 'Stage 1'"
@@ -605,39 +605,73 @@
                           :loading="loading"
                         >
                           <template v-slot:[`item.status`]="{ item }">
-                            <v-icon
-                              v-if="item.mid_year_completion === 'Completed'"
-                              indeterminate
-                              color="success"
-                            >
-                              mdi-checkbox-marked-circle-outline</v-icon
-                            >
-                            <v-icon
-                              v-else-if="
-                                item.status === 'S1BEmployee' ||
-                                item.status === 'S2BEmployee'
-                              "
-                              indeterminate
-                              color="primary"
-                            >
-                              mdi-account-clock</v-icon
-                            >
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn text v-bind="attrs" v-on="on">
+                                  <v-icon
+                                    v-if="
+                                      item.mid_year_completion === 'Completed'
+                                    "
+                                    indeterminate
+                                    color="success"
+                                  >
+                                    mdi-checkbox-marked-circle-outline</v-icon
+                                  >
+                                  <v-icon
+                                    v-else-if="
+                                      item.status === 'S1BEmployee' ||
+                                      item.status === 'S2BEmployee'
+                                    "
+                                    indeterminate
+                                    color="primary"
+                                  >
+                                    mdi-account-clock</v-icon
+                                  >
 
-                            <v-icon
-                              v-else-if="
-                                item.status === 'S1BReview' ||
-                                (item.status === 'S1BManager' &&
-                                  item.mid_year_completion === 'Completed')
-                              "
-                              indeterminate
-                              color="info"
-                            >
-                              mdi-account-clock</v-icon
-                            >
+                                  <v-icon
+                                    v-else-if="
+                                      item.status === 'S1BReview' ||
+                                      (item.status === 'S1BManager' &&
+                                        item.mid_year_completion ===
+                                          'Completed')
+                                    "
+                                    indeterminate
+                                    color="info"
+                                  >
+                                    mdi-account-clock</v-icon
+                                  >
 
-                            <v-icon v-else indeterminate color="error">
-                              mdi-cancel
-                            </v-icon>
+                                  <v-icon v-else indeterminate color="error">
+                                    mdi-cancel
+                                  </v-icon>
+                                </v-btn>
+                              </template>
+                              <span
+                                v-if="item.mid_year_completion === 'Completed'"
+                              >
+                                Mid Year Review Approved By The Manager
+                              </span>
+                              <span
+                                v-else-if="
+                                  item.status === 'S1BEmployee' ||
+                                  item.status === 'S2BEmployee'
+                                "
+                              >
+                                Manager has to Approve Mid Year Review
+                              </span>
+                              <span
+                                v-else-if="
+                                  item.status === 'S1BReview' ||
+                                  (item.status === 'S1BManager' &&
+                                    item.mid_year_completion === 'Completed')
+                                "
+                              >
+                                Employee has to Submit Mid Year Review
+                              </span>
+                              <span v-else>
+                                Appraisal Rejected or something went wrong
+                              </span>
+                            </v-tooltip>
                           </template>
                           <template v-slot:[`item.action`]="{ item }">
                             <!--                            <v-icon-->
@@ -762,38 +796,67 @@
                           :loading="loading"
                         >
                           <template v-slot:[`item.status`]="{ item }">
-                            <v-icon
-                              v-if="
-                                (item.status === 'S1BManager' ||
-                                  item.status === 'S2Employee') &&
-                                item.completion === 'Ecompleted'
-                              "
-                              indeterminate
-                              color="primary"
-                            >
-                              mdi-account-clock</v-icon
-                            >
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn text v-bind="attrs" v-on="on">
+                                  <v-icon
+                                    v-if="
+                                      (item.status === 'S1BManager' ||
+                                        item.status === 'S2Employee') &&
+                                      item.completion === 'Ecompleted'
+                                    "
+                                    indeterminate
+                                    color="primary"
+                                  >
+                                    mdi-account-clock</v-icon
+                                  >
 
-                            <v-icon
-                              v-else-if="
-                                item.status === 'S2Manager' &&
-                                item.completion === 'MCompleted'
-                              "
-                              indeterminate
-                              color="info"
-                            >
-                              mdi-account-clock</v-icon
-                            >
-                            <v-icon
-                              v-else-if="item.status == 'Approved'"
-                              indeterminate
-                              color="success"
-                            >
-                              mdi-checkbox-marked-circle-outline</v-icon
-                            >
-                            <v-icon v-else indeterminate color="error">
-                              mdi-cancel
-                            </v-icon>
+                                  <v-icon
+                                    v-else-if="
+                                      item.status === 'S2Manager' &&
+                                      item.completion === 'MCompleted'
+                                    "
+                                    indeterminate
+                                    color="info"
+                                  >
+                                    mdi-account-clock</v-icon
+                                  >
+                                  <v-icon
+                                    v-else-if="item.status == 'Approved'"
+                                    indeterminate
+                                    color="success"
+                                  >
+                                    mdi-checkbox-marked-circle-outline</v-icon
+                                  >
+                                  <v-icon v-else indeterminate color="error">
+                                    mdi-cancel
+                                  </v-icon>
+                                </v-btn>
+                              </template>
+                              <span
+                                v-if="
+                                  (item.status === 'S1BManager' ||
+                                    item.status === 'S2Employee') &&
+                                  item.completion === 'Ecompleted'
+                                "
+                              >
+                                Employee has to Submit End Year Review
+                              </span>
+                              <span
+                                v-else-if="
+                                  item.status === 'S2Manager' &&
+                                  item.completion === 'MCompleted'
+                                "
+                              >
+                                Manager has to Approve End Year Review
+                              </span>
+                              <span v-else-if="item.status == 'Approved'">
+                                End Year Review Approved By The Manager
+                              </span>
+                              <span v-else>
+                                Appraisal Rejected or something went wrong
+                              </span>
+                            </v-tooltip>
                           </template>
                           <template v-slot:[`item.action`]="{ item }">
                             <div v-if="item.status != 'Approved'">
