@@ -14,7 +14,7 @@
             label="Core Values Competency Category"
           ></v-select>
           <v-textarea
-            v-model="coreValue.value"
+            v-model="coreValue.summary"
             outlined
             label="Core Values Competency"
           ></v-textarea>
@@ -24,6 +24,11 @@
             label="Description"
             outlined
           ></v-textarea>
+          <v-text-field
+            v-model="coreValue.weightage"
+            label="Weightage (%)"
+            type="number"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -58,9 +63,10 @@ export default {
     submit() {
       this.$axios
         .patch(`api/competencies/${this.coreValue.id}`, {
-          summary: this.coreValue.value,
+          summary: this.coreValue.summary,
           competency_category: this.coreValue.competency_category,
           description: this.coreValue.description,
+          weightage: this.coreValue.weightage,
         })
         .then((res) => {
           this.close()

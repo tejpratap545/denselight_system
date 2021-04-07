@@ -2,14 +2,15 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="800">
       <v-card>
-        <v-card-title class="headline"> Add Goal </v-card-title>
+        <v-card-title class="headline"> Update Goal </v-card-title>
         <v-card-text>
           <v-select
-            v-model="goal.category.id"
+            v-model="goal.category"
             :items="categories"
             item-text="name"
             item-value="id"
             label="Enter goal category"
+            return-object
           ></v-select>
           <v-text-field
             v-model="goal.goal_title"
@@ -25,7 +26,6 @@
           <v-text-field
             v-model="goal.weightage1"
             label="Weightage (%)"
-            type="number"
           ></v-text-field>
 
           <v-menu
@@ -55,81 +55,86 @@
               </v-btn>
             </v-date-picker>
           </v-menu>
-          <v-row>
-            <v-col> Goal Settings Stage Employee Comment </v-col>
-            <v-col>
-              <v-textarea v-model="goal.goal_employees_comment" outlined>
-              </v-textarea>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col> Goal Settings Stage Manager Comment </v-col>
-            <v-col>
-              <v-textarea v-model="goal.goal_manager_comment" outlined>
-              </v-textarea>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>Set tracking status</v-col>
-            <v-col>
-              <v-select v-model="goal.tracking_status" :items="trackingStatus">
-              </v-select
-            ></v-col>
-          </v-row>
-          <v-row>
-            <v-col> Mid Year Employee Comment </v-col>
-            <v-col>
-              <v-textarea v-model="goal.MID_user_comments" outlined>
-              </v-textarea>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>Mid Year Manager Comment </v-col>
-            <v-col>
-              <v-textarea v-model="goal.MID_manager_comments" outlined>
-              </v-textarea>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>Employee Self rating</v-col>
-            <v-col>
-              <v-select
-                v-model="goal.user_rating"
-                :items="ratings"
-                item-text="name"
-                item-value="value"
+          <div v-if="$auth.user.user.role == 'Admin'">
+            <v-row>
+              <v-col> Goal Settings Stage Employee Comment </v-col>
+              <v-col>
+                <v-textarea v-model="goal.goal_employees_comment" outlined>
+                </v-textarea>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col> Goal Settings Stage Manager Comment </v-col>
+              <v-col>
+                <v-textarea v-model="goal.goal_manager_comment" outlined>
+                </v-textarea>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>Set tracking status</v-col>
+              <v-col>
+                <v-select
+                  v-model="goal.tracking_status"
+                  :items="trackingStatus"
+                >
+                </v-select
+              ></v-col>
+            </v-row>
+            <v-row>
+              <v-col> Mid Year Employee Comment </v-col>
+              <v-col>
+                <v-textarea v-model="goal.MID_user_comments" outlined>
+                </v-textarea>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>Mid Year Manager Comment </v-col>
+              <v-col>
+                <v-textarea v-model="goal.MID_manager_comments" outlined>
+                </v-textarea>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>Employee Self rating</v-col>
+              <v-col>
+                <v-select
+                  v-model="goal.user_rating"
+                  :items="ratings"
+                  item-text="name"
+                  item-value="value"
+                >
+                </v-select>
+                <br />
+                {{ ratingName(goal.user_rating) }}</v-col
               >
-              </v-select>
-              <br />
-              {{ ratingName(goal.user_rating) }}</v-col
-            >
-          </v-row>
-          <v-row>
-            <v-col> End Year Employee Comment </v-col>
-            <v-col>
-              <v-textarea v-model="goal.user_comments" outlined> </v-textarea>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>Manager rating</v-col>
-            <v-col>
-              <v-select
-                v-model="goal.manager_rating"
-                :items="ratings"
-                item-text="name"
-                item-value="value"
-              ></v-select>
-              <br />
-              {{ ratingName(goal.manager_rating) }}</v-col
-            >
-          </v-row>
-          <v-row>
-            <v-col>End Year Manager Comment </v-col>
-            <v-col>
-              <v-textarea v-model="goal.manager_comments" outlined>
-              </v-textarea>
-            </v-col>
-          </v-row>
+            </v-row>
+            <v-row>
+              <v-col> End Year Employee Comment </v-col>
+              <v-col>
+                <v-textarea v-model="goal.user_comments" outlined> </v-textarea>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>Manager rating</v-col>
+              <v-col>
+                <v-select
+                  v-model="goal.manager_rating"
+                  :items="ratings"
+                  item-text="name"
+                  item-value="value"
+                ></v-select>
+                <br />
+                {{ ratingName(goal.manager_rating) }}</v-col
+              >
+            </v-row>
+            <v-row>
+              <v-col>End Year Manager Comment </v-col>
+              <v-col>
+                <v-textarea v-model="goal.manager_comments" outlined>
+                </v-textarea>
+              </v-col>
+            </v-row>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

@@ -393,6 +393,5 @@ export default {
       this.editEmployeeDialog = true
     },
   },
-  fetchOnServer: false,
 }
 </script>

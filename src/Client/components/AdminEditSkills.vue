@@ -2,14 +2,15 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="700">
       <v-card>
-        <v-card-title class="headline">Create Skills </v-card-title>
+        <v-card-title class="headline">Edit Skills </v-card-title>
         <v-col cols="10">
           <v-select
-            v-model="skill.skill_category"
+            v-model="skill.category"
             :items="categories"
             item-text="name"
             item-value="id"
             label="Enter skills category"
+            return-object
           ></v-select>
         </v-col>
         <v-card-text>
@@ -61,7 +62,7 @@ export default {
         .$patch(`api/skill/${this.skill.id}`, {
           description: this.skill.description,
           weightage: this.skill.weightage,
-          skill_category: this.skill.skill_category,
+          skill_category: this.skill.category.id,
         })
         .then((res) => {
           this.$notifier.showMessage({

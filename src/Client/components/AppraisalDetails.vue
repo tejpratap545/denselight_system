@@ -22,6 +22,27 @@
         @close-skills-dialog="addSkillsDialog = false"
         @reload="reload"
       />
+      <AdminEditGoal
+        v-if="updateGoalsDialog"
+        :dialog="updateGoalsDialog"
+        :goal="currentGoal"
+        @close="updateGoalsDialog = false"
+        @reload="reload"
+      />
+      <AdminEditCoreValue
+        v-if="updateCoreValueDialog"
+        :dialog="updateCoreValueDialog"
+        :core-value="currentCoreValue"
+        @close="updateCoreValueDialog = false"
+        @reload="reload"
+      />
+      <AdminEditSkills
+        v-if="updateSkillsDialog"
+        :dialog="updateSkillsDialog"
+        :skill="currentSkill"
+        @close="updateSkillsDialog = false"
+        @reload="reload"
+      />
     </div>
     <div class="ma-5">
       <v-tabs
@@ -309,6 +330,21 @@
                         appraisal.status == 'Employee'
                       "
                     >
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon
+                            small
+                            v-bind="attrs"
+                            class="mr-2"
+                            v-on="on"
+                            @click="editGoal(item)"
+                          >
+                            mdi-pencil
+                          </v-icon>
+                        </template>
+                        <span>Edit Goal</span>
+                      </v-tooltip>
+
                       <GoalRemove :id="item.id" @close-delete-dialog="reload" />
                     </span>
                   </div>
@@ -461,6 +497,21 @@
                 :items-per-page="5"
               >
                 <template v-slot:[`item.actions`]="{ item }">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        v-bind="attrs"
+                        class="mr-2"
+                        v-on="on"
+                        @click="editCoreValue(item)"
+                      >
+                        mdi-pencil
+                      </v-icon>
+                    </template>
+                    <span>Edit Core Value</span>
+                  </v-tooltip>
+
                   <v-dialog
                     v-model="skillDeleteDialog"
                     persistent
@@ -568,6 +619,21 @@
                 :items-per-page="5"
               >
                 <template v-slot:[`item.actions`]="{ item }">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        v-bind="attrs"
+                        class="mr-2"
+                        v-on="on"
+                        @click="editSkill(item)"
+                      >
+                        mdi-pencil
+                      </v-icon>
+                    </template>
+                    <span>Edit Skill</span>
+                  </v-tooltip>
+
                   <v-dialog
                     v-model="skillDeleteDialog"
                     persistent
@@ -699,11 +765,17 @@ export default {
       addSkillsDialog: false,
       addCoreValueDialog: false,
       skillDeleteDialog: false,
+      updateGoalsDialog: false,
+      updateCoreValueDialog: false,
+      updateSkillsDialog: false,
+      currentGoal: {},
+      currentCoreValue: {},
+      currentSkill: {},
       tabData: null,
       myGoalsTableHeader: [
         {
           text: 'Category',
-          value: 'category',
+          value: 'category.name',
         },
         {
           text: 'Description',
@@ -758,6 +830,7 @@ export default {
           text: 'Core Values Competency',
           value: 'summary',
         },
+
         {
           text: 'Description',
           value: 'description',
@@ -820,12 +893,13 @@ export default {
       appraisal.goals_set.forEach((goal) => {
         data.goals.push({
           id: goal.id,
-          category: goal.goal_category.name,
+          category: goal.goal_category,
           goal_title: goal.summary,
           description: goal.description,
           due: goal.due,
           status: goal.status,
           weightage: `${goal.weightage}%`,
+          weightage1: goal.weightage,
           dialog: false,
           kpi_dialog: false,
           tabs: null,
@@ -874,6 +948,7 @@ export default {
           id: skill.id,
           description: skill.description,
           weightage: skill.weightage,
+          category: skill.skill_category,
         })
       })
 
@@ -1032,6 +1107,18 @@ export default {
       } else {
         return false
       }
+    },
+    editGoal(goal) {
+      this.currentGoal = goal
+      this.updateGoalsDialog = true
+    },
+    editCoreValue(coreValue) {
+      this.currentCoreValue = coreValue
+      this.updateCoreValueDialog = true
+    },
+    editSkill(skill) {
+      this.currentSkill = skill
+      this.updateSkillsDialog = true
     },
 
     deleteSkill(id) {
