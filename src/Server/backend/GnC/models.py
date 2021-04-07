@@ -258,6 +258,33 @@ class DepartmentalGoals(models.Model):
         return self.summary
 
 
+class CascadedGoals(models.Model):
+    manager = models.ForeignKey(
+        Profile, blank=True, null=True, on_delete=models.SET_NULL
+    )
+    emaployees = models.ManyToManyField(
+        Profile,
+        blank=True,
+        null=True,
+        related_name="emaployees",
+    )
+    appraisal = models.ForeignKey(
+        Overall_Appraisal, blank=True, null=True, on_delete=models.CASCADE
+    )
+
+    goal_category = models.ForeignKey(
+        GoalCategory, blank=True, null=True, on_delete=models.CASCADE
+    )
+
+    summary = models.TextField(blank=True, null=True)
+
+    description = models.TextField(blank=True, null=True)
+    due = models.DateField()
+
+    def __str__(self):
+        return self.summary
+
+
 class DepartmentalCompetencies(models.Model):
     manager = models.ForeignKey(
         Profile, blank=True, null=True, on_delete=models.SET_NULL

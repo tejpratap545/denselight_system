@@ -61,8 +61,8 @@
 
       <v-tabs-items v-model="tabData">
         <v-tab-item>
-          <v-card class="pt-5" flat>
-            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+          <v-card class="pt-3" flat>
+            <v-toolbar elevation="2" color="deep-purple accent-4" rounded dark>
               <b>Departmental Goals</b>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -74,8 +74,21 @@
               ></v-data-table>
             </v-card-text>
           </v-card>
+          <v-card class="pt-3" flat>
+            <v-toolbar elevation="2" color="deep-purple accent-4" rounded dark>
+              <b>Cascaded Supervisor Goals</b>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+            <v-card-text>
+              <v-data-table
+                :headers="cascadedGoalsHeader"
+                :items="cascadedGoalsItems"
+                :items-per-page="5"
+              ></v-data-table>
+            </v-card-text>
+          </v-card>
           <v-card flat>
-            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <v-toolbar elevation="2" color="deep-purple accent-4" rounded dark>
               <b>{{ name }} Goals</b>
               <v-spacer></v-spacer>
 
@@ -120,7 +133,7 @@
                   <v-icon v-else-if="item.status == 'REJECTED'" color="error">
                     mdi-window-close</v-icon
                   >
-                  <v-icon v-else indeterminate color="primary"
+                  <v-icon v-else indeterminate color="deep-purple accent-4"
                     >mdi-account-clock</v-icon
                   >
                 </template>
@@ -138,7 +151,7 @@
                             }"
                           >
                             <v-btn
-                              color="primary"
+                              color="deep-purple accent-4"
                               icon
                               v-bind="{ ...dialogattrs, ...tooltipattrs }"
                               v-on="{ ...dialogon, ...tooltip }"
@@ -151,7 +164,7 @@
                       </template>
 
                       <v-card>
-                        <v-toolbar color="primary" dark>
+                        <v-toolbar color="deep-purple accent-4" dark>
                           <b>{{ item.goal_title }}</b> : Comments
                           <v-spacer></v-spacer>
                           <v-btn icon @click="item.dialog = false">
@@ -209,7 +222,7 @@
                                   <div>
                                     <v-btn
                                       v-if="checkCommentDisable(comment.id)"
-                                      color="primary"
+                                      color="deep-purple accent-4"
                                       @click="postcomment(comment.id, item)"
                                       >Send Message
                                     </v-btn>
@@ -242,7 +255,7 @@
                       </template>
 
                       <v-card>
-                        <v-toolbar color="primary" dark>
+                        <v-toolbar color="deep-purple accent-4" dark>
                           <b>{{ item.goal_title }}</b> : KPI
                           <v-spacer></v-spacer>
                           <v-btn icon @click="item.kpi_dialog = false">
@@ -315,7 +328,10 @@
                                   @input="item.date_menu = false"
                                 ></v-date-picker>
                               </v-menu>
-                              <v-btn color="primary" @click="add_kpi(item)">
+                              <v-btn
+                                color="deep-purple accent-4"
+                                @click="add_kpi(item)"
+                              >
                                 Save KPI
                               </v-btn>
                             </v-row>
@@ -449,7 +465,13 @@
 
         <v-tab-item>
           <v-card class="pt-5" flat>
-            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <v-toolbar
+              elevation="0"
+              class="ma-5"
+              color="deep-purple accent-4"
+              rounded
+              dark
+            >
               <b>Departmental Core Values</b>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -462,7 +484,13 @@
             </v-card-text>
           </v-card>
           <v-card flat>
-            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <v-toolbar
+              elevation="0"
+              class="ma-5"
+              color="deep-purple accent-4"
+              rounded
+              dark
+            >
               <b>{{ name }} Core Values</b>
               <v-spacer></v-spacer>
 
@@ -582,7 +610,13 @@
 
         <v-tab-item>
           <v-card flat>
-            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <v-toolbar
+              elevation="0"
+              class="ma-5"
+              color="deep-purple accent-4"
+              rounded
+              dark
+            >
               <b>{{ name }} Skills</b>
               <v-spacer></v-spacer>
 
@@ -760,6 +794,15 @@ export default {
     return {
       careerAspiration: '',
       newComment: '',
+
+      cascadedGoalsHeader: [
+        { text: 'Category', value: 'goal_category.name' },
+        { text: 'Summary', value: 'summary' },
+        { text: 'Description', value: 'description' },
+        { text: 'Due date', value: 'due' },
+        { text: 'Manager', value: 'manager.name' },
+      ],
+      cascadedGoalsItems: {},
 
       addGoalsDialog: false,
       addSkillsDialog: false,
@@ -961,6 +1004,7 @@ export default {
       this.departmentValuesItems = this.appraisal.overall_appraisal.departmentalcompetencies_set
 
       this.name = `${appraisal.employee.name}'s`
+      this.cascadedGoalsItems = this.appraisal.overall_appraisal.cascadedgoals_set
     },
 
     submitCareerAspiration() {

@@ -2,7 +2,11 @@ from ...Profile.models import Notification
 from ..models import *
 from .pagination import StandardResultsSetPagination
 from .serializers import *
-from backend.GnC.models import DepartmentalCompetencies, DepartmentalGoals
+from backend.GnC.models import (
+    CascadedGoals,
+    DepartmentalCompetencies,
+    DepartmentalGoals,
+)
 from backend.Profile.permissions import IsHr, IsHrManager
 from django.conf import settings
 from django.core.mail import send_mail
@@ -160,9 +164,11 @@ class AppraisalViewSet(ModelViewSet):
 
 
 class OverallAppraisal(generics.ListAPIView):
-    permission_classes = [IsHr or IsHrManager]
-    queryset = (
-        Overall_Appraisal.objects.prefetch_related(
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        queryset = Overall_Appraisal.objects.prefetch_related(
             "appraisal_category",
             "departmentalgoals_set",
             "departmentalgoals_set__goal_category",
@@ -170,9 +176,20 @@ class OverallAppraisal(generics.ListAPIView):
             "departmentalgoals_set__manager__department",
             "departmentalcompetencies_set",
             "departmentalcompetencies_set__competency_category",
-        )
-        .filter(Q(status="Stage 1") | Q(status="Stage 2"))
-    )
+            Prefetch(
+                "cascadedgoals_set",
+                queryset=CascadedGoals.objects.filter(
+                    manager=self.request.user.profile
+                ),
+            ),
+            "cascadedgoals_set__goal_category",
+            "cascadedgoals_set__manager",
+            "cascadedgoals_set__emaployees",
+            "cascadedgoals_set__emaployees__department",
+            "cascadedgoals_set__manager__department",
+        ).filter(Q(status="Stage 1") | Q(status="Stage 2"))
+        return queryset
+
     serializer_class = DetailOverallAppraisalSerializer
 
 
@@ -258,6 +275,17 @@ class DetailUserAppraisal(generics.ListAPIView):
                         department=self.request.user.profile.department
                     ),
                 ),
+                Prefetch(
+                    "overall_appraisal__cascadedgoals_set",
+                    queryset=CascadedGoals.objects.filter(
+                        emaployees__id=self.request.user.profile.id
+                    ),
+                ),
+                "overall_appraisal__cascadedgoals_set__goal_category",
+                "overall_appraisal__cascadedgoals_set__manager",
+                "overall_appraisal__cascadedgoals_set__emaployees",
+                "overall_appraisal__cascadedgoals_set__emaployees__department",
+                "overall_appraisal__cascadedgoals_set__manager__department",
                 "overall_appraisal__departmentalcompetencies_set",
                 "overall_appraisal__departmentalcompetencies_set__competency_category",
             )

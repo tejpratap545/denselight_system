@@ -79,6 +79,31 @@ class DepartmentGoalSerializer(serializers.ModelSerializer):
         }
 
 
+class DetailCascadedGoalsSerializer(serializers.ModelSerializer):
+    manager = ShortProfileSerializer()
+    emaployees = ShortProfileSerializer(many=True)
+    goal_category = GoalCategorySerializer()
+
+    class Meta:
+        model = CascadedGoals
+        fields = "__all__"
+
+        extra_kwargs = {
+            "manager": {
+                "read_only": True,
+            },
+            "department": {
+                "read_only": True,
+            },
+        }
+
+
+class CascadedGoalsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CascadedGoals
+        fields = "__all__"
+
+
 class DetailDepartmentGoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = DepartmentalGoals

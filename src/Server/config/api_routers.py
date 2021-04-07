@@ -4,6 +4,7 @@ from backend.Appraisals.api.views import (
     OverallAppraisalViewSet,
 )
 from backend.GnC.api.views import (
+    CascadedGoalsViewSet,
     CompetencyCategoryViewSet,
     DepartmentalCompetenciesVieSet,
     DepartmentalGoalsVieSet,
@@ -42,6 +43,7 @@ router.register(r"departmentalcompetencies", DepartmentalCompetenciesVieSet)
 router.register(r"comment/goals/endyear", EndYrCommentBoxViewSet)
 router.register(r"appraisals/admin", AppraisalViewSet),
 router.register(r"guide", GuideView),
+router.register(r"cascadedgoal", CascadedGoalsViewSet),
 
 app_name = "denselight"
 urlpatterns = router.urls

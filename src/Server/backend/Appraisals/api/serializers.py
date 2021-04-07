@@ -1,6 +1,7 @@
 from ...GnC.api.serializers import (
     CompetenciesSerializer,
     DepartmentCompetenciesSerializer,
+    DetailCascadedGoalsSerializer,
     DetailCompetenciesSerializer,
     DetailDepartmentGoalSerializer,
     DetailGoalSerializer,
@@ -27,6 +28,8 @@ class DetailOverallAppraisalSerializer(serializers.ModelSerializer):
     departments = serializers.ListField(write_only=True, required=False)
     is_company = serializers.BooleanField(default=False)
     departmentalgoals_set = DetailDepartmentGoalSerializer(many=True)
+    cascadedgoals_set = DetailCascadedGoalsSerializer(many=True)
+
     departmentalcompetencies_set = DepartmentCompetenciesSerializer(many=True)
     appraisal_category = AppraisalCategorySerializer()
 

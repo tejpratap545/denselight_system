@@ -164,6 +164,14 @@ class KPIApiView(generics.RetrieveUpdateDestroyAPIView):
         return KPISerializer
 
 
+class GetCascadedgoals(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = DetailCascadedGoalsSerializer
+
+    def get_queryset(self):
+        return CascadedGoals.objects.filter(manager=self.request.user.profile)
+
+
 class CompetenciesAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Competencies.objects.all()
     permission_classes = [IsAuthenticated]
@@ -178,6 +186,17 @@ class GoalCategoryViewSet(ModelViewSet):
     serializer_class = GoalCategorySerializer
     queryset = GoalCategory.objects.all()
     permission_classes = [IsAuthenticated]
+
+
+class CascadedGoalsViewSet(ModelViewSet):
+    serializer_class = CascadedGoalsSerializer
+    queryset = CascadedGoals.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+@api_view(["POST"])
+def create_cascadedgoals(request):
+    return "hello"
 
 
 class CompetencyCategoryViewSet(ModelViewSet):

@@ -62,6 +62,13 @@
         @close-core-dialog="addCoreDialog = false"
         @reload="departmentalAppraisal"
       />
+      <AddCascadedGoals
+        v-if="addCascadedGoalsDialog"
+        :dialog="addCascadedGoalsDialog"
+        :appraisal-id="appraisalSelected.id"
+        @close-cascaded-dialog="addCascadedGoalsDialog = false"
+        @reload="departmentalAppraisal"
+      />
     </div>
     <div class="my-5">
       <v-tabs
@@ -73,13 +80,20 @@
       >
         <v-tab>Department Details</v-tab>
         <v-tab>Department Goals and Core Values</v-tab>
+        <v-tab>Cascaded Supervisor Goals</v-tab>
         <v-tab>Subordinate Appraisals</v-tab>
       </v-tabs>
       <v-tabs-items v-model="tabData">
         <v-tab-item>
           <v-card class="my-5" flat>
             <h3 class="my-5 text-center">Employee Details</h3>
-            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <v-toolbar
+              elevation="0"
+              class="ma-5"
+              color="deep-purple accent-4"
+              rounded
+              dark
+            >
               <b>First Reporting Employees</b>
             </v-toolbar>
 
@@ -134,7 +148,7 @@
                                   }"
                                 >
                                   <v-btn
-                                    color="primary"
+                                    color="deep-purple accent-4"
                                     icon
                                     v-bind="{
                                       ...dialogattrs,
@@ -149,7 +163,7 @@
                               </v-tooltip>
                             </template>
                             <v-card>
-                              <v-toolbar color="primary" dark>
+                              <v-toolbar color="deep-purple accent-4" dark>
                                 <b>{{ item.appraisal_name }}</b>
                                 <v-spacer></v-spacer>
 
@@ -184,7 +198,13 @@
               </template>
             </v-data-table>
 
-            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
+            <v-toolbar
+              elevation="0"
+              class="ma-5"
+              color="deep-purple accent-4"
+              rounded
+              dark
+            >
               <b>Second Reporting Employees</b>
             </v-toolbar>
 
@@ -239,7 +259,7 @@
                                   }"
                                 >
                                   <v-btn
-                                    color="primary"
+                                    color="deep-purple accent-4"
                                     icon
                                     v-bind="{
                                       ...dialogattrs,
@@ -254,7 +274,7 @@
                               </v-tooltip>
                             </template>
                             <v-card>
-                              <v-toolbar color="primary" dark>
+                              <v-toolbar color="deep-purple accent-4" dark>
                                 <b>{{ item.appraisal_name }}</b>
                                 <v-spacer></v-spacer>
 
@@ -313,7 +333,7 @@
                               }"
                             >
                               <v-btn
-                                color="primary"
+                                color="deep-purple accent-4"
                                 fab
                                 v-bind="{ ...dialogattrs, ...tooltipattrs }"
                                 v-on="{ ...dialogon, ...tooltip }"
@@ -328,7 +348,7 @@
                         <v-list>
                           <v-list-item-group
                             v-model="selectedItem"
-                            color="primary"
+                            color="deep-purple accent-4"
                           >
                             <v-list-item
                               v-for="(x, y) in appraisalData"
@@ -381,7 +401,7 @@
               <v-toolbar
                 elevation="0"
                 class="ma-5"
-                color="primary"
+                color="deep-purple accent-4"
                 rounded
                 dark
               >
@@ -416,7 +436,7 @@
               <v-toolbar
                 elevation="0"
                 class="ma-5"
-                color="primary"
+                color="deep-purple accent-4"
                 rounded
                 dark
               >
@@ -444,6 +464,134 @@
                   :items="departmentValuesItems"
                   :items-per-page="5"
                 ></v-data-table>
+              </v-card-text>
+            </v-card>
+          </div>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <v-card flat>
+                <v-card-title>
+                  <v-row>
+                    <v-col v-if="appraisalSelectedIndex != 0" cols="3">
+                      <v-menu rounded="lg">
+                        <template
+                          v-slot:activator="{
+                            on: dialogon,
+                            attrs: dialogattrs,
+                          }"
+                        >
+                          <v-tooltip bottom>
+                            <template
+                              v-slot:activator="{
+                                on: tooltip,
+                                attrs: tooltipattrs,
+                              }"
+                            >
+                              <v-btn
+                                color="deep-purple accent-4"
+                                fab
+                                v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                                v-on="{ ...dialogon, ...tooltip }"
+                              >
+                                <v-icon>mdi-cached</v-icon>
+                              </v-btn>
+                            </template>
+                            <span>Change To Select Appraisal</span>
+                          </v-tooltip>
+                        </template>
+
+                        <v-list>
+                          <v-list-item-group
+                            v-model="selectedItem"
+                            color="deep-purple accent-4"
+                          >
+                            <v-list-item
+                              v-for="(x, y) in appraisalData"
+                              :key="y"
+                              link
+                              @click="changeAppraisal(x)"
+                            >
+                              <v-list-item-title>
+                                {{ x.name }}
+                              </v-list-item-title>
+                            </v-list-item>
+                          </v-list-item-group>
+                        </v-list>
+                      </v-menu>
+                    </v-col>
+
+                    <v-col
+                      v-if="appraisalSelectedIndex != 0"
+                      cols="9"
+                      style="display: flex; justify-content: flex-end"
+                    >
+                      <div>
+                        <h3 class="font-weight-medium">
+                          {{ appraisalSelected.name }} -
+                          {{ appraisalSelected.appraisal_category.name }}
+                        </h3>
+                        <small style="font-size: 12.8px" class="ma-0">
+                          {{ appraisalSelected.status }}
+                        </small>
+                      </div>
+                    </v-col>
+                    <div
+                      v-else
+                      style="
+                        display: flex;
+                        justify-content: center;
+                        width: 100%;
+                      "
+                    >
+                      <h3 class="font-weight-medium">No Appraisal available</h3>
+                    </div>
+                  </v-row>
+                </v-card-title>
+              </v-card>
+            </v-card-text>
+          </v-card>
+
+          <div v-if="appraisalSelectedIndex != 0">
+            <v-card class="pt-5" flat>
+              <v-toolbar
+                elevation="0"
+                class="ma-5"
+                color="deep-purple accent-4"
+                rounded
+                dark
+              >
+                <b>Cascaded Supervisor Goals</b>
+                <v-spacer></v-spacer>
+
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      v-bind="attrs"
+                      @click="addCascadedGoalsDialog = true"
+                      v-on="on"
+                    >
+                      <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Add Cascaded Goal</span>
+                </v-tooltip>
+              </v-toolbar>
+              <v-card-text>
+                <v-data-table
+                  :headers="cascadedGoalsHeader"
+                  :items="cascadedGoalsItems"
+                  :items-per-page="5"
+                >
+                  <template v-slot:[`item.actions`]="{ item }"> </template>
+                  <template v-slot:[`item.employees`]="{ item }">
+                    <div v-for="i in item.emaployees" :key="i.id">
+                      {{ i.name }}
+                    </div>
+                  </template>
+                </v-data-table>
               </v-card-text>
             </v-card>
           </div>
@@ -479,7 +627,7 @@
                                   <v-icon
                                     v-if="item.status == 'Employee'"
                                     indeterminate
-                                    color="primary"
+                                    color="deep-purple accent-4"
                                   >
                                     mdi-account-clock</v-icon
                                   >
@@ -549,7 +697,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="primary"
+                                      color="deep-purple accent-4"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -564,7 +712,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="primary" dark>
+                                <v-toolbar color="deep-purple accent-4" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
 
@@ -623,7 +771,7 @@
                                       item.status === 'S2BEmployee'
                                     "
                                     indeterminate
-                                    color="primary"
+                                    color="deep-purple accent-4"
                                   >
                                     mdi-account-clock</v-icon
                                   >
@@ -744,7 +892,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="primary"
+                                      color="deep-purple accent-4"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -759,7 +907,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="primary" dark>
+                                <v-toolbar color="deep-purple accent-4" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
                                   <v-tooltip bottom>
@@ -806,7 +954,7 @@
                                       item.completion === 'Ecompleted'
                                     "
                                     indeterminate
-                                    color="primary"
+                                    color="deep-purple accent-4"
                                   >
                                     mdi-account-clock</v-icon
                                   >
@@ -925,7 +1073,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="primary"
+                                      color="deep-purple accent-4"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -940,7 +1088,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="primary" dark>
+                                <v-toolbar color="deep-purple accent-4" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
 
@@ -999,7 +1147,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="primary"
+                                      color="deep-purple accent-4"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -1014,7 +1162,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="primary" dark>
+                                <v-toolbar color="deep-purple accent-4" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
 
@@ -1073,7 +1221,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="primary"
+                                      color="deep-purple accent-4"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -1088,7 +1236,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="primary" dark>
+                                <v-toolbar color="deep-purple accent-4" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
 
@@ -1157,6 +1305,7 @@ export default {
       MidYearManagerSubmitDialog: false,
       ENDYearManagerReviewDialog: false,
       ENDYearManagerSubmitDialog: false,
+      addCascadedGoalsDialog: false,
 
       appraisalData: [],
       appraisalSelected: {},
@@ -1240,6 +1389,19 @@ export default {
         { text: 'Description', value: 'description' },
         { text: 'Due date', value: 'due' },
         { text: 'Category', value: 'goal_category' },
+      ],
+      cascadedGoalsHeader: [
+        { text: 'Summary', value: 'summary' },
+        { text: 'Description', value: 'description' },
+        { text: 'Due date', value: 'due' },
+        { text: 'Category', value: 'goal_category.name' },
+        { text: 'Employees', value: 'employees' },
+        {
+          text: 'Actions',
+          align: 'center',
+          sortable: false,
+          value: 'action',
+        },
       ],
       departmentGoalsItems: [],
       departmentValuesHeader: [
@@ -1378,6 +1540,7 @@ export default {
       this.appraisalSelectedIndex = this.appraisalSelected.id
       this.departmentGoalsItems = this.appraisalSelected.departmentalgoals_set
       this.departmentValuesItems = this.appraisalSelected.departmentalcompetencies_set
+      this.cascadedGoalsItems = this.appraisalSelected.cascadedgoals_set
 
       this.selectedItem = this.appraisalSelected.id
     },
