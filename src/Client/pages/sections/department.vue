@@ -80,13 +80,7 @@
         <v-tab-item>
           <v-card class="my-5" flat>
             <h3 class="my-5 text-center">Employee Details</h3>
-            <v-toolbar
-              elevation="0"
-              class="ma-5"
-              color="deep-purple accent-4"
-              rounded
-              dark
-            >
+            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>First Reporting Employees</b>
             </v-toolbar>
 
@@ -141,7 +135,7 @@
                                   }"
                                 >
                                   <v-btn
-                                    color="deep-purple accent-4"
+                                    color="primary"
                                     icon
                                     v-bind="{
                                       ...dialogattrs,
@@ -156,7 +150,7 @@
                               </v-tooltip>
                             </template>
                             <v-card>
-                              <v-toolbar color="deep-purple accent-4" dark>
+                              <v-toolbar color="primary" dark>
                                 <b>{{ item.appraisal_name }}</b>
                                 <v-spacer></v-spacer>
 
@@ -191,13 +185,7 @@
               </template>
             </v-data-table>
 
-            <v-toolbar
-              elevation="0"
-              class="ma-5"
-              color="deep-purple accent-4"
-              rounded
-              dark
-            >
+            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>Second Reporting Employees</b>
             </v-toolbar>
 
@@ -252,7 +240,7 @@
                                   }"
                                 >
                                   <v-btn
-                                    color="deep-purple accent-4"
+                                    color="primary"
                                     icon
                                     v-bind="{
                                       ...dialogattrs,
@@ -267,7 +255,7 @@
                               </v-tooltip>
                             </template>
                             <v-card>
-                              <v-toolbar color="deep-purple accent-4" dark>
+                              <v-toolbar color="primary" dark>
                                 <b>{{ item.appraisal_name }}</b>
                                 <v-spacer></v-spacer>
 
@@ -326,7 +314,7 @@
                               }"
                             >
                               <v-btn
-                                color="deep-purple accent-4"
+                                color="primary"
                                 fab
                                 v-bind="{ ...dialogattrs, ...tooltipattrs }"
                                 v-on="{ ...dialogon, ...tooltip }"
@@ -341,7 +329,7 @@
                         <v-list>
                           <v-list-item-group
                             v-model="selectedItem"
-                            color="deep-purple accent-4"
+                            color="primary"
                           >
                             <v-list-item
                               v-for="(x, y) in appraisalData"
@@ -394,7 +382,7 @@
               <v-toolbar
                 elevation="0"
                 class="ma-5"
-                color="deep-purple accent-4"
+                color="primary"
                 rounded
                 dark
               >
@@ -429,7 +417,7 @@
               <v-toolbar
                 elevation="0"
                 class="ma-5"
-                color="deep-purple accent-4"
+                color="primary"
                 rounded
                 dark
               >
@@ -492,7 +480,7 @@
                                   <v-icon
                                     v-if="item.status == 'Employee'"
                                     indeterminate
-                                    color="deep-purple accent-4"
+                                    color="primary"
                                   >
                                     mdi-account-clock</v-icon
                                   >
@@ -562,7 +550,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="deep-purple accent-4"
+                                      color="primary"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -577,7 +565,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="deep-purple accent-4" dark>
+                                <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
 
@@ -636,7 +624,7 @@
                                       item.status === 'S2BEmployee'
                                     "
                                     indeterminate
-                                    color="deep-purple accent-4"
+                                    color="primary"
                                   >
                                     mdi-account-clock</v-icon
                                   >
@@ -757,7 +745,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="deep-purple accent-4"
+                                      color="primary"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -772,7 +760,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="deep-purple accent-4" dark>
+                                <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
                                   <v-tooltip bottom>
@@ -819,7 +807,7 @@
                                       item.completion === 'Ecompleted'
                                     "
                                     indeterminate
-                                    color="deep-purple accent-4"
+                                    color="primary"
                                   >
                                     mdi-account-clock</v-icon
                                   >
@@ -938,7 +926,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="deep-purple accent-4"
+                                      color="primary"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -953,7 +941,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="deep-purple accent-4" dark>
+                                <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
 
@@ -1012,7 +1000,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="deep-purple accent-4"
+                                      color="primary"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -1027,7 +1015,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="deep-purple accent-4" dark>
+                                <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
 
@@ -1086,7 +1074,7 @@
                                     }"
                                   >
                                     <v-btn
-                                      color="deep-purple accent-4"
+                                      color="primary"
                                       icon
                                       v-bind="{
                                         ...dialogattrs,
@@ -1101,7 +1089,7 @@
                                 </v-tooltip>
                               </template>
                               <v-card>
-                                <v-toolbar color="deep-purple accent-4" dark>
+                                <v-toolbar color="primary" dark>
                                   <b>{{ item.appraisal_name }}</b>
                                   <v-spacer></v-spacer>
 

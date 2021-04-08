@@ -71,7 +71,7 @@
       <v-tabs-items v-model="tabData">
         <v-tab-item>
           <v-card class="pt-3" flat>
-            <v-toolbar elevation="2" color="deep-purple accent-4" rounded dark>
+            <v-toolbar elevation="2" color="primary" rounded dark>
               <b>Departmental Goals</b>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -84,7 +84,7 @@
             </v-card-text>
           </v-card>
           <v-card class="pt-3" flat>
-            <v-toolbar elevation="2" color="deep-purple accent-4" rounded dark>
+            <v-toolbar elevation="2" color="primary" rounded dark>
               <b>Cascaded Supervisor Goals</b>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -97,7 +97,7 @@
             </v-card-text>
           </v-card>
           <v-card flat>
-            <v-toolbar elevation="2" color="deep-purple accent-4" rounded dark>
+            <v-toolbar elevation="2" color="primary" rounded dark>
               <b>{{ name }} Goals</b>
               <v-spacer></v-spacer>
 
@@ -135,16 +135,37 @@
                 show-expand
               >
                 <template v-slot:[`item.status`]="{ item }">
-                  <v-icon v-if="item.status == 'APPROVED'" color="success">
-                    mdi-checkbox-marked-circle-outline</v-icon
-                  >
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        v-if="item.status == 'APPROVED'"
+                        v-bind="attrs"
+                        color="success"
+                        v-on="on"
+                      >
+                        mdi-checkbox-marked-circle-outline</v-icon
+                      >
 
-                  <v-icon v-else-if="item.status == 'REJECTED'" color="error">
-                    mdi-window-close</v-icon
-                  >
-                  <v-icon v-else indeterminate color="deep-purple accent-4"
-                    >mdi-account-clock</v-icon
-                  >
+                      <v-icon
+                        v-else-if="item.status == 'REJECTED'"
+                        color="error"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-window-close</v-icon
+                      >
+                      <v-icon v-else indeterminate color="primary"
+                        >mdi-account-clock</v-icon
+                      >
+                    </template>
+                    <span v-if="item.status == 'APPROVED'"
+                      >Goal is Approved</span
+                    >
+                    <span v-else-if="item.status == 'REJECTED'"
+                      >Goal is rejected</span
+                    >
+                    <span v-else>Goal is not approved</span>
+                  </v-tooltip>
                 </template>
                 <template v-slot:[`item.actions`]="{ item }">
                   <div>
@@ -160,7 +181,7 @@
                             }"
                           >
                             <v-btn
-                              color="deep-purple accent-4"
+                              color="primary"
                               icon
                               v-bind="{ ...dialogattrs, ...tooltipattrs }"
                               v-on="{ ...dialogon, ...tooltip }"
@@ -173,7 +194,7 @@
                       </template>
 
                       <v-card>
-                        <v-toolbar color="deep-purple accent-4" dark>
+                        <v-toolbar color="primary" dark>
                           <b>{{ item.goal_title }}</b> : Comments
                           <v-spacer></v-spacer>
                           <v-btn icon @click="item.dialog = false">
@@ -231,7 +252,7 @@
                                   <div>
                                     <v-btn
                                       v-if="checkCommentDisable(comment.id)"
-                                      color="deep-purple accent-4"
+                                      color="primary"
                                       @click="postcomment(comment.id, item)"
                                       >Send Message
                                     </v-btn>
@@ -264,7 +285,7 @@
                       </template>
 
                       <v-card>
-                        <v-toolbar color="deep-purple accent-4" dark>
+                        <v-toolbar color="primary" dark>
                           <b>{{ item.goal_title }}</b> : KPI
                           <v-spacer></v-spacer>
                           <v-btn icon @click="item.kpi_dialog = false">
@@ -294,6 +315,118 @@
                               <small
                                 >Due : <b>{{ kpi.due }}</b></small
                               >
+
+                              <v-dialog v-model="dialogKpiDelete" width="500">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    color="red lighten-2"
+                                    dark
+                                    v-bind="attrs"
+                                    text
+                                    v-on="on"
+                                  >
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-btn>
+                                </template>
+
+                                <v-card>
+                                  <v-card-title class="subtitle-2">
+                                    {{ kpi.description }}
+                                  </v-card-title>
+                                  <v-divider></v-divider>
+
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                      color="info"
+                                      text
+                                      @click="dialogKpiDelete = false"
+                                    >
+                                      Close
+                                    </v-btn>
+                                    <v-btn
+                                      color="error"
+                                      text
+                                      @click="deleteKpi(kpi)"
+                                    >
+                                      Delete
+                                    </v-btn>
+                                  </v-card-actions>
+                                </v-card>
+                              </v-dialog>
+                              <v-dialog v-model="dialogKpiUpdate" width="700">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    color="success lighten-2"
+                                    dark
+                                    v-bind="attrs"
+                                    text
+                                    v-on="on"
+                                  >
+                                    <v-icon>mdi-pencil</v-icon>
+                                  </v-btn>
+                                </template>
+
+                                <v-card>
+                                  <v-card-title>Update Kpi</v-card-title>
+                                  <v-card-text>
+                                    <v-row>
+                                      <v-textarea
+                                        v-model="kpi.description"
+                                        outlined
+                                        label="KPI description"
+                                      ></v-textarea>
+                                    </v-row>
+
+                                    <v-row>
+                                      <v-menu
+                                        v-model="kpiDateMenu"
+                                        :close-on-content-click="false"
+                                        :nudge-right="40"
+                                        transition="scale-transition"
+                                        offset-y
+                                        min-width="290px"
+                                      >
+                                        <template
+                                          v-slot:activator="{ on, attrs }"
+                                        >
+                                          <v-text-field
+                                            v-model="kpi.due"
+                                            label="KPI due"
+                                            prepend-icon="mdi-calendar"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on"
+                                          ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                          v-model="kpi.due"
+                                          @input="kpiDateMenu = false"
+                                        ></v-date-picker>
+                                      </v-menu>
+                                    </v-row>
+                                  </v-card-text>
+                                  <v-divider></v-divider>
+
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                      color="info"
+                                      text
+                                      @click="dialogKpiUpdate = false"
+                                    >
+                                      Close
+                                    </v-btn>
+                                    <v-btn
+                                      color="success"
+                                      text
+                                      @click="updateKpi(kpi)"
+                                    >
+                                      Update
+                                    </v-btn>
+                                  </v-card-actions>
+                                </v-card>
+                              </v-dialog>
                             </v-card-text>
                           </v-card>
                         </v-card-text>
@@ -337,10 +470,7 @@
                                   @input="item.date_menu = false"
                                 ></v-date-picker>
                               </v-menu>
-                              <v-btn
-                                color="deep-purple accent-4"
-                                @click="add_kpi(item)"
-                              >
+                              <v-btn color="primary" @click="add_kpi(item)">
                                 Save KPI
                               </v-btn>
                             </v-row>
@@ -491,13 +621,7 @@
 
         <v-tab-item>
           <v-card class="pt-5" flat>
-            <v-toolbar
-              elevation="0"
-              class="ma-5"
-              color="deep-purple accent-4"
-              rounded
-              dark
-            >
+            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>Departmental Core Values</b>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -510,13 +634,7 @@
             </v-card-text>
           </v-card>
           <v-card flat>
-            <v-toolbar
-              elevation="0"
-              class="ma-5"
-              color="deep-purple accent-4"
-              rounded
-              dark
-            >
+            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Core Values</b>
               <v-spacer></v-spacer>
 
@@ -636,13 +754,7 @@
 
         <v-tab-item>
           <v-card flat>
-            <v-toolbar
-              elevation="0"
-              class="ma-5"
-              color="deep-purple accent-4"
-              rounded
-              dark
-            >
+            <v-toolbar elevation="0" class="ma-5" color="primary" rounded dark>
               <b>{{ name }} Skills</b>
               <v-spacer></v-spacer>
 
@@ -838,6 +950,8 @@ export default {
       updateGoalsDialog: false,
       updateCoreValueDialog: false,
       updateSkillsDialog: false,
+      dialogKpiDelete: false,
+      dialogKpiUpdate: false,
       currentGoal: {},
       currentCoreValue: {},
       currentSkill: {},
@@ -1233,6 +1347,54 @@ export default {
             color: 'error',
           })
           console.log(error)
+        })
+    },
+
+    deleteKpi(kpi) {
+      this.$axios
+        .delete(`api/KPI/${kpi.id}/`)
+        .then(() => {
+          this.$notifier.showMessage({
+            content: `Successfully deleted  kpi `,
+            color: 'info',
+          })
+
+          this.$fetch()
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$notifier.showMessage({
+            content: 'Error deleting kpi',
+            color: 'error',
+          })
+        })
+        .finally(() => {
+          this.dialogKpiDelete = false
+        })
+    },
+    updateKpi(kpi) {
+      this.$axios
+        .patch(`api/KPI/${kpi.id}/`, {
+          description: kpi.description,
+          due: kpi.due,
+        })
+        .then(() => {
+          this.$notifier.showMessage({
+            content: `Successfully updating  kpi `,
+            color: 'info',
+          })
+
+          this.$fetch()
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$notifier.showMessage({
+            content: 'Error updating kpi',
+            color: 'error',
+          })
+        })
+        .finally(() => {
+          this.dialogKpiUpdate = false
         })
     },
 
