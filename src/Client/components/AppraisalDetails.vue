@@ -43,6 +43,15 @@
         @close="updateSkillsDialog = false"
         @reload="reload"
       />
+
+      <AddCascadedGoals
+        v-if="addCascadedGoalsDialog"
+        :dialog="addCascadedGoalsDialog"
+        :goal="currentGoal"
+        :appraisal-id="appraisal.overall_appraisal.id"
+        @close-cascaded-dialog="addCascadedGoalsDialog = false"
+        @reload="reload"
+      />
     </div>
     <div class="ma-5">
       <v-tabs
@@ -362,6 +371,23 @@
                       </v-tooltip>
 
                       <GoalRemove :id="item.id" @close-delete-dialog="reload" />
+                    </span>
+
+                    <span v-if="$auth.user.user.role != 'Employee'">
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon
+                            small
+                            v-bind="attrs"
+                            class="mr-2"
+                            v-on="on"
+                            @click="cascadeGoal(item)"
+                          >
+                            mdi-arrow-collapse-up
+                          </v-icon>
+                        </template>
+                        <span>Cascade Goal</span>
+                      </v-tooltip>
                     </span>
                   </div>
                 </template>
@@ -803,6 +829,7 @@ export default {
         { text: 'Manager', value: 'manager.name' },
       ],
       cascadedGoalsItems: {},
+      addCascadedGoalsDialog: false,
 
       addGoalsDialog: false,
       addSkillsDialog: false,
@@ -918,6 +945,10 @@ export default {
     this.init(this.appraisal)
   },
   methods: {
+    cascadeGoal(item) {
+      this.currentGoal = item
+      this.addCascadedGoalsDialog = true
+    },
     init(appraisal) {
       const data = {
         name: appraisal.appraisal_name,
@@ -947,6 +978,7 @@ export default {
           kpi_dialog: false,
           tabs: null,
           date_menu: false,
+          cascaded_goal: goal.cascaded_goal,
           comments: [
             {
               id: 0,

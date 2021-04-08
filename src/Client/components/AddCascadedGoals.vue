@@ -7,26 +7,11 @@
       <div v-else-if="$fetchState.error">An error occurred</div>
 
       <v-card v-else>
-        <v-card-title class="headline">Add Cascaded Goal </v-card-title>
+        <v-card-title class="headline">
+          <span v-if="goal.cascaded_goal == null"> Add Cascaded Goal</span>
+          <span v-else> Update Cascaded Goal </span>
+        </v-card-title>
         <v-card-text>
-          <v-select
-            v-model="createGoal.goal_category"
-            :items="categories"
-            item-text="name"
-            item-value="id"
-            label="Enter goal category"
-          ></v-select>
-          <v-text-field
-            v-model="createGoal.summary"
-            label="Goal Title "
-          ></v-text-field>
-
-          <v-textarea
-            v-model="createGoal.description"
-            label="Goal Objective "
-            outlined
-          ></v-textarea>
-
           <v-row>
             <v-col cols="4">Employees</v-col>
             <v-col>
@@ -42,42 +27,21 @@
               ></v-combobox>
             </v-col>
           </v-row>
-          <v-menu
-            ref="menu"
-            v-model="menu"
-            :close-on-content-click="false"
-            :return-value.sync="createGoal.due"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="createGoal.due"
-                label="Due Date"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="createGoal.due" no-title scrollable>
-              <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
-              <v-btn
-                text
-                color="primary"
-                @click="$refs.menu.save(createGoal.due)"
-              >
-                OK
-              </v-btn>
-            </v-date-picker>
-          </v-menu>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" text @click="close"> Cancel </v-btn>
-          <v-btn color="green darken-1" text @click="submit"> Submit </v-btn>
+          <v-btn
+            v-if="goal.cascaded_goal == null"
+            color="green darken-1"
+            text
+            @click="submit"
+          >
+            Submit
+          </v-btn>
+          <v-btn v-else color="green darken-1" text @click="update">
+            Update
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -86,10 +50,19 @@
 <script>
 export default {
   name: 'AddGoalDepartmentVue',
-  props: { dialog: Boolean, appraisalId: Number },
+  props: { dialog: Boolean, appraisalId: Number, goal: Object },
   async fetch() {
     this.employees = await this.$axios.$get('api/employee/list/')
     this.categories = await this.$axios.$get('/api/category/goal/')
+
+    if (this.goal.cascaded_goal != null) {
+      this.$axios
+        .$get(`api/cascadedgoal/${this.goal.cascaded_goal}/`)
+        .then((res) => {
+          console.log(res)
+          this.employee_list = res.emaployees
+        })
+    }
   },
   data() {
     return {
@@ -105,25 +78,54 @@ export default {
       },
     }
   },
-  mounted() {},
 
   methods: {
     close() {
       this.$emit('close-cascaded-dialog')
     },
+    update() {
+      this.$axios
+        .$patch(`/api/cascadedgoal/${this.goal.cascaded_goal}/`, {
+          emaployees: this.employee_list.map((x) => x.id),
+        })
+        .then((res) => {
+          this.$notifier.showMessage({
+            content: 'Success updating goal',
+            color: 'info',
+          })
+          this.close()
+          this.$emit('reload')
+        })
+        .catch(() => {
+          this.$notifier.showMessage({
+            content: 'Error updating goal',
+            color: 'error',
+          })
+        })
+    },
     submit() {
       this.$axios
         .$post('/api/cascadedgoal/', {
-          ...this.createGoal,
+          ...{
+            goal_category: this.goal.category.id,
+            summary: this.goal.goal_title,
+            description: this.goal.description,
+            due: this.goal.due,
+            appraisal: this.appraisalId,
+          },
           ...{
             emaployees: this.employee_list.map((x) => x.id),
             manager: this.$auth.user.id,
           },
         })
-        .then((res) => {
+        .then(async (res) => {
           this.$notifier.showMessage({
             content: 'Success creating goal',
             color: 'info',
+          })
+
+          await this.$axios.patch(`api/goal/${this.goal.id}`, {
+            cascaded_goal: res.id,
           })
           this.close()
           this.$emit('reload')

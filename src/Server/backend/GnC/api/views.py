@@ -189,9 +189,15 @@ class GoalCategoryViewSet(ModelViewSet):
 
 
 class CascadedGoalsViewSet(ModelViewSet):
-    serializer_class = CascadedGoalsSerializer
+    
     queryset = CascadedGoals.objects.all()
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return DetailCascadedGoalsSerializer
+        return CascadedGoalsSerializer
+        
 
 
 @api_view(["POST"])
