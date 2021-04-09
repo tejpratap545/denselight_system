@@ -179,7 +179,7 @@ export default {
           {
             // basic info
             goal_category: this.goal.category.id,
-            summary: this.goal.title,
+            summary: this.goal.goal_title,
             description: this.goal.description,
             weightage: this.goal.weightage1,
 

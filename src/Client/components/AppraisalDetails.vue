@@ -52,6 +52,13 @@
         @close-cascaded-dialog="addCascadedGoalsDialog = false"
         @reload="reload"
       />
+      <editKpi
+        v-if="editKpiDialog"
+        :dialog="editKpiDialog"
+        :kpi="currentKpi"
+        @close-kpi-dialog="editKpiDialog = false"
+        @reload="reload"
+      />
     </div>
     <div class="ma-5">
       <v-tabs
@@ -354,79 +361,14 @@
                                   </v-card-actions>
                                 </v-card>
                               </v-dialog>
-                              <v-dialog v-model="dialogKpiUpdate" width="700">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    color="success lighten-2"
-                                    dark
-                                    v-bind="attrs"
-                                    text
-                                    v-on="on"
-                                  >
-                                    <v-icon>mdi-pencil</v-icon>
-                                  </v-btn>
-                                </template>
-
-                                <v-card>
-                                  <v-card-title>Update Kpi</v-card-title>
-                                  <v-card-text>
-                                    <v-row>
-                                      <v-textarea
-                                        v-model="kpi.description"
-                                        outlined
-                                        label="KPI description"
-                                      ></v-textarea>
-                                    </v-row>
-
-                                    <v-row>
-                                      <v-menu
-                                        v-model="kpiDateMenu"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        transition="scale-transition"
-                                        offset-y
-                                        min-width="290px"
-                                      >
-                                        <template
-                                          v-slot:activator="{ on, attrs }"
-                                        >
-                                          <v-text-field
-                                            v-model="kpi.due"
-                                            label="KPI due"
-                                            prepend-icon="mdi-calendar"
-                                            readonly
-                                            v-bind="attrs"
-                                            v-on="on"
-                                          ></v-text-field>
-                                        </template>
-                                        <v-date-picker
-                                          v-model="kpi.due"
-                                          @input="kpiDateMenu = false"
-                                        ></v-date-picker>
-                                      </v-menu>
-                                    </v-row>
-                                  </v-card-text>
-                                  <v-divider></v-divider>
-
-                                  <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                      color="info"
-                                      text
-                                      @click="dialogKpiUpdate = false"
-                                    >
-                                      Close
-                                    </v-btn>
-                                    <v-btn
-                                      color="success"
-                                      text
-                                      @click="updateKpi(kpi)"
-                                    >
-                                      Update
-                                    </v-btn>
-                                  </v-card-actions>
-                                </v-card>
-                              </v-dialog>
+                              <v-btn
+                                color="success lighten-2"
+                                dark
+                                text
+                                @click="updateKpi(kpi)"
+                              >
+                                <v-icon>mdi-pencil</v-icon>
+                              </v-btn>
                             </v-card-text>
                           </v-card>
                         </v-card-text>
@@ -924,14 +866,17 @@
 </template>
 
 <script>
+import EditKpi from './EditKpi.vue'
 import global from '~/mixins/global'
 export default {
+  components: { EditKpi },
   mixins: [global],
   props: ['appraisal'],
   data() {
     return {
       careerAspiration: '',
       newComment: '',
+      currentKpi: {},
 
       cascadedGoalsHeader: [
         { text: 'Category', value: 'goal_category.name' },
@@ -945,6 +890,7 @@ export default {
 
       addGoalsDialog: false,
       addSkillsDialog: false,
+      editKpiDialog: false,
       addCoreValueDialog: false,
       skillDeleteDialog: false,
       updateGoalsDialog: false,
@@ -1373,29 +1319,8 @@ export default {
         })
     },
     updateKpi(kpi) {
-      this.$axios
-        .patch(`api/KPI/${kpi.id}`, {
-          description: kpi.description,
-          due: kpi.due,
-        })
-        .then(() => {
-          this.$notifier.showMessage({
-            content: `Successfully updating  kpi `,
-            color: 'info',
-          })
-
-          this.$fetch()
-        })
-        .catch((error) => {
-          console.log(error)
-          this.$notifier.showMessage({
-            content: 'Error updating kpi',
-            color: 'error',
-          })
-        })
-        .finally(() => {
-          this.dialogKpiUpdate = false
-        })
+      this.currentKpi = kpi
+      this.editKpiDialog = true
     },
 
     reload() {
