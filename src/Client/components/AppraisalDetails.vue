@@ -7,6 +7,7 @@
         :appraisal-id="appraisal.id"
         @close-goal-dialog="addGoalsDialog = false"
         @reload="reload"
+        @change-tab-data="changeTabdata"
       />
       <AddCoreValue
         v-if="addCoreValueDialog"
@@ -14,6 +15,7 @@
         :appraisal-id="appraisal.id"
         @close-core-dialog="addCoreValueDialog = false"
         @reload="reload"
+        @change-tab-data="changeTabdata"
       />
       <AddSkills
         v-if="addSkillsDialog"
@@ -21,6 +23,7 @@
         :appraisal-id="appraisal.id"
         @close-skills-dialog="addSkillsDialog = false"
         @reload="reload"
+        @change-tab-data="changeTabdata"
       />
       <AdminEditGoal
         v-if="updateGoalsDialog"
@@ -28,6 +31,7 @@
         :goal="currentGoal"
         @close="updateGoalsDialog = false"
         @reload="reload"
+        @change-tab-data="changeTabdata"
       />
       <AdminEditCoreValue
         v-if="updateCoreValueDialog"
@@ -35,6 +39,7 @@
         :core-value="currentCoreValue"
         @close="updateCoreValueDialog = false"
         @reload="reload"
+        @change-tab-data="changeTabdata"
       />
       <AdminEditSkills
         v-if="updateSkillsDialog"
@@ -42,6 +47,7 @@
         :skill="currentSkill"
         @close="updateSkillsDialog = false"
         @reload="reload"
+        @change-tab-data="changeTabdata"
       />
 
       <AddCascadedGoals
@@ -51,6 +57,7 @@
         :appraisal-id="appraisal.overall_appraisal.id"
         @close-cascaded-dialog="addCascadedGoalsDialog = false"
         @reload="reload"
+        @change-tab-data="changeTabdata"
       />
       <editKpi
         v-if="editKpiDialog"
@@ -1005,6 +1012,9 @@ export default {
     this.init(this.appraisal)
   },
   methods: {
+    changeTabdata(tab) {
+      this.tabData = tab
+    },
     cascadeGoal(item) {
       this.currentGoal = item
       this.addCascadedGoalsDialog = true

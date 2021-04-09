@@ -56,6 +56,7 @@ export default {
   methods: {
     close() {
       this.$emit('close')
+      this.$emit('change-tab-data', 3)
     },
     submit() {
       this.$axios

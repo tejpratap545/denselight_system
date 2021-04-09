@@ -78,6 +78,7 @@ export default {
   methods: {
     close() {
       this.$emit('close-skills-dialog')
+      this.$emit('change-tab-data', 3)
     },
     submit() {
       let url = '/api/skill/create'

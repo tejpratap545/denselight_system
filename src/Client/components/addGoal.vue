@@ -123,6 +123,7 @@ export default {
   methods: {
     close() {
       this.$emit('close-goal-dialog')
+      this.$emit('change-tab-data', 1)
     },
 
     submit() {

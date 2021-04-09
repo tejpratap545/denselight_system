@@ -84,6 +84,7 @@ export default {
   methods: {
     close() {
       this.$emit('close-core-dialog')
+      this.$emit('change-tab-data', 2)
     },
     submit() {
       let url = '/api/competencies/create'
