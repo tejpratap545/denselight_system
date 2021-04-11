@@ -168,17 +168,23 @@
                       >
                         mdi-window-close</v-icon
                       >
-                      <v-icon v-else indeterminate color="primary"
+                      <v-icon
+                        v-else
+                        v-bind="attrs"
+                        indeterminate
+                        color="primary"
+                        v-on="on"
                         >mdi-account-clock</v-icon
                       >
                     </template>
+
                     <span v-if="item.status == 'APPROVED'"
-                      >Goal is Approved</span
+                      >Goal is Approved By Manager</span
                     >
                     <span v-else-if="item.status == 'REJECTED'"
-                      >Goal is rejected</span
+                      >Goal is rejected By Manager</span
                     >
-                    <span v-else>Goal is not approved</span>
+                    <span v-else>Goal is not approved By Manager</span>
                   </v-tooltip>
                 </template>
                 <template v-slot:[`item.actions`]="{ item }">
