@@ -14,14 +14,14 @@
           :dialog="submitGoalsDialog"
           :appraisal-id="appraisalSelectedIndex"
           @close-goal-submit-dialog="submitGoalsDialog = false"
-          @reload="$fetch"
+          @reload="fetchData"
         />
         <MidYearEmployeeReview
           v-if="midYearEmployeeReviewDialog"
           :dialog="midYearEmployeeReviewDialog"
           :appraisal-id="appraisalSelectedIndex"
           @close-mid-year-dialog="midYearEmployeeReviewDialog = false"
-          @reload="$fetch"
+          @reload="fetchData"
         >
         </MidYearEmployeeReview>
         <EndYearEmployeeReview
@@ -29,7 +29,7 @@
           :dialog="endYearEmployeeReviewDialog"
           :appraisal-id="appraisalSelectedIndex"
           @close-end-year-dialog="endYearEmployeeReviewDialog = false"
-          @reload="$fetch"
+          @reload="fetchData"
         >
         </EndYearEmployeeReview>
         <EndYearEmployeeApprove
@@ -37,7 +37,7 @@
           :dialog="endYearApproveDialog"
           :appraisal-id="appraisalSelectedIndex"
           @close-approve-dialog="endYearApproveDialog = false"
-          @reload="$fetch"
+          @reload="fetchData"
         >
         </EndYearEmployeeApprove>
         <MidYearEmployeeApprove
@@ -45,7 +45,7 @@
           :dialog="midYearApproveDialog"
           :appraisal-id="appraisalSelectedIndex"
           @close-mid-year-submit="midYearApproveDialog = false"
-          @reload="$fetch"
+          @reload="fetchData"
         >
         </MidYearEmployeeApprove>
       </div>
@@ -263,7 +263,7 @@
       <AppraisalDetails
         v-if="appraisalSelectedIndex != 0"
         :appraisal="appraisalSelected"
-        @reload-mainvue="$fetch()"
+        @reload-mainvue="fetchData()"
       />
     </div>
   </div>
@@ -277,23 +277,9 @@ export default {
   layout: 'dashboard-template',
   mixins: [global],
   async fetch() {
-    try {
-      this.appraisalData = await this.$axios.$get(
-        '/api/appraisals/list/detail/me'
-      )
-
-      if (this.appraisalData.length != 0) {
-        const i = window.localStorage.getItem('selected-appraisal')
-        if (i != null) {
-          if (parseInt(i) < this.appraisalData.length)
-            this.changeAppraisal(parseInt(i))
-          else this.changeAppraisal(0)
-        } else this.changeAppraisal(0)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    await this.fetchData()
   },
+
   data() {
     return {
       selectedItem: 0,
@@ -311,10 +297,28 @@ export default {
   activated() {
     // Call fetch again if last fetch more than 30 sec ago
     if (this.$fetchState.timestamp <= Date.now() - 10000) {
-      this.$fetch()
+      this.fetchData()
     }
   },
   methods: {
+    async fetchData() {
+      try {
+        this.appraisalData = await this.$axios.$get(
+          '/api/appraisals/list/detail/me'
+        )
+
+        if (this.appraisalData.length != 0) {
+          const i = window.localStorage.getItem('selected-appraisal')
+          if (i != null) {
+            if (parseInt(i) < this.appraisalData.length)
+              this.changeAppraisal(parseInt(i))
+            else this.changeAppraisal(0)
+          } else this.changeAppraisal(0)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
     changeAppraisal(i) {
       this.appraisalSelected = this.appraisalData[i]
       this.appraisalSelectedIndex = this.appraisalSelected.id

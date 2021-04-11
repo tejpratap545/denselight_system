@@ -78,7 +78,7 @@ export default {
   methods: {
     close() {
       this.$emit('close-skills-dialog')
-      this.$emit('change-tab-data', 3)
+      this.$emit('change-tab-data', 2)
     },
     submit() {
       let url = '/api/skill/create'
@@ -92,8 +92,8 @@ export default {
             content: 'Success creating skills',
             color: 'info',
           })
-          this.close()
           this.$emit('reload')
+          this.close()
         })
         .catch((error) => {
           this.$notifier.showMessage({

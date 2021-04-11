@@ -123,7 +123,7 @@ export default {
   methods: {
     close() {
       this.$emit('close-goal-dialog')
-      this.$emit('change-tab-data', 1)
+      this.$emit('change-tab-data', 0)
     },
 
     submit() {
@@ -138,9 +138,9 @@ export default {
             content: 'Success creating goal',
             color: 'info',
           })
+          this.$emit('reload')
 
           this.close()
-          this.$emit('reload')
         })
         .catch((error) => {
           this.$notifier.showMessage({

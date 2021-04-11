@@ -84,7 +84,7 @@ export default {
   methods: {
     close() {
       this.$emit('close-core-dialog')
-      this.$emit('change-tab-data', 2)
+      this.$emit('change-tab-data', 1)
     },
     submit() {
       let url = '/api/competencies/create'
@@ -99,8 +99,8 @@ export default {
             content: 'Success creating competencies',
             color: 'info',
           })
-          this.close()
           this.$emit('reload')
+          this.close()
         })
         .catch((error) => {
           this.$notifier.showMessage({

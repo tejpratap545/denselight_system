@@ -217,7 +217,7 @@ export default {
 
     close() {
       this.$emit('close')
-      this.$emit('change-tab-data', 1)
+      this.$emit('change-tab-data', 0)
     },
   },
 }

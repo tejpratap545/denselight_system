@@ -99,8 +99,8 @@ export default {
             content: 'Success creating goal',
             color: 'info',
           })
-          this.close()
           this.$emit('reload')
+          this.close()
         })
         .catch((error) => {
           this.$notifier.showMessage({
