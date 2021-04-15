@@ -59,7 +59,7 @@
         @reload="reload"
         @change-tab-data="changeTabdata"
       />
-      <editKpi
+      <EditKpi
         v-if="editKpiDialog"
         :dialog="editKpiDialog"
         :kpi="currentKpi"
@@ -298,7 +298,7 @@
                               appraisal.status == 'Employee'
                             "
                           >
-                            Add KPI</span
+                            ADD/AMEND KPI</span
                           >
                           <span v-else> View KPI </span>
                         </v-btn>
