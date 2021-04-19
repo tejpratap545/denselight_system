@@ -34,15 +34,23 @@
             <tbody>
               <tr>
                 <th>Name</th>
-                <td>{{ appraisal.employee.name }}</td>
+                <td>
+                  {{ appraisal.employee ? appraisal.employee.name : '--' }}
+                </td>
               </tr>
               <tr>
                 <th>Department</th>
-                <td>{{ appraisal.employee.department.name }}</td>
+                <td>
+                  {{
+                    appraisal.employee.department
+                      ? appraisal.employee.department.name
+                      : '--'
+                  }}
+                </td>
               </tr>
               <tr>
                 <th>Manager/Supervisor's Name</th>
-                <td>{{ appraisal.manager.name }}</td>
+                <td>{{ appraisal.manager ? appraisal.manager.name : '--' }}</td>
               </tr>
             </tbody>
           </table>
@@ -270,7 +278,6 @@
 
 <script>
 export default {
-  name: 'PrintAppraisal',
   async fetch() {
     const id = this.$route.query.id
     this.appraisals = await this.$axios.$get(
