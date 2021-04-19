@@ -60,6 +60,7 @@ urlpatterns = [
     path("competencies/<int:pk>", CompetenciesAPIView.as_view()),
     path("skill/<int:pk>", SkillsApiView.as_view()),
     path("appraisals/detail/<int:pk>", DetailAppraisal.as_view()),
+    path("overallappraisals/detail/<int:pk>", DetailOverAllAppraisal.as_view()),
     # goal setting stage
     path("submit/employee/goal/<int:pk>", submit_goals),
     path("approve/goal/<int:pk>", approved_goal),

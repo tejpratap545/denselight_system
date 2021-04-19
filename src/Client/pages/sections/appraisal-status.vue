@@ -41,7 +41,7 @@
           <v-tab>Overall Appraisal</v-tab>
           <v-tab>User Appraisal</v-tab>
           <v-tab>Previous Appraisal</v-tab>
-          <v-tab>Closed Appraials</v-tab>
+          <v-tab>Closed Appraisal</v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tabData">
@@ -82,6 +82,19 @@
                             </template>
                             <template v-slot:[`item.actions`]="{ item }">
                               <div>
+                                <a
+                                  target="_blank"
+                                  :href="`/mass-print/?id=${item.id}`"
+                                >
+                                  <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn v-bind="attrs" icon v-on="on">
+                                        <v-icon>mdi-printer</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>Print Appraisals</span>
+                                  </v-tooltip>
+                                </a>
                                 <AppraisalEdit
                                   :appraisal="item.overallAppraisal"
                                   @reload-mainvue="$fetch()"

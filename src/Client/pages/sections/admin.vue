@@ -41,27 +41,52 @@
       <v-card-title>
         Manage Employees Appraisals
         <v-spacer></v-spacer>
-        <v-btn text class="mx-2" color="primary" @click="filterdialog = true">
-          <v-icon>mdi-filter-variant</v-icon>
-        </v-btn>
-        <v-btn
-          class="mx-2"
-          text
-          color="primary"
-          @click="createAppraisalDialog = true"
-        >
-          <v-icon>mdi-plus</v-icon></v-btn
-        >
 
-        <v-btn
-          class="mx-2"
-          text
-          color="primary"
-          :loading="reportLoading"
-          @click="report()"
-        >
-          <v-icon>mdi-download-circle-outline</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs"
+              text
+              color="success"
+              v-on="on"
+              @click="filterdialog = true"
+            >
+              <v-icon>mdi-filter-variant</v-icon>
+            </v-btn>
+          </template>
+          <span>Filter Appraisal</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="mx-2"
+              text
+              color="primary"
+              v-bind="attrs"
+              @click="createAppraisalDialog = true"
+              v-on="on"
+            >
+              <v-icon>mdi-plus</v-icon></v-btn
+            >
+          </template>
+          <span> Add Appraisal</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="mx-2"
+              text
+              color="primary"
+              :loading="reportLoading"
+              v-bind="attrs"
+              @click="report()"
+              v-on="on"
+            >
+              <v-icon>mdi-download-circle-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Download appraisals Report</span>
+        </v-tooltip>
       </v-card-title>
 
       <v-card-text>

@@ -269,6 +269,7 @@ class DetailUserAppraisal(generics.ListAPIView):
                 "skills_set",
                 "skills_set__skill_category",
                 "goals_set__goal_category",
+                "competencies_set__competency_category",
                 Prefetch(
                     "overall_appraisal__departmentalgoals_set",
                     queryset=DepartmentalGoals.objects.filter(
@@ -340,6 +341,37 @@ class DetailAppraisal(generics.RetrieveAPIView):
             "overall_appraisal__departmentalcompetencies_set__competency_category",
         )
         return get_object_or_404(queryset, id=self.kwargs["pk"])
+
+
+class DetailOverAllAppraisal(generics.ListAPIView):
+    serializer_class = DetailAppraisalSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return User_Appraisal_List.objects.prefetch_related(
+            "manager",
+            "employee",
+            "manager__department",
+            "employee__department",
+            "overall_appraisal",
+            "overall_appraisal__appraisal_category",
+            "appraisal_category",
+            "goals_set",
+            "competencies_set",
+            "goals_set__kpi_set",
+            "competencies_set__competencycomment_set",
+            "skills_set",
+            "skills_set__skill_category",
+            "goals_set__goal_category",
+            Prefetch(
+                "overall_appraisal__departmentalgoals_set",
+                queryset=DepartmentalGoals.objects.filter(
+                    department=self.request.user.profile.department
+                ),
+            ),
+            "overall_appraisal__departmentalcompetencies_set",
+            "overall_appraisal__departmentalcompetencies_set__competency_category",
+        ).filter(overall_appraisal=self.kwargs["pk"])
 
 
 @api_view(["POST"])

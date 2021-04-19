@@ -162,6 +162,7 @@ class CompetencyCommentSerializer(serializers.ModelSerializer):
 
 class DetailCompetenciesSerializer(serializers.ModelSerializer):
     competencycomment_set = CompetencyCommentSerializer(many=True)
+    competency_category = CompetencyCategorySerializer()
 
     class Meta:
         model = Competencies

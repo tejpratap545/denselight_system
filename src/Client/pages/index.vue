@@ -110,6 +110,17 @@
                   )
                 }}
               </small>
+
+              <a target="_blank" :href="`/print/?id=${appraisalSelected.id}`">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" icon v-on="on">
+                      <v-icon>mdi-printer</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Print Appraisal</span>
+                </v-tooltip>
+              </a>
             </div>
           </v-col>
           <div

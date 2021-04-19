@@ -971,7 +971,7 @@ export default {
       myValuesTableHeader: [
         {
           text: 'Core Values Competency',
-          value: 'summary',
+          value: 'competency_category.name',
         },
 
         {
