@@ -6,7 +6,6 @@
       </v-card-title>
 
       <v-divider></v-divider>
-      {{ kpi }}
 
       <v-card-actions>
         <v-spacer></v-spacer>
