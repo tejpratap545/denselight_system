@@ -66,6 +66,13 @@
         @close-kpi-dialog="editKpiDialog = false"
         @reload="reload"
       />
+      <DeleteKpi
+        v-if="dialogKpiDelete"
+        :dialog="dialogKpiDelete"
+        :kpi="currentKpi"
+        @close-kpi-dialog="dialogKpiDelete = false"
+        @reload="reload"
+      />
     </div>
     <div class="ma-5">
       <v-tabs
@@ -336,44 +343,6 @@
                                 >Due : <b>{{ kpi.due }}</b></small
                               >
 
-                              <v-dialog v-model="dialogKpiDelete" width="500">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    color="red lighten-2"
-                                    dark
-                                    v-bind="attrs"
-                                    text
-                                    v-on="on"
-                                  >
-                                    <v-icon>mdi-close</v-icon>
-                                  </v-btn>
-                                </template>
-
-                                <v-card>
-                                  <v-card-title class="subtitle-2">
-                                    {{ kpi.description }}
-                                  </v-card-title>
-                                  <v-divider></v-divider>
-
-                                  <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                      color="info"
-                                      text
-                                      @click="dialogKpiDelete = false"
-                                    >
-                                      Close
-                                    </v-btn>
-                                    <v-btn
-                                      color="error"
-                                      text
-                                      @click="deleteKpi(kpi)"
-                                    >
-                                      Delete
-                                    </v-btn>
-                                  </v-card-actions>
-                                </v-card>
-                              </v-dialog>
                               <v-btn
                                 color="success lighten-2"
                                 dark
@@ -381,6 +350,14 @@
                                 @click="updateKpi(kpi)"
                               >
                                 <v-icon>mdi-pencil</v-icon>
+                              </v-btn>
+                              <v-btn
+                                color="red lighten-2"
+                                dark
+                                text
+                                @click="deleteKpi(kpi)"
+                              >
+                                <v-icon>mdi-close</v-icon>
                               </v-btn>
                             </v-card-text>
                           </v-card>
@@ -1313,26 +1290,8 @@ export default {
     },
 
     deleteKpi(kpi) {
-      this.$axios
-        .delete(`api/KPI/${kpi.id}`)
-        .then(() => {
-          this.$notifier.showMessage({
-            content: `Successfully deleted  kpi `,
-            color: 'info',
-          })
-
-          this.$fetch()
-        })
-        .catch((error) => {
-          console.log(error)
-          this.$notifier.showMessage({
-            content: 'Error deleting kpi',
-            color: 'error',
-          })
-        })
-        .finally(() => {
-          this.dialogKpiDelete = false
-        })
+      this.currentKpi = kpi
+      this.dialogKpiDelete = true
     },
     updateKpi(kpi) {
       this.currentKpi = kpi
