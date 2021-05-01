@@ -13,12 +13,8 @@ from backend.GnC.api.views import (
     reject_goal,
 )
 from backend.Profile.api.views import *
-from backend.Profile.views import download_bell_curve, download_report, get_curve_data
-from backend.Trainings.api.views import (
-    AdminCreateSkillsApiView,
-    CreateSkillsApiView,
-    SkillsApiView,
-)
+from backend.Profile.views import download_bell_curve, download_report, get_curve_data, get_report_data
+from backend.Trainings.api.views import AdminCreateSkillsApiView, CreateSkillsApiView, SkillsApiView
 from django.urls.conf import path
 
 
@@ -104,4 +100,5 @@ urlpatterns = [
     path("download/bellcurve", download_bell_curve),
     path("bellcurve/data", get_curve_data),
     path("cascadedgoals/me", GetCascadedgoals.as_view()),
+    path("get_report_data", get_report_data),
 ]

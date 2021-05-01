@@ -8,12 +8,14 @@ from django.shortcuts import get_list_or_404, render
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view
+
 # Create your views here.
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 import io
+import json
 import secrets
 import xlsxwriter
 
@@ -1211,3 +1213,58 @@ def download_report(request):
     response["Content-Disposition"] = "attachment; filename=%s" % filename
 
     return response
+
+
+from backend.Profile.api.serializers import ShortProfileSerializer
+from rest_framework.serializers import ModelSerializer
+
+
+class ReportDataSerializers(ModelSerializer):
+    employee = ShortProfileSerializer()
+
+    class Meta:
+        model = User_Appraisal_List
+
+        fields = (
+            "id",
+            "appraisal_name",
+            "employee",
+        )
+
+
+@api_view(["GET"])
+def get_report_data(request):
+    department_list = list(
+        map(int, request.query_params.get("department_list", "").split("_")[:-1])
+    )
+    appraisal_list = list(
+        map(int, request.query_params.get("appraisal_list", "").split("_")[:-1])
+    )
+
+    data = (
+        User_Appraisal_List.objects.prefetch_related("employee__department", "employee")
+        .order_by("employee__second_Reporting_Manager")
+        .annotate(
+            total1=Window(
+                expression=Count("*"),
+                partition_by=[
+                    F("employee__second_Reporting_Manager"),
+                    F("employee__department"),
+                ],
+            ),
+            total2=Window(
+                expression=Count("*"),
+                partition_by=[F("employee__second_Reporting_Manager")],
+            ),
+        )
+    )
+
+    if appraisal_list is not None or appraisal_list is not []:
+        data = data.filter(overall_appraisal_id__in=appraisal_list)
+
+    if department_list != []:
+        data = data.filter(employee__department_id__in=department_list)
+
+    return Response(
+        data=ReportDataSerializers(data.filter(status="Employee"), many=True).data
+    )
