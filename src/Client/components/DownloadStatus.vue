@@ -79,8 +79,16 @@ export default {
       let departmentList = ''
       let appraisalList = ''
 
-      this.filter.department_list.map((i) => (departmentList += `${i.id}_`))
-      this.filter.appraisal_list.map((i) => (appraisalList += `${i.id}_`))
+      this.filter.department_list.map((i) => {
+        if (i !== undefined) {
+          departmentList += `${i.id}_`
+        }
+      })
+      this.filter.appraisal_list.map((i) => {
+        if (i !== undefined) {
+          appraisalList += `${i.id}_`
+        }
+      })
 
       const link = document.createElement('a')
       link.href = `${this.$axios.defaults.baseURL}api/download/report?department_list=${departmentList}&appraisal_list=${appraisalList}`

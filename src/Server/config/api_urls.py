@@ -86,6 +86,7 @@ urlpatterns = [
     path("get_token", get_token),
     path("download/report", download_report),
     path("resign/employee", resign_employee),
+    path("revive/employee", revive_employee),
     path("resign/employee/list", ReginListEmployees.as_view()),
     path("resign/employee/list/appraisals", ClosedAllAppraisalView.as_view()),
     path("check/username", check_username),

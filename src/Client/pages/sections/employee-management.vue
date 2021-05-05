@@ -119,6 +119,52 @@
             :loading="loading"
           >
             <template v-slot:[`item.action`]="{ item }">
+              <v-dialog v-model="item.revive_dialog" persistent max-width="600">
+                <template
+                  v-slot:activator="{ on: dialogon, attrs: dialogattrs }"
+                >
+                  <v-tooltip bottom>
+                    <template
+                      v-slot:activator="{ on: tooltip, attrs: tooltipattrs }"
+                    >
+                      <v-btn
+                        color="success"
+                        dark
+                        v-bind="{ ...dialogattrs, ...tooltipattrs }"
+                        icon
+                        v-on="{ ...dialogon, ...tooltip }"
+                      >
+                        <v-icon>mdi-account-convert</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Revive Employee</span>
+                  </v-tooltip>
+                </template>
+                <v-card>
+                  <v-card-title class="headline">
+                    <span class="subtitle"
+                      >Do You want to revive employee
+                    </span>
+                    {{ item.name }} ?
+                  </v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text @click="item.revive_dialog = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="
+                        item.revive_dialog = false
+                        reviveEmployee(item.id)
+                      "
+                    >
+                      OK
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
               <v-dialog v-model="item.delete_dialog" persistent max-width="600">
                 <template
                   v-slot:activator="{ on: dialogon, attrs: dialogattrs }"
@@ -218,6 +264,7 @@ export default {
               ? employee.first_Reporting_Manager.name
               : 'NIL',
             delete_dialog: false,
+            revive_dialog: false,
 
             dateOfHire: employee.date_Of_Hire,
             resignDate: employee.resign_date,
@@ -369,13 +416,35 @@ export default {
           console.log(error)
         })
     },
-    deleteEmployee() {
+    deleteEmployee(id) {
       this.$axios
         .$post(`api/profile/${id}`)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Successfully deleted employee',
             color: 'info',
+          })
+
+          this.$fetch()
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: 'Error deleting employee',
+            color: 'error',
+          })
+          console.log(error)
+        })
+    },
+    reviveEmployee(id) {
+      this.$axios
+        .$post(`api/revive/employee`, {
+          id,
+        })
+        .then((res) => {
+          this.$notifier.showMessage({
+            content:
+              'Successfully revived employee. Now employee can login and continue with previous appraisal',
+            color: 'success',
           })
 
           this.$fetch()

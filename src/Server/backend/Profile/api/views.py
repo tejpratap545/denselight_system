@@ -294,6 +294,24 @@ def resign_employee(request):
 
 @api_view(["POST"])
 @permission_classes([IsHrManager])
+def revive_employee(request):
+    try:
+        id = request.data.get("id")
+        profile = get_object_or_404(Profile, id=id)
+        profile.resign_date = None
+        profile.user.is_active = True
+        profile.save()
+        profile.user.save()
+        profile.user_appraisal_list_set.update(is_closed=False)
+        return Response("User is successfully Revive")
+
+    except:
+        return Response("An error accured", status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(["POST"])
+@permission_classes([IsHrManager])
 def check_username(request):
     try:
         username = request.data.get("username")
