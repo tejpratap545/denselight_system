@@ -418,7 +418,7 @@ export default {
     },
     deleteEmployee(id) {
       this.$axios
-        .$post(`api/profile/${id}`)
+        .$delete(`api/profile/${id}`)
         .then((res) => {
           this.$notifier.showMessage({
             content: 'Successfully deleted employee',
