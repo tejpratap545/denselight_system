@@ -340,6 +340,7 @@ export default {
       managers: [],
       departments: [],
       resginedEmployeeHeader: [
+        { text: 'Action', value: 'action' },
         {
           text: 'Name',
           align: 'start',
@@ -364,7 +365,6 @@ export default {
         { text: 'Position', value: 'position', sortable: true },
 
         { text: 'Supervisor', value: 'supervisor', sortable: true },
-        { text: 'Action', value: 'action' },
       ],
 
       editEmployeeDialog: false,
