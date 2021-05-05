@@ -12,6 +12,7 @@
             item-text="name"
             item-value="id"
             label="Core Values Competency Category"
+            return-object
           ></v-select>
           <v-textarea
             v-model="coreValue.summary"
@@ -65,7 +66,7 @@ export default {
       this.$axios
         .patch(`api/competencies/${this.coreValue.id}`, {
           summary: this.coreValue.summary,
-          competency_category: this.coreValue.competency_category,
+          competency_category: this.coreValue.competency_category.id,
           description: this.coreValue.description,
           weightage: this.coreValue.weightage,
         })

@@ -182,6 +182,7 @@ export default {
             summary: this.goal.goal_title,
             description: this.goal.description,
             weightage: this.goal.weightage1,
+            appraisal: this.goal.appraisal,
 
             goal_manager_comment: this.goal.goal_manager_comment,
             goal_employees_comment: this.goal.goal_employees_comment,

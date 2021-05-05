@@ -1032,6 +1032,7 @@ export default {
           tabs: null,
           date_menu: false,
           cascaded_goal: goal.cascaded_goal,
+          appraisal: goal.goal,
           comments: [
             {
               id: 0,

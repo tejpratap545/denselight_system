@@ -27,6 +27,27 @@ class SkillsApiView(generics.RetrieveUpdateDestroyAPIView):
             return CreateSkillsSerializer
         return ShortSkillSerializer
 
+    def perform_update(self, serializer):
+        if serializer.is_valid(raise_exception=True):
+            validated_data = serializer.validated_data
+
+            weightage_sum = self.get_object().appraisal.skills_set.aggregate(
+                Sum("weightage")
+            )
+            if weightage_sum["weightage__sum"] is None:
+
+                return super().perform_update(serializer)
+            elif (
+                int(validated_data.get("weightage"))
+                + int(weightage_sum["weightage__sum"])
+                > 100
+            ):
+                raise ValueError("Total weightage should be less then 100")
+            else:
+                return super().perform_update(serializer)
+
+        raise ValueError("error in serializer data")
+
 
 class CreateSkillsApiView(generics.CreateAPIView):
 

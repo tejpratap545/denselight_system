@@ -153,6 +153,28 @@ class GoalApiView(generics.RetrieveUpdateDestroyAPIView):
             return CreateGoalSerializer
         return GoalSerializer
 
+    def perform_update(self, serializer, *args, **kwargs):
+
+        if serializer.is_valid(raise_exception=True):
+            validated_data = serializer.validated_data
+
+            weightage_sum = self.get_object().appraisal.goals_set.aggregate(
+                Sum("weightage")
+            )
+            if weightage_sum["weightage__sum"] is None:
+
+                return super().perform_update(serializer)
+            elif (
+                int(validated_data.get("weightage"))
+                + int(weightage_sum["weightage__sum"])
+                > 100
+            ):
+                raise ValueError("Total weightage should be less then 100")
+            else:
+                return super().perform_update(serializer)
+
+        raise ValueError("error in serializer data")
+
 
 class KPIApiView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
@@ -181,6 +203,28 @@ class CompetenciesAPIView(generics.RetrieveUpdateDestroyAPIView):
             return CreateCompetenciesSerializer
         return CompetenciesSerializer
 
+    def perform_update(self, serializer):
+        if serializer.is_valid(raise_exception=True):
+            validated_data = serializer.validated_data
+
+            weightage_sum = self.get_object().appraisal.competencies_set.aggregate(
+                Sum("weightage")
+            )  
+            if weightage_sum["weightage__sum"] is None:
+
+                return super().perform_update(serializer)
+
+            elif (
+                int(validated_data.get("weightage"))
+                + int(weightage_sum["weightage__sum"])
+                > 100
+            ):
+                raise ValueError("Total weightage should be less then 100")
+            else:
+                return super().perform_update(serializer)
+
+        raise ValueError("error in serializer data")
+
 
 class GoalCategoryViewSet(ModelViewSet):
     serializer_class = GoalCategorySerializer
@@ -189,7 +233,7 @@ class GoalCategoryViewSet(ModelViewSet):
 
 
 class CascadedGoalsViewSet(ModelViewSet):
-    
+
     queryset = CascadedGoals.objects.all()
     permission_classes = [IsAuthenticated]
 
@@ -197,7 +241,6 @@ class CascadedGoalsViewSet(ModelViewSet):
         if self.request.method == "GET":
             return DetailCascadedGoalsSerializer
         return CascadedGoalsSerializer
-        
 
 
 @api_view(["POST"])
