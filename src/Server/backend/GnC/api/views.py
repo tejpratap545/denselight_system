@@ -209,7 +209,7 @@ class CompetenciesAPIView(generics.RetrieveUpdateDestroyAPIView):
 
             weightage_sum = self.get_object().appraisal.competencies_set.aggregate(
                 Sum("weightage")
-            )  
+            )
             if weightage_sum["weightage__sum"] is None:
 
                 return super().perform_update(serializer)
@@ -313,12 +313,7 @@ def approved_goal(request, *args, **kwargs):
             Notification.objects.create(
                 user=app.employee, title=title, description=description, color="success"
             )
-            try:
-                send_mail(
-                    title, description, settings.OFFICIAL_MAIL, [app.employee.email]
-                )
-            except:
-                pass
+
             return Response(
                 {"msg": "Your goal is successfully approved"}, status=status.HTTP_200_OK
             )

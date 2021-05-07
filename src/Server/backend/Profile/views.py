@@ -8,7 +8,6 @@ from django.shortcuts import get_list_or_404, render
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view
-
 # Create your views here.
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -257,7 +256,7 @@ def download_report(request):
         )
         p1 = list(p)
 
-        name = "Goal Pending Employee's Input"
+        name = "Goal pend EE submit"
         worksheet1 = workbook.add_worksheet(name)
         row = 3
         col = 3
@@ -450,7 +449,7 @@ def download_report(request):
             )
         )
         p1 = list(p)
-        name = "Mid year Pending Employee's Input"
+        name = "Mid year pend EE input"
         worksheet1 = workbook.add_worksheet("Mid year Pending Employee")
         row = 3
         col = 3
@@ -546,7 +545,7 @@ def download_report(request):
             )
         )
         p1 = list(p)
-        name = "Pending Mid year Employee's Review"
+        name = "Mid Year pend EE submit"
         worksheet1 = workbook.add_worksheet("Mid year Employee's Review")
         row = 3
         col = 3
@@ -741,7 +740,7 @@ def download_report(request):
         )
         p1 = list(p)
 
-        name = "End year Pending Employee's Inputs"
+        name = "End year Goal pend EE input"
         worksheet1 = workbook.add_worksheet("End year Employee Inputs")
         row = 3
         col = 3
@@ -837,7 +836,7 @@ def download_report(request):
             )
         )
         p1 = list(p)
-        name = "End year Pending Employee's Submission"
+        name = "End year pend EE submit"
         worksheet1 = workbook.add_worksheet("End year Employee's Submission")
         row = 3
         col = 3
