@@ -11,7 +11,7 @@
   <div v-else style="background-color: #eee">
     <div
       class="container shadow mx-auto p-5"
-      style="width: 1200px; background-color: #fff"
+      style="width: 1000px; background-color: #fff"
     >
       <div>
         <v-btn icon @click="print">
@@ -20,13 +20,14 @@
       </div>
 
       <div
+      class="Appraisal"
         v-for="(appraisal, appraisalIndex) in appraisals"
         :key="appraisal.id"
       >
         <div>
           <div class="row py-4">
             <h1 class="display-6">
-              {{ appraisalIndex + 1 }} =>
+              <b>{{ appraisalIndex + 1 }}</b> :
               <span> {{ appraisal.appraisal_name }} </span>
             </h1>
             <a :href="appraisal.end_year_employee_file" target="_blank">
@@ -292,6 +293,8 @@
           </v-card>
         </div>
       </div>
+
+
     </div>
   </div>
 </template>
@@ -349,4 +352,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.Appraisal{
+  page-break-after: always;
+}
+</style>
