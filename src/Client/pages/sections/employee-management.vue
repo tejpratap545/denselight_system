@@ -137,13 +137,13 @@
                         <v-icon>mdi-account-convert</v-icon>
                       </v-btn>
                     </template>
-                    <span>Revive Employee</span>
+                    <span>Revivie Employee</span>
                   </v-tooltip>
                 </template>
                 <v-card>
                   <v-card-title class="headline">
                     <span class="subtitle"
-                      >Do You want to revive employee
+                      >Do You want to revivie employee
                     </span>
                     {{ item.name }} ?
                   </v-card-title>
