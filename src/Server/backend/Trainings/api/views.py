@@ -40,6 +40,7 @@ class SkillsApiView(generics.RetrieveUpdateDestroyAPIView):
             elif (
                 int(validated_data.get("weightage"))
                 + int(weightage_sum["weightage__sum"])
+                - self.get_object().weightage
                 > 100
             ):
                 raise ValueError("Total weightage should be less then 100")
