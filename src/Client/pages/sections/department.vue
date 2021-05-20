@@ -170,7 +170,7 @@
                               </v-toolbar>
                               <Appraisal
                                 v-if="item.appraisal_dialog"
-                                :appraisal-id="appraisal.id"
+                                :appraisal-id="appraisal.dat.id"
                               />
                             </v-card>
                           </v-dialog>
