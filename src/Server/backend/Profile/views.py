@@ -214,10 +214,16 @@ def download_report(request):
     appraisal_list=[]
     for i in  request.query_params.get("department_list", "").split("_")[:-1]:
         if i:
-            department_list.append(int(i)) 
+            try:
+                department_list.append(int(i)) 
+            except:
+                pass
     for i in request.query_params.get("appraisal_list", "").split("_")[:-1]:
         if i:
-            appraisal_list.append(int(i))
+            try:    
+                appraisal_list.append(int(i))
+            except:
+                pass
 
     data = User_Appraisal_List.objects.prefetch_related(
         "employee__department", "employee"
