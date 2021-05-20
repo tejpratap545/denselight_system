@@ -228,7 +228,7 @@ def download_report(request):
 
     data = User_Appraisal_List.objects.prefetch_related(
         "employee__department", "employee"
-    )
+    ).filter(is_closed=False)
 
     if appraisal_list is not None or appraisal_list is not []:
         data = data.filter(overall_appraisal_id__in=appraisal_list)

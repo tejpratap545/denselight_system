@@ -2,11 +2,7 @@ from ...Profile.models import Notification
 from ..models import *
 from .pagination import StandardResultsSetPagination
 from .serializers import *
-from backend.GnC.models import (
-    CascadedGoals,
-    DepartmentalCompetencies,
-    DepartmentalGoals,
-)
+from backend.GnC.models import CascadedGoals, DepartmentalCompetencies, DepartmentalGoals
 from backend.Profile.permissions import IsHr, IsHrManager
 from django.conf import settings
 from django.core.mail import send_mail
@@ -45,9 +41,9 @@ class ManagerAppraisal(generics.ListAPIView):
             .exclude(overall_appraisal__status="Completed")
             .order_by()
             .annotate(
-                goals_count=Count("goals"),
-                core_values_competencies_count=Count("competencies"),
-                skills_count=Count("skills"),
+                goals_count=Count("goals", distinct=True),
+                core_values_competencies_count=Count("competencies", distinct=True),
+                skills_count=Count("skills", distinct=True),
             )
         )
 
@@ -72,9 +68,9 @@ class AllAppraisalView(generics.ListAPIView):
             )
             .order_by()
             .annotate(
-                goals_count=Count("goals"),
-                core_values_competencies_count=Count("competencies"),
-                skills_count=Count("skills"),
+                goals_count=Count("goals", distinct=True),
+                core_values_competencies_count=Count("competencies", distinct=True),
+                skills_count=Count("skills", distinct=True),
             )
         )
 
@@ -149,9 +145,9 @@ class ClosedAllAppraisalView(generics.ListAPIView):
             )
             .order_by()
             .annotate(
-                goals_count=Count("goals"),
-                core_values_competencies_count=Count("competencies"),
-                skills_count=Count("skills"),
+                goals_count=Count("goals", distinct=True),
+                core_values_competencies_count=Count("competencies", distinct=True),
+                skills_count=Count("skills", distinct=True),
             )
             .filter(is_closed=True)
         )
@@ -212,9 +208,9 @@ class UserAppraisal(generics.ListAPIView):
             .exclude(overall_appraisal__status="Completed")
             .order_by()
             .annotate(
-                goals_count=Count("goals"),
-                core_values_competencies_count=Count("competencies"),
-                skills_count=Count("skills"),
+                goals_count=Count("goals", distinct=True),
+                core_values_competencies_count=Count("competencies", distinct=True),
+                skills_count=Count("skills", distinct=True),
             )
         )
 
@@ -241,9 +237,9 @@ class CompletedUserAppraisal(generics.ListAPIView):
             )
             .order_by()
             .annotate(
-                goals_count=Count("goals"),
-                core_values_competencies_count=Count("competencies"),
-                skills_count=Count("skills"),
+                goals_count=Count("goals", distinct=True),
+                core_values_competencies_count=Count("competencies", distinct=True),
+                skills_count=Count("skills", distinct=True),
             )
         )
 
