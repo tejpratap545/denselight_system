@@ -8,6 +8,7 @@ from django.shortcuts import get_list_or_404, render
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view
+
 # Create your views here.
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -210,17 +211,17 @@ def download_bell_curve(request):
 
 @api_view(["GET"])
 def download_report(request):
-    department_list=[]
-    appraisal_list=[]
-    for i in  request.query_params.get("department_list", "").split("_")[:-1]:
+    department_list = []
+    appraisal_list = []
+    for i in request.query_params.get("department_list", "").split("_")[:-1]:
         if i:
             try:
-                department_list.append(int(i)) 
+                department_list.append(int(i))
             except:
                 pass
     for i in request.query_params.get("appraisal_list", "").split("_")[:-1]:
         if i:
-            try:    
+            try:
                 appraisal_list.append(int(i))
             except:
                 pass
@@ -310,26 +311,25 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
@@ -407,30 +407,30 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
             col = 3
+
         worksheet1.write(row + 2, 3, "Grand Total", text12)
         worksheet1.write(row + 2, 6, len(p1), text12)
 
@@ -503,30 +503,30 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
             col = 3
+
         worksheet1.write(row + 2, 3, "Grand Total", text12)
         worksheet1.write(row + 2, 6, len(p1), text12)
 
@@ -599,30 +599,30 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
             col = 3
+
         worksheet1.write(row + 2, 3, "Grand Total", text12)
         worksheet1.write(row + 2, 6, len(p1), text12)
 
@@ -697,30 +697,30 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
             col = 3
+
         worksheet1.write(row + 2, 3, "Grand Total", text12)
         worksheet1.write(row + 2, 6, len(p1), text12)
 
@@ -794,30 +794,30 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
             col = 3
+
         worksheet1.write(row + 2, 3, "Grand Total", text12)
         worksheet1.write(row + 2, 6, len(p1), text12)
 
@@ -890,30 +890,30 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
             col = 3
+
         worksheet1.write(row + 2, 3, "Grand Total", text12)
         worksheet1.write(row + 2, 6, len(p1), text12)
 
@@ -986,30 +986,30 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
             col = 3
+
         worksheet1.write(row + 2, 3, "Grand Total", text12)
         worksheet1.write(row + 2, 6, len(p1), text12)
 
@@ -1082,30 +1082,30 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
             col = 3
+
         worksheet1.write(row + 2, 3, "Grand Total", text12)
         worksheet1.write(row + 2, 6, len(p1), text12)
 
@@ -1178,30 +1178,30 @@ def download_report(request):
                     else:
                         row += 1
                         worksheet1.write(row, col, obj.employee.department.name)
-                        row += 1
-                        col = col + 1
-                        worksheet1.write(row, col, obj.employee.name)
-                        row -= 1
-                        col = col + 1
+                        col += 2
                         worksheet1.write(row, col, obj.total1, bold)
+                        col -= 1
+                        row += 1
+                        worksheet1.write(row, col, obj.employee.name)
                 else:
                     row += 3
                     worksheet1.write(
                         row, col, obj.employee.second_Reporting_Manager.name, bold
                     )
                     col += 1
-                    row += 2
+                    row += 1
                     worksheet1.write(row, col, obj.employee.department.name)
                     col += 2
                     worksheet1.write(row, col, obj.total1, bold)
                     col -= 1
                     row += 1
                     worksheet1.write(row, col, obj.employee.name)
-                    row -= 3
+                    row -= 2
                     col += 1
                     worksheet1.write(row, col, obj.total2, text12)
                     row += 2
             col = 3
+
         worksheet1.write(row + 2, 3, "Grand Total", text12)
         worksheet1.write(row + 2, 6, len(p1), text12)
 
