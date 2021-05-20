@@ -210,12 +210,14 @@ def download_bell_curve(request):
 
 @api_view(["GET"])
 def download_report(request):
-    department_list = list(
-        map(int, request.query_params.get("department_list", "").split("_")[:-1])
-    )
-    appraisal_list = list(
-        map(int, request.query_params.get("appraisal_list", "").split("_")[:-1])
-    )
+    department_list=[]
+    appraisal_list=[]
+    for i in  request.query_params.get("department_list", "").split("_")[:-1]:
+        if i:
+            department_list.append(int(i)) 
+    for i in request.query_params.get("appraisal_list", "").split("_")[:-1]:
+        if i:
+            appraisal_list.append(int(i))
 
     data = User_Appraisal_List.objects.prefetch_related(
         "employee__department", "employee"

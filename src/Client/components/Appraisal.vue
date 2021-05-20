@@ -184,6 +184,7 @@
                     <th>KPI</th>
                     <th>Progress</th>
                     <th>Date Created</th>
+                    <th>Due</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -191,6 +192,10 @@
                     <th>{{ kpi.description }}</th>
                     <th>{{ kpi.progress }}</th>
                     <td>{{ kpi.date_created }}</td>
+
+                    <td>
+                      <b>{{ kpi.due }}</b>
+                    </td>
                   </tr>
                 </tbody>
               </template>
