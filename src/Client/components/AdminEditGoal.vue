@@ -181,7 +181,7 @@ export default {
             goal_category: this.goal.category.id,
             summary: this.goal.goal_title,
             description: this.goal.description,
-            weightage: this.goal.,
+            weightage: this.goal.weightage1,
             appraisal: this.goal.appraisal,
             due: this.goal.due,
 
