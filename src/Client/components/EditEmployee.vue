@@ -103,16 +103,29 @@
               outlined
             ></v-text-field>
 
-            <v-combobox
-              v-model="user.first_Reporting_Manager"
-              :items="employees"
-              item-text="name"
-              item-value="id"
-              label="First reporting manager"
-              outlined
-              chips
-              return-object
-            ></v-combobox>
+            <v-menu
+              v-model="dateofhire_picker"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="user.date_Of_Hire"
+                  label="Date of hire"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="user.date_Of_Hire"
+                @input="dateofhire_picker = false"
+              ></v-date-picker>
+            </v-menu>
 
             <v-combobox
               v-model="user.second_Reporting_Manager"
@@ -221,6 +234,7 @@ export default {
   },
   data() {
     return {
+      dateofhire_picker: false,
       tab: null,
       employees: '',
 
@@ -237,7 +251,6 @@ export default {
       },
       emailUnique: true,
       emailinputError: false,
-
       passwordStrong: false,
       passwordinputError: false,
     }
@@ -254,6 +267,7 @@ export default {
           email: this.user.email,
           citizenship_Status: this.user.citizenship_Status,
           division_Centre: this.user.division_Centre,
+          date_Of_Hire: this.user.date_Of_Hire,
           nric: this.user.nric,
           phone: this.user.phone,
           gender: this.user.gender,
