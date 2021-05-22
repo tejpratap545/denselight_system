@@ -127,6 +127,31 @@
               ></v-date-picker>
             </v-menu>
 
+            
+            <v-menu
+              v-model="dateofexpiry_picker"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="user.date_Of_Passport_Expiry	"
+                  label="Date of passport expiry"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="user.date_Of_Passport_Expiry"
+                @input="dateofexpiry_picker = false"
+              ></v-date-picker>
+            </v-menu>
+
             <v-combobox
               v-model="user.second_Reporting_Manager"
               :items="employees"
@@ -235,6 +260,7 @@ export default {
   data() {
     return {
       dateofhire_picker: false,
+      dateofexpiry_picker: false,
       tab: null,
       employees: '',
 
@@ -268,6 +294,7 @@ export default {
           citizenship_Status: this.user.citizenship_Status,
           division_Centre: this.user.division_Centre,
           date_Of_Hire: this.user.date_Of_Hire,
+          date_Of_Passport_Expiry: this.user.date_Of_Passport_Expiry,
           nric: this.user.nric,
           phone: this.user.phone,
           gender: this.user.gender,
