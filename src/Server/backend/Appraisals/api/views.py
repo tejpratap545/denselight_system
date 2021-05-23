@@ -2,11 +2,11 @@ from ...Profile.models import Notification
 from ..models import *
 from .pagination import StandardResultsSetPagination
 from .serializers import *
-from backend.GnC.models import CascadedGoals, DepartmentalCompetencies, DepartmentalGoals
+from backend.GnC.models import CascadedGoals, DepartmentalCompetencies, DepartmentalGoals, Goals
 from backend.Profile.permissions import IsHr, IsHrManager
 from django.conf import settings
 from django.core.mail import send_mail
-from django.db.models import Count, Prefetch, Q, Window
+from django.db.models import Count, Prefetch, Q, Sum, Window
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
@@ -379,24 +379,27 @@ def submit_goals(request, *args, **kwargs):
         app.overall_appraisal.status == "Stage 1"
         and app.employee == request.user.profile
     ) and (app.status == "Employee"):
-        app.status = "Manager"
-        app.save()
-        title = f"{app.employee.name} submit goals of {app.appraisal_name}"
-        description = (
-            f"Hi {app.manager.name} Employee {app.employee.name} submit goals of {app.appraisal_name} . "
-            f"Please approve all goals and then approve appraisal "
-        )
-        Notification.objects.create(
-            user=app.manager, title=title, description=description, color="info"
-        )
-        try:
-            send_mail(title, description, settings.OFFICIAL_MAIL, [app.manager.email])
-        except:
-            pass
-        return Response(
-            {"msg": "Goal are successfully submitted to manager/supervisor"},
-            status=status.HTTP_202_ACCEPTED,
-        )
+
+        weightage_sum = Goals.objects.filter(appraisal=app).aggregate(Sum("weightage"))
+        if weightage_sum == 100:
+            app.status = "Manager"
+            app.save()
+            title = f"{app.employee.name} submit goals of {app.appraisal_name}"
+            description = (
+                f"Hi {app.manager.name} Employee {app.employee.name} submit goals of {app.appraisal_name} . "
+                f"Please approve all goals and then approve appraisal "
+            )
+            Notification.objects.create(
+                user=app.manager, title=title, description=description, color="info"
+            )
+            try:
+                send_mail(title, description, settings.OFFICIAL_MAIL, [app.manager.email])
+            except:
+                pass
+            return Response(
+                {"msg": "Goal are successfully submitted to manager/supervisor"},
+                status=status.HTTP_202_ACCEPTED,
+            )
     return Response({"msg": "Errors"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -410,23 +413,25 @@ def approve_goal(request, *args, **kwargs):
         and app.manager == request.user.profile
     ) and app.status == "Manager":
         if app.goals_set.filter(status="APPROVED").count() == app.goals_set.count():
-            app.status = "S1BEmployee"
-            app.save()
-            title = f"{app.manager.name} approve goals of {app.appraisal_name}"
-            description = f"Hi {app.employee.name} Manager {app.manager.name} approve goals of {app.appraisal_name} . "
-            Notification.objects.create(
-                user=app.employee, title=title, description=description, color="success"
-            )
-            try:
-                send_mail(
-                    title, description, settings.OFFICIAL_MAIL, [app.employee.email]
+            weightage_sum = Goals.objects.filter(appraisal=app).aggregate(Sum("weightage"))
+            if weightage_sum == 100:
+                app.status = "S1BEmployee"
+                app.save()
+                title = f"{app.manager.name} approve goals of {app.appraisal_name}"
+                description = f"Hi {app.employee.name} Manager {app.manager.name} approve goals of {app.appraisal_name} . "
+                Notification.objects.create(
+                    user=app.employee, title=title, description=description, color="success"
                 )
-            except:
-                pass
-            return Response(
-                {"msg": "Goal are successfully approves by manager/supervisor"},
-                status=status.HTTP_202_ACCEPTED,
-            )
+                try:
+                    send_mail(
+                        title, description, settings.OFFICIAL_MAIL, [app.employee.email]
+                    )
+                except:
+                    pass
+                return Response(
+                    {"msg": "Goal are successfully approves by manager/supervisor"},
+                    status=status.HTTP_202_ACCEPTED,
+                )
         return Response(
             {"msg": "Approved all goals then approves appraisal"},
             status=status.HTTP_400_BAD_REQUEST,
