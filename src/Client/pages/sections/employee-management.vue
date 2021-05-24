@@ -61,7 +61,7 @@
                 <span>Edit Employee Detail</span>
               </v-tooltip>
 
-              <v-dialog v-model="item.resign_dialog" persistent max-width="400">
+              <v-dialog v-model="item.resign_dialog" persistent max-width="800">
                 <template
                   v-slot:activator="{ on: dialogon, attrs: dialogattrs }"
                 >
@@ -84,9 +84,25 @@
                 </template>
                 <v-card>
                   <v-card-title class="headline">
-                    <span class="subtitle"> Do You want to resign </span>
+                    <div class="subtitle">Do You want to resign</div>
                     {{ item.name }} ?
                   </v-card-title>
+                  <v-card-text>
+                    <v-row>
+                      <v-col>Replace Employee</v-col>
+                      <v-col>
+                        <v-combobox
+                          v-model="replaceemployee"
+                          :items="employees"
+                          label="Replace Employee"
+                          item-text="name"
+                          item-value="id"
+                          chips
+                          outlined
+                        ></v-combobox>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn text @click="item.resign_dialog = false">
@@ -308,6 +324,7 @@ export default {
       currentEmployeeId: 1,
       tabData: 0,
       resginedEmployee: [],
+      replaceemployee: '',
       departmentTableHeader: [
         {
           text: 'Id',
@@ -399,6 +416,7 @@ export default {
       this.$axios
         .$post(`api/resign/employee`, {
           id,
+          replaceemployee: this.replaceemployee,
         })
         .then((res) => {
           this.$notifier.showMessage({

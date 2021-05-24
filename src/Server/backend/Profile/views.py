@@ -8,6 +8,7 @@ from django.shortcuts import get_list_or_404, render
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view
+
 # Create your views here.
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -226,7 +227,7 @@ def download_report(request):
                 pass
 
     data = User_Appraisal_List.objects.prefetch_related(
-        "employee__department", "employee","employee__user"
+        "employee__department", "employee", "employee__user"
     ).exclude(employee__user__is_active=False)
 
     if appraisal_list is not None or appraisal_list is not []:

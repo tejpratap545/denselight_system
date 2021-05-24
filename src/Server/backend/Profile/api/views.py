@@ -281,11 +281,23 @@ def resign_employee(request):
     try:
         id = request.data.get("id")
         profile = get_object_or_404(Profile, id=id)
+        replace_employee = get_object_or_404(
+            Profile, id=request.data.get("replaceemployee")
+        )
         profile.resign_date = timezone.now().date()
         profile.user.is_active = False
         profile.save()
         profile.user.save()
         profile.user_appraisal_list_set.update(is_closed=True)
+        User_Appraisal_List.objects.filter(manager=profile).update(
+            manager=replace_employee
+        )
+        Profile.objects.filter(first_Reporting_Manager=profile).update(
+            first_Reporting_Manager=replace_employee
+        )
+        Profile.objects.filter(second_Reporting_Manager=profile).update(
+            second_Reporting_Manager=replace_employee
+        )
         return Response("User is successfully resignd")
 
     except:
@@ -307,7 +319,6 @@ def revive_employee(request):
 
     except:
         return Response("An error accured", status=status.HTTP_400_BAD_REQUEST)
-
 
 
 @api_view(["POST"])
