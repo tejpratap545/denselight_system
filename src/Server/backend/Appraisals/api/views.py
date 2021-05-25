@@ -2,7 +2,12 @@ from ...Profile.models import Notification
 from ..models import *
 from .pagination import StandardResultsSetPagination
 from .serializers import *
-from backend.GnC.models import CascadedGoals, DepartmentalCompetencies, DepartmentalGoals, Goals
+from backend.GnC.models import (
+    CascadedGoals,
+    DepartmentalCompetencies,
+    DepartmentalGoals,
+    Goals,
+)
 from backend.Profile.permissions import IsHr, IsHrManager
 from django.conf import settings
 from django.core.mail import send_mail
@@ -381,7 +386,7 @@ def submit_goals(request, *args, **kwargs):
     ) and (app.status == "Employee"):
 
         weightage_sum = Goals.objects.filter(appraisal=app).aggregate(Sum("weightage"))
-        if weightage_sum == 100:
+        if weightage_sum["weightage__sum"] == 100:
             app.status = "Manager"
             app.save()
             title = f"{app.employee.name} submit goals of {app.appraisal_name}"
@@ -393,7 +398,9 @@ def submit_goals(request, *args, **kwargs):
                 user=app.manager, title=title, description=description, color="info"
             )
             try:
-                send_mail(title, description, settings.OFFICIAL_MAIL, [app.manager.email])
+                send_mail(
+                    title, description, settings.OFFICIAL_MAIL, [app.manager.email]
+                )
             except:
                 pass
             return Response(
@@ -413,14 +420,19 @@ def approve_goal(request, *args, **kwargs):
         and app.manager == request.user.profile
     ) and app.status == "Manager":
         if app.goals_set.filter(status="APPROVED").count() == app.goals_set.count():
-            weightage_sum = Goals.objects.filter(appraisal=app).aggregate(Sum("weightage"))
-            if weightage_sum == 100:
+            weightage_sum = Goals.objects.filter(appraisal=app).aggregate(
+                Sum("weightage")
+            )
+            if weightage_sum["weightage__sum"] == 100:
                 app.status = "S1BEmployee"
                 app.save()
                 title = f"{app.manager.name} approve goals of {app.appraisal_name}"
                 description = f"Hi {app.employee.name} Manager {app.manager.name} approve goals of {app.appraisal_name} . "
                 Notification.objects.create(
-                    user=app.employee, title=title, description=description, color="success"
+                    user=app.employee,
+                    title=title,
+                    description=description,
+                    color="success",
                 )
                 try:
                     send_mail(
