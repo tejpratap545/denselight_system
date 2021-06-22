@@ -6,7 +6,6 @@ volumes:
   # rabbitmqlogs:
   pgdata:
 
-
 services:
   # rabbitmq:
   #   image: rabbitmq:3-management-alpine
@@ -85,9 +84,6 @@ services:
   #   image: redis:5.0
   #   ports:
   #     - 6379:6379
-
-
-
 #  celeryworker:
 #    <<: *denselightdjango
 #    image: denselightdjango_celeryworker
@@ -123,5 +119,4 @@ services:
 #
 #    depends_on:
 #      - denselightdjango
-
 

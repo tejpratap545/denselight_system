@@ -495,6 +495,21 @@ class GoalsSettingRejectionSerializer(serializers.ModelSerializer):
         super(GoalsSettingRejectionSerializer, self).update(instance, validated_data)
         instance.status = "Employee"
         instance.save()
+
+        title = f"{instance.manager.name} reject goal settings stage  of  {instance.appraisal_name}"
+        description = f"Hi {instance.employee.name} Manager {instance.manager.name} reject goal settings stage   of{instance.appraisal_name} . Manager goal settings stage rejection comment is {instance.goals_settingM_rejection} "
+        Notification.objects.create(
+            user=instance.employee,
+            title=title,
+            description=description,
+            color="error",
+        )
+        try:
+            send_mail(
+                title, description, settings.OFFICIAL_MAIL, [instance.employee.email]
+            )
+        except:
+            pass
         return instance
 
 

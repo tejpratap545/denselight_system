@@ -37,13 +37,13 @@ export default {
             if (overallAppraisalStatus === 'Stage 1' && appraisalStatus === 'Employee') {
                 return 'Goals Setting Stage Pending Employee Goals Submission'
             } else if (overallAppraisalStatus === 'Stage 1' && appraisalStatus === 'Manager') {
-                return 'Goals Setting Stage Pending Manager/Supervisor Gaols Approved'
+                return 'Goals Setting Stage Pending Manager/Supervisor Goal Approved'
             } else if (
                 overallAppraisalStatus === 'Stage 1' &&
                 appraisalStatus === 'S1BEmployee' &&
                 midYearCompletion === 'Uncompleted'
             ) {
-                return 'Goals Setting Stage Gaols Approved'
+                return 'Goals Setting Stage Goals Approved'
             }
             // mid year status
             else if (overallAppraisalStatus === 'Stage 1B') {
