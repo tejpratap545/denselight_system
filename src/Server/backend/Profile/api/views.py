@@ -284,6 +284,9 @@ def resign_employee(request):
         replace_employee = get_object_or_404(
             Profile, id=request.data.get("replaceemployee")
         )
+
+        if id == replace_employee :
+            return Response("Both employee can not be same", status=status.HTTP_400_BAD_REQUEST)
         profile.resign_date = timezone.now().date()
         profile.user.is_active = False
         profile.save()

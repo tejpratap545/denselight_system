@@ -91,7 +91,7 @@
                     <v-row>
                       <v-col>
                         Please choose new supervisor replacing this employee
-                        supervisor role or select {{ item.name }}
+                        supervisor role or select test user
                       </v-col>
                       <v-col>
                         <v-combobox
