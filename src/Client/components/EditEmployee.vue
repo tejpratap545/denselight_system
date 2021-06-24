@@ -127,7 +127,6 @@
               ></v-date-picker>
             </v-menu>
 
-            
             <v-menu
               v-model="dateofexpiry_picker"
               :close-on-content-click="false"
@@ -138,7 +137,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="user.date_Of_Passport_Expiry	"
+                  v-model="user.date_Of_Passport_Expiry"
                   label="Date of passport expiry"
                   prepend-icon="mdi-calendar"
                   readonly
@@ -158,6 +157,17 @@
               item-text="name"
               item-value="id"
               label="Second reporting manager"
+              chips
+              return-object
+              outlined
+            ></v-combobox>
+
+            <v-combobox
+              v-model="user.first_Reporting_Manager"
+              :items="employees"
+              item-text="name"
+              item-value="id"
+              label="First reporting manager"
               chips
               return-object
               outlined

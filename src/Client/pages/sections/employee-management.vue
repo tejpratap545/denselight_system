@@ -85,18 +85,20 @@
                 <v-card>
                   <v-card-title class="headline">
                     <div class="subtitle">Do You want to resign</div>
-                    {{ item.name }} ?
+                    <span class="ml-2"> {{ item.name }} ?</span>
                   </v-card-title>
                   <v-card-text>
                     <v-row>
-                      <v-col>Replace Employee</v-col>
+                      <v-col>
+                        Please choose new supervisor replacing this employee
+                        supervisor role or select {{ item.name }}
+                      </v-col>
                       <v-col>
                         <v-combobox
                           v-model="replaceemployee"
                           :items="employees"
                           label="Replace Employee"
                           item-text="name"
-                          item-value="id"
                           chips
                           outlined
                         ></v-combobox>
@@ -416,7 +418,7 @@ export default {
       this.$axios
         .$post(`api/resign/employee`, {
           id,
-          replaceemployee: this.replaceemployee,
+          replaceemployee: this.replaceemployee.id,
         })
         .then((res) => {
           this.$notifier.showMessage({
