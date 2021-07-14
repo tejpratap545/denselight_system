@@ -143,7 +143,7 @@ class Goals(models.Model):
         GoalCategory, blank=True, null=True, on_delete=models.CASCADE
     )
     description = models.TextField(blank=True, null=True)
-    due = models.DateField()
+    due = models.DateField(blank=True,null=True)
     weightage = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(100)],
         blank=True,

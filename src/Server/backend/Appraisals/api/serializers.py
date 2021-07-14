@@ -520,7 +520,8 @@ class MidYearRejectionSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         super(MidYearRejectionSerializer, self).update(instance, validated_data)
-        instance.status = "S1BReview"
+        instance.status = "S1BEmployee"
+        instance.mid_year_completion= "Uncompleted"
         instance.save()
         title = f"{instance.manager.name} reject mid year review  of  {instance.appraisal_name}"
         description = f"Hi {instance.employee.name} Manager {instance.manager.name} reject mid year review  of{instance.appraisal_name} . Manager mid year rejection comment is {instance.mid_yearM_rejection} "

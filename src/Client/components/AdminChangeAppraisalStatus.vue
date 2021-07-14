@@ -140,7 +140,7 @@ export default {
           id: 3,
           name: 'Mid Year Employee Stage',
           status: {
-            status: 'S2BEmployee',
+            status: 'S1BEmployee',
             mid_year_completion: 'Uncompleted',
             completion: 'null',
           },
